@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <style type="text/css">
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+            }
+            .page-break {
+                page-break-after: always;
+            }
+        </style>
+    </head>
+    <body>
+        <table style="width: 100%; margin-top:50px;">
+            <tbody>
+                <tr style="font-size: 20px;">
+                    <td width="100%"><strong><center>Liquidación de remuneraciones</center></strong></td>
+                </tr>
+            </tbody>
+        </table>
+        <table style="width: 100%; margin-left: 20px; margin-top:50px;">
+            <tr style="font-size: 12px;">
+                <td style="width: 10%;"><strong>Empresa:</strong></td>
+                <td style="width: 40%;">{{ header_data[0] }}</td>
+                <td style="width: 10%;"></td>
+                <td style="width: 40%;"></td>
+            </tr>
+            <tr style="font-size: 12px; padding-top:20px; width: 100%;">
+                <td style="width: 10%;"><strong>R.U.T:</strong></td>
+                <td style="width: 40%;">{{ header_data[1] }}</td>
+                <td style="width: 10%;"><strong>Periodo:</strong></td>
+                <td style="width: 40%;">{{ header_data[2] }}</td>
+            </tr>
+            <tr style="font-size: 12px; padding-top:20px; width: 100%;">
+                <td style="width: 10%;"><strong>Dirección:</strong></td>
+                <td style="width: 40%;">{{ header_data[3] }}</td>
+                <td style="width: 10%;"></td>
+                <td style="width: 40%;"></td>
+            </tr>
+        </table>
+        <table style="width: 100%; margin-top:50px;">
+            <tbody>
+                <tr style="font-size: 16px; margin-top:300px;">
+                    <td width="100%"><strong><center>Información del Trabajador</center></strong></td>
+                </tr>
+            </tbody>
+        </table>
+        <table style="width: 100%; margin-top:20px;">
+            <tbody>
+                <tr style="font-size: 16px;">
+                    <td width="100%"></td>
+                </tr>
+            </tbody>
+        </table>
+        <table style="width: 100%; padding-top:20px;">
+            <tbody>
+                <tr style="font-size: 12px;">
+                    <td style="width: 16.66%;"><strong>Nombre:</strong></td>
+                    <td style="width: 33.32%;">{{ header_data[4] }}</td>
+                    <td style="width: 16.66%;"><strong>Fecha Ingreso:</strong></td>
+                    <td style="width: 33.32%;">{{ header_data[5] }}</td>
+                </tr>
+                <tr style="font-size: 12px;">
+                    <td style="width: 16.66%;"><strong>R.U.T</strong></td>
+                    <td style="width: 33.32%;">{{ header_data[6] }}</td>
+                    <td style="width: 16.66%;"><strong>Correo:</strong></td>
+                    <td style="width: 33.32%;">{{ header_data[7] }}</td>
+                </tr>
+                <tr style="font-size: 12px;">
+                    <td style="width: 16.66%;"><strong>Cargo:</strong></td>
+                    <td style="width: 33.32%;">{{ header_data[8] }}</td>
+                    <td style="width: 16.66%;"><strong>Contrato:</strong></td>
+                    <td style="width: 33.32%;">{{ header_data[9] }}</td>
+                </tr>
+                <tr style="font-size: 12px;">
+                    <td style="width: 16.66%;"><strong>Sucursal:</strong></td>
+                    <td style="width: 33.32%;">{{ header_data[10] }}</td>
+                    <td style="width: 16.66%;"></td>
+                    <td style="width: 33.32%;"></td>
+                </tr>
+            </tbody>
+        </table>
+        <table style="width: 100%; padding-top:10px;">
+            <tbody>
+                <tr style="font-size: 14px; margin-top:10px;">
+                    <td colspan="6"><hr></td>
+                </tr>
+                <tr style="font-size: 12px; margin-top:10px;">
+                    <td colspan="3"><strong><center>INDICADORES</center></strong></td>
+                    <td colspan="3"><strong><center>APORTE EMPRESA</center></strong></td>
+                </tr>
+                <tr style="font-size: 14px; margin-top:10px;">
+                    <td colspan="6"><hr></td>
+                </tr>
+                <tr style="font-size: 12px;">
+                    <td style="width: 16.66%;"><strong>Días Trab:</strong> {{ header_data[11] }}</td>
+                    <td style="width: 16.66%;"><strong>Ausencia:</strong> {{ header_data[12] }}</td>
+                    <td style="width: 16.66%;"><strong>Días Lic:</strong> {{ header_data[13] }}</td>
+                    <td style="width: 16.66%;"></td>
+                    <td style="width: 16.66%;"></td>
+                    <td style="width: 16.66%;"></td>
+                </tr>
+                <tr style="font-size: 12px;">
+                    <td style="width: 16.66%;"><strong>S.Base:</strong> {{ header_data[14] }}</td>
+                    <td style="width: 16.66%;"><strong>AFP:</strong> {{ header_data[15] }}</td>
+                    <td style="width: 16.66%;"><strong>Salud:</strong> {{ header_data[16] }}</td>
+                    <td style="width: 16.66%;"><strong>Mutual:</strong> </td>
+                    <td style="width: 16.66%;"><strong>Mutual $:</strong> $ </td>
+                    <td style="width: 16.66%;"><strong>Seg Sis:</strong> $ </td>
+                </tr>
+                <tr style="font-size: 12px;">
+                    <td style="width: 16.66%;"><strong>Tasa AFP:</strong> %</td>
+                    <td style="width: 16.66%;"><strong>P. Salud:</strong> </td>
+                    <td style="width: 16.66%;"></td>
+                    <td style="width: 16.66%;"><strong>CCAF:</strong> </td>
+                    <td style="width: 16.66%;"><strong>Sis:</strong> %</td>
+                    <td style="width: 16.66%;"><strong>Metlife:</strong> $ </td>
+                </tr>
+                <tr style="font-size: 12px;">
+                    <td style="width: 16.66%;"><strong>UTM:</strong> $ </td>
+                    <td style="width: 16.66%;"><strong>UF: </strong> $ </td>
+                    <td style="width: 16.66%;"><strong>Cargas:</strong> </td>
+                    <td style="width: 16.66%;"><strong>S. Cesan:</strong> $ </td>
+                    <td style="width: 16.66%;"></td>
+                    <td style="width: 16.66%;"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table style="width: 100%; padding-top:5px;">
+
+            <tr style="font-size: 14px; margin-top:10px;">
+                <td colspan="4"><hr></td>
+            </tr>
+            <tr style="font-size: 12px; margin-top:10px;">
+                <td colspan="2"><strong><center>HABERES</center></strong></td>
+                <td colspan="2"><strong><center>DESCUENTOS</center></strong></td>
+            </tr>
+            <tr style="font-size: 14px; margin-top:10px;">
+                <td colspan="4"><hr></td>
+            </tr>
+
+            {% for i in range(negative_data|length) %}
+                <tr style="font-size: 12px;">
+                    {% if positive_data[i] is defined %}
+                        {% if positive_data[i] != '0' %}
+                            {% if total_positive_data[i] == 0 %}
+                                <td style="width: 20%;">{{ settlement_positive_name[i] }}:</td>
+                                <td style="width: 30%;">$ {{ positive_data[i] }}</td>
+                            {% else %}
+                                <td style="width: 20%;"><strong>{{ settlement_positive_name[i] }}:</strong></td>
+                                <td style="width: 30%;"><strong>$ {{ positive_data[i] }}</strong></td>
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        <td style="width: 20%;"></td>
+                        <td style="width: 30%;"></td>
+                    {% endif %}
+                    {% if negative_data[i] is defined %}
+                        {% if negative_data[i] != '0' %}
+
+                                {% if total_negative_data[i] == 0 %}
+                                    <td style="width: 20%;">{{ settlement_negative_name[i] }}:</td>
+                                    <td style="width: 30%;">$ {{ negative_data[i] }}</td>
+                                {% else %}
+                                    <td style="width: 20%;"><strong>{{ settlement_negative_name[i] }}:</strong></td>
+                                    <td style="width: 30%;"><strong>$ {{ negative_data[i] }}</strong></td>
+                                {% endif %}
+                        {% endif %}
+                    {% else %}
+                        <td style="width: 20%;"></td>
+                        <td style="width: 30%;"></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </table>
+
+        <table style="width: 100%; margin-top:100px;">
+            <tr style="font-size: 14px; margin-top:10px;">
+                <td colspan="4"><hr></td>
+            </tr>
+        </table>
+        <table style="width: 100%;">
+            <tr style="font-size: 14px; margin-top:10px; text-align: right !important;">
+                <td colspan="2"><strong>Total Haberes: $ {{ total_values[0] }}</strong></td>
+                <td colspan="2"><strong>Total Descuentos: $ {{ total_values[1] }}</strong></td>
+            </tr>
+        </table>
+
+        <table style="width: 100%; margin-top:100px;">
+            <tbody>
+                <tr style="font-size: 14px; margin-top:10px; text-align: justify;">
+                    <td style="width: 50%;">
+                    </td>
+                    <td style="width: 50%; text-align: right;">
+                        <strong>Total a Pagar $ {{ total_values[2] }}.-
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table style="width: 100%; margin-top:20px;">
+            <tbody>
+                <tr style="font-size: 10px; margin-top:10px; text-align: justify;">
+                    <td style="width: 100%;">
+                        Certifico haber recibido en este acto a mi entera satisfacción, el
+                        total de <strong>{{ total_values[3] }}</strong>. Asimismo, declaro que
+                        nada se me adeuda y no tener reclamo alguno en contra de la
+                        empresa J I S PARKING SPA por concepto de remuneraciones.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        {%  include 'layouts/signature.html' %}
+        
+    </body>
+</html>

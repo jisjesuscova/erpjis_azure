@@ -1,0 +1,53 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Agregar Vacación</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- form start -->
+                        <form role="form" action="{{ url_for('vacations.store') }}/{{ rut }}" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Desde</label>
+                                            <input type="date" value="" class="form-control" id="exampleInputEmail1" placeholder="Desde" name="since">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Hasta</label>
+                                            <input type="date" value="" class="form-control" id="exampleInputEmail1" placeholder="Desde" name="until">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Días No Válidos</label>
+                                            <input type="no_valid_days" value="0" class="form-control" id="exampleInputEmail1" placeholder="Días No Válidos" name="no_valid_days">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+
+                            <input type="hidden" value="{{ rut }}" class="form-control" id="exampleInputEmail1" name="rut">
+                            <input type="hidden" value="4" class="form-control" id="exampleInputEmail1" name="document_type_id">
+                            <input type="hidden" value="1" class="form-control" id="exampleInputEmail1" name="status_id">
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+
+                                <a href="{{ url_for('vacations.index') }}/{{ rut }}" class="btn btn-secondary">Cancelar</a>
+                            </div>
+                        </form>
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

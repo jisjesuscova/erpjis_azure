@@ -1,0 +1,45 @@
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Datos</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>RUT</th>
+                                <th>Trabajador</th>
+                                <th>Dias</th>
+                                <th>Dias de Liencia</th>
+                                <th>Dias de Entrada</th>
+                                <th>Dias de Salida</th>
+                                <th>Dias de Ausencia</th>
+                                <th>Dias Totales</th>
+                            </tr>
+                        </thead>
+                        {% for hr_employee_day in hr_employee_days %}
+                            <tbody>
+                                <tr>
+                                    <td>{{ hr_employee_day['rut'] }}</td>
+                                    <td>{{ hr_employee_day['rut'] }}</td>
+                                    <td>{{ hr_employee_day['current_days'] }}</td>
+                                    <td>{{ hr_employee_day['license_days'] }}</td>
+                                    <td>{{ hr_employee_day['entrance_days'] }}</td>
+                                    <td>{{ hr_employee_day['exit_days'] }}</td>
+                                    <td>{{ hr_employee_day['absence_days'] }}</td>
+                                    <td>{{ hr_employee_day['days'] }}</td>
+                                </tr>
+                            </tbody>
+                        {% endfor %}
+                    </table>
+                    <hr>
+                    <a href="{{ url_for('hr_employee_inputs.day') }}/{{ period }}" class="btn btn-primary">Continuar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

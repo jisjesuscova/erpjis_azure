@@ -1,0 +1,39 @@
+from flask import Blueprint, render_template, redirect, request, url_for, make_response
+import pdfkit
+from app.hr_single_taxes.hr_single_tax import HrSingleTax
+
+class Pdf:
+    @staticmethod
+    def create_pdf(file_name, data):
+        path_wkhtmltopdf = 'C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe'
+        config = pdfkit.configuration(wkhtmltopdf = path_wkhtmltopdf)
+
+        template_path = 'pdfs/' + str(file_name) + '.html'
+
+        rendered = render_template(template_path, data = data, root = 'http://localhost:5000/')
+        pdf = pdfkit.from_string(rendered, False, configuration = config)
+        
+        response = make_response(pdf)
+        response.headers['Content-Type'] = 'application/pdf'
+        response.headers['Content-Disposition'] = 'inline; filename=document.pdf'
+
+        return response
+
+    @staticmethod
+    def create_settlement(file_name, header_data, positive_data, settlement_positive_name, negative_data, settlement_negative_name, total_positive_data, total_negative_data, total_values):
+        path_wkhtmltopdf = 'C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe'
+        config = pdfkit.configuration(wkhtmltopdf = path_wkhtmltopdf)
+
+        template_path = 'pdfs/' + str(file_name) + '.html'
+
+        factor = HrSingleTax.factor(positive_data[0])
+        factor = factor * 100
+ 
+        rendered = render_template(template_path, factor = factor, header_data = header_data, positive_data = positive_data, settlement_positive_name = settlement_positive_name, negative_data = negative_data, settlement_negative_name = settlement_negative_name, total_positive_data = total_positive_data, total_negative_data = total_negative_data, root = 'http://localhost:5000/', total_values = total_values)
+        pdf = pdfkit.from_string(rendered, False, configuration = config)
+        
+        response = make_response(pdf)
+        response.headers['Content-Type'] = 'application/pdf'
+        response.headers['Content-Disposition'] = 'inline; filename=document.pdf'
+
+        return response

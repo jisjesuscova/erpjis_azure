@@ -1,0 +1,57 @@
+{% extends 'layouts/login_base.html' %}
+{% block content %}
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="/index2"><b>Jisparking</b></a>
+        </div>
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">Ingresar2</p>
+                <form action="{{ url_for('auth.login') }}" method="post">
+                    {{ form.csrf_token() }}
+
+                    <div class="input-group">
+                        {{ form.rut.label }}
+                    </div>
+                    <div class="input-group mb-3">
+                        {{ form.rut(class='form-control', placeholder="Rut") }}
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        {{ form.password.label }}
+                    </div>
+                    <div class="input-group mb-3">
+                        {{ form.password(class='form-control', placeholder="Contraseña") }}
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{ form.next() }}
+
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-block">Enviar</button>
+                        </div>
+                    </div>
+
+                </form>
+
+                <script>
+                    var params = new URLSearchParams(window.location.search)
+                    if(params.has('next'))
+                        document.getElementById('next').value = params.get('next')
+                        console.log(params.get('next'))
+                </script>
+            <!-- /.login-card-body -->
+            </div>
+        </div>
+    </div>
+{% endblock %}
