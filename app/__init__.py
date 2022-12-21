@@ -76,15 +76,7 @@ from app.vacations.controllers import vacation
 from app.hr_employees.controllers import hr_employee
 from app.hr_days.controllers import hr_day
 from app.absence_days.controllers import absence_day
-from app.hr_employee_inputs.controllers import hr_employee_input
-from app.calculation_values.controllers import calculation_value
-from app.settlement_data.controllers import settlement_datum
-from app.mesh_data.controllers import mesh_datum
-from app.branch_offices.controllers import branch_office
-from app.turns.controllers import turn
-from app.employees_turns.controllers import employee_turn
-from app.control_clocks.controllers import control_clock
-from app.iclock.controllers import iclock
+
 
 app.register_blueprint(employee)
 app.register_blueprint(auth)
@@ -113,15 +105,6 @@ app.register_blueprint(vacation)
 app.register_blueprint(hr_employee)
 app.register_blueprint(hr_day)
 app.register_blueprint(absence_day)
-app.register_blueprint(hr_employee_input)
-app.register_blueprint(calculation_value)
-app.register_blueprint(settlement_datum)
-app.register_blueprint(mesh_datum)
-app.register_blueprint(branch_office)
-app.register_blueprint(turn)
-app.register_blueprint(employee_turn)
-app.register_blueprint(control_clock)
-app.register_blueprint(iclock)
 
 @app.route("/")
 def hello():
