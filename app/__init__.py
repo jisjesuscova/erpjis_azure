@@ -49,13 +49,9 @@ def human_resource_rol_need(f):
         return f(*args, **kwds)
     return wrapper
 
-from app.auth.controllers import auth
 from app.civil_states.controllers import civil_state
-from app.contract_data.controllers import contract_datum
 
-app.register_blueprint(auth)
 app.register_blueprint(civil_state)
-app.register_blueprint(contract_datum)
 
 @app.route("/")
 def hello():
