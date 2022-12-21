@@ -1,4 +1,7 @@
-from app import app
+from flask import Blueprint
 
-if __name__ == '__main__':
-    app.run(debug=False)
+home = Blueprint('home', __name__)
+
+@home.route('/')
+def index():
+    return "Hello, World!"
