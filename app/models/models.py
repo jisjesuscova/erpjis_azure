@@ -1,6 +1,5 @@
 from flask_login import UserMixin
 from app import db
-from marshmallow import Schema, fields
 from werkzeug.security import check_password_hash
 
 class HrSingleTaxModel(db.Model):
