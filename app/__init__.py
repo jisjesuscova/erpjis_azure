@@ -16,6 +16,28 @@ login_manager = LoginManager(app)
 login_manager.init_app(app)
 login_manager.login_view = "auth.login"
 
+def rol_admin_need(f):
+    @wraps(f)
+    def wrapper(*args, **kwds):
+        if current_user.rol_id != 2:
+            logout_user()
+            return redirect(url_for('auth.login'))
+            ## print('rol:' + str(current_user.rol_id))
+            ## login_manager.unauthorized()
+        return f(*args, **kwds)
+    return wrapper
+
+def regular_employee_rol_need(f):
+    @wraps(f)
+    def wrapper(*args, **kwds):
+        if current_user.rol_id != 1:
+            logout_user()
+            return redirect(url_for('auth.login'))
+            ## print('rol:' + str(current_user.rol_id))
+            ## login_manager.unauthorized()
+        return f(*args, **kwds)
+    return wrapper
+
 @app.route("/")
 def hello():
     return "Hello, World! 2"
