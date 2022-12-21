@@ -7,7 +7,7 @@ colorama==0.4.5
 distlib==0.3.6
 dropbox==11.36.0
 filelock==3.8.0
-Flask==2.2.2
+Flask>=2.0,<=2.1.1
 Flask-Admin==1.6.0
 Flask-AdminLTE3==1.0.8
 Flask-HTTPAuth==4.7.0
