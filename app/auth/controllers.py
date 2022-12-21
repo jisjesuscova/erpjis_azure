@@ -5,11 +5,7 @@ from app.users.user import User
 from app import db, login_manager
 from flask_login import login_user, logout_user
 from datetime import datetime
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    return UserModel.query.get(user_id)
+import logging
 
 auth = Blueprint('auth', __name__)
 
