@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'erpjis'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2C5576EBABBC470E85B58E1A4E99DAA9 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CC22E6074C30436C90FAD1BD5A3F3C31 }}
