@@ -9,7 +9,6 @@ from app import db
 from sqlalchemy.sql import text
 from sqlalchemy import engine, func, select
 from datetime import datetime
-import numpy as np
 from num2words import num2words
 
 class HrEmployeeInput():
