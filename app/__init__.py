@@ -38,6 +38,25 @@ def regular_employee_rol_need(f):
         return f(*args, **kwds)
     return wrapper
 
+def human_resource_rol_need(f):
+    @wraps(f)
+    def wrapper(*args, **kwds):
+        if current_user.rol_id != 3:
+            logout_user()
+            return redirect(url_for('auth.login'))
+            ## print('rol:' + str(current_user.rol_id))
+            ## login_manager.unauthorized()
+        return f(*args, **kwds)
+    return wrapper
+
+from app.auth.controllers import auth
+from app.civil_states.controllers import civil_state
+from app.contract_data.controllers import contract_datum
+
+app.register_blueprint(auth)
+app.register_blueprint(civil_state)
+app.register_blueprint(contract_datum)
+
 @app.route("/")
 def hello():
     return "Hello, World! 2"
