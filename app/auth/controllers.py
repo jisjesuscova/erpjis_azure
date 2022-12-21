@@ -5,7 +5,6 @@ from app.users.user import User
 from app import db, login_manager
 from flask_login import login_user, logout_user
 from datetime import datetime
-import logging
 
 auth = Blueprint('auth', __name__)
 
