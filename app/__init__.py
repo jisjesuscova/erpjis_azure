@@ -51,7 +51,7 @@ def human_resource_rol_need(f):
     return wrapper
 
 from app.auth.controllers import auth
-from app.home.controllers import home
+from . import home
 
 app.register_blueprint(auth)
 app.register_blueprint(home)
