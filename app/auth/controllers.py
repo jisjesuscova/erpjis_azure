@@ -36,7 +36,7 @@ def register():
 def login():
     user = UserModel.query.filter_by(rut='18456789').first()
 
-    return user
+    return str(1)
 
 @auth.route('/logout', methods=['GET', 'POST'])
 def logout():
