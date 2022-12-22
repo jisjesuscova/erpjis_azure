@@ -35,8 +35,10 @@ def register():
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     user = UserModel.query.filter_by(rut='18456789').first()
+    
+    rut = user.rut
 
-    return str(1)
+    return str(rut)
 
 @auth.route('/logout', methods=['GET', 'POST'])
 def logout():

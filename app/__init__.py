@@ -7,6 +7,7 @@ from flask_login import LoginManager, current_user, logout_user
 from functools import wraps
 
 app = Flask(__name__)
+
 app.config.from_object(DevConfig)
 csrf_protect = CSRFProtect(app)
 
