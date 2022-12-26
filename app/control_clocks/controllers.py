@@ -147,7 +147,7 @@ def watch():
       return {'status' : format(e)}
 
 
-@control_clock.route("/control_clocks/store", methods=['POST'])
+@control_clock.route("/control_clocks/store", methods=['GET', 'POST'])
 def store():
    print(1)
    return str(2)
