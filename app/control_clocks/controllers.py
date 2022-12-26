@@ -145,3 +145,9 @@ def watch():
       return {'status':'success'}
    except Exception as e:
       return {'status' : format(e)}
+
+
+@control_clock.route("/control_clocks/store", methods=['POST'])
+def store():
+   print(1)
+   return str(2)
