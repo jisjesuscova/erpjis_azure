@@ -9,12 +9,6 @@ from datetime import datetime
 
 control_clock = Blueprint("control_clocks", __name__)
 
-@control_clock.before_request
-@login_required
-@regular_employee_rol_need
-def constructor():
-   pass
-
 @control_clock.route("/control_clocks", methods=['GET'])
 def index():
    zk = ZK('10.98.15.1', 
