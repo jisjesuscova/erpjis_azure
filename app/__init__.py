@@ -87,6 +87,7 @@ from app.employees_turns.controllers import employee_turn
 from app.control_clocks.controllers import control_clock
 from app.iclock.controllers import iclock
 from app.clock_attendances.controllers import clock_attendance
+from app.clock_users.controllers import clock_user
 
 app.register_blueprint(employee)
 app.register_blueprint(auth)
@@ -125,6 +126,7 @@ app.register_blueprint(employee_turn)
 app.register_blueprint(control_clock)
 app.register_blueprint(iclock)
 app.register_blueprint(clock_attendance)
+app.register_blueprint(clock_user)
 
 @app.route("/")
 def hello():
