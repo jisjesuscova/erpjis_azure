@@ -593,3 +593,13 @@ class PatologyTypeModel(db.Model, UserMixin):
     patology_type = db.Column(db.String(255))
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
+
+class ClockAttendanceModel(db.Model, UserMixin):
+    __tablename__ = 'clock_attendances'
+
+    id = db.Column(db.Integer, primary_key=True)
+    uid = db.Column(db.Integer)
+    rut = db.Column(db.Integer)
+    punch = db.Column(db.Integer)
+    status = db.Column(db.Integer)
+    mark_date = db.Column(db.DateTime())

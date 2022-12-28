@@ -6,12 +6,7 @@ import sys
 import os
 import json
 from datetime import datetime
-from app.attendances.attendance import Attendance
 
 control_clock = Blueprint("control_clocks", __name__)
 
-@control_clock.route("/control_clocks/store", methods=['GET', 'POST'])
-def store():
-   attendance = Attendance.store(request.form)
 
-   return str(attendance)
