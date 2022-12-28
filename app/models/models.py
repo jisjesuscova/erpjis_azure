@@ -614,3 +614,12 @@ class ClockUserModel(db.Model, UserMixin):
     privilege = db.Column(db.Integer)
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
+
+class ClockFingerModel(db.Model, UserMixin):
+    __tablename__ = 'clock_fingers'
+
+    id = db.Column(db.Integer, primary_key=True)
+    uid = db.Column(db.Integer)
+    template = db.Column(db.Text)
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
