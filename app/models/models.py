@@ -603,3 +603,14 @@ class ClockAttendanceModel(db.Model, UserMixin):
     punch = db.Column(db.Integer)
     status = db.Column(db.Integer)
     mark_date = db.Column(db.DateTime())
+
+class ClockUserModel(db.Model, UserMixin):
+    __tablename__ = 'clock_users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    uid = db.Column(db.Integer)
+    rut = db.Column(db.Integer)
+    full_name = db.Column(db.String(255))
+    privilege = db.Column(db.Integer)
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
