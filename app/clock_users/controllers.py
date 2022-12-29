@@ -6,10 +6,14 @@ import json
 
 clock_user = Blueprint("clock_users", __name__)
 
-@clock_user.route("/clock_user/store", methods=['GET', 'POST'])
-def store():
+@clock_user.route("/clock_user/data", methods=['GET', 'POST'])
+def data():
+   status = ClockUser.check(request.form)
    
-   data = ClockUser.store(request.form)
+   if status == 0:
+      data = ClockUser.store(request.form)
+   else:
+      data = ClockUser.update(request.form)
 
    return str(data)
 

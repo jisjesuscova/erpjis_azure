@@ -24,6 +24,12 @@ class ClockUser():
 
         return clock_users
 
+    @staticmethod
+    def check(data):
+        quantity = ClockUserModel.query.filter_by(rut=data['rut']).count()
+
+        return quantity
+
     def store(data):
         clock_user = ClockUserModel()
         clock_user.uid = data['uid']
@@ -38,3 +44,16 @@ class ClockUser():
         
         return str(data['uid']) + "_" + str(data['rut']) + "_" + str(data['full_name']) + "_" + str(data['privilege'])
  
+    @staticmethod
+    def update(data):
+        clock_user = ClockUserModel.query.filter_by(rut = data['rut']).first()
+        clock_user.uid = data['uid']
+        clock_user.rut = data['rut']
+        clock_user.full_name = data['full_name']
+        clock_user.privilege = data['privilege']
+        clock_user.updated_date = datetime.now()
+
+        db.session.add(clock_user)
+        db.session.commit()
+
+        return str(data['uid']) + "_" + str(data['rut']) + "_" + str(data['full_name']) + "_" + str(data['privilege'])
