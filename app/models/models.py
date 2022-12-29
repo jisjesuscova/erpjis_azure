@@ -623,3 +623,13 @@ class ClockFingerModel(db.Model, UserMixin):
     template = db.Column(db.Text)
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
+
+class ClockModel(db.Model, UserMixin):
+    __tablename__ = 'clocks'
+
+    id = db.Column(db.Integer, primary_key=True)
+    branch_office_id = db.Column(db.Integer)
+    ip = db.Column(db.Text)
+    sn = db.Column(db.Text)
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
