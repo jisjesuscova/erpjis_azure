@@ -4,6 +4,8 @@ from app.auth.forms import RegisterForm, LoginForm, RecoverForm
 from app.users.user import User
 from app import login_manager
 from flask_login import login_user, logout_user
+from app.helpers.helper import Helper
+import random
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -36,12 +38,18 @@ def recover():
     form = RecoverForm(meta={ 'crsf':True })
 
     if form.validate_on_submit():
+        
         qty = User.check_user_exists(form.rut.data)
 
         if qty > 0:
-            status = User.send_email(form.email.data)
+            password = random.randint(10000, 99999)
 
-            print(status)
+            Helper.send_whatsapp(form.phone.data, password)
+
+            User.special_update(form.rut.data, password)
+
+            return redirect(url_for('auth.login'))
+        else:
             return redirect(url_for('auth.login'))
 
     return render_template('recover.html', form=form)

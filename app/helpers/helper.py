@@ -1,13 +1,62 @@
 from datetime import datetime
 from app.models.models import VacationModel
 from app.hr_final_day_months.hr_final_day_month import HrFinalDayMonth
-from app import db
-from sqlalchemy import func
-from locale import atof, setlocale, LC_NUMERIC
 import time
-from datetime import datetime, timedelta
+from datetime import datetime
+import requests
+import json
 
 class Helper:
+    @staticmethod
+    def send_whatsapp(phone, password):
+        url = "https://graph.facebook.com/v15.0/101066132689690/messages"
+        
+        payload = json.dumps({
+                                "messaging_product": "whatsapp",
+                                "to": "56" + phone + "",
+                                "type": "template",
+                                "template": {
+                                "name": "recuperar_contrasena",
+                                "language": {
+                                    "code": "es"
+                                },
+                                "components": [
+                                    {
+                                        "type": "header",
+                                        "parameters": [
+                                                {
+                                                    "type": "image",
+                                                    "image": {
+                                                    "link": "https://jisparking.com/backend/img/logo.png"
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "body",
+                                            "parameters": [
+                                                {
+                                                    "type": "text",
+                                                    "text": "Jesus Cova"
+                                                },
+                                                {
+                                                    "type": "text",
+                                                    "text": ""+ str(password) +""
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            })
+        headers = {
+            'Authorization': 'Bearer EAAFYECjSEkQBAFdaWeOBlvI12kGVP9AoUNqzhSX2aZAUR8dGuN6E6EHNr6ZCpCm4Kk8oQ9eel5CtYKsvy8Hw3qfj17HZCNoLp0KMjvq6yZCbaZCTxwYxbZBp7aIUrLYkgN2gcSbrZC8RWvveFC3HXmhoOjD5P3ZCgQfKLZCfoKc8AE9F3FQAtGeXLXAfnnX4b34eh6MfcnEyQkwZDZD',
+            'Content-Type': 'application/json'
+        }
+
+        response = requests.request("POST", url, headers=headers, data=payload)
+
+        return response
+
     @staticmethod
     def numeric_rut(rut):
         rut = rut.split('-')

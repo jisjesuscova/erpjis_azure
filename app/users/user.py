@@ -57,4 +57,18 @@ class User():
         else:
             return {'msg': 'Data could not be stored'}
 
+    @staticmethod
+    def special_update(rut, password):
+        user = UserModel.query.filter_by(rut=rut).first()
+        user.password = generate_password_hash(str(password))
+        user.updated_date = datetime.now()
+
+        db.session.add(user)
+        db.session.commit()
+
+        if db.session.commit():
+            return user
+        else:
+            return {'msg': 'Data could not be stored'}
+
     
