@@ -3,9 +3,13 @@ from app.clocks.clock import Clock
 
 clock = Blueprint("clocks", __name__)
 
-@clock.route("/clock/store", methods=['GET', 'POST'])
+@clock.route("/clock/data", methods=['GET', 'POST'])
 def store():
+   status = Clock.check(request.form)
    
-   data = Clock.store(request.form)
+   if status == 0:
+      data = Clock.store(request.form)
+   else:
+      data = Clock.update(request.form)
 
    return str(data)

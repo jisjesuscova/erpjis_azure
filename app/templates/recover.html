@@ -7,8 +7,8 @@
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">Ingresar</p>
-                <form action="{{ url_for('auth.login') }}" method="post">
+                <p class="login-box-msg">Recuperar Contraseña</p>
+                <form action="{{ url_for('auth.recover') }}" method="post">
                     {{ form.csrf_token() }}
 
                     <div class="input-group">
@@ -23,13 +23,13 @@
                         </div>
                     </div>
                     <div class="input-group">
-                        {{ form.password.label }}
+                        {{ form.email.label }}
                     </div>
                     <div class="input-group mb-3">
-                        {{ form.password(class='form-control', placeholder="Contraseña") }}
+                        {{ form.email(class='form-control', placeholder="Correo") }}
                         <div class="input-group-append">
                             <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
+                                <span class="fas fa-envelope"></span>
                             </div>
                         </div>
                     </div>
@@ -38,11 +38,9 @@
 
                     <div class="row">
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-block">Enviar</button>
+                            <button type="submit" class="btn btn-primary btn-block">Recuperar</button>
                         </div>
                     </div>
-                    <br>
-                    <center><a href="{{ url_for('auth.recover') }}">¿Usted ha olvido la contraseña?</a></center>
                 </form>
 
                 <script>

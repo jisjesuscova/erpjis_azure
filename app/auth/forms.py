@@ -10,3 +10,8 @@ class LoginForm(FlaskForm):
     rut = StringField('RUT', validators=[ InputRequired() ])
     password = PasswordField('Contraseña', validators=[ InputRequired() ])
     next = HiddenField('next')
+
+class RecoverForm(FlaskForm):
+    rut = StringField('RUT', validators=[ InputRequired() ])
+    email = StringField('Correo', validators=[ InputRequired() ])
+    next = HiddenField('next')

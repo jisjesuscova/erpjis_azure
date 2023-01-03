@@ -1,9 +1,10 @@
 from flask import request
 from app.models.models import UserModel
 from app.helpers.helper import Helper
-from app import db
+from app import db, mail
 from werkzeug.security import generate_password_hash
 from datetime import datetime
+from flask_mail import Message
 
 class User():
     @staticmethod
@@ -16,6 +17,22 @@ class User():
             user = UserModel.query.get(id)
 
             return user
+
+    def check_user_exists(rut):
+        quantity = UserModel.query.filter_by(rut=rut).count()
+
+        return quantity
+
+    def send_email(email):
+        try:
+            msg = Message(subject='Hello',
+                    sender='jesuscova@jisparking.com',
+                    recipients=['jesuscova@jisparking.com'],
+                    body='This is a test email')
+            mail.send(msg)
+            return 'Email enviado'
+        except Exception as e:
+            return 'Error al enviar el correo: {}'.format(e)
 
     @staticmethod
     def store(data):

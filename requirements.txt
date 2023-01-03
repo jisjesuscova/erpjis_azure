@@ -37,3 +37,4 @@ Werkzeug==2.2.2
 WTForms==3.0.1
 num2words==0.5.12
 pandas==1.5.2
+Flask-Mail==0.9.1

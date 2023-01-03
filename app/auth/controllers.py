@@ -1,10 +1,9 @@
 from flask import Blueprint, render_template, redirect, url_for, request
-from app.models.models import UserModel, EmployeeModel
-from app.auth.forms import RegisterForm, LoginForm
+from app.models.models import UserModel
+from app.auth.forms import RegisterForm, LoginForm, RecoverForm
 from app.users.user import User
-from app import db, login_manager
+from app import login_manager
 from flask_login import login_user, logout_user
-from datetime import datetime
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -32,6 +31,20 @@ def register():
 
     return render_template('register.html', form=form)
 
+@auth.route('/recover', methods=['GET', 'POST'])
+def recover():
+    form = RecoverForm(meta={ 'crsf':True })
+
+    if form.validate_on_submit():
+        qty = User.check_user_exists(form.rut.data)
+
+        if qty > 0:
+            status = User.send_email(form.email.data)
+
+            print(status)
+            return redirect(url_for('auth.login'))
+
+    return render_template('recover.html', form=form)
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
