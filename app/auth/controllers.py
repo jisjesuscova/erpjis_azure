@@ -63,7 +63,7 @@ def recover():
             msg.html = render_template('emails/recover.html', logo=logo, full_name=user.nickname, url=url)
             mail.send(msg)
 
-            flash('Dirigete a tu casilla de correo para poder hacer cambio de contraseña.', 'success')
+            flash('Dirigete a tu casilla de correo para hacer el cambio de tu contraseña.', 'success')
 
             return redirect(url_for("auth.login"))
         else:
