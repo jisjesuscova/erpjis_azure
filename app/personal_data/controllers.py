@@ -22,7 +22,7 @@ def show(rut):
    employee = Employee.get(rut)
    genders = Gender.get()
    nationalities = Nationality.get()
-   user = User.get_by_rut(employee.visual_rut)
+   user = User.get_by_rut(employee.rut)
 
    if user.rol_id == 1:
       return render_template('human_resources/personal_data/regular_personal_data_update.html', employee = employee, rut = rut, genders = genders, nationalities = nationalities)
