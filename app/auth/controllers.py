@@ -85,6 +85,8 @@ def login():
             login_user(user)
 
             session['rut'] = user.rut
+            session['visual_rut'] = user.visual_rut
+            session['nickname'] = user.nickname
 
             next = request.form['next']
 
