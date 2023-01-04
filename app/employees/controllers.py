@@ -40,3 +40,4 @@ def store():
    Audit.store(request.form, 'user/store')
 
    return redirect(url_for('personal_data.show', rut = employee.rut))
+

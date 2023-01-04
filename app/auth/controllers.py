@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash, session
 from app.models.models import UserModel
 from app.auth.forms import RegisterForm, LoginForm, RecoverForm
 from app.users.user import User
@@ -63,7 +63,7 @@ def recover():
             msg.html = render_template('emails/recover.html', logo=logo, full_name=user.nickname, url=url)
             mail.send(msg)
 
-            flash('Se ha enviado un correo de recuperación de contraseña.', 'success')
+            flash('Dirigete a tu casilla de correo para poder hacer cambio de contraseña.', 'success')
 
             return redirect(url_for("auth.login"))
         else:
@@ -83,6 +83,8 @@ def login():
 
         if user and user.check_password(form.password.data):
             login_user(user)
+
+            session['rut'] = user.rut
 
             next = request.form['next']
 

@@ -6,6 +6,7 @@ from app.genders.gender import Gender
 from app.nationalities.nationality import Nationality
 from app.models.models import EmployeeModel
 from datetime import datetime
+from app.users.user import User
 
 personal_datum = Blueprint("personal_data", __name__)
 
@@ -21,8 +22,12 @@ def show(rut):
    employee = Employee.get(rut)
    genders = Gender.get()
    nationalities = Nationality.get()
+   user = User.get_by_rut(employee.visual_rut)
 
-   return render_template('human_resources/personal_data/personal_data_update.html', employee = employee, rut = rut, genders = genders, nationalities = nationalities)
+   if user.rol_id == 1:
+      return render_template('human_resources/personal_data/regular_personal_data_update.html', employee = employee, rut = rut, genders = genders, nationalities = nationalities)
+   else:
+      return render_template('human_resources/personal_data/personal_data_update.html', employee = employee, rut = rut, genders = genders, nationalities = nationalities)
 
 @personal_datum.route("/human_resources/personal_data/<int:rut>", methods=['POST'])
 @personal_datum.route("/human_resources/personal_data", methods=['POST'])
