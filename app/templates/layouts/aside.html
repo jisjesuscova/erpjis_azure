@@ -2,9 +2,9 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{ url_for('employees.index') }}" class="brand-link">
-      <img src="{{ url_for("static", filename="dist/img/AdminLTELogo.png") }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+      <img src="{{ url_for("static", filename="dist/img/logo.png") }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <span class="brand-text font-weight-light">ERP Jis</span>
     </a>
 
     <!-- Sidebar -->
@@ -232,6 +232,24 @@
                 <a href="{{ url_for('statuses.index') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Estados</p>
+                </a>
+              </li>
+
+            </ul>
+          </li>
+          <li class="nav-item has-treeview menu-close">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Configuración
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href=""  class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Datos Personales</p>
                 </a>
               </li>
 

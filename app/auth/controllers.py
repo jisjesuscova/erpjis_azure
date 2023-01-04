@@ -2,10 +2,9 @@ from flask import Blueprint, render_template, redirect, url_for, request
 from app.models.models import UserModel
 from app.auth.forms import RegisterForm, LoginForm, RecoverForm
 from app.users.user import User
-from app import login_manager
+from app import login_manager, mail
 from flask_login import login_user, logout_user
-from app.helpers.helper import Helper
-import random
+from flask_mail import Message
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -35,22 +34,16 @@ def register():
 
 @auth.route('/recover', methods=['GET', 'POST'])
 def recover():
-    form = RecoverForm(meta={ 'crsf':True })
+    form = RegisterForm(meta={ 'crsf':True })
 
     if form.validate_on_submit():
-        
-        qty = User.check_user_exists(form.rut.data)
-
-        if qty > 0:
-            password = random.randint(10000, 99999)
-
-            Helper.send_whatsapp(form.phone.data, password)
-
-            User.special_update(form.rut.data, password)
-
-            return redirect(url_for('auth.login'))
+        user = UserModel.query.filter_by(rut=form.rut.data).first()
+        if user and user.check_password(form.password.data):
+            msg = Message('Recuperar Contraseña', recipients = [form.email.data])
+            msg.html = render_template('recover.html', form=form)
+            mail.send(msg)
         else:
-            return redirect(url_for('auth.login'))
+            return redirect(url_for("auth.login"))
 
     return render_template('recover.html', form=form)
 
@@ -76,7 +69,7 @@ def login():
 
     if form.errors:
         print(form.errors)
-    
+
     return render_template('login.html', form=form)
 
 @auth.route('/logout', methods=['GET', 'POST'])

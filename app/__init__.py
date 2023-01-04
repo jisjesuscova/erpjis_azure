@@ -1,6 +1,6 @@
 from flask import Flask, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from flask_mail import Mail, Message
+from flask_mail import Mail
 from flask_wtf.csrf import CSRFProtect
 from config import DevConfig
 from flask_migrate import Migrate
@@ -9,8 +9,9 @@ from functools import wraps
 
 app = Flask(__name__)
 app.config.from_object(DevConfig)
-csrf_protect = CSRFProtect(app)
 mail = Mail(app)
+csrf_protect = CSRFProtect(app)
+
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
