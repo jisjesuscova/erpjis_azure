@@ -58,7 +58,7 @@ def recover():
         if qty > 0:
             user = User.get_by_rut(form.rut.data)
             msg = Message('Recuperar Contraseña', recipients = [form.email.data])
-            logo = 'https://erpjis.azurewebsites.net/static/dist/img/logo.jpg'
+            logo = 'https://erpjis.azurewebsites.net/static/dist/img/logo.png'
             url = 'https://erpjis.azurewebsites.net/password/' + str(user.id) + '/' + str(user.api_token)
             msg.html = render_template('emails/recover.html', logo=logo, full_name=user.nickname, url=url)
             mail.send(msg)
