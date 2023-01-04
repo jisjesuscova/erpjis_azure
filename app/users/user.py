@@ -18,6 +18,21 @@ class User():
 
             return user
 
+    def get_by_id(id):
+        user = UserModel.query.filter_by(id=id).first()
+
+        return user
+
+    def get_by_rut(rut):
+        user = UserModel.query.filter_by(visual_rut=rut).first()
+
+        return user
+
+    def check_user_exists_by_token(token):
+        quantity = UserModel.query.filter_by(api_token=token).count()
+        
+        return quantity
+
     def check_user_exists(rut):
         quantity = UserModel.query.filter_by(visual_rut=rut).count()
 

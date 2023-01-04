@@ -4,6 +4,22 @@
         <div class="login-logo">
             
         </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'error' %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                    {% if category == 'success' %}
+                        <div class="alert alert-success" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
@@ -37,7 +53,7 @@
 
                     <div class="row">
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-block btn-jis">Enviar</button>
+                            <button type="submit" class="btn btn-primary btn-block btn-jis">Ingresar</button>
                         </div>
                     </div>
                     <br>

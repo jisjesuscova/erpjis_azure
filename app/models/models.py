@@ -496,6 +496,7 @@ class UserModel(db.Model, UserMixin):
     nickname = db.Column(db.String(255))
     email = db.Column(db.String(100))
     password = db.Column(db.String(255))
+    api_token = db.Column(db.String(255))
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 

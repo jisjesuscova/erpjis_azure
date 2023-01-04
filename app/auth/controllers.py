@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import Blueprint, render_template, redirect, url_for, request, flash
 from app.models.models import UserModel
 from app.auth.forms import RegisterForm, LoginForm, RecoverForm
 from app.users.user import User
@@ -32,18 +32,44 @@ def register():
 
     return render_template('register.html', form=form)
 
+@auth.route('/password/<id>/<api_token>', methods=['GET'])
+def password(id, api_token):
+    qty = User.check_user_exists_by_token(api_token)
+
+    if qty > 0:
+        user = User.get_by_id(id)
+
+        login_user(user)
+
+        return redirect(url_for("employees.index"))
+    else:
+        flash('No se ha encontrado el usuario.', 'error')
+
+        return redirect(url_for("auth.login"))
+
 @auth.route('/recover', methods=['GET', 'POST'])
 def recover():
     form = RecoverForm(meta={ 'crsf':True })
 
     if form.validate_on_submit():
-        user = UserModel.query.filter_by(rut=form.rut.data).first()
-        if user and user.check_password(form.password.data):
+
+        qty = User.check_user_exists(form.rut.data)
+
+        if qty > 0:
+            user = User.get_by_rut(form.rut.data)
             msg = Message('Recuperar Contraseña', recipients = [form.email.data])
-            msg.html = render_template('recover.html', form=form)
+            logo = 'https://erpjis.azurewebsites.net/static/dist/img/logo.jpg'
+            url = 'https://erpjis.azurewebsites.net/password/' + str(user.id) + '/' + str(user.api_token)
+            msg.html = render_template('emails/recover.html', logo=logo, full_name=user.nickname, url=url)
             mail.send(msg)
-        else:
+
+            flash('Se ha enviado un correo de recuperación de contraseña.', 'success')
+
             return redirect(url_for("auth.login"))
+        else:
+            flash('No se ha encontrado el usuario.', 'error')
+
+            return redirect(url_for("auth.recover"))
 
     return render_template('recover.html', form=form)
 
@@ -62,6 +88,8 @@ def login():
 
             return redirect(next or url_for("employees.index"))
         else:
+            flash('El RUT o Contraseña es incorrecto.', 'error')
+
             return redirect(url_for('auth.login'))
 
     if form.errors:

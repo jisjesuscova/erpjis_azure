@@ -4,6 +4,15 @@
         <div class="login-logo">
             <img src="{{ url_for("static", filename="dist/img/logo.png") }}">
         </div>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
