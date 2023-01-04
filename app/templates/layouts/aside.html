@@ -17,7 +17,7 @@
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-people-group"></i>
               <p>
                 Recursos Humanos
                 <i class="right fas fa-angle-left"></i>
@@ -26,19 +26,19 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="{{ url_for('employees.index') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Empleados</p>
+                  <i class="fas fa-user-group nav-icon"></i>
+                  <p>Trabajadores</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{ url_for('documental_management_data.index') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-folder-tree nav-icon"></i>
                   <p>Gestión Documental</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="/index3" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-rectangle-list nav-icon"></i>
                   <p>Honorarios</p>
                 </a>
               </li>
@@ -46,7 +46,7 @@
           </li>
           <li class="nav-item has-treeview menu-close">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-users-gear"></i>
               <p>
                 Gestión Nomina
                 <i class="right fas fa-angle-left"></i>
@@ -55,37 +55,37 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="{{ url_for('hr_employees.index') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Trabajadores</p>
+                  <i class="fas fa-user-gear nav-icon"></i>
+                  <p>Nomina</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{ url_for('absence_days.index') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-tag nav-icon"></i>
                   <p>Ausentimos</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{ url_for('hr_days.index') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-calendar-day nav-icon"></i>
                   <p>Días</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{ url_for('hr_employee_inputs.index') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-list-ol nav-icon"></i>
                   <p>Ingresos Manuales</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{ url_for('calculation_values.index') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-calculator nav-icon"></i>
                   <p>Procesos Calcular</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="/index3" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="fas fa-file-invoice nav-icon"></i>
                   <p>Procesos Salida</p>
                 </a>
               </li>
@@ -93,7 +93,7 @@
           </li>
           <li class="nav-item has-treeview menu-close">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-users"></i>
               <p>
                 Usuarios
                 <i class="right fas fa-angle-left"></i>
@@ -105,7 +105,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
-                Reloj Control
+                Gestión Tiempo
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -113,28 +113,15 @@
               <li class="nav-item">
                 <a href=""  class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Registrar</p>
+                  <p>Reloj Control</p>
                 </a>
               </li>
-
-            </ul>
-          </li>
-          <li class="nav-item has-treeview menu-close">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Malla Horaria
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="{{ url_for('mesh_data.index') }}"  class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Planificar</p>
+                  <p>Malla Horaria</p>
                 </a>
               </li>
-
             </ul>
           </li>
           <li class="nav-item has-treeview menu-close">

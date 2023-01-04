@@ -4,9 +4,41 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
+                        <h3 class="card-title">Foto Personal</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- form start -->
+                        <form role="form" action="{{ url_for('personal_data.upload') }}/{{ employee.rut }}" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Foto</label>
+                                            <input type="file" value="" class="form-control" id="exampleInputEmail1" placeholder="Imagen" name="file">
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
+
+                            <input type="hidden" value="{{ employee.rut }}" class="form-control" id="exampleInputEmail1" name="id">
+                            <!-- /.card-body -->
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Actualizar</button>
+
+                                <a href="{{ url_for('home.index') }}" class="btn btn-secondary">Cancelar</a>
+                            </div>
+                        </form>
+                        <!-- form end -->
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
                         <h3 class="card-title">Datos Personales</h3>
                     </div>
-                    <!-- /.card-header -->
+                    
                     <div class="card-body">
                         <!-- form start -->
                         <form role="form" action="{{ url_for('personal_data.update') }}/{{ employee.rut }}" method="POST">

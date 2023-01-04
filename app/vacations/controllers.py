@@ -48,7 +48,7 @@ def store(rut):
 @vacation.route("/human_resources/vacation/upload", methods=['GET', 'POST'])
 def upload(rut, id):
    if request.method == 'POST':
-      support = Dropbox.upload(request.files, "/vacations/", "C:/Users/jesus/OneDrive/Desktop/erp_jis_v1/erp_jis_v1/erp_jis/")
+      support = Dropbox.upload(request.files, "/vacations/", "C:/Users/jesus/OneDrive/Desktop/erp_azure/")
       Vacation.upload(id, support)
       return redirect(url_for('vacations.index', rut = rut))
    else:

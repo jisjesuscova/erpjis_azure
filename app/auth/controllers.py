@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash, session
 from app.models.models import UserModel
-from app.auth.forms import RegisterForm, LoginForm, RecoverForm
+from app.auth.forms import RegisterForm, LoginForm, RecoverForm, PasswordForm
 from app.users.user import User
 from app import login_manager, mail
 from flask_login import login_user, logout_user
@@ -25,6 +25,7 @@ def register():
             user = User.store(request.form)
 
             login_user(user, remember=True)
+            
 
             return redirect(next or url_for("employees.index"))
     if form.errors:
@@ -33,23 +34,28 @@ def register():
     return render_template('register.html', form=form)
 
 @auth.route('/password/<id>/<api_token>', methods=['GET'])
-def password(id, api_token):
-    qty = User.check_user_exists_by_token(api_token)
+@auth.route('/password', methods=['POST'])
+def password(id = '', api_token = ''):
+    form = PasswordForm(meta={ 'crsf':True })
 
-    if qty > 0:
-        user = User.get_by_id(id)
+    if form.validate_on_submit():
 
-        login_user(user)
+        User.special_update(form.rut.data, form.password.data)
 
-        session['rut'] = user.rut
-        session['visual_rut'] = user.visual_rut
-        session['nickname'] = user.nickname
-
-        return redirect(url_for("employees.index"))
-    else:
-        flash('No se ha encontrado el usuario.', 'error')
+        flash('Se ha actualizado la contraseña con éxito.', 'success')
 
         return redirect(url_for("auth.login"))
+    else:
+        qty = User.check_user_exists_by_token(api_token)
+
+        if qty > 0:
+            user = User.get_by_id(id)
+
+            return render_template("password.html", form=form, rut=user.visual_rut)
+        else:
+            flash('No se ha encontrado el usuario.', 'error')
+
+            return redirect(url_for("auth.login"))
 
 @auth.route('/recover', methods=['GET', 'POST'])
 def recover():
@@ -94,7 +100,10 @@ def login():
 
             next = request.form['next']
 
-            return redirect(next or url_for("employees.index"))
+            if user.rol_id == 1:
+                return redirect(next or url_for("personal_data.show", rut=user.rut))
+            else:
+                return redirect(next or url_for("home.index"))
         else:
             flash('El RUT o Contraseña es incorrecto.', 'error')
 

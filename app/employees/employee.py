@@ -17,6 +17,20 @@ class Employee():
             return employee
 
     @staticmethod
+    def upload(rut, file):
+        employee = EmployeeModel.query.filter_by(rut=rut).first()
+        employee.picture = file
+        employee.updated_date = datetime.now()
+
+        db.session.add(employee)
+        try:
+            db.session.commit()
+
+            return 1
+        except Exception as e:
+            return 0
+
+    @staticmethod
     def store(data):
         numeric_rut = Helper.numeric_rut(data['rut'])
         nickname = Helper.nickname(data['names'], data['father_lastname'])

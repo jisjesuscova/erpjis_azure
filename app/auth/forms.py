@@ -15,3 +15,8 @@ class RecoverForm(FlaskForm):
     rut = StringField('RUT', validators=[ InputRequired() ])
     email = StringField('Correo Electrónico', validators=[ InputRequired() ])
     next = HiddenField('next')
+
+class PasswordForm(FlaskForm):
+    password = StringField('Contraseña', validators=[ InputRequired() ])
+    rut = HiddenField('rut')
+    next = HiddenField('next')

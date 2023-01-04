@@ -1,12 +1,13 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required
-from app import app, regular_employee_rol_need, db
+from app import app, regular_employee_rol_need
 from app.employees.employee import Employee
 from app.genders.gender import Gender
 from app.nationalities.nationality import Nationality
-from app.models.models import EmployeeModel
-from datetime import datetime
+from app.dropbox_data.dropbox import Dropbox
 from app.users.user import User
+from PIL import Image
+import os
 
 personal_datum = Blueprint("personal_data", __name__)
 
@@ -33,5 +34,12 @@ def show(rut):
 @personal_datum.route("/human_resources/personal_data", methods=['POST'])
 def update(rut):
    Employee.update(request.form, rut)
+
+   return redirect(url_for('personal_data.show', rut = rut))
+
+@personal_datum.route("/human_resources/personal_datum/upload/<int:rut>", methods=['POST'])
+@personal_datum.route("/human_resources/personal_datum/upload", methods=['POST'])
+def upload(rut):
+   Dropbox.upload(rut, "_foto", request.files, "/flask_user_photos/", "C:/Users/jesus/OneDrive/Desktop/erpjis_azure/")
 
    return redirect(url_for('personal_data.show', rut = rut))
