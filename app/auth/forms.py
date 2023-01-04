@@ -13,5 +13,5 @@ class LoginForm(FlaskForm):
 
 class RecoverForm(FlaskForm):
     rut = StringField('RUT', validators=[ InputRequired() ])
-    phone = StringField('Celular', validators=[ InputRequired() ])
+    email = StringField('Correo Electrónico', validators=[ InputRequired() ])
     next = HiddenField('next')

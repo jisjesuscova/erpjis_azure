@@ -34,7 +34,7 @@ def register():
 
 @auth.route('/recover', methods=['GET', 'POST'])
 def recover():
-    form = RegisterForm(meta={ 'crsf':True })
+    form = RecoverForm(meta={ 'crsf':True })
 
     if form.validate_on_submit():
         user = UserModel.query.filter_by(rut=form.rut.data).first()
@@ -53,15 +53,12 @@ def login():
     
     if form.validate_on_submit():
         
-        user = UserModel.query.filter_by(rut=form.rut.data).first()
+        user = UserModel.query.filter_by(visual_rut=form.rut.data).first()
 
         if user and user.check_password(form.password.data):
             login_user(user)
 
             next = request.form['next']
-            print(next)
-            # is_safe_url should check if the url is safe for redirects.
-            # See http://flask.pocoo.org/snippets/62/ for an example.
 
             return redirect(next or url_for("employees.index"))
         else:

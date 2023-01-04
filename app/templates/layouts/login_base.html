@@ -1,9 +1,15 @@
 {%  include 'layouts/login_header.html' %}
 
-<body class="hold-transition" background="{{ url_for("static", filename="dist/img/login_backend.png") }}">
+<body background="{{ url_for("static", filename="dist/img/login_background.png") }}">
     <div class="wrapper">
         {% block content %}
 
         {% endblock %}
     </div>
 </body>
+<!-- jQuery -->
+<script src="{{ url_for("static", filename="plugins/jquery/jquery.min.js") }}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{{ url_for("static", filename="plugins/jquery-ui/jquery-ui.min.js") }}"></script>
+<script src="{{ url_for("static", filename="plugins/jquery-mask/dist/jquery.mask.js") }}"></script>
+<script src="{{ url_for("static", filename="dist/js/custom.js") }}"></script>

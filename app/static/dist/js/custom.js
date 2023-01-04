@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    $('.rut').mask('99999999-9');
+
     $('#branch_office_id').change(function() {
         $.ajax({
             url: 'branch_offices/employees/' + $(this).val(),

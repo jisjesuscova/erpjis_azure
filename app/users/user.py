@@ -19,7 +19,7 @@ class User():
             return user
 
     def check_user_exists(rut):
-        quantity = UserModel.query.filter_by(rut=rut).count()
+        quantity = UserModel.query.filter_by(visual_rut=rut).count()
 
         return quantity
 

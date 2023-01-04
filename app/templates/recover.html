@@ -2,7 +2,7 @@
 {% block content %}
     <div class="login-box">
         <div class="login-logo">
-            <a href="/index2"><b>Jisparking</b></a>
+            <img src="{{ url_for("static", filename="dist/img/logo.png") }}">
         </div>
         <!-- /.login-logo -->
         <div class="card">
@@ -15,7 +15,7 @@
                         {{ form.rut.label }}
                     </div>
                     <div class="input-group mb-3">
-                        {{ form.rut(class='form-control', placeholder="Rut (Ejem: 18987456)") }}
+                        {{ form.rut(class='form-control rut', placeholder="RUT") }}
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -23,13 +23,13 @@
                         </div>
                     </div>
                     <div class="input-group">
-                        {{ form.phone.label }}
+                        {{ form.email.label }}
                     </div>
                     <div class="input-group mb-3">
-                        {{ form.phone(class='form-control', placeholder="Celular (Ejem: 935884758)") }}
+                        {{ form.email(class='form-control', placeholder="Correo Electrónico") }}
                         <div class="input-group-append">
                             <div class="input-group-text">
-                                <span class="fas fa-mobile"></span>
+                                <span class="fas fa-envelope"></span>
                             </div>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
 
                     <div class="row">
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-block">Recuperar</button>
+                            <button type="submit" class="btn btn-primary btn-block btn-jis">Recuperar</button>
                         </div>
                     </div>
                 </form>
