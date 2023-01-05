@@ -24,9 +24,10 @@ def show(rut):
    genders = Gender.get()
    nationalities = Nationality.get()
    user = User.get_by_rut(employee.rut)
+   download_url = Dropbox.get('/flask_user_photos/', employee.picture)
 
    if user.rol_id == 1:
-      return render_template('human_resources/personal_data/regular_personal_data_update.html', employee = employee, rut = rut, genders = genders, nationalities = nationalities)
+      return render_template('human_resources/personal_data/regular_personal_data_update.html', employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url)
    else:
       return render_template('human_resources/personal_data/personal_data_update.html', employee = employee, rut = rut, genders = genders, nationalities = nationalities)
 
@@ -40,6 +41,16 @@ def update(rut):
 @personal_datum.route("/human_resources/personal_datum/upload/<int:rut>", methods=['POST'])
 @personal_datum.route("/human_resources/personal_datum/upload", methods=['POST'])
 def upload(rut):
-   Dropbox.upload(rut, "_foto", request.files, "/flask_user_photos/", "C:/Users/jesus/OneDrive/Desktop/erpjis_azure/")
+   picture = Dropbox.upload(rut, "_photo", request.files, "/flask_user_photos/", "C:/Users/jesus/OneDrive/Desktop/erpjis_azure/")
+   Employee.upload(rut, picture)
 
+   return redirect(url_for('personal_data.show', rut = rut))
+
+@personal_datum.route("/human_resources/personal_datum/delete_picture/<int:rut>", methods=['GET'])
+@personal_datum.route("/human_resources/personal_datum/delete_picture", methods=['GET'])
+def delete_picture(rut):
+   employee = Employee.get(rut)
+   Dropbox.delete("/flask_user_photos/", employee.picture)
+   Employee.delete_picture(rut)
+   
    return redirect(url_for('personal_data.show', rut = rut))

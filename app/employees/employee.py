@@ -79,3 +79,16 @@ class Employee():
             return employee
         else:
             return {'msg': 'Data could not be stored'}
+
+    @staticmethod
+    def delete_picture(rut):
+        employee = EmployeeModel.query.filter_by(rut = rut).first()
+        employee.picture = ''
+        employee.updated_date = datetime.now()
+
+        db.session.add(employee)
+        if db.session.commit():
+            return employee
+        else:
+            return {'msg': 'Data could not be stored'}
+
