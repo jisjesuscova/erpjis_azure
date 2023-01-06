@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required
-from app import app, regular_employee_rol_need, collaborator_permission, rol_admin_need
+from app import app, regular_employee_rol_need
 from app.employees.employee import Employee
 from app.genders.gender import Gender
 from app.nationalities.nationality import Nationality
