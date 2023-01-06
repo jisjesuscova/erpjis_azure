@@ -109,6 +109,7 @@ class EmployeeModel(db.Model):
     nickname = db.Column(db.String(255))
     gender_id = db.Column(db.Integer)
     nationality_id = db.Column(db.Integer)
+    personal_email = db.Column(db.String(255))
     cellphone = db.Column(db.String(100))
     born_date = db.Column(db.Date())
     picture = db.Column(db.String(255))
@@ -195,6 +196,7 @@ class EmployeeLaborDatumModel(db.Model):
     salary = db.Column(db.Integer)
     collation = db.Column(db.Integer)
     locomotion = db.Column(db.Integer)
+    company_email = db.Column(db.String(255))
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 

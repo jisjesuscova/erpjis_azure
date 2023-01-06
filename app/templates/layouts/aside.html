@@ -31,18 +31,20 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ url_for('documental_management_data.index') }}" class="nav-link">
-                  <i class="fas fa-folder-tree nav-icon"></i>
-                  <p>Gestión Documental</p>
-                </a>
-              </li>
-              <li class="nav-item">
                 <a href="/index3" class="nav-link">
                   <i class="fas fa-rectangle-list nav-icon"></i>
                   <p>Honorarios</p>
                 </a>
               </li>
             </ul>
+          </li>
+          <li class="nav-item">
+            <a href="{{ url_for('documental_management_data.index') }}" class="nav-link active">
+              <i class="nav-icon fas fa-paste"></i>
+              <p>
+                Gestión Documental
+              </p>
+            </a>
           </li>
           <li class="nav-item has-treeview menu-close">
             <a href="#" class="nav-link">
@@ -93,17 +95,7 @@
           </li>
           <li class="nav-item has-treeview menu-close">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
-              <p>
-                Usuarios
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            
-          </li>
-          <li class="nav-item has-treeview menu-close">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-clock"></i>
               <p>
                 Gestión Tiempo
                 <i class="right fas fa-angle-left"></i>
@@ -112,13 +104,13 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href=""  class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="far fa-hourglass-half nav-icon"></i>
                   <p>Reloj Control</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{ url_for('mesh_data.index') }}"  class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="far fa-calendar nav-icon"></i>
                   <p>Malla Horaria</p>
                 </a>
               </li>
@@ -126,7 +118,7 @@
           </li>
           <li class="nav-item has-treeview menu-close">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-gear"></i>
               <p>
                 Datos Maestros
                 <i class="right fas fa-angle-left"></i>
@@ -224,27 +216,17 @@
 
             </ul>
           </li>
-          <li class="nav-item has-treeview menu-close">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+          <li class="nav-item ">
+            <a href="{{ url_for('personal_data.show') }}/{{ session['rut'] }}" class="nav-link">
+              <i class="nav-icon fas fa-circle-user"></i>
               <p>
-                Configuración
-                <i class="right fas fa-angle-left"></i>
+                Datos Personales
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{ url_for('personal_data.show') }}/{{ session['rut'] }}"  class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Datos Personales</p>
-                </a>
-              </li>
-
-            </ul>
           </li>
           <li class="nav-item has-treeview menu-close">
             <a href="{{ url_for('auth.logout') }}" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-times"></i>
               <p>
                 Salir
               </p>

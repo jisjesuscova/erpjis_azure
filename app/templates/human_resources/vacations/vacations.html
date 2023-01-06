@@ -19,8 +19,13 @@
             </div><!-- /.container-fluid -->
         </div>
         <!-- /.content-header -->
-        {%  include 'layouts/employee_navbar.html' %}
-        {%  include 'layouts/vacations_datatable.html' %}
+        {% if current_user.rol_id == 1 %}
+            {%  include 'layouts/collaborator_employee_navbar.html' %}
+            {%  include 'layouts/collaborator_vacations_datatable.html' %}
+        {% else %}
+            {%  include 'layouts/employee_navbar.html' %}
+            {%  include 'layouts/vacations_datatable.html' %}
+        {% endif %}
     </div>
 {% endblock %}
     

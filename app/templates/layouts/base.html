@@ -2,8 +2,13 @@
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
-        {%  include 'layouts/navbar.html' %}
-        {%  include 'layouts/aside.html' %}
+        {% if current_user.rol_id == 1 %}
+            {%  include 'layouts/collaborator_navbar.html' %}
+            {%  include 'layouts/collaborator_aside.html' %}
+        {% else %}
+            {%  include 'layouts/navbar.html' %}
+            {%  include 'layouts/aside.html' %}
+        {% endif %}
         
         {% block content %}
 

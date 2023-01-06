@@ -2,9 +2,11 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash,
 from app.models.models import UserModel
 from app.auth.forms import RegisterForm, LoginForm, RecoverForm, PasswordForm
 from app.users.user import User
-from app import login_manager, mail
-from flask_login import login_user, logout_user
+from app import login_manager, mail, principals
+from flask_login import login_user, logout_user, current_user
 from flask_mail import Message
+from flask_principal import identity_changed, Identity
+from app.rols.rol import Rol
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -25,7 +27,6 @@ def register():
             user = User.store(request.form)
 
             login_user(user, remember=True)
-            
 
             return redirect(next or url_for("employees.index"))
     if form.errors:
@@ -94,13 +95,13 @@ def login():
         if user and user.check_password(form.password.data):
             login_user(user)
 
-            session['rut'] = user.rut
-            session['visual_rut'] = user.visual_rut
-            session['nickname'] = user.nickname
+            rol = Rol.get(user.rol_id)
+
+            identity_changed.send(principals, identity=Identity(user.rut, rol.rol))
 
             next = request.form['next']
 
-            if user.rol_id == 1:
+            if current_user.rol_id == 1:
                 return redirect(next or url_for("personal_data.show", rut=user.rut))
             else:
                 return redirect(next or url_for("home.index"))

@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, g
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from flask_wtf.csrf import CSRFProtect
@@ -6,14 +6,12 @@ from config import DevConfig
 from flask_migrate import Migrate
 from flask_login import LoginManager, current_user, logout_user
 from functools import wraps
-from flask_principal import Principal, Permission, RoleNeed, identity_loaded
+from flask_principal import Permission, RoleNeed, Principal
 
 app = Flask(__name__)
 app.config.from_object(DevConfig)
 mail = Mail(app)
 csrf_protect = CSRFProtect(app)
-
-
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 login_manager = LoginManager(app)
@@ -21,7 +19,10 @@ login_manager.init_app(app)
 login_manager.login_view = "auth.login"
 
 principals = Principal(app)
-admin_permission = Permission(RoleNeed('admin'))
+collaborator_permission = Permission(RoleNeed('collaborator'))
+incharge_permission = Permission(RoleNeed('incharge'))
+supervisor_permission = Permission(RoleNeed('supervisor'))
+support_permission = Permission(RoleNeed('support'))
 
 def rol_admin_need(f):
     @wraps(f)
@@ -37,7 +38,7 @@ def rol_admin_need(f):
 def regular_employee_rol_need(f):
     @wraps(f)
     def wrapper(*args, **kwds):
-        if current_user.rol_id != 1:
+        if current_user.rol_id != 1 and current_user.rol_id != 2:
             logout_user()
             return redirect(url_for('auth.login'))
             ## print('rol:' + str(current_user.rol_id))

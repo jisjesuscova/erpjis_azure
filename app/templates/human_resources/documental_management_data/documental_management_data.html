@@ -21,8 +21,13 @@
         </div>
         <!-- /.content-header -->
 
-        {%  include 'layouts/documental_management_data_search_form.html' %}
-        {%  include 'layouts/documental_management_data_datatable.html' %}
+        {% if current_user.rol_id == 1 %}
+            {%  include 'layouts/collaborator_documental_management_data_datatable.html' %}
+        {% else %}
+            
+            {%  include 'layouts/documental_management_data_search_form.html' %}
+            {%  include 'layouts/documental_management_data_datatable.html' %}
+        {% endif %}
     </div>
 {% endblock %}
     

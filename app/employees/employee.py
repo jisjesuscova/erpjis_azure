@@ -8,7 +8,7 @@ class Employee():
     @staticmethod
     def get(rut = ''):
         if rut == '':
-            employees = EmployeeModel.query.order_by('names').all()
+            employees = EmployeeModel.query.order_by('rut').all()
 
             return employees
         else:
@@ -62,7 +62,7 @@ class Employee():
         nickname = Helper.nickname(data['names'], data['father_lastname'])
 
         employee = EmployeeModel.query.filter_by(rut = id).first()
-        employee.rut = numeric_rut
+        employee.rut = id
         employee.visual_rut = data['rut']
         employee.names = data['names']
         employee.father_lastname = data['father_lastname']
@@ -71,6 +71,7 @@ class Employee():
         employee.gender_id = data['gender_id']
         employee.nationality_id = data['nationality_id']
         employee.cellphone = data['cellphone']
+        employee.personal_email = data['personal_email']
         employee.born_date = data['born_date']
         employee.updated_date = datetime.now()
 

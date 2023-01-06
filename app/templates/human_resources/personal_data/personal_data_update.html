@@ -20,8 +20,13 @@
         </div>
         <!-- /.content-header -->
 
-        {%  include 'layouts/employee_navbar.html' %}
-        {%  include 'layouts/personal_data_update_form.html' %}
+        {% if current_user.rol_id == 1 %}
+            {%  include 'layouts/collaborator_employee_navbar.html' %}
+            {%  include 'layouts/collaborator_personal_data_update_form.html' %}
+        {% else %}
+            {%  include 'layouts/employee_navbar.html' %}
+            {%  include 'layouts/personal_data_update_form.html' %}
+        {% endif %}
     </div>
 {% endblock %}
     

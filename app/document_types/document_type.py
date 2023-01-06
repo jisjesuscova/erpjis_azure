@@ -5,7 +5,7 @@ from datetime import datetime
 
 class DocumentType():
     @staticmethod
-    def get(id = '', group_id = '', field = '', value = ''):
+    def get(id = '', group_id = '', field = '', value = '', special_id = []):
         if id == '':
             document_type = DocumentTypeModel.query.filter_by(document_group_id = group_id).order_by('document_type').all()
         else:
