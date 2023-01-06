@@ -6,7 +6,6 @@ from config import DevConfig
 from flask_migrate import Migrate
 from flask_login import LoginManager, current_user, logout_user
 from functools import wraps
-from flask_principal import Permission, RoleNeed, Principal
 
 app = Flask(__name__)
 app.config.from_object(DevConfig)
@@ -17,12 +16,6 @@ migrate = Migrate(app, db)
 login_manager = LoginManager(app)
 login_manager.init_app(app)
 login_manager.login_view = "auth.login"
-
-principals = Principal(app)
-collaborator_permission = Permission(RoleNeed('collaborator'))
-incharge_permission = Permission(RoleNeed('incharge'))
-supervisor_permission = Permission(RoleNeed('supervisor'))
-support_permission = Permission(RoleNeed('support'))
 
 def rol_admin_need(f):
     @wraps(f)
