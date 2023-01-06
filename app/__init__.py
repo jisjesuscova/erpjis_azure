@@ -134,4 +134,5 @@ app.register_blueprint(home)
 
 @app.route("/")
 def hello():
-    return redirect(url_for('auth.login'))
+    print(33333333)
+    return str(222)
