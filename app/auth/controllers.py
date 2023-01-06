@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash, session
+from flask import Blueprint, render_template, redirect, url_for, request, flash
 from app.models.models import UserModel
 from app.auth.forms import RegisterForm, LoginForm, RecoverForm, PasswordForm
 from app.users.user import User
@@ -93,10 +93,6 @@ def login():
 
         if user and user.check_password(form.password.data):
             login_user(user)
-
-            rol = Rol.get(user.rol_id)
-
-            identity_changed.send(principals, identity=Identity(user.rut, rol.rol))
 
             next = request.form['next']
 
