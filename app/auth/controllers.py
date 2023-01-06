@@ -2,10 +2,9 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash,
 from app.models.models import UserModel
 from app.auth.forms import RegisterForm, LoginForm, RecoverForm, PasswordForm
 from app.users.user import User
-from app import login_manager, mail, principals
+from app import login_manager, mail
 from flask_login import login_user, logout_user, current_user
 from flask_mail import Message
-from flask_principal import identity_changed, Identity
 from app.rols.rol import Rol
 
 @login_manager.user_loader
