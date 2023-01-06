@@ -8,56 +8,6 @@ import json
 
 class Helper:
     @staticmethod
-    def send_whatsapp(phone, password):
-        url = "https://graph.facebook.com/v15.0/101066132689690/messages"
-        
-        payload = json.dumps({
-                                "messaging_product": "whatsapp",
-                                "to": "56" + phone + "",
-                                "type": "template",
-                                "template": {
-                                "name": "recuperar_contrasena",
-                                "language": {
-                                    "code": "es"
-                                },
-                                "components": [
-                                    {
-                                        "type": "header",
-                                        "parameters": [
-                                                {
-                                                    "type": "image",
-                                                    "image": {
-                                                    "link": "https://jisparking.com/backend/img/logo.png"
-                                                    }
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            "type": "body",
-                                            "parameters": [
-                                                {
-                                                    "type": "text",
-                                                    "text": "Jesus Cova"
-                                                },
-                                                {
-                                                    "type": "text",
-                                                    "text": ""+ str(password) +""
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                }
-                            })
-        headers = {
-            'Authorization': 'Bearer EAAFYECjSEkQBAFdaWeOBlvI12kGVP9AoUNqzhSX2aZAUR8dGuN6E6EHNr6ZCpCm4Kk8oQ9eel5CtYKsvy8Hw3qfj17HZCNoLp0KMjvq6yZCbaZCTxwYxbZBp7aIUrLYkgN2gcSbrZC8RWvveFC3HXmhoOjD5P3ZCgQfKLZCfoKc8AE9F3FQAtGeXLXAfnnX4b34eh6MfcnEyQkwZDZD',
-            'Content-Type': 'application/json'
-        }
-
-        response = requests.request("POST", url, headers=headers, data=payload)
-
-        return response
-
-    @staticmethod
     def numeric_rut(rut):
         rut = rut.split('-')
 
