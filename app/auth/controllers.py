@@ -86,7 +86,7 @@ def recover():
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm(meta={ 'crsf':True })
-    print(1)
+   
     return render_template('login.html', form=form)
 
 @auth.route('/logout', methods=['GET', 'POST'])
