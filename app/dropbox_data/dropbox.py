@@ -24,7 +24,7 @@ class Dropbox():
 
     @staticmethod
     def get(url, file):
-        dbx = dropbox.Dropbox('sl.BWVlDF0Jp6hnCOmV5H02Tj5xTtafRVzjC7Gg5OR0JVGaZGowwLFoClvRhkYpb-CNrvC6JTim3Xw3ctdnA--Gy58n23iP2fPA9Na2mkSTpDN8wGmRjXMQ5dEfvENFsmliw00qTog')
+        dbx = dropbox.Dropbox('sl.BWaeincjLpYtc9o6HTPhZRZSn76owgK4KA8nkrvsM1w2eUTbyUS0EJ__PSFuYj7nOwakYcTDa6Mw8mwDiunz7Hohdfw9g03ep0xW4SB_BT8NWaNoZW3YP5iU5m2eKagb3YCdzrs')
 
         try:
             dbx.files_get_metadata(url + file)
@@ -37,7 +37,7 @@ class Dropbox():
 
     @staticmethod
     def delete(url, file):
-        dbx = dropbox.Dropbox('sl.BWVlDF0Jp6hnCOmV5H02Tj5xTtafRVzjC7Gg5OR0JVGaZGowwLFoClvRhkYpb-CNrvC6JTim3Xw3ctdnA--Gy58n23iP2fPA9Na2mkSTpDN8wGmRjXMQ5dEfvENFsmliw00qTog')
+        dbx = dropbox.Dropbox('sl.BWaeincjLpYtc9o6HTPhZRZSn76owgK4KA8nkrvsM1w2eUTbyUS0EJ__PSFuYj7nOwakYcTDa6Mw8mwDiunz7Hohdfw9g03ep0xW4SB_BT8NWaNoZW3YP5iU5m2eKagb3YCdzrs')
 
         try:
             dbx.files_get_metadata(url + file)

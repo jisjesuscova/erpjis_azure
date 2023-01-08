@@ -85,30 +85,9 @@ def recover():
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm(meta={ 'crsf':True })
-    
-    if form.validate_on_submit():
-        
-        user = UserModel.query.filter_by(visual_rut=form.rut.data).first()
+    print(11)
 
-        if user and user.check_password(form.password.data):
-            login_user(user)
-
-            next = request.form['next']
-
-            if current_user.rol_id == 1:
-                return redirect(next or url_for("personal_data.show", rut=user.rut))
-            else:
-                return redirect(next or url_for("home.index"))
-        else:
-            flash('El RUT o Contraseña es incorrecto.', 'error')
-
-            return redirect(url_for('auth.login'))
-
-    if form.errors:
-        print(form.errors)
-
-    return render_template('login.html', form=form)
+    return str(2)
 
 @auth.route('/logout', methods=['GET', 'POST'])
 def logout():
