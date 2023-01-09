@@ -95,7 +95,10 @@ def login():
 
             next = request.form['next']
             
-            return redirect(next or url_for("home.index"))
+            if current_user.rol_id == 1:
+                return redirect(next or url_for("home.index"))
+            else:
+                return redirect(next or url_for("home.index"))
         else:
             flash('El RUT o Contraseña es incorrecto.', 'error')
 
