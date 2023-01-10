@@ -133,6 +133,5 @@ app.register_blueprint(clock)
 app.register_blueprint(home)
 
 @app.route("/")
-def hello():
-    print(33333333)
-    return str(222)
+def index():
+    return redirect(url_for('auth.login'))
