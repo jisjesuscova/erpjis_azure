@@ -4,11 +4,14 @@ from dropbox.exceptions import ApiError
 
 class Dropbox():
     @staticmethod
-    def upload(name = '', description = '', data = '', dropbox_path = '', computer_path = ''):
+    def upload(name = '', description = '', data = '', dropbox_path = '', computer_path = '', resize = 0):
         f = data['file']
-        image = Image.open(f)
-        image = image.resize((200, 200))
-        image.save(f.filename)
+        if resize  == 1:
+            image = Image.open(f)
+            image = image.resize((200, 200))
+            image.save(f.filename)
+        else:
+            f.save(f.filename)
 
         extesion = f.filename.split('.')
         dropbox_file_name = str(name) + str(description)
@@ -16,7 +19,7 @@ class Dropbox():
         dropbox_path = dropbox_path + dropbox_file_name + "." + extesion[1]
         computer_path = computer_path + f.filename
 
-        dbx = dropbox.Dropbox('sl.BWVFurcA3Rj9OfdhdoK_Sv2feZu6yPCo0LPWHg6URtePNW41n09Z4-wJ-VbFX9jTgSEZ6HVgS2N6KpR8pq0F5IL8ivi3bcOYaVT2Kkm6rcm1R2YzMl9glbgNd-67FcaYN5JSolY')
+        dbx = dropbox.Dropbox('sl.BWmxlsapw_e8j2q2ikchD1qw6WDpvp3ZL7eHycHoeNEcLklx-07Bksk9hFz-U1FFxiBGtKVyRkfpeOGLqI_D4mn980Erv-uMM0ka418g7Q13cP5JxL3oxCxiXPbLQzJZj9LRzQw')
         if dbx.files_upload(open(computer_path, "rb").read(), dropbox_path):
             return dropbox_file_name + "." + extesion[1]
         else:
@@ -24,7 +27,7 @@ class Dropbox():
 
     @staticmethod
     def get(url, file):
-        dbx = dropbox.Dropbox('sl.BWhZdPs_RCBUDjMIYZdVM3Z1XHwNLUohi1yF0st66OWpDb5w2eXZ8Fu_OLk4X9BUS1LBpp1teUu1bfUXkRmN7fwZrr0TOQaAz9j6h8dfFMS2kSKk2lLqiMh894bCDl8pTOi0EIE')
+        dbx = dropbox.Dropbox('sl.BWmxlsapw_e8j2q2ikchD1qw6WDpvp3ZL7eHycHoeNEcLklx-07Bksk9hFz-U1FFxiBGtKVyRkfpeOGLqI_D4mn980Erv-uMM0ka418g7Q13cP5JxL3oxCxiXPbLQzJZj9LRzQw')
 
         try:
             dbx.files_get_metadata(url + file)
@@ -37,7 +40,7 @@ class Dropbox():
 
     @staticmethod
     def delete(url, file):
-        dbx = dropbox.Dropbox('sl.BWhZdPs_RCBUDjMIYZdVM3Z1XHwNLUohi1yF0st66OWpDb5w2eXZ8Fu_OLk4X9BUS1LBpp1teUu1bfUXkRmN7fwZrr0TOQaAz9j6h8dfFMS2kSKk2lLqiMh894bCDl8pTOi0EIE')
+        dbx = dropbox.Dropbox('sl.BWmxlsapw_e8j2q2ikchD1qw6WDpvp3ZL7eHycHoeNEcLklx-07Bksk9hFz-U1FFxiBGtKVyRkfpeOGLqI_D4mn980Erv-uMM0ka418g7Q13cP5JxL3oxCxiXPbLQzJZj9LRzQw')
 
         try:
             dbx.files_get_metadata(url + file)

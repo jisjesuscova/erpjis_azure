@@ -17,18 +17,48 @@
                                 <td></td>
                             </tr>
                         </thead>
-                        {% for document_type in document_types %}
+                        {% if current_user.rol_id == 1 %}
                             <tbody>
                                 <tr>
-                                    <td>{{ document_type['document_type'] }}</td>
+                                    <td>Certificado de Antigüedad</td>
                                     <td>
-                                        <a href="{{ url_for('document_requests.show') }}/{{ document_type['id'] }}" class="btn btn-warning">
+                                        <a href="{{ url_for('document_requests.show') }}/2" class="btn btn-warning">
                                             <i class="fa fa-arrow-right"></i>
                                         </a>
                                     </td>
                                 </tr>
                             </tbody>
-                        {% endfor %}
+                            <tbody>
+                                <tr>
+                                    <td>Papeleta de Vacaciones</td>
+                                    <td>
+                                        <a href="{{ url_for('document_requests.show') }}/4" class="btn btn-warning">
+                                            <i class="fa fa-arrow-right"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr>
+                                    <td>Horario Laboral</td>
+                                    <td>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        {% else %}
+                            {% for document_type in document_types %}
+                                <tbody>
+                                    <tr>
+                                        <td>{{ document_type['document_type'] }}</td>
+                                        <td>
+                                            <a href="{{ url_for('document_requests.show') }}/{{ document_type['id'] }}" class="btn btn-warning">
+                                                <i class="fa fa-arrow-right"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                        {% endif %}
                     </table>
                     <hr>
                 </div>

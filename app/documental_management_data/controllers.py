@@ -28,14 +28,16 @@ def create():
 
 @documental_management_datum.route("/human_resources/documental_management_data", methods=['GET'])
 @documental_management_datum.route("/human_resources/documental_management_data/<int:page>", methods=['GET'])
+@documental_management_datum.route("/human_resources/documental_management_data/<int:rut>", methods=['GET'])
 @documental_management_datum.route("/human_resources/documental_management_data/<int:rut>/<int:page>", methods=['GET'])
 def index(rut = '', page=1):
    documents_employees = KardexDatum.get(rut)
+   antiquity_certificate_documents_employees = DocumentEmployee.get_by_type(rut, 2)
 
-   return render_template('human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), documents_employees = documents_employees)
+   return render_template('human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), documents_employees = documents_employees, antiquity_certificate_documents_employees = antiquity_certificate_documents_employees)
 
 
-@documental_management_datum.route("/human_resources/documental_management_data/show/<int:rut><int:page>", methods=['GET'])
+@documental_management_datum.route("/human_resources/documental_management_data/show/<int:rut>/<int:page>", methods=['GET'])
 @documental_management_datum.route("/human_resources/documental_management_data/show", methods=['GET'])
 def show(rut, page=1):
    documents_employees = DocumentEmployee.get(rut, page)

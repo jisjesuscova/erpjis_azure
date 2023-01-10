@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, request, url_for
+from flask import Blueprint, render_template, redirect, request, url_for, flash
 from flask_login import login_required
 from app import app, regular_employee_rol_need
 from app.document_types.document_type import DocumentType
@@ -30,5 +30,7 @@ def show(id):
 def store():
    document_id = DocumentRequest.store(request.form)
    DocumentRequest.storebytype(document_id, request.form)
+
+   flash('Se ha solicitado el documento con éxito.', 'success')
 
    return redirect(url_for('documental_management_data.index'))

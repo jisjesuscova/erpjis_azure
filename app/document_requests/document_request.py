@@ -30,6 +30,8 @@ class DocumentRequest():
             db.session.add(document)
             db.session.commit()
 
+            return document
+
         elif data['document_type_id'] == '6':
             document = AbandonDayDocumentModel()
             document.document_employee_id = id
@@ -38,6 +40,8 @@ class DocumentRequest():
 
             db.session.add(document)
             db.session.commit()
+
+            return document
 
         elif data['document_type_id'] == '11':
             document = PuntualityAnnexedtDocumentModel()
@@ -48,7 +52,9 @@ class DocumentRequest():
             db.session.add(document)
             db.session.commit()
 
-        if data['document_type_id'] == '13':
+            return document
+
+        elif data['document_type_id'] == '13':
             document = LetterInformationModel()
             document.letter_type_id = id
             document.document_employee_id = 2
@@ -58,4 +64,7 @@ class DocumentRequest():
             db.session.add(document)
             db.session.commit()
 
-        return document
+            return document
+        
+        return str(1)
+        

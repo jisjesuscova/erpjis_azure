@@ -90,38 +90,7 @@
                         <!-- form end -->
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Extras</h3>
-                    </div>
-                    <div class="card-body">
-                        <!-- form start -->
-                        <form role="form" action="{{ url_for('personal_data.update') }}/{{ employee.rut }}" method="POST">
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Imagen</label>
-                                            <input type="file" value="" class="form-control" id="exampleInputEmail1" placeholder="Imagen" name="picture">
-                                        </div>
-                                    </div>
-                                </div>
-                               
-                            </div>
-
-                            <input type="hidden" value="{{ employee.rut }}" class="form-control" id="exampleInputEmail1" name="id">
-                            <!-- /.card-body -->
-
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Actualizar</button>
-
-                                <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
-                            </div>
-                        </form>
-                        <!-- form end -->
-                    </div>
-                </div>
+                
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Firma</h3>
@@ -154,38 +123,7 @@
                         <!-- form end -->
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Recuperar Contraseña</h3>
-                    </div>
-                    <div class="card-body">
-                        <!-- form start -->
-                        <form role="form" action="{{ url_for('personal_data.update') }}/{{ employee.id }}" method="POST">
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Recuperar Contraseña</label>
-                                            <input type="email" value="" class="form-control" id="exampleInputEmail1" placeholder="Correo de Recuperación" name="email">
-                                        </div>
-                                    </div>
-                                </div>
-                               
-                            </div>
-
-                            <input type="hidden" value="{{ employee.rut }}" class="form-control" id="exampleInputEmail1" name="id">
-                            <!-- /.card-body -->
-
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Actualizar</button>
-
-                                <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
-                            </div>
-                        </form>
-                        <!-- form end -->
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>

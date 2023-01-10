@@ -54,7 +54,7 @@ def delete(rut, id):
 
 @kardex_datum.route("/human_resources/kardex_datum/store", methods=['POST'])
 def store():
-   support = Dropbox.upload(request.form['rut'], '_kardex', request.files, "/kardex/", "C:/Users/jesus/OneDrive/Desktop/erp_jis_v1/erp_jis_v1/erp_jis/")
+   support = Dropbox.upload(request.form['rut'], '_kardex', request.files, "/flask_kardex/", "C:/Users/jesus/OneDrive/Desktop/erpjis_azure/")
    if support != 0:
       KardexDatum.store(request.form, support)
 

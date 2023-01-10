@@ -33,7 +33,7 @@ def show(rut):
 @personal_datum.route("/human_resources/personal_data", methods=['POST'])
 def update(rut):
    if len(request.files) != 0:
-      picture = Dropbox.upload(rut, "_photo", request.files, "/flask_user_photos/", "C:/Users/jesus/OneDrive/Desktop/erpjis_azure/")
+      picture = Dropbox.upload(rut, "_photo", request.files, "/flask_user_photos/", "C:/Users/jesus/OneDrive/Desktop/erpjis_azure/", 1)
       Employee.upload(rut, picture)
 
    Employee.update(request.form, rut)

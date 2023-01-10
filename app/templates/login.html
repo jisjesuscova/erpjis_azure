@@ -2,7 +2,7 @@
 {% block content %}
     <div class="login-box">
         <div class="login-logo">
-            
+            <img src="{{ url_for("static", filename="dist/img/logo.png") }}">
         </div>
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}

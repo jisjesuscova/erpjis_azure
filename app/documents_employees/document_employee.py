@@ -11,6 +11,12 @@ class DocumentEmployee():
         return documents_employees
 
     @staticmethod
+    def get_by_type(rut, type):
+        documents_employees = DocumentEmployeeModel.query.filter_by(rut=rut, document_type_id=type).all()
+        
+        return documents_employees
+
+    @staticmethod
     def store(data):
         document_employee = DocumentEmployeeModel()
         document_employee.status_id = data['status_id']
