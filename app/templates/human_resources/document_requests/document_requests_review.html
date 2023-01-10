@@ -8,7 +8,6 @@
                 <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0 text-dark">{{ title }}</h1>
-                    <a href="{{ url_for('documental_management_data.create') }}" class="btn btn-success">Solicitar</a>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -20,16 +19,7 @@
             </div><!-- /.container-fluid -->
         </div>
         <!-- /.content-header -->
-
-        {% if current_user.rol_id == 1 %}
-            {%  include 'layouts/general_documental_management_data_datatable.html' %}
-        {% elif current_user.rol_id == 3 %}
-        {%  include 'layouts/general_documental_management_data_datatable.html' %}
-        {% else %}
-            
-            {%  include 'layouts/documental_management_data_search_form.html' %}
-            {%  include 'layouts/documental_management_data_datatable.html' %}
-        {% endif %}
+        {%  include 'layouts/document_requests_review_form.html' %}
     </div>
 {% endblock %}
     

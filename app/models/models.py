@@ -479,7 +479,7 @@ class PrincipalModel(db.Model):
     updated_date = db.Column(db.DateTime())
 
 class SupervisorModel(db.Model):
-    __tablename__ = 'supervisor'
+    __tablename__ = 'supervisors'
 
     id = db.Column(db.Integer, primary_key=True)
     branch_office_id = db.Column(db.Integer)

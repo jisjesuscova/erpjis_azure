@@ -34,3 +34,14 @@ def store():
    flash('Se ha solicitado el documento con éxito.', 'success')
 
    return redirect(url_for('documental_management_data.index'))
+
+@document_request.route("/human_resources/document_request/detail/<int:rut>/<int:id>", methods=['GET'])
+@document_request.route("/human_resources/document_request/detail", methods=['GET'])
+def detail(rut = '', id = ''):
+   document_type = DocumentType.get(id, 2)
+   branch_offices = BranchOffice.get()
+   job_positions = JobPosition.get()
+   employee = Employee.get(rut)
+
+   return render_template('human_resources/document_requests/document_requests_review.html', document_type = document_type, branch_offices = branch_offices, job_positions = job_positions, employee = employee)
+

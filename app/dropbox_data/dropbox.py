@@ -19,7 +19,7 @@ class Dropbox():
         dropbox_path = dropbox_path + dropbox_file_name + "." + extesion[1]
         computer_path = computer_path + f.filename
 
-        dbx = dropbox.Dropbox('sl.BWmxlsapw_e8j2q2ikchD1qw6WDpvp3ZL7eHycHoeNEcLklx-07Bksk9hFz-U1FFxiBGtKVyRkfpeOGLqI_D4mn980Erv-uMM0ka418g7Q13cP5JxL3oxCxiXPbLQzJZj9LRzQw')
+        dbx = dropbox.Dropbox('sl.BWkutEtpskxI5POTNz9BbR2sT7kUrak-8wlS7UwumoCQLcEELgeBKfYH1riWAC7oMiYT9VKUINduCr9BXur0UnXByxW3bDUkV49kRB6QCi_geL4cakLwROWvPqeLjuFpkLswADc')
         if dbx.files_upload(open(computer_path, "rb").read(), dropbox_path):
             return dropbox_file_name + "." + extesion[1]
         else:
@@ -27,7 +27,7 @@ class Dropbox():
 
     @staticmethod
     def get(url, file):
-        dbx = dropbox.Dropbox('sl.BWmxlsapw_e8j2q2ikchD1qw6WDpvp3ZL7eHycHoeNEcLklx-07Bksk9hFz-U1FFxiBGtKVyRkfpeOGLqI_D4mn980Erv-uMM0ka418g7Q13cP5JxL3oxCxiXPbLQzJZj9LRzQw')
+        dbx = dropbox.Dropbox('sl.BWkutEtpskxI5POTNz9BbR2sT7kUrak-8wlS7UwumoCQLcEELgeBKfYH1riWAC7oMiYT9VKUINduCr9BXur0UnXByxW3bDUkV49kRB6QCi_geL4cakLwROWvPqeLjuFpkLswADc')
 
         try:
             dbx.files_get_metadata(url + file)

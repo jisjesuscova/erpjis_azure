@@ -36,6 +36,7 @@ def show(rut):
 
    return render_template('human_resources/contract_data/contract_data_update.html', contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types)
 
+
 @contract_datum.route("/human_resources/contract_data/<int:rut>", methods=['POST'])
 @contract_datum.route("/human_resources/contract_data", methods=['POST'])
 def update(rut):

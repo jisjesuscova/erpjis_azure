@@ -15,16 +15,26 @@
                             <tr>
                                 <th>RUT</th>
                                 <th>Empleado</th>
+                                <th>Documento</th>
+                                <th>Fecha</th>
+                                <th>Estatus</th>
                                 <td></td>
                             </tr>
                         </thead>
-                        {% for employee in employees.items %}
+                        {% for documents_employee in documents_employees.items %}
                             <tbody>
                                 <tr>
-                                    <td>{{ employee['rut'] }}</td>
-                                    <td>{{ employee['names'] }} {{ employee['father_lastname'] }} {{ employee['mother_lastname'] }}</td>
+                                    <td>{{ documents_employee['visual_rut'] }}</td>
+                                    <td>{{ documents_employee['nickname'] }}</td>
+                                    <td>{{ documents_employee['document_type'] }}</td>
+                                    <td>{{ documents_employee['added_date'] }}</td>
                                     <td>
-                                        <a href="{{ url_for('documental_management_data.show') }}/{{ employee['rut'] }}" class="btn btn-warning">
+                                        {% if documents_employee['status_id'] == 1 %}
+                                            <span class="badge badge-warning">En revisión</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{{ url_for('document_requests.detail') }}/{{ documents_employee['rut'] }}/{{ documents_employee['id'] }}" class="btn btn-warning">
                                             <i class="fa fa-eye"></i>
                                         </a>
                                     </td>
@@ -35,7 +45,7 @@
                         
                     </table>
                     <hr>
-                    {{ m_pagination(employees) }}
+                    {{ m_pagination(documents_employees) }}
                 </div>
             </div>
         </div>
