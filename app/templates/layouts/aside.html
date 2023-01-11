@@ -43,8 +43,17 @@
               <i class="nav-icon fas fa-paste"></i>
               <p>
                 Gestión Documental
+                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ url_for('settlement_data.uploaded') }}"  class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Liquidaciones</p>
+                </a>
+              </li>
+            </ul>
           </li>
           <li class="nav-item has-treeview menu-close">
             <a href="#" class="nav-link">

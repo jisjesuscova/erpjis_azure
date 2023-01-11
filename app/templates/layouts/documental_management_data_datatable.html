@@ -21,31 +21,54 @@
                                 <td></td>
                             </tr>
                         </thead>
-                        {% for documents_employee in documents_employees.items %}
+                        {% if documents_employees.items is defined %}
+                            {% for documents_employee in documents_employees.items %}
+                                <tbody>
+                                    <tr>
+                                        <td>{{ documents_employee['visual_rut'] }}</td>
+                                        <td>{{ documents_employee['nickname'] }}</td>
+                                        <td>{{ documents_employee['document_type'] }}</td>
+                                        <td>{{ documents_employee['added_date'] }}</td>
+                                        <td>
+                                            {% if documents_employee['status_id'] == 1 %}
+                                                <span class="badge badge-warning">En revisión</span>
+                                            {% endif %}
+                                            {% if documents_employee['status_id'] == 2 %}
+                                                <span class="badge badge-primary">Aceptado</span>
+                                            {% endif %}
+                                            {% if documents_employee['status_id'] == 3 %}
+                                                <span class="badge badge-danger">Firmado</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if documents_employee['status_id'] == 2 %}
+                                                <a href="{{ url_for('document_requests.download', id=documents_employee['id']) }}" class="btn btn-danger">
+                                                    <i class="fa fa-arrow-down"></i>
+                                                </a>
+                                            {% endif %}
+                                            {% if documents_employee['status_id'] == 1 %}
+                                                <a href="{{ url_for('document_requests.detail') }}/{{ documents_employee['rut'] }}/{{ documents_employee['id'] }}" class="btn btn-warning">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                        {% else %}
                             <tbody>
                                 <tr>
-                                    <td>{{ documents_employee['visual_rut'] }}</td>
-                                    <td>{{ documents_employee['nickname'] }}</td>
-                                    <td>{{ documents_employee['document_type'] }}</td>
-                                    <td>{{ documents_employee['added_date'] }}</td>
-                                    <td>
-                                        {% if documents_employee['status_id'] == 1 %}
-                                            <span class="badge badge-warning">En revisión</span>
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        <a href="{{ url_for('document_requests.detail') }}/{{ documents_employee['rut'] }}/{{ documents_employee['id'] }}" class="btn btn-warning">
-                                            <i class="fa fa-eye"></i>
-                                        </a>
-                                    </td>
+                                    <td colspan="6"><center>Debe primero realizar una busqueda</center></td>
                                 </tr>
                             </tbody>
-                        {% endfor %}
+                        {% endif %}
 
                         
                     </table>
                     <hr>
-                    {{ m_pagination(documents_employees) }}
+                    {% if documents_employees.items is defined %}
+                        {{ m_pagination(documents_employees) }}
+                    {% endif %}
                 </div>
             </div>
         </div>

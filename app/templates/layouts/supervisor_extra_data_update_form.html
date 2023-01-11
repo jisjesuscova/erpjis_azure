@@ -1,0 +1,50 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Datos Extras</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- form start -->
+                        <form role="form" action="{{ url_for('contract_data.update') }}/{{ rut }}" method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Tipo de Contrato</label>
+                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="contract_type_id">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for employee_type in employee_types %}
+                                                    <option value="{{ employee_type.id }}">{{ employee_type.employee_type }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Zona Extrema</label>
+                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="extreme_zone_id">
+                                                <option value="">- Seleccionar -</option>
+                                                <option value="1">Si</option>
+                                                <option value="0">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input type="hidden" value="{{ contract_datum.rut }}" class="form-control" id="exampleInputEmail1" name="rut">
+                            
+
+                        </form>
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

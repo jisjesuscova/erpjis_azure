@@ -70,8 +70,19 @@
                                             {% if antiquity_certificate_document_employee['status_id'] == 1 %}
                                                 <span class="badge badge-warning">En revisión</span>
                                             {% endif %}
+                                            {% if antiquity_certificate_document_employee['status_id'] == 2 %}
+                                                <span class="badge badge-primary">Aceptado</span>
+                                            {% endif %}
+                                            {% if antiquity_certificate_document_employee['status_id'] == 3 %}
+                                                <span class="badge badge-danger">Firmado</span>
+                                            {% endif %}
                                         </td>
                                         <td>
+                                            {% if antiquity_certificate_document_employee['status_id'] == 2 %}
+                                                <a href="{{ url_for('document_requests.download', id=antiquity_certificate_document_employee['id']) }}" class="btn btn-danger">
+                                                    <i class="fa fa-arrow-down"></i>
+                                                </a>
+                                            {% endif %}
                                             {% if antiquity_certificate_document_employee['status_id'] == 3 %}
                                                 <a href="{{ url_for('kardex_data.delete') }}/{{ antiquity_certificate_document_employee['rut']}}/{{ antiquity_certificate_document_employee['id']}}" class="btn btn-danger">
                                                     <i class="fa fa-times"></i>

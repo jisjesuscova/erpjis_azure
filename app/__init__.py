@@ -90,6 +90,7 @@ from app.clock_users.controllers import clock_user
 from app.clock_fingers.controllers import clock_finger
 from app.clocks.controllers import clock
 from app.home.controllers import home
+from app.employee_extra_data.controllers import employee_extra_datum
 
 app.register_blueprint(employee)
 app.register_blueprint(auth)
@@ -131,6 +132,7 @@ app.register_blueprint(clock_user)
 app.register_blueprint(clock_finger)
 app.register_blueprint(clock)
 app.register_blueprint(home)
+app.register_blueprint(employee_extra_datum)
 
 @app.route("/")
 def index():

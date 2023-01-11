@@ -1,5 +1,5 @@
 from flask import request
-from app.models.models import DocumentEmployeeModel, AbandonDayDocumentModel, LetterInformationModel, PuntualityAnnexedtDocumentModel
+from app.models.models import DocumentEmployeeModel, AbandonDayDocumentModel, InformationLetterModel, PuntualityAnnexedtDocumentModel
 from app import db
 from datetime import datetime
 
@@ -21,9 +21,9 @@ class DocumentRequest():
     @staticmethod
     def storebytype(id, data):
         if data['document_type_id'] == '1':
-            document = LetterInformationModel()
-            document.letter_type_id = id
-            document.document_employee_id = 1
+            document = InformationLetterModel()
+            document.letter_type_id = 1
+            document.document_employee_id = id
             document.description = data['description']
             document.added_date = datetime.now()
 

@@ -8,7 +8,6 @@
                 <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0 text-dark">{{ title }}</h1>
-                    <a href="{{ url_for('settlement_data.create') }}" class="btn btn-success">Agregar</a>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -21,7 +20,7 @@
         </div>
         <!-- /.content-header -->
 
-        {%  include 'layouts/settlement_data_datatable.html' %}
+        {%  include 'layouts/settlement_data_create_form.html' %}
     </div>
 {% endblock %}
     

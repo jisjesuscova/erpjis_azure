@@ -1,10 +1,12 @@
+{% from 'macro/_pagination.html' import m_pagination %}
+
 <section class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Datos</h3>
+                        <h3 class="card-title">Liquidaciones de Sueldo</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -22,7 +24,7 @@
                                     <td>{{ settlement['visual_rut'] }}</td>
                                     <td>{{ settlement['period'] }}</td>
                                     <td>
-                                        <a href="{{ url_for('settlement_data.download') }}/{{ settlement['rut'] }}/{{ period }}" class="btn btn-danger">
+                                        <a href="{{ url_for('settlement_data.uploaded_download') }}/{{ settlement['rut'] }}/{{ settlement['period'] }}" class="btn btn-danger">
                                             <i class="fa fa-arrow-down"></i>
                                         </a>
                                     </td>
@@ -32,6 +34,8 @@
 
                         
                     </table>
+                    <hr>
+                    {{ m_pagination(settlements) }}
                 </div>
             </div>
         </div>

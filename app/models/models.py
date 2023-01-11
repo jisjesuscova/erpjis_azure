@@ -18,6 +18,7 @@ class SettlementDatumModel(db.Model):
     __tablename__ = 'settlement_data'
 
     id = db.Column(db.Integer, primary_key=True)
+    document_employee_id = db.Column(db.Integer)
     rut = db.Column(db.Integer)
     visual_rut = db.Column(db.String(20))
     period = db.Column(db.String(20))
@@ -548,8 +549,8 @@ class PuntualityAnnexedtDocumentModel(db.Model, UserMixin):
     asignation = db.Column(db.Integer)
     added_date = db.Column(db.DateTime())
 
-class LetterInformationModel(db.Model, UserMixin):
-    __tablename__ = 'letter_informations'
+class InformationLetterModel(db.Model, UserMixin):
+    __tablename__ = 'information_letters'
 
     id = db.Column(db.Integer, primary_key=True)
     letter_type_id = db.Column(db.Integer)
@@ -581,6 +582,26 @@ class MedicalLicenseModel(db.Model, UserMixin):
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
+class EmployeeExtraModel(db.Model, UserMixin):
+    __tablename__ = 'employee_extras'
+
+    id = db.Column(db.Integer, primary_key=True)
+    contract_schedule_id = db.Column(db.Integer)
+    extreme_zone_id = db.Column(db.Integer)
+    employee_type_id = db.Column(db.Integer)
+    payment_type_id = db.Column(db.Integer)
+    regime_id = db.Column(db.Integer)
+    young_job_status_id = db.Column(db.Integer)
+    be_paid_id = db.Column(db.Integer)
+    suplemental_health_insurance_id = db.Column(db.Integer)
+    pensioner_id = db.Column(db.Integer)
+    signature_id = db.Column(db.Integer)
+    status_id = db.Column(db.Integer)
+    entrance_health = db.Column(db.Date())
+    entrance_pention = db.Column(db.Date())
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
 class MedicalLicenseTypeModel(db.Model, UserMixin):
     __tablename__ = 'medical_license_types'
 
@@ -602,6 +623,7 @@ class ClockAttendanceModel(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     uid = db.Column(db.Integer)
+    branch_office_id = db.Column(db.Integer)
     rut = db.Column(db.Integer)
     punch = db.Column(db.Integer)
     status = db.Column(db.Integer)

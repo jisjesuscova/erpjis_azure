@@ -22,6 +22,9 @@
         {% if current_user.rol_id == 1 %}
             {%  include 'layouts/collaborator_employee_navbar.html' %}
             {%  include 'layouts/collaborator_contract_data_update_form.html' %}
+        {% elif current_user.rol_id == 3 %}
+            {%  include 'layouts/supervisor_employee_navbar.html' %}
+            {%  include 'layouts/supervisor_contract_data_update_form.html' %}
         {% else %}
             {%  include 'layouts/employee_navbar.html' %}
             {%  include 'layouts/contract_data_update_form.html' %}

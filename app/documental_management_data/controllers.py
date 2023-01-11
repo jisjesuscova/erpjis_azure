@@ -45,7 +45,7 @@ def review(page=1):
 
 @documental_management_datum.route("/human_resources/documental_management_data/search/<int:page>", methods=['POST'])
 def search(page=1):
-   documents_employees = DocumentEmployee.get_by_supervisor(current_user.rut, page)
+   documents_employees = DocumentEmployee.get_by_supervisor(current_user.rut, page, request.form)
    branch_offices = BranchOffice.get()
 
    return render_template('human_resources/documental_management_data/review_documental_management_data.html', documents_employees = documents_employees, branch_offices = branch_offices)
