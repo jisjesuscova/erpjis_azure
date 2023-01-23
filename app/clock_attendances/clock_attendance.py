@@ -1,10 +1,13 @@
 from app.models.models import ClockAttendanceModel
 from app import db
+from app.clock_users.clock_user import ClockUser
 
 class ClockAttendance():
     def store(data):
+        clock_user = ClockUser.get(data['rut'])
+
         clock_attendance = ClockAttendanceModel()
-        clock_attendance.uid = data['uid']
+        clock_attendance.uid = clock_user.uid
         clock_attendance.rut = data['rut']
         clock_attendance.punch = data['punch']
         clock_attendance.status = data['status']

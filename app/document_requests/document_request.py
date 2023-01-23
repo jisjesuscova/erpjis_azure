@@ -2,6 +2,7 @@ from flask import request
 from app.models.models import DocumentEmployeeModel, AbandonDayDocumentModel, InformationLetterModel, PuntualityAnnexedtDocumentModel
 from app import db
 from datetime import datetime
+from app.vacations.vacation import Vacation
 
 class DocumentRequest():
     @staticmethod
@@ -10,7 +11,22 @@ class DocumentRequest():
         document_employee.status_id = data['status_id']
         document_employee.rut = data['rut']
         document_employee.document_type_id = data['document_type_id']
+        document_employee.support = ''
         document_employee.added_date = datetime.now()
+        document_employee.updated_date = datetime.now()
+
+        db.session.add(document_employee)
+        db.session.commit()
+        
+        return document_employee.id
+
+    @staticmethod
+    def status(id, data = [], status_id = ''):
+        if len(data) > 0:
+            Vacation.update('', id, data)
+
+        document_employee = DocumentEmployeeModel.query.filter_by(id=id).first()
+        document_employee.status_id = status_id
         document_employee.updated_date = datetime.now()
 
         db.session.add(document_employee)

@@ -1,0 +1,290 @@
+<section class="content">
+    <div class="container-fluid">
+      <!-- Info boxes -->
+        <div class="row">
+          <div class="col-md-12">
+              <!-- general form elements -->
+              <div class="card card-primary">
+                  <div class="card-header">
+                      <h3 class="card-title">Buscar</h3>
+                  </div>
+                  <!-- /.card-header -->
+                  <!-- form start -->
+                  <form role="form" action="">
+                      <div class="card-body">
+                          <div class="row">
+                              <div class="col-md-4">
+                                  <div class="form-group">
+                                    <label for="exampleInputEmail1">Sucursal</label>
+                                    <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="branch_office_id" name="branch_office_id">
+                                      <option value="">- Seleccionar -</option>
+                                      {% for branch_office in branch_offices %}
+                                        <option value="{{ branch_office.id }}">{{ branch_office.branch_office }}</option>
+                                      {% endfor %}
+                                    </select>
+                                  </div>
+                              </div>
+                              <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Turno</label>
+                                    <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="employee_id" id="group_id">
+                                      <option value="">- Seleccionar -</option>
+                                      <option value="1">Mañana</option>
+                                      <option value="2">Tarde</option>
+                                    </select>
+                                </div>
+                            </div>
+                              <div class="col-md-4">
+                                  <div class="form-group">
+                                      <label for="exampleInputEmail1">Empleado</label>
+                                      <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="employee_id" id="employee_id">
+                                        <option value="">- Seleccionar -</option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </form>
+                  <!-- form end -->
+              </div>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-4">
+                <div id='external-events'>
+                  <p class='free_days' style="display: none;">
+                    <strong>Libres</strong>
+                  </p>
+                  <div class='free_days' id="free_days" style="display: none;">
+                    <div class="fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event"><div class="fc-event-main"><center>Debe seleccionar el empleado</center></div></div>
+                  </div>
+                  <p class="select_turn">
+                    <strong>Turnos</strong>
+                  </p>
+                  <div id='turns' class="select_turn">
+                    <div class="fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event"><div class="fc-event-main"><center>Debe seleccionar el empleado</center></div></div>
+                  </div>
+                </div>
+                <input id="free_day_value" value="0" type="hidden">
+                <input id="week_value" value="0" type="hidden">
+            </div>
+            <div class="col-8">
+                <div id='calendar-container'>
+                    <div id='calendar'></div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-12">
+              <h1>Resumen</h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <table>
+              <tr>
+                <td id="1_week">
+                  Total
+                </td>
+              </tr>
+              <tr>
+                <td id="2_week">
+                  Total
+                </td>
+              </tr>
+              <tr>
+                <td id="3_week">
+                  Total
+                </td>
+              </tr>
+              <tr>
+                <td id="4_week">
+                  Total
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var Calendar = FullCalendar.Calendar;
+                var Draggable = FullCalendar.Draggable;
+
+                var containerEl = document.getElementById('external-events');
+                var calendarEl = document.getElementById('calendar');
+                var checkbox = document.getElementById('drop-remove');
+              
+                // initialize the external events
+                // -----------------------------------------------------------------
+
+                new Draggable(containerEl, {
+                  itemSelector: '#free_days > .fc-event',
+                  eventData: function(eventEl) {
+                    var duration = $('#free_days > .fc-event').attr('duration')
+                    duration = parseInt(duration)
+
+                    console.log(duration)
+                    return {
+                        title: eventEl.innerText,
+                        color: 'blue',
+                        duration: { 
+                          days: 1 
+                        }
+                    };
+                  }
+                });
+
+                new Draggable(containerEl, {
+                  itemSelector: '#turns > .fc-event',
+                  eventData: function(eventEl) {
+                    var duration = eventEl.innerText
+                    duration = duration.split(' ')
+                    duration = duration[8].split('x')
+                    duration = parseInt(duration[0])
+
+                    return {
+                        title: eventEl.innerText,
+                        color: 'red',
+                        duration: { 
+                          days: duration 
+                        }
+                    };
+                  }
+                });
+              
+                // initialize the calendar
+                // -----------------------------------------------------------------
+
+                const date = new Date();
+                
+                let day = date.getDate();
+                let month = date.getMonth() + 1;
+                let year = date.getFullYear();
+                var lastOfMonth = new Date( year, month, 0 )
+                lastOfMonth = lastOfMonth.toLocaleDateString("en-US")
+                var lastOfMonth = lastOfMonth.split("/");
+
+                let lastDate = `${year}-${month}-${lastOfMonth[1]}T23:59:00`;
+                let startDate = `${year}-${month}-${'01'}T00:00:00`;
+
+                var calendar = new Calendar(calendarEl, {
+                  firstDay: 1,
+                  headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth'
+                  },
+                  events: function (fetchInfo, successCallback, failureCallback) {
+                    jQuery.ajax({
+                      url: "https://apis.digital.gob.cl/fl/feriados/"+ date.getFullYear(),
+                      type: "GET",
+                      headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-Type':'application/json'
+                      },
+                      dataType: "jsonp",
+                      success: function (res) {
+                        var events = [];
+                        res.forEach(function (evt) {
+                          events.push({
+                            title: evt.nombre,
+                            start: evt.fecha,
+                            end: evt.fecha,
+                            display: "background",
+                          });
+                        });
+                        successCallback(events);
+                      },
+                    });
+                  },
+                  validRange: {
+                    start: startDate,
+                    end: lastDate
+                  },
+                  locale: 'es',
+                  editable: true,
+                  droppable: true,
+                  drop: function(info) {
+                    turn_id = info.draggedEl.innerText;
+                    turn_id = turn_id.split(' ');
+
+                    if(turn_id[0] != 'Día') {
+                      $(".free_days").removeAttr('style');
+                      $(".select_turn").attr('style', 'display:none');
+
+                      $.ajax({
+                        url: '/turns/free_days/'+ turn_id[1],
+                        type: 'GET',
+                        success: function(data) {
+                          data = JSON.parse(data)
+                          $('#free_days').empty();
+
+                          var free_day_value = $('#free_day_value').val(data[0].days);
+
+                          for (var i = 1; i <= data[0].days; ++i) {
+                            $('<div duration="1" class="fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event"><div class="fc-event-main"><center>Día libre N° '+ i +'</center></div></div>').appendTo('#free_days');
+                          }
+                        }
+                      });
+
+                      var formData = {
+                        employee_id: $("#employee_id").val(),
+                        turn_id: turn_id[1],
+                        start_date: info.dateStr,
+                      };
+
+                      var csrf_token = "{{ csrf_token() }}";
+
+                      $.ajax({
+                          url: '/turns/pre_store',
+                          headers: {
+                              "X-CSRFToken": csrf_token,
+                          },
+                          type: 'POST',
+                          data: formData,
+                          success: function(data) {
+                          }
+                      });
+
+
+                      $.ajax({
+                          url: '/turns/calculate/'+turn_id[1],
+                          headers: {
+                              "X-CSRFToken": csrf_token,
+                          },
+                          type: 'GET',
+                          success: function(data) {
+                            var old_free_day_value = $('#free_day_value').val();
+                            var free_day_value = old_free_day_value - 1;
+                            $('#free_day_value').val(free_day_value)
+
+                            var week_value = $('#week_value').val();
+                            
+                            if(free_day_value == 0) {
+                              $("#first_week").append(data);
+                            }
+                          }
+                      });
+                    } else {
+                      var old_free_day_value = $('#free_day_value').val();
+                      var free_day_value = old_free_day_value - 1;
+                      $('#free_day_value').val(free_day_value)
+
+                      if(free_day_value == 0) {
+                        $(".select_turn").removeAttr('style');
+                        $(".free_days").attr('style', 'display:none');
+                      }
+                    }
+                  },
+                  eventClick: function(event) {
+                    console.log(event)
+                  }
+                });
+              
+                calendar.render();
+              });
+        </script>
+    </div>
+</section>

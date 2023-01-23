@@ -1,9 +1,10 @@
 from datetime import datetime
-from app.models.models import VacationModel
+from app.models.models import VacationModel, DocumentEmployeeModel
 from app.hr_final_day_months.hr_final_day_month import HrFinalDayMonth
 import time
 from datetime import datetime
 import requests
+from app import db
 import json
 
 class Helper:
@@ -71,7 +72,10 @@ class Helper:
     
     @staticmethod
     def get_taken_days(rut):
-        vacations = VacationModel.query.filter_by(rut=rut).all()
+        vacations = VacationModel.query\
+                    .join(DocumentEmployeeModel, DocumentEmployeeModel.id == VacationModel.document_employee_id)\
+                    .add_columns(VacationModel.id, VacationModel.rut, VacationModel.since, VacationModel.until, VacationModel.days, DocumentEmployeeModel.status_id).filter(DocumentEmployeeModel.rut==rut, DocumentEmployeeModel.document_type_id==6, DocumentEmployeeModel.status_id==4).order_by(db.desc(DocumentEmployeeModel.added_date))
+
         taken_days = 0
 
         for vacation in vacations:

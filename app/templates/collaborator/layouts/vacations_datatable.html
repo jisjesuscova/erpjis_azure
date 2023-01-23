@@ -1,0 +1,84 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+            
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3>{{ legal }}</h3>
+                        <p>Feriado Legal</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-plane"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="small-box bg-danger">
+                    <div class="inner">
+                        <h3>{{ taken_days }}</h3>
+                        <p>Días Tomados</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-hand"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+            
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>{{ balance }}</h3>
+                        <p>Saldo</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-piggy-bank"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            Vacaciones
+                        </h3>
+                    </div>
+                    
+                        
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Desde</th>
+                                    <th>Hasta</th>
+                                    <th>Días</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            {% for vacation in vacations %}
+                                <tbody>
+                                    <tr>
+                                        <td>{{ vacation['since']|datetime("dd-MM-yyyy") }}</td>
+                                        <td>{{ vacation['until']|datetime("dd-MM-yyyy") }}</td>
+                                        <td>{{ vacation['days'] }}</td>
+                                        <td>
+                                            {% if vacation['support']|length != 0  %}
+                                                <a href="{{ url_for('vacations.download', id=vacation['id']) }}" class="btn btn-warning">
+                                                    <i class="fa fa-arrow-down"></i>
+                                                </a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</section>

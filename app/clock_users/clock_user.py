@@ -19,10 +19,15 @@ class ClockUser():
         return res
 
     @staticmethod
-    def get():
-        clock_users = ClockUserModel.query.all()
+    def get(rut = ''):
+        if rut != '':
+            clock_user = ClockUserModel.query.get(rut=rut).first()
 
-        return clock_users
+            return clock_user
+        else:
+            clock_users = ClockUserModel.query.all()
+
+            return clock_users
 
     @staticmethod
     def check(data):

@@ -15,8 +15,6 @@ class Pdf:
 
         pdf = pdfkit.from_string(rendered, False, configuration = config)
         
-        
-
         return pdf
 
     @staticmethod

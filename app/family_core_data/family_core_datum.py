@@ -15,14 +15,14 @@ class FamilyCoreDatum():
         else:
             family_core_data = FamilyCoreDatumModel.query\
             .join(FamilyTypeModel, FamilyTypeModel.id == FamilyCoreDatumModel.family_type_id)\
-            .add_columns(FamilyCoreDatumModel.id, FamilyCoreDatumModel.rut_user, FamilyCoreDatumModel.rut, FamilyCoreDatumModel.names, FamilyCoreDatumModel.born_date, FamilyTypeModel.family_type)\
+            .add_columns(FamilyCoreDatumModel.id, FamilyCoreDatumModel.rut_user, FamilyCoreDatumModel.rut, FamilyCoreDatumModel.names, FamilyCoreDatumModel.born_date, FamilyTypeModel.family_type, FamilyCoreDatumModel.support)\
             .filter(FamilyCoreDatumModel.rut_user==rut)\
             .all()
         
             return family_core_data
 
     @staticmethod
-    def store(data):
+    def store(data, support):
         numeric_rut = Helper.numeric_rut(data['rut'])
 
         family_core_data = FamilyCoreDatumModel()
@@ -34,7 +34,7 @@ class FamilyCoreDatum():
         family_core_data.father_lastname = data['father_lastname']
         family_core_data.mother_lastname = data['mother_lastname']
         family_core_data.born_date = data['born_date']
-        family_core_data.support = ''
+        family_core_data.support = support
         family_core_data.added_date = datetime.now()
 
         db.session.add(family_core_data)
@@ -46,7 +46,7 @@ class FamilyCoreDatum():
             return {'msg': 'Data could not be stored'}
 
     @staticmethod
-    def update(id, data):
+    def update(id, data, support = ''):
         numeric_rut = Helper.numeric_rut(data['rut'])
 
         family_core_data = FamilyCoreDatumModel.query.filter_by(id=id).first()
@@ -58,7 +58,7 @@ class FamilyCoreDatum():
         family_core_data.father_lastname = data['father_lastname']
         family_core_data.mother_lastname = data['mother_lastname']
         family_core_data.born_date = data['born_date']
-        family_core_data.support = ''
+        family_core_data.support = support
         family_core_data.updated_date = datetime.now()
 
         db.session.add(family_core_data)

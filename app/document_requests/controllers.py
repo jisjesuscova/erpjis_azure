@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, request, url_for, flash, send_file, make_response
-from flask_login import login_required
+from flask_login import login_required, current_user
 from app import app, regular_employee_rol_need
 from app.document_types.document_type import DocumentType
 from app.branch_offices.branch_office import BranchOffice
@@ -10,6 +10,8 @@ from app.employees.employee import Employee
 from app.employee_labor_data.employee_labor_datum import EmployeeLaborDatum
 from app.helpers.pdf import Pdf
 from app.information_letters.information_letter import InformationLetter
+from app.vacations.vacation import Vacation
+from app.dropbox_data.dropbox import Dropbox
 
 document_request = Blueprint("document_requests", __name__)
 
@@ -27,16 +29,43 @@ def show(id):
    job_positions = JobPosition.get()
    employees = Employee.get()
 
-   return render_template('human_resources/document_requests/document_requests_create.html', document_type = document_type, branch_offices = branch_offices, job_positions = job_positions, employees = employees)
+   if current_user.rol_id == 1:
+      return render_template('collaborator/human_resources/document_requests/document_requests_create.html', document_type = document_type, branch_offices = branch_offices, job_positions = job_positions, employees = employees, id = id)
+   elif current_user.rol_id == 2:
+      return render_template('incharge/human_resources/document_requests/document_requests_create.html', document_type = document_type, branch_offices = branch_offices, job_positions = job_positions, employees = employees, id = id)
+   elif current_user.rol_id == 3:
+      return render_template('supervisor/human_resources/document_requests/document_requests_create.html', document_type = document_type, branch_offices = branch_offices, job_positions = job_positions, employees = employees, id = id)
+   elif current_user.rol_id == 4:
+      return render_template('administrator/human_resources/document_requests/document_requests_create.html', document_type = document_type, branch_offices = branch_offices, job_positions = job_positions, employees = employees, id = id)
 
 @document_request.route("/human_resources/document_requests/store", methods=['POST'])
 def store():
    document_id = DocumentRequest.store(request.form)
-   DocumentRequest.storebytype(document_id, request.form)
+
+   if request.form['document_type_id'] == '6':
+
+      Vacation.store(request.form, document_id)
 
    flash('Se ha solicitado el documento con éxito.', 'success')
 
-   return redirect(url_for('documental_management_data.index'))
+   return redirect(url_for('documental_management_data.index', rut=request.form['rut']))
+
+@document_request.route("/human_resources/document_request/review/<id>", methods=['GET'])
+@document_request.route("/human_resources/document_request/review", methods=['POST'])
+def review(id = ''):
+   if id != '':
+      DocumentRequest.status(id, '', 5)
+   else:
+      id = request.form['id']
+      
+      if current_user.rol_id == 3:
+         DocumentRequest.status(id, request.form, 2)
+      else:
+         DocumentRequest.status(id, request.form, 3)
+
+   flash('Se ha aceptado el documento con éxito.', 'success')
+
+   return redirect(url_for('documental_management_data.review', page=1))
 
 @document_request.route("/human_resources/document_request/detail/<int:rut>/<int:id>", methods=['GET'])
 @document_request.route("/human_resources/document_request/detail", methods=['GET'])
@@ -51,6 +80,7 @@ def detail(rut = '', id = ''):
 @document_request.route("/human_resources/document_request/download/<int:id>", methods=['GET'])
 def download(id):
    document_employee = DocumentEmployee.get_by_id(id)
+
    if document_employee.document_type_id == 1:
       employee = Employee.get(document_employee.rut)
       information_letter = InformationLetter.get(document_employee.id)
@@ -58,17 +88,42 @@ def download(id):
       full_name = employee.names + " " + employee.father_lastname + " " + employee.mother_lastname
       rut = employee.visual_rut
       description = information_letter.description
-      data = [full_name, rut, description]
+
+      signature_exist = Dropbox.exist('/signature/', employee.signature)
+
+      if signature_exist == 1:
+   
+         signature = Dropbox.get('/signature/', employee.signature)
+   
+         data = [full_name, rut, description, signature]
+      else:
+         signature = ''
+
+         data = [full_name, rut, description, signature]
 
       pdf = Pdf.create_pdf('warning_letter', data)
-   elif document_employee.document_type_id == 2:
+   elif document_employee.document_type_id == 4:
       employee = Employee.get(document_employee.rut)
       employee_labor_datum = EmployeeLaborDatum.get(document_employee.rut)
 
       full_name = employee.names + " " + employee.father_lastname + " " + employee.mother_lastname
       rut = employee.visual_rut
-      entrance_company = employee_labor_datum.entrance_company
-      data = [full_name, rut, entrance_company]
+      entrance_company = str(employee_labor_datum.entrance_company)
+      entrance_company = entrance_company.split('-')
+      entrance_company = entrance_company[2] + "-" + entrance_company[1] + "-" + entrance_company[0]
+      signature = employee.signature
+
+      signature_exist = Dropbox.exist('/signature/', employee.signature)
+      
+      if signature_exist == 1:
+   
+         signature = Dropbox.get('/signature/', employee.signature)
+       
+         data = [full_name, rut, entrance_company, signature]
+      else:
+         signature = ''
+
+         data = [full_name, rut, entrance_company, signature]
 
       pdf = Pdf.create_pdf('antique_certification', data)
 

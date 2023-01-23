@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from flask_login import login_required
+from flask_login import login_required, current_user
 from app import app, regular_employee_rol_need
 from app.employees.employee import Employee
 from app.genders.gender import Gender
@@ -27,12 +27,31 @@ def show(rut):
    nationalities = Nationality.get()
    download_url = Dropbox.get('/flask_user_photos/', employee.picture)
 
-   return render_template('human_resources/personal_data/personal_data_update.html', employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum)
+   if employee.signature != None:
+      signature_exist = Dropbox.exist('/signature/', employee.signature)
+
+      if signature_exist == 1:
+         signature = Dropbox.get('/signature/', employee.signature)
+      else:
+         signature = ''
+   else:
+      signature_exist = 0
+      signature = ''
+
+   if current_user.rol_id == 1:
+      return render_template('collaborator/human_resources/personal_data/personal_data_update.html', employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature)
+   elif current_user.rol_id == 2:
+      return render_template('incharge/human_resources/personal_data/personal_data_update.html', employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature)
+   elif current_user.rol_id == 3:
+      return render_template('supervisor/human_resources/personal_data/personal_data_update.html', employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature)
+   elif current_user.rol_id == 4:
+      return render_template('administrator/human_resources/personal_data/personal_data_update.html', employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature)
 
 @personal_datum.route("/human_resources/personal_data/<int:rut>", methods=['POST'])
 @personal_datum.route("/human_resources/personal_data", methods=['POST'])
 def update(rut):
-   if len(request.files) != 0:
+   
+   if request.files['file'].filename != '':
       picture = Dropbox.upload(rut, "_photo", request.files, "/flask_user_photos/", "C:/Users/jesus/OneDrive/Desktop/erpjis_azure/", 1)
       Employee.upload(rut, picture)
 

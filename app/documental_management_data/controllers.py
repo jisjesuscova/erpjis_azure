@@ -1,11 +1,14 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 from app import app, regular_employee_rol_need
 from app.models.models import EmployeeModel
 from app.document_types.document_type import DocumentType
 from app.branch_offices.branch_office import BranchOffice
 from app.documents_employees.document_employee import DocumentEmployee
-from app.kardex_data.kardex_datum import KardexDatum
+from app.vacations.vacation import Vacation
+from app.employees.employee import Employee
+from app.dropbox_data.dropbox import Dropbox
+from datetime import datetime
 
 documental_management_datum = Blueprint("documental_management_data", __name__)
 
@@ -24,37 +27,100 @@ def create():
    else:
       document_types = DocumentType.get('', 2, '', '', '')
    
-   return render_template('human_resources/documental_management_data/documental_management_data_create.html', document_types = document_types)
+   if current_user.rol_id == 1:
+      return render_template('collaborator/human_resources/documental_management_data/documental_management_data_create.html', document_types = document_types)
+   elif current_user.rol_id == 2:
+      return render_template('incharge/human_resources/documental_management_data/documental_management_data_create.html', document_types = document_types)
+   elif current_user.rol_id == 3:
+      return render_template('supervisor/human_resources/documental_management_data/documental_management_data_create.html', document_types = document_types)
+   elif current_user.rol_id == 4:
+      return render_template('administrator/human_resources/documental_management_data/documental_management_data_create.html', document_types = document_types)
 
 @documental_management_datum.route("/human_resources/documental_management_data", methods=['GET'])
 @documental_management_datum.route("/human_resources/documental_management_data/<int:page>", methods=['GET'])
 @documental_management_datum.route("/human_resources/documental_management_data/<int:rut>", methods=['GET'])
 @documental_management_datum.route("/human_resources/documental_management_data/<int:rut>/<int:page>", methods=['GET'])
 def index(rut = '', page=1):
-   documents_employees = KardexDatum.get(rut)
-   antiquity_certificate_documents_employees = DocumentEmployee.get_by_type(rut, 2)
+   kardex_data = DocumentEmployee.get(rut, '', page, 1)
+   settlement_data = DocumentEmployee.get(rut, 5, page, '')
+   certificates = DocumentEmployee.get(rut, '', page, 2)
+   vacations = Vacation.get(rut, '', '')
 
-   return render_template('human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), documents_employees = documents_employees, antiquity_certificate_documents_employees = antiquity_certificate_documents_employees)
+   if current_user.rol_id == 1:
+      return render_template('collaborator/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations)
+   elif current_user.rol_id == 2:
+      return render_template('incharge/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations)
+   elif current_user.rol_id == 3:
+      return render_template('supervisor/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations)
+   elif current_user.rol_id == 4:
+      return render_template('administrator/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations)
 
 @documental_management_datum.route("/human_resources/documental_management_data/review/<int:page>", methods=['GET'])
 def review(page=1):
-   documents_employees = DocumentEmployee.get_by_supervisor(current_user.rut, page)
+   
    branch_offices = BranchOffice.get()
 
-   return render_template('human_resources/documental_management_data/review_documental_management_data.html', documents_employees = documents_employees, branch_offices = branch_offices)
+   if current_user.rol_id == 3:
+      documents_employees = DocumentEmployee.get_by_supervisor(current_user.rut, page)
+
+      return render_template('supervisor/human_resources/documental_management_data/review_documental_management_data.html', documents_employees = documents_employees, branch_offices = branch_offices)
+   elif current_user.rol_id == 4:
+      documents_employees = DocumentEmployee.get_by_administrator(current_user.rut, page)
+
+      return render_template('administrator/human_resources/documental_management_data/review_documental_management_data.html', documents_employees = documents_employees, branch_offices = branch_offices)
 
 @documental_management_datum.route("/human_resources/documental_management_data/search/<int:page>", methods=['POST'])
 def search(page=1):
-   documents_employees = DocumentEmployee.get_by_supervisor(current_user.rut, page, request.form)
    branch_offices = BranchOffice.get()
 
-   return render_template('human_resources/documental_management_data/review_documental_management_data.html', documents_employees = documents_employees, branch_offices = branch_offices)
+   if current_user.rol_id == 3:
+      documents_employees = DocumentEmployee.get_by_supervisor(current_user.rut, page, request.form)
 
+      return render_template('supervisor/human_resources/documental_management_data/review_documental_management_data.html', documents_employees = documents_employees, branch_offices = branch_offices)
+   elif current_user.rol_id == 4:
+      documents_employees = DocumentEmployee.get_by_administrator(current_user.rut, page, request.form)
 
-@documental_management_datum.route("/human_resources/documental_management_data/show/<int:rut>", methods=['GET'])
+      return render_template('administrator/human_resources/documental_management_data/review_documental_management_data.html', documents_employees = documents_employees, branch_offices = branch_offices)
+
+@documental_management_datum.route("/human_resources/documental_management_data/show/<int:id>", methods=['GET'])
 @documental_management_datum.route("/human_resources/documental_management_data/show", methods=['GET'])
-def show(rut, page=1):
-   documents_employees = DocumentEmployee.get(rut, page)
+def show(id, page=1):
 
-   return render_template('human_resources/document_requests/document_requests_review.html')
+   document_employee = DocumentEmployee.get_by_id(id)
+   document_type_id = document_employee.document_type_id
+   employee = Employee.get(document_employee.rut)
 
+   if document_type_id == 6:
+      vacation = Vacation.get_by_document(document_employee.id)
+   else:
+      vacation = ''
+
+   if current_user.rol_id == 3:
+      return render_template('supervisor/human_resources/document_requests/document_requests_review.html', document_employee = document_employee, document_type_id = document_type_id, vacation = vacation, employee = employee)
+   else:
+      return render_template('administrator/human_resources/document_requests/document_requests_review.html', document_employee = document_employee, document_type_id = document_type_id, vacation = vacation, employee = employee)
+
+@documental_management_datum.route("/human_resources/documental_management_data/signed/<int:rut>/<int:id>", methods=['GET'])
+def signed(rut, id):
+   return render_template('administrator/human_resources/documental_management_data/upload_signed_document.html', id = id, rut = rut)
+
+@documental_management_datum.route("/human_resources/documental_management_data/upload", methods=['POST'])
+def upload():
+   document_employee = DocumentEmployee.get_by_id(request.form['id'])
+   document_type = DocumentType.get(document_employee.document_type_id)
+
+   file_name = "_" + document_type.document_type + "_" + str(datetime.now())
+
+   if request.files['file'].filename != '':
+      support = Dropbox.sign(request.form['rut'], file_name, request.files, "/employee_documents/", "C:/Users/jesus/OneDrive/Desktop/erpjis_azure/")
+      DocumentEmployee.sign(request.form['id'], request.form['rut'], support)
+
+   return redirect(url_for('documental_management_data.review', page=1))
+ 
+@documental_management_datum.route("/human_resources/documental_management_data/download/<int:id>", methods=['GET'])
+def download(id):
+   document_employee = DocumentEmployee.get_by_id(id)
+   response = Dropbox.get('/employee_documents/', document_employee.support)
+
+   return redirect(response)
+ 

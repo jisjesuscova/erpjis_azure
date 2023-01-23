@@ -6,6 +6,7 @@ from config import DevConfig
 from flask_migrate import Migrate
 from flask_login import LoginManager, current_user, logout_user
 from functools import wraps
+from babel.dates import format_datetime
 
 app = Flask(__name__)
 app.config.from_object(DevConfig)
@@ -16,6 +17,7 @@ migrate = Migrate(app, db)
 login_manager = LoginManager(app)
 login_manager.init_app(app)
 login_manager.login_view = "auth.login"
+app.jinja_env.filters['datetime'] = format_datetime
 
 def rol_admin_need(f):
     @wraps(f)
@@ -70,7 +72,7 @@ from app.segment.controllers import segment
 from app.healths.controllers import health
 from app.pention.controllers import pention
 from app.region.controllers import region
-from app.communes.controllers import communes
+from app.communes.controllers import commune
 from app.statuses_group.controllers import statuses_group
 from app.statuses.controllers import statuses
 from app.vacations.controllers import vacation
@@ -91,6 +93,7 @@ from app.clock_fingers.controllers import clock_finger
 from app.clocks.controllers import clock
 from app.home.controllers import home
 from app.employee_extra_data.controllers import employee_extra_datum
+from app.signatures.controllers import signature
 
 app.register_blueprint(employee)
 app.register_blueprint(auth)
@@ -105,7 +108,7 @@ app.register_blueprint(segment)
 app.register_blueprint(health)
 app.register_blueprint(pention)
 app.register_blueprint(region)
-app.register_blueprint(communes)
+app.register_blueprint(commune)
 app.register_blueprint(statuses_group)
 app.register_blueprint(statuses)
 app.register_blueprint(civil_state)
@@ -133,6 +136,7 @@ app.register_blueprint(clock_finger)
 app.register_blueprint(clock)
 app.register_blueprint(home)
 app.register_blueprint(employee_extra_datum)
+app.register_blueprint(signature)
 
 @app.route("/")
 def index():

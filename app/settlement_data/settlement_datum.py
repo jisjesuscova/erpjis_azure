@@ -9,11 +9,17 @@ from app.helpers.helper import Helper
 class SettlementDatum():
     @staticmethod
     def get(period = '', page=''):
-        print(page)
+
         if period == '':
             settlements = SettlementDatumModel.query.paginate(page=page, per_page=20, error_out=False)
         else:
             settlements = SettlementDatumModel.query.filter_by(period=period).all()
+
+        return settlements
+
+    @staticmethod
+    def get_by_rut(rut, page):
+        settlements = SettlementDatumModel.query.filter_by(rut=rut).all()
 
         return settlements
 

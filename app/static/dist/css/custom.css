@@ -1,3 +1,26 @@
+@media screen and (min-width: 600px) {
+  .signature-pad {
+    width: 400px;
+  }
+}
+
+@media screen and (max-width: 599px) {
+  .signature-pad {
+    width: 200px;
+  }
+}
+
+
+.signature-pad {
+  border: 2px solid black;
+}
+
+.image-area-signature {
+  position: relative;
+  width: 80%;
+  background: #fff;
+}
+
 .image-area {
     position: relative;
     width: 80%;

@@ -1,6 +1,22 @@
 $(document).ready(function () {
     $('.rut').mask('99999999-9');
 
+    var signaturePad = new SignaturePad(document.getElementById('signature-pad'));
+
+    $('#save-button').click(function(){
+        var dataUrl = signaturePad.toDataURL();
+        $('#signature').val(dataUrl);
+
+        $.ajax({
+            type: "POST",
+            url: '/signature/store',
+            data: { signature: dataUrl },
+            success: function(response) {
+                window.location.href = 'http://127.0.0.1:5000/human_resources/personal_data/' + $('#rut').val();
+            }
+        });
+    });
+
     $('#branch_office_id').change(function() {
         $.ajax({
             url: 'branch_offices/employees/' + $(this).val(),

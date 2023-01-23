@@ -1,0 +1,262 @@
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="{{ url_for('home.index') }}" class="brand-link">
+      <img src="{{ url_for("static", filename="dist/img/logo.png") }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+           style="opacity: .8">
+      <span class="brand-text font-weight-light">ERP Jis</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-people-group"></i>
+              <p>
+                Recursos Humanos
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ url_for('employees.index') }}" class="nav-link">
+                  <i class="fas fa-user-group nav-icon"></i>
+                  <p>Trabajadores</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/index3" class="nav-link">
+                  <i class="fas fa-rectangle-list nav-icon"></i>
+                  <p>Honorarios</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="{{ url_for('documental_management_data.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-paste"></i>
+              <p>
+                Gestión Documental
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ url_for('documental_management_data.review', page=1) }}"  class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Colaboradores</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ url_for('documental_management_data.index') }}/{{ current_user.rut }}"  class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Personal</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ url_for('settlement_data.uploaded') }}"  class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Liquidaciones</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview menu-close">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-users-gear"></i>
+              <p>
+                Gestión Nomina
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ url_for('hr_employees.index') }}" class="nav-link">
+                  <i class="fas fa-user-gear nav-icon"></i>
+                  <p>Nomina</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ url_for('absence_days.index') }}" class="nav-link">
+                  <i class="fas fa-tag nav-icon"></i>
+                  <p>Ausentimos</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ url_for('hr_days.index') }}" class="nav-link">
+                  <i class="fas fa-calendar-day nav-icon"></i>
+                  <p>Días</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ url_for('hr_employee_inputs.index') }}" class="nav-link">
+                  <i class="fas fa-list-ol nav-icon"></i>
+                  <p>Ingresos Manuales</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ url_for('calculation_values.index') }}" class="nav-link">
+                  <i class="fas fa-calculator nav-icon"></i>
+                  <p>Procesos Calcular</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/index3" class="nav-link">
+                  <i class="fas fa-file-invoice nav-icon"></i>
+                  <p>Procesos Salida</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview menu-close">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-clock"></i>
+              <p>
+                Gestión Tiempo
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href=""  class="nav-link">
+                  <i class="far fa-hourglass-half nav-icon"></i>
+                  <p>Reloj Control</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ url_for('mesh_data.index') }}"  class="nav-link">
+                  <i class="far fa-calendar nav-icon"></i>
+                  <p>Malla Horaria</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview menu-close">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-gear"></i>
+              <p>
+                Datos Maestros
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ url_for('contract_types.index') }}"  class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Tipos de Contratos</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ url_for('genders.index') }}"  class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Genero</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ url_for('civil_states.index') }}"  class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Estado Civil</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ url_for('nationalities.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Nacionalidades</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{ url_for('zones.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Zonas</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{ url_for('principal.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Principal</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{ url_for('segment.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Segmento</p>
+                </a>
+              </li>
+
+              
+              <li class="nav-item">
+                <a href="{{ url_for('health.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Salud</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{ url_for('pention.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Pensiones AFP</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{ url_for('region.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Regiones</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{ url_for('communes.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Comunas</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{ url_for('statuses_group.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Grupo-Estados</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="{{ url_for('statuses.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Estados</p>
+                </a>
+              </li>
+
+            </ul>
+          </li>
+          <li class="nav-item ">
+            <a href="{{ url_for('personal_data.show') }}/{{ session['rut'] }}" class="nav-link">
+              <i class="nav-icon fas fa-circle-user"></i>
+              <p>
+                Datos Personales
+              </p>
+            </a>
+          </li>
+          <li class="nav-item has-treeview menu-close">
+            <a href="{{ url_for('auth.logout') }}" class="nav-link">
+              <i class="nav-icon fas fa-times"></i>
+              <p>
+                Salir
+              </p>
+            </a>
+            
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>

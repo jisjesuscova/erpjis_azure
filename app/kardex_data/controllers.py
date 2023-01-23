@@ -6,6 +6,7 @@ from app.kardex_data.kardex_datum import KardexDatum
 from app.document_types.document_type import DocumentType
 from app.dropbox_data.dropbox import Dropbox
 from datetime import datetime
+from app.documents_employees.document_employee import DocumentEmployee
 
 kardex_datum = Blueprint("kardex_data", __name__)
 
@@ -15,20 +16,19 @@ kardex_datum = Blueprint("kardex_data", __name__)
 def constructor():
    pass
 
+@kardex_datum.route("/human_resources/kardex_data/<int:rut>/<int:page>", methods=['GET'])
 @kardex_datum.route("/human_resources/kardex_data/<int:rut>", methods=['GET'])
-@kardex_datum.route("/human_resources/kardex_data", methods=['GET'])
-def index(rut):
-   documents_employees = KardexDatum.get(rut)
+def index(rut, page = 1):
+   kardex_data = DocumentEmployee.get(rut, '', page, 1)
 
-   return render_template('human_resources/kardex_data/kardex_data.html', documents_employees = documents_employees, rut = rut)
+   return render_template('administrator/human_resources/kardex_data/kardex_data.html', kardex_data = kardex_data, rut = rut)
 
-
-@kardex_datum.route("/human_resources/kardex_data/show/<int:rut>", methods=['GET'])
-@kardex_datum.route("/human_resources/kardex_data/show", methods=['GET'])
-def show(rut):
+@kardex_datum.route("/human_resources/kardex_data/create/<int:rut>", methods=['GET'])
+@kardex_datum.route("/human_resources/kardex_data/create", methods=['GET'])
+def create(rut):
    document_types = DocumentType.get('', 1, '', '')
 
-   return render_template('human_resources/kardex_data/kardex_data_create.html', rut = rut, document_types = document_types)
+   return render_template('administrator/human_resources/kardex_data/kardex_data_create.html', rut = rut, document_types = document_types)
 
 @kardex_datum.route("/human_resources/kardex_data/edit/<int:rut>/<int:id>", methods=['GET'])
 @kardex_datum.route("/human_resources/kardex_data/edit", methods=['GET'])
@@ -47,14 +47,31 @@ def update(rut, id):
 @kardex_datum.route("/human_resources/kardex_data/delete/<int:rut>/<int:id>", methods=['GET'])
 @kardex_datum.route("/human_resources/kardex_data/delete", methods=['GET'])
 def delete(rut, id):
-   KardexDatum.delete(id)
+   document_employee = DocumentEmployee.get_by_id(id)
+   
+   DocumentEmployee.delete(id)
+
+   Dropbox.delete('/employee_documents/', document_employee.support)
 
    return redirect(url_for('kardex_data.index', rut = rut))
+
+@kardex_datum.route("/human_resources/kardex_data/download/<int:id>", methods=['GET'])
+@kardex_datum.route("/human_resources/kardex_data/download", methods=['GET'])
+def download(id):
+   document_employee = DocumentEmployee.get_by_id(id)
+
+   response = Dropbox.get('/employee_documents/', document_employee.support)
+
+   return redirect(response)
 
 
 @kardex_datum.route("/human_resources/kardex_datum/store", methods=['POST'])
 def store():
-   support = Dropbox.upload(request.form['rut'], '_kardex', request.files, "/flask_kardex/", "C:/Users/jesus/OneDrive/Desktop/erpjis_azure/")
+   document_type = DocumentType.get(request.form['document_type_id'])
+
+   file_name = "_" + document_type.document_type + "_kardex"
+
+   support = Dropbox.upload(request.form['rut'], file_name, request.files, "/employee_documents/", "C:/Users/jesus/OneDrive/Desktop/erpjis_azure/")
    if support != 0:
       KardexDatum.store(request.form, support)
 

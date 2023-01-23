@@ -40,3 +40,4 @@ num2words==0.5.12
 pandas==1.5.2
 Flask-Mail==0.9.1
 pillow==9.4.0
+babel==7.10.0

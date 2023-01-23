@@ -1,0 +1,13 @@
+{%  include 'supervisor/layouts/header.html' %}
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        {%  include 'supervisor/layouts/navbar.html' %}
+        {%  include 'supervisor/layouts/aside.html' %}
+        
+        {% block content %}
+
+        {% endblock %}
+    </div>
+</body>
+{%  include 'supervisor/layouts/footer.html' %}

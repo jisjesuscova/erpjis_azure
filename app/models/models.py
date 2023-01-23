@@ -114,6 +114,27 @@ class EmployeeModel(db.Model):
     cellphone = db.Column(db.String(100))
     born_date = db.Column(db.Date())
     picture = db.Column(db.String(255))
+    signature = db.Column(db.String(255))
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
+class OldEmployeeModel(db.Model):
+    __tablename__ = 'old_employees'
+
+    id = db.Column(db.Integer, primary_key=True)
+    rut = db.Column(db.Integer)
+    visual_rut = db.Column(db.String(20))
+    names = db.Column(db.String(255))
+    father_lastname = db.Column(db.String(255))
+    mother_lastname = db.Column(db.String(255))
+    nickname = db.Column(db.String(255))
+    gender_id = db.Column(db.Integer)
+    nationality_id = db.Column(db.Integer)
+    personal_email = db.Column(db.String(255))
+    cellphone = db.Column(db.String(100))
+    born_date = db.Column(db.Date())
+    picture = db.Column(db.String(255))
+    signature = db.Column(db.String(255))
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
@@ -191,6 +212,7 @@ class EmployeeLaborDatumModel(db.Model):
     job_position_id = db.Column(db.Integer)
     extreme_zone_id = db.Column(db.Integer)
     employee_type_id = db.Column(db.Integer)
+    status_id = db.Column(db.Integer)
     address = db.Column(db.String(255))
     entrance_company  = db.Column(db.Date())
     exit_company  = db.Column(db.Date())
@@ -201,6 +223,32 @@ class EmployeeLaborDatumModel(db.Model):
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
+class OldEmployeeLaborDatumModel(db.Model):
+    __tablename__ = 'old_employee_labor_data'
+
+    id = db.Column(db.Integer, primary_key=True)
+    rut = db.Column(db.Integer)
+    visual_rut = db.Column(db.String(20))
+    contract_type_id = db.Column(db.Integer)
+    branch_office_id = db.Column(db.Integer)
+    region_id = db.Column(db.Integer)
+    commune_id = db.Column(db.Integer)
+    civil_state_id = db.Column(db.Integer)
+    health_id = db.Column(db.Integer)
+    pention_id = db.Column(db.Integer)
+    job_position_id = db.Column(db.Integer)
+    extreme_zone_id = db.Column(db.Integer)
+    employee_type_id = db.Column(db.Integer)
+    status_id = db.Column(db.Integer)
+    address = db.Column(db.String(255))
+    entrance_company  = db.Column(db.Date())
+    exit_company  = db.Column(db.Date())
+    salary = db.Column(db.Integer)
+    collation = db.Column(db.Integer)
+    locomotion = db.Column(db.Integer)
+    company_email = db.Column(db.String(255))
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
 
 class HrFinalDayMonthModel(db.Model):
     __tablename__ = 'hr_final_day_months'
@@ -298,12 +346,28 @@ class RegionModel(db.Model):
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
+class ContractScheduleModel(db.Model):
+    __tablename__ = 'contract_schedules'
+
+    id = db.Column(db.Integer, primary_key=True)
+    contract_schedule = db.Column(db.String(255))
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
 class CommunesModel(db.Model):
     __tablename__ = 'communes'
 
-    commune_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     region_id = db.Column(db.Integer)
     commune = db.Column(db.String(255))
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
+class SettingModel(db.Model):
+    __tablename__ = 'settings'
+
+    id = db.Column(db.Integer, primary_key=True)
+    dropbox_token = db.Column(db.Text)
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
@@ -586,17 +650,45 @@ class EmployeeExtraModel(db.Model, UserMixin):
     __tablename__ = 'employee_extras'
 
     id = db.Column(db.Integer, primary_key=True)
+    rut = db.Column(db.Integer)
+    visual_rut = db.Column(db.String(20))
     contract_schedule_id = db.Column(db.Integer)
     extreme_zone_id = db.Column(db.Integer)
     employee_type_id = db.Column(db.Integer)
-    payment_type_id = db.Column(db.Integer)
+    health_payment_type_id = db.Column(db.Integer)
     regime_id = db.Column(db.Integer)
     young_job_status_id = db.Column(db.Integer)
     be_paid_id = db.Column(db.Integer)
     suplemental_health_insurance_id = db.Column(db.Integer)
+    pention_id = db.Column(db.Integer)
     pensioner_id = db.Column(db.Integer)
-    signature_id = db.Column(db.Integer)
-    status_id = db.Column(db.Integer)
+    disability_id = db.Column(db.Integer)
+    progressive_vacation_status_id = db.Column(db.Integer)
+    health_id = db.Column(db.Integer)
+    entrance_health = db.Column(db.Date())
+    entrance_pention = db.Column(db.Date())
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
+class OldEmployeeExtraModel(db.Model, UserMixin):
+    __tablename__ = 'old_employee_extras'
+
+    id = db.Column(db.Integer, primary_key=True)
+    rut = db.Column(db.Integer)
+    visual_rut = db.Column(db.String(20))
+    contract_schedule_id = db.Column(db.Integer)
+    extreme_zone_id = db.Column(db.Integer)
+    employee_type_id = db.Column(db.Integer)
+    health_payment_type_id = db.Column(db.Integer)
+    regime_id = db.Column(db.Integer)
+    young_job_status_id = db.Column(db.Integer)
+    be_paid_id = db.Column(db.Integer)
+    suplemental_health_insurance_id = db.Column(db.Integer)
+    pention_id = db.Column(db.Integer)
+    pensioner_id = db.Column(db.Integer)
+    disability_id = db.Column(db.Integer)
+    progressive_vacation_status_id = db.Column(db.Integer)
+    health_id = db.Column(db.Integer)
     entrance_health = db.Column(db.Date())
     entrance_pention = db.Column(db.Date())
     added_date = db.Column(db.DateTime())
