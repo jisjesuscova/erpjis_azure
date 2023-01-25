@@ -100,6 +100,7 @@
                         </table>
                     </div>
                 </div>
+                
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Liquidación de Sueldo</h3>
@@ -120,16 +121,42 @@
                                         <td>Liquidación de Sueldo</td>
                                         <td>{{ settlement_datum['added_date']|datetime("MM-yyyy") }}</td>
                                         <td>
-                                            <a href="{{ url_for('settlement_data.uploaded_download', id=settlement_datum['id']) }}" class="btn btn-danger">
-                                                <i class="fa fa-arrow-down"></i>
-                                            </a>
+                                            {% if settlement_datum['status_id'] == 2 %}
+                                                <a href="#" class="btn btn-primary"  data-toggle="modal" data-target="#settlementModal{{ settlement_datum['id'] }}">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                            {% else %}
+                                                <a href="{{ url_for('settlement_data.sign', id=settlement_datum['id']) }}" class="btn btn-primary" >
+                                                    <i class="fa fa-arrow-down"></i>
+                                                </a>
+                                            {% endif %}
                                         </td>
                                     </tr>
                                 </tbody>
+                                <!-- Modal -->
+                                <div class="modal fade" id="settlementModal{{ settlement_datum['id'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Liquidación de sueldo</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <iframe src="{{ url_for("static", filename="dist/files/settlement_data/"+settlement_datum['support']) }}#toolbar=0&navpanes=0&scrollbar=0" width="100%" height="800"></iframe>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="{{ url_for('settlement_data.sign', id=settlement_datum['id']) }}" id="sign-button" class="btn btn-primary">Firmar</a>
+                                            <a href="#" class="btn btn-danger" data-dismiss="modal">Cerrar</a>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
                             {% endfor %}
                         </table>
                         <br>
-                        {{ m_pagination(settlement_data, current_user.rut) }}
                     </div>
                 </div>
                 <div class="card">
@@ -162,13 +189,21 @@
                                                 <span class="badge badge-primary">Aceptado</span>
                                             {% endif %}
                                             {% if vacation['status_id'] == 3 %}
-                                                <span class="badge badge-danger">Firmado</span>
+                                                <span class="badge badge-danger">En espera</span>
+                                            {% endif %}
+                                            {% if vacation['status_id'] == 4 %}
+                                                <span class="badge badge-success">Firmado</span>
                                             {% endif %}
                                         </td>
                                         <td>
-                                            {% if vacation['support']|length != 0  %}
-                                                <a href="{{ url_for('vacations.download', id=vacation['id']) }}" class="btn btn-warning">
+                                            {% if vacation['status_id'] == 4  %}
+                                                <a href="{{ url_for('document_requests.download', id=vacation['document_employee_id']) }}" class="btn btn-warning">
                                                     <i class="fa fa-arrow-down"></i>
+                                                </a>
+                                            {% endif %}
+                                            {% if vacation['status_id'] == 3  %}
+                                                <a href="{{ url_for('documental_management_data.signed', rut=vacation['rut'], id=vacation['document_employee_id']) }}" class="btn btn-success">
+                                                    <i class="fa fa-arrow-up"></i>
                                                 </a>
                                             {% endif %}
                                         </td>

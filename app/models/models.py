@@ -380,7 +380,6 @@ class StatusesModel(db.Model):
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
-
 class DocumentTypeModel(db.Model):
     __tablename__ = 'document_types'
 

@@ -65,9 +65,14 @@
                                         <td>{{ vacation['until']|datetime("dd-MM-yyyy") }}</td>
                                         <td>{{ vacation['days'] }}</td>
                                         <td>
-                                            {% if vacation['support']|length != 0  %}
-                                                <a href="{{ url_for('vacations.download', id=vacation['id']) }}" class="btn btn-warning">
+                                            {% if vacation['status_id'] == 4  %}
+                                                <a href="{{ url_for('document_requests.download', id=vacation['document_employee_id']) }}" class="btn btn-warning">
                                                     <i class="fa fa-arrow-down"></i>
+                                                </a>
+                                            {% endif %}
+                                            {% if vacation['status_id'] == 3  %}
+                                                <a href="{{ url_for('documental_management_data.signed', rut=vacation['rut'], id=vacation['document_employee_id']) }}" class="btn btn-success">
+                                                    <i class="fa fa-arrow-up"></i>
                                                 </a>
                                             {% endif %}
                                         </td>

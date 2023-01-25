@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, request, url_for
+from flask import Blueprint, render_template, redirect, request, url_for, make_response, send_file
 from flask_login import login_required, current_user
 from app import regular_employee_rol_need
 from app.settlement_data.settlement_datum import SettlementDatum
@@ -7,6 +7,7 @@ from app.hr_employee_inputs.hr_employee_input import HrEmployeeInput
 from app.dropbox_data.dropbox import Dropbox
 from app.helpers.helper import Helper
 from app.documents_employees.document_employee import DocumentEmployee
+from app.helpers.helper import Helper
 
 settlement_datum = Blueprint("settlement_data", __name__)
 
@@ -20,15 +21,22 @@ def constructor():
 @settlement_datum.route("/management_payroll/settlement_data/<int:rut>", methods=['GET'])
 @settlement_datum.route("/management_payroll/settlement_data", methods=['GET'])
 def index(rut = '', page = 1):
-    documents_employees = DocumentEmployee.get(rut, 5, page, '')
-
+    
     if current_user.rol_id == 1:
+        documents_employees = DocumentEmployee.get_by_type(rut, 5, page)
+
         return render_template('collaborator/management_payrolls/settlement_data/settlement_data_download.html', documents_employees = documents_employees, rut = rut)
     elif current_user.rol_id == 2:
+        documents_employees = DocumentEmployee.get_by_type(rut, 5, page)
+
         return render_template('incharge/management_payrolls/settlement_data/settlement_data_download.html', documents_employees = documents_employees, rut = rut)
     elif current_user.rol_id == 3:
+        documents_employees = DocumentEmployee.get_by_type(rut, 5, page)
+
         return render_template('supervisor/management_payrolls/settlement_data/settlement_data_download.html', documents_employees = documents_employees, rut = rut)
     elif current_user.rol_id == 4:
+        documents_employees = DocumentEmployee.get_by_type('', 5, page)
+
         return render_template('administrator/management_payrolls/settlement_data/settlement_data_download.html', documents_employees = documents_employees, rut = rut)
 
 @settlement_datum.route("/management_payroll/settlement_data/uploaded/<int:page>", methods=['GET'])
@@ -63,18 +71,38 @@ def upload_store():
 
     for file in files:
         detail = Helper.split(file.filename, '_')
-        filename = Dropbox.upload(detail[3] + "_" + str(month) + "-" + str(year), "_settlement", request.files, "/salary_settlements/", "C:/Users/jesus/OneDrive/Desktop/erpjis_azure/", 0)
+        filename = Dropbox.upload_local_cloud(detail[3] + "_" + str(month) + "-" + str(year), "_settlement", request.files, "/salary_settlements/", "app/static/dist/files/settlement_data/", 0)
         DocumentEmployee.store_by_dropbox(detail[3], filename, 5, 2, period)
     
     return redirect(url_for('settlement_data.uploaded'))
 
 @settlement_datum.route("/management_payroll/settlement_data/uploaded/download/<int:id>", methods=['GET'])
 def uploaded_download(id):
-    document_employee = DocumentEmployee.get_by_id(id)
+    settlement_datum = SettlementDatum.download(id)
 
-    response = Dropbox.get('/salary_settlements/', document_employee.support)
+    with open('app/static/dist/files/settlement_data/' + settlement_datum, 'rb') as f:
+        data = f.read()
 
-    return redirect(response)
+    response = make_response(data)
+    response.headers['Content-Disposition'] = 'attachment; filename=' + settlement_datum
+    response.headers['Content-Type'] = 'application/pdf'
+
+    return response
+
+
+@settlement_datum.route("/management_payroll/settlement_data/uploaded/sign/<int:id>", methods=['GET'])
+def sign(id):
+    settlement_datum = SettlementDatum.download(id)
+
+    with open('app/static/dist/files/settlement_data/' + settlement_datum, 'rb') as f:
+        data = f.read()
+
+    response = make_response(data)
+    response.headers['Content-Disposition'] = 'attachment; filename=' + settlement_datum
+    response.headers['Content-Type'] = 'application/pdf'
+
+    return response
+
 
 @settlement_datum.route("/management_payroll/settlement_data/download/<rut>/<period>", methods=['GET'])
 @settlement_datum.route("/management_payroll/settlement_data/download", methods=['GET'])

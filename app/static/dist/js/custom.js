@@ -1,4 +1,10 @@
 $(document).ready(function () {
+    $('#sign-button').prop("disabled", true);
+    
+    $(".modal").on("hidden.bs.modal", function() {
+        location.reload();
+    });
+
     $('.rut').mask('99999999-9');
 
     var signaturePad = new SignaturePad(document.getElementById('signature-pad'));

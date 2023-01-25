@@ -43,7 +43,6 @@
                     <div class="card-header">
                         <h3 class="card-title">
                             Vacaciones
-                            <a href="{{ url_for('vacations.create') }}/{{ rut }}" class="btn btn-success">Agregar</a>
                         </h3>
                     </div>
                     
@@ -66,12 +65,14 @@
                                         <td>{{ vacation['until']|datetime("dd-MM-yyyy") }}</td>
                                         <td>{{ vacation['days'] }}</td>
                                         <td>
-                                            <a href="{{ url_for('vacations.delete', rut=vacation['rut'], id=vacation['document_employee_id']) }}" class="btn btn-danger">
-                                                <i class="fa fa-times"></i>
-                                            </a>
-                                            {% if vacation['status_id'] == 4 %}
-                                                <a href="{{ url_for('vacations.download', id=vacation['document_employee_id']) }}" class="btn btn-success">
+                                            {% if vacation['status_id'] == 4  %}
+                                                <a href="{{ url_for('document_requests.download', id=vacation['document_employee_id']) }}" class="btn btn-warning">
                                                     <i class="fa fa-arrow-down"></i>
+                                                </a>
+                                            {% endif %}
+                                            {% if vacation['status_id'] == 3  %}
+                                                <a href="{{ url_for('documental_management_data.signed', rut=vacation['rut'], id=vacation['document_employee_id']) }}" class="btn btn-success">
+                                                    <i class="fa fa-arrow-up"></i>
                                                 </a>
                                             {% endif %}
                                         </td>
@@ -84,6 +85,5 @@
             </div>
         </div>
         
-    </div>
     </div>
 </section>

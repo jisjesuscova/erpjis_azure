@@ -9,9 +9,20 @@
                     <!-- /.card-header -->
                     <div class="card-body">
                         <!-- form start -->
-                        <form role="form" action="{{ url_for('vacations.store') }}/{{ rut }}" method="POST" enctype="multipart/form-data">
+                        <form role="form" action="{{ url_for('vacations.store') }}" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                             <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="exampleInputEmail1">Empleado</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="rut">
+                                            <option value="1">- Seleccionar -</option>
+                                            {% for employee in employees %}
+                                                <option value="{{ employee.rut }}">{{ employee.nickname }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -36,8 +47,8 @@
                             <!-- /.card-body -->
 
                             <input type="hidden" value="{{ rut }}" class="form-control" id="exampleInputEmail1" name="rut">
-                            <input type="hidden" value="4" class="form-control" id="exampleInputEmail1" name="document_type_id">
-                            <input type="hidden" value="1" class="form-control" id="exampleInputEmail1" name="status_id">
+                            <input type="hidden" value="6" class="form-control" id="exampleInputEmail1" name="document_type_id">
+                            <input type="hidden" value="3" class="form-control" id="exampleInputEmail1" name="status_id">
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-primary">Guardar</button>
 

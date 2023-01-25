@@ -5,13 +5,26 @@ from werkzeug.utils import secure_filename
 
 class Pdf:
     @staticmethod
-    def create_pdf(file_name, data):
+    def create_pdf(file_name, data, multiple_data = ''):
         path_wkhtmltopdf = 'C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe'
         config = pdfkit.configuration(wkhtmltopdf = path_wkhtmltopdf)
 
         template_path = 'pdfs/' + str(file_name) + '.html'
 
-        rendered = render_template(template_path, data = data, root = 'http://127.0.0.1:5000/')
+        rendered = render_template(template_path, data = data, root = 'http://127.0.0.1:5000/', multiple_data = multiple_data)
+
+        pdf = pdfkit.from_string(rendered, False, configuration = config)
+        
+        return pdf
+
+    @staticmethod
+    def create_vacation_pdf(file_name, data, multiple_data = '', total_data = ''):
+        path_wkhtmltopdf = 'C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe'
+        config = pdfkit.configuration(wkhtmltopdf = path_wkhtmltopdf)
+
+        template_path = 'pdfs/' + str(file_name) + '.html'
+
+        rendered = render_template(template_path, data = data, root = 'http://127.0.0.1:5000/', multiple_data = multiple_data, total_data = total_data)
 
         pdf = pdfkit.from_string(rendered, False, configuration = config)
         

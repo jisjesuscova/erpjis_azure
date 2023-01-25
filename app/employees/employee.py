@@ -13,7 +13,7 @@ class Employee():
             return employees
         else:
             if rut == '':
-                employees = EmployeeModel.query.order_by('rut').all()
+                employees = EmployeeModel.query.order_by('nickname').all()
 
                 return employees
             else:

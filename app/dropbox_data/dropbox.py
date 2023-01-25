@@ -3,6 +3,7 @@ from PIL import Image
 from dropbox.exceptions import AuthError, ApiError
 from app.settings.setting import Setting
 from flask_login import current_user
+from datetime import datetime
 
 class Dropbox():
     @staticmethod
@@ -26,6 +27,30 @@ class Dropbox():
         dbx = dropbox.Dropbox(settings.dropbox_token)
         if dbx.files_upload(open(computer_path, "rb").read(), dropbox_path):
             return dropbox_file_name + "." + extesion[1]
+        else:
+            return 0
+
+    def upload_local_cloud(name = '', description = '', data = '', dropbox_path = '', computer_path = '', resize = 0):
+        settings = Setting.get()
+
+        f = data['file']
+
+        extesion = f.filename.split('.')
+        dropbox_file_name = str(name) + str(description) + "_" + str(datetime.now().date()) + "." + extesion[1]
+
+        if resize  == 1:
+            image = Image.open(f)
+            image = image.resize((200, 200))
+            image.save(f.filename)
+        else:
+            f.save(computer_path + dropbox_file_name)
+
+        dropbox_path = dropbox_path + dropbox_file_name
+        computer_path = computer_path + dropbox_file_name
+
+        dbx = dropbox.Dropbox(settings.dropbox_token)
+        if dbx.files_upload(open(computer_path, "rb").read(), dropbox_path):
+            return dropbox_file_name
         else:
             return 0
 
@@ -69,10 +94,15 @@ class Dropbox():
 
     @staticmethod
     def signature(file = ''):
+       
         settings = Setting.get()
 
         dbx = dropbox.Dropbox(settings.dropbox_token)
         file_name = '/signature/'+ str(current_user.rut) +'.png'
+ 
+        with open('app/static/dist/files/signature_data/' + str(current_user.rut) +'.png', "wb") as f:
+            f.write(file)
+
         if dbx.files_upload(file, file_name, mode=dropbox.files.WriteMode('overwrite')):
             return  str(current_user.rut) +'.png'
         else:

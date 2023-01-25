@@ -1,0 +1,73 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Crear finiquito</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- form start -->
+                        <form role="form" action="{{ url_for('end_document.store') }}" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Estatus</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="status_id" required>
+                                                <option value="">- Seleccionar -</option>
+                                                <option value="1">Voluntario</option>
+                                                <option value="2">Desvinculado</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Causal</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="causal_id" required>
+                                                <option value="">- Seleccionar -</option>
+                                                <option value="1">Art. 159. Inciso 1. Mutuo acuerdo de las partes</option>
+                                                <option value="2">Art. 159. Inciso 2. Renuncia del trabajador</option>
+                                                <option value="3">Art. 159. Inciso 3. Muerte del trabajador</option>
+                                                <option value="4">Art. 159. Inciso 4. Vencimiento del plazo convenido del contrato</option>
+                                                <option value="5">Art. 159. Inciso 5. Conclusión del trabajo que dio inicio al contrato</option>
+                                                <option value="6">Art. 159. Inciso 6. Caso fortuito o fuerza mayor</option>
+                                                <option value="7">Art. 160. Inciso 1. Letra A. Falta de probidad</option>
+                                                <option value="8">Art. 160. Inciso 1. Letra B. Conductas de acoso sexual</option>
+                                                <option value="9">Art. 160. Inciso 1. Letra C. Vías de hecho</option>
+                                                <option value="10">Art. 160. Inciso 1. Letra D. Injurias</option>
+                                                <option value="11">Art. 160. Inciso 1. Letra E. Conducta inmoral</option>
+                                                <option value="12">Art. 160. Inciso 1. Letra F. Conductas de acoso laboral</option>
+                                                <option value="13">Art. 160. Inciso 2. Negociaciones prohibidas por escrito</option>
+                                                <option value="14">Art. 160. Inciso 3. No concurrencia a las labores</option>
+                                                <option value="15">Art. 160. Inciso 4. Abandono de trabajo</option>
+                                                <option value="16">Art. 160. Inciso 5. Actos, omisiones o imprudencias temerarias</option>
+                                                <option value="17">Art. 160. Inciso 6. Perjuicio material ocasionado intencionalmente</option>
+                                                <option value="18">Art. 160. Inciso 7. Incumplimiento grave de las obligaciones</option>
+                                                <option value="19">Art. 161. Inciso 1. Necesidades de la empresa</option>
+                                                <option value="20">Art. 161. Inciso 2. Desahucio escrito del empleador</option>
+                                                <option value="21">Art. 163. Procedimiento concursal de liquidación</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+
+                            <input type="hidden" value="{{ rut }}" class="form-control" id="exampleInputEmail1" name="rut">
+                            
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+
+                                <a href="{{ url_for('family_core_data.index', rut=rut) }}" class="btn btn-secondary">Cancelar</a>
+                            </div>
+                        </form>
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

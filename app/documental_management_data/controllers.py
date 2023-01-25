@@ -43,7 +43,7 @@ def create():
 def index(rut = '', page=1):
    kardex_data = DocumentEmployee.get(rut, '', page, 1)
    settlement_data = DocumentEmployee.get(rut, 5, page, '')
-   certificates = DocumentEmployee.get(rut, '', page, 2)
+   certificates = DocumentEmployee.get_by_type(rut, 4, page, [], 2)
    vacations = Vacation.get(rut, '', '')
 
    if current_user.rol_id == 1:
@@ -102,7 +102,14 @@ def show(id, page=1):
 
 @documental_management_datum.route("/human_resources/documental_management_data/signed/<int:rut>/<int:id>", methods=['GET'])
 def signed(rut, id):
-   return render_template('administrator/human_resources/documental_management_data/upload_signed_document.html', id = id, rut = rut)
+   if current_user.rol_id == 1:
+      return render_template('collaborator/human_resources/documental_management_data/upload_signed_document.html', id = id, rut = rut)
+   elif current_user.rol_id == 2:
+      return render_template('incharge/human_resources/documental_management_data/upload_signed_document.html', id = id, rut = rut)
+   elif current_user.rol_id == 3:
+      return render_template('supervisor/human_resources/documental_management_data/upload_signed_document.html', id = id, rut = rut)
+   elif current_user.rol_id == 4:
+      return render_template('administrator/human_resources/documental_management_data/upload_signed_document.html', id = id, rut = rut)
 
 @documental_management_datum.route("/human_resources/documental_management_data/upload", methods=['POST'])
 def upload():
@@ -115,7 +122,14 @@ def upload():
       support = Dropbox.sign(request.form['rut'], file_name, request.files, "/employee_documents/", "C:/Users/jesus/OneDrive/Desktop/erpjis_azure/")
       DocumentEmployee.sign(request.form['id'], request.form['rut'], support)
 
-   return redirect(url_for('documental_management_data.review', page=1))
+   if current_user.rol_id == 1:
+      return redirect(url_for('documental_management_data.index', rut=request.form['rut']))
+   if current_user.rol_id == 2:
+      return redirect(url_for('documental_management_data.index', rut=request.form['rut']))
+   if current_user.rol_id == 3:
+      return redirect(url_for('documental_management_data.index', rut=request.form['rut']))
+   elif current_user.rol_id == 4:
+      return redirect(url_for('documental_management_data.review', page=1))
  
 @documental_management_datum.route("/human_resources/documental_management_data/download/<int:id>", methods=['GET'])
 def download(id):

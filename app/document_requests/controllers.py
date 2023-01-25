@@ -127,8 +127,43 @@ def download(id):
 
       pdf = Pdf.create_pdf('antique_certification', data)
 
-   response = make_response(pdf)
-   response.headers['Content-Type'] = 'application/pdf'
-   response.headers['Content-Disposition'] = 'attachment; filename=document.pdf'
+      response = make_response(pdf)
+      response.headers['Content-Type'] = 'application/pdf'
+      response.headers['Content-Disposition'] = 'attachment; filename=document.pdf'
+
+   elif document_employee.document_type_id == 6:
+      employee = Employee.get(document_employee.rut)
+      employee_labor_datum = EmployeeLaborDatum.get(document_employee.rut)
+
+      full_name = employee.names + " " + employee.father_lastname + " " + employee.mother_lastname
+      rut = employee.visual_rut
+      entrance_company = str(employee_labor_datum.entrance_company)
+      entrance_company = entrance_company.split('-')
+      entrance_company = entrance_company[2] + "-" + entrance_company[1] + "-" + entrance_company[0]
+      legal = Vacation.legal(document_employee.rut)
+      taken_days = Vacation.taken_days(document_employee.rut)
+      balance = Vacation.balance(legal, taken_days)
+      signature = employee.signature
+
+      vacations = Vacation.get_by_major(document_employee.rut, '', 2, 10)
+
+      total_vacations = Vacation.get_total(document_employee.rut, 2)
+
+      signature_exist = Dropbox.exist('/signature/', employee.signature)
+      
+      if signature_exist == 1:
+         signature = Dropbox.get('/signature/', employee.signature)
+       
+         data = [full_name, rut, entrance_company, signature, legal, taken_days, balance]
+      else:
+         signature = ''
+
+         data = [full_name, rut, entrance_company, signature, legal, taken_days, balance]
+
+      pdf = Pdf.create_vacation_pdf('vacation', data, vacations, total_vacations)
+
+      response = make_response(pdf)
+      response.headers['Content-Type'] = 'application/pdf'
+      response.headers['Content-Disposition'] = 'attachment; filename=document.pdf'
 
    return response

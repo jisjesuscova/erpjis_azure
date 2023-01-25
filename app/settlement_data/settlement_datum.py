@@ -1,10 +1,15 @@
 from flask import request
-from app.models.models import SettlementDatumModel
+from app.models.models import SettlementDatumModel, DocumentEmployeeModel, EmployeeModel
 from app.hr_employee_inputs.hr_employee_input import HrEmployeeInput
 from app.employees.employee import Employee
 from app import db
 from datetime import datetime
 from app.helpers.helper import Helper
+import fitz
+from PIL import Image
+import os
+import dropbox
+from app.settings.setting import Setting
 
 class SettlementDatum():
     @staticmethod
@@ -66,6 +71,43 @@ class SettlementDatum():
                 return settlement_datum
             except Exception as e:
                 return {'msg': 'Data could not be stored'}
+
+    @staticmethod
+    def download(id):
+        settlement_datum = DocumentEmployeeModel.query.filter_by(id = id).first()
+
+        support = settlement_datum.support
+
+        word_to_find = 'signed'
+        
+        count = support.count(word_to_find)
+
+        if count == 0:
+            employee = EmployeeModel.query.filter_by(rut = settlement_datum.rut).first()
+            
+            with fitz.open('app/static/dist/files/settlement_data/' + settlement_datum.support) as pdf_document:
+                img_rect = fitz.Rect(300, 550, 600, 650)
+                page = pdf_document[0]
+                page.insert_image(img_rect, filename='app/static/dist/files/signature_data/' + employee.signature)
+
+                pdf_document.save('app/static/dist/files/settlement_data/signed_' +settlement_datum.support)
+
+            settings = Setting.get()
+
+            dbx = dropbox.Dropbox(settings.dropbox_token)
+
+            with open('app/static/dist/files/settlement_data/signed_' +settlement_datum.support, 'rb') as f:
+                dbx.files_upload(f.read(), '/salary_settlements/signed_' +settlement_datum.support, mode=dropbox.files.WriteMode.overwrite)
+
+            os.remove('app/static/dist/files/settlement_data/' + settlement_datum.support)
+
+            settlement_datum = DocumentEmployeeModel.query.filter_by(id = id).first()
+            settlement_datum.status_id = 4
+            settlement_datum.support = 'signed_' + support
+            db.session.add(settlement_datum)
+            db.session.commit()
+
+        return settlement_datum.support
 
     @staticmethod
     def upload_store(data, filename, original_name, id):

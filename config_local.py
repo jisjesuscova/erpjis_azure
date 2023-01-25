@@ -15,6 +15,7 @@ class DevConfig(BaseConfig):
     MAIL_USE_TLS = True
     MAIL_USE_SSL = False
     MAIL_DEFAULT_SENDER = 'no-responder@jisparking.com'
+    UPLOAD_FOLDER = 'files/'
 
 class ProConfig(BaseConfig):
     DEBUG = False
@@ -27,3 +28,4 @@ class ProConfig(BaseConfig):
     MAIL_USE_TLS = True
     MAIL_USE_SSL = False
     MAIL_DEFAULT_SENDER = 'no-responder@jisparking.com'
+    UPLOAD_FOLDER = 'files/'

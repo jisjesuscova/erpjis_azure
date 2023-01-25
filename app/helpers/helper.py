@@ -6,6 +6,7 @@ from datetime import datetime
 import requests
 from app import db
 import json
+from fitz import fitz, Rect
 
 class Helper:
     @staticmethod
@@ -74,7 +75,9 @@ class Helper:
     def get_taken_days(rut):
         vacations = VacationModel.query\
                     .join(DocumentEmployeeModel, DocumentEmployeeModel.id == VacationModel.document_employee_id)\
-                    .add_columns(VacationModel.id, VacationModel.rut, VacationModel.since, VacationModel.until, VacationModel.days, DocumentEmployeeModel.status_id).filter(DocumentEmployeeModel.rut==rut, DocumentEmployeeModel.document_type_id==6, DocumentEmployeeModel.status_id==4).order_by(db.desc(DocumentEmployeeModel.added_date))
+                    .add_columns(VacationModel.id, VacationModel.rut, VacationModel.since, VacationModel.until, VacationModel.days, DocumentEmployeeModel.status_id)\
+                    .filter(DocumentEmployeeModel.rut==rut, DocumentEmployeeModel.document_type_id==6, db.or_(DocumentEmployeeModel.status_id==4, DocumentEmployeeModel.status_id==3)) \
+                    .order_by(db.desc(DocumentEmployeeModel.added_date))
 
         taken_days = 0
 
@@ -86,6 +89,25 @@ class Helper:
     @staticmethod
     def normal_gratifcation(salary, locomotion, collation):
         return (salary + locomotion + collation) * 0.25
+
+    @staticmethod
+    def add_footer(pdf, w, h, x1, x2, site="right", skip_pages = 1):
+        
+        # Define which image should be inserted
+        img = open("logo.png", "rb").read()
+
+        
+        if site == "right":
+            rect = fitz.Rect(w * x1, h * x2, w, h)
+        else:
+            rect = fitz.Rect(w * x1 * -1 * 0.94, h * x2, w, h)
+
+        for i in range(0, pdf.pageCount):
+            if i < pdf.pageCount - skip_pages:
+                page = pdf[0]
+                if not page.is_wrapped:
+                    page.wrap_contents()
+                page.insertImage(rect, stream=img)
     
     @staticmethod
     def proportional_gratifcation():
