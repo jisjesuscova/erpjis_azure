@@ -3,10 +3,11 @@ from app.models.models import VacationModel, DocumentEmployeeModel
 from app.hr_final_day_months.hr_final_day_month import HrFinalDayMonth
 import time
 from datetime import datetime
-import requests
 from app import db
-import json
-from fitz import fitz, Rect
+from fitz import fitz
+from dateutil.relativedelta import relativedelta
+import calendar
+import re
 
 class Helper:
     @staticmethod
@@ -14,12 +15,70 @@ class Helper:
         rut = rut.split('-')
 
         return rut[0]
+
+    @staticmethod
+    def extention_contract(date):
+        result = date + relativedelta(months=+1)
+
+        return result
+
+    @staticmethod
+    def add_zero(number):
+        if number < 10:
+            result = "0" + str(number)
+        else:
+            result = number
+
+        return result
+
+    @staticmethod
+    def remove_special_characters(string):
+        pattern = '[^A-Za-z0-9]+'
+
+        result = re.sub(pattern, '', string)
+
+        return result
+
+    @staticmethod
+    def fix_thousands(number):
+        result = "{:,}".format(number).replace(",", ".")
+
+        return result
+
+    @staticmethod
+    def file_name(rut, description):
+        now = datetime.now()
+
+        current_year = now.year
+        current_month = now.month
+        current_day = now.day
+
+        current_month = Helper.add_zero(current_month)
+
+        file_name = str(rut) + str(description) + "_" + str(current_day) + "_" + str(current_month) + "_" + str(current_year)
+
+        return file_name
+
+    @staticmethod
+    def get_last_day(date):
+        date = Helper.split(str(date), "-")
+        year, month = int(date[0]), int(date[1])
+        result = calendar.monthrange(year, month)[1]
+        month = Helper.add_zero(month)
+
+        return str(result) + "-" + str(month) + "-" + str(year)
     
     @staticmethod
     def split(value, separator):
         value = value.split(separator)
 
         return value
+
+    @staticmethod
+    def fix_date(value):
+        value = value.split("-")
+
+        return value[2] + "-" + value[1] + "-" + value[0]
 
     @staticmethod
     def convert_to_thousands(value):

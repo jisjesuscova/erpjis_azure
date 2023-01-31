@@ -211,7 +211,22 @@ class DocumentEmployee():
         document_employee.rut = rut
         document_employee.document_type_id = document_type_id
         document_employee.support = file
-        document_employee.added_date = period + ' 00:00:00'
+        if period != '':
+            document_employee.added_date = period + ' 00:00:00'
+        else:
+            document_employee.added_date = datetime.now()
+
+        document_employee.updated_date = datetime.now()
+
+        db.session.add(document_employee)
+        db.session.commit()
+        
+        return document_employee.id
+
+    @staticmethod
+    def update_file(id, file):
+        document_employee = DocumentEmployeeModel.query.filter_by(id=id).first()
+        document_employee.support = file
         document_employee.updated_date = datetime.now()
 
         db.session.add(document_employee)

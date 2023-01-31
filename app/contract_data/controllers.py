@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, request, url_for, make_response
+from flask import Blueprint, render_template, redirect, request, url_for, make_response, flash
 from flask_login import login_required, current_user
 from app import app, regular_employee_rol_need
 from app.contract_data.contract_datum import ContractDatum
@@ -17,6 +17,7 @@ from app.dropbox_data.dropbox import Dropbox
 from app.employee_labor_data.employee_labor_datum import EmployeeLaborDatum
 from app.employees.employee import Employee
 from app.helpers.pdf import Pdf
+from app.helpers.helper import Helper
 
 contract_datum = Blueprint("contract_data", __name__)
 
@@ -65,6 +66,8 @@ def generate():
 
    DocumentEmployee.store(request.form)
 
+   flash('Se ha generado el contrato con éxito.', 'success')
+
    return redirect(url_for('contract_data.show', rut = request.form['rut']))
 
 @contract_datum.route("/human_resources/contract_data/delete/<int:rut>/<int:id>", methods=['GET'])
@@ -76,6 +79,8 @@ def delete(rut, id):
       Dropbox.delete('/contracts/', document_employee.support)
 
    DocumentEmployee.delete(id)
+
+   flash('Se ha borrado el contrato con éxito.', 'success')
 
    return redirect(url_for('contract_data.show', rut = rut))
 
@@ -98,16 +103,24 @@ def document(rut, id):
    full_name = employee.names + " " + employee.father_lastname + " " + employee.mother_lastname
    job_position = JobPosition.get(employee_labor_datum.job_position_id)
    signature_exist = Dropbox.exist('/signature/', employee.signature)
+   entrance_company_date = Helper.fix_date(str(employee_labor_datum.entrance_company))
+   first_extention_contract = Helper.extention_contract(employee_labor_datum.entrance_company)
+   first_extention_contract_last_day = Helper.get_last_day(first_extention_contract)
+   second_extention_contract = Helper.extention_contract(first_extention_contract)
+   second_extention_contract_last_day = Helper.get_last_day(second_extention_contract)
+   pention = Pention.get(employee_labor_datum.pention_id)
+   health = Health.get(employee_labor_datum.health_id)
+   salary = Helper.fix_thousands(employee_labor_datum.salary)
 
    if signature_exist == 1:
    
       signature = Dropbox.get('/signature/', employee.signature)
    
-      data = [employee_labor_datum.entrance_company, full_name, employee.visual_rut, employee_labor_datum.address, commune.commune, civil_state.civil_state, job_position.job_position, branch_office.branch_office]
+      data = [entrance_company_date, full_name, employee.visual_rut, employee_labor_datum.address, commune.commune, civil_state.civil_state, job_position.job_position, branch_office.branch_office, branch_office.address, job_position.functions, employee_labor_datum.contract_type_id, salary, first_extention_contract_last_day, second_extention_contract_last_day, pention.pention, health.health, employee_labor_datum.company_email]
    else:
       signature = ''
 
-      data = [employee_labor_datum.entrance_company, full_name, rut, employee_labor_datum.address, commune.commune, employee_labor_datum.civil_state_id, job_position.job_position, signature]
+      data = [entrance_company_date, full_name, rut, employee_labor_datum.address, commune.commune, employee_labor_datum.civil_state_id, job_position.job_position, signature]
 
    pdf = Pdf.create_pdf('contract', data)
   
@@ -116,3 +129,17 @@ def document(rut, id):
    response.headers['Content-Disposition'] = 'attachment; filename=document.pdf'
 
    return response
+
+@contract_datum.route("/human_resources/contract_data/upload/<int:id>/<int:rut>", methods=['GET', 'POST'])
+@contract_datum.route("/human_resources/contract_data/upload", methods=['GET', 'POST'])
+def upload(id = '', rut = ''):
+   if request.method == 'POST':
+      support = Dropbox.upload(request.form['rut'], '_contrato', request.files, "/contracts/", "app/static/dist/files/contract_data/")
+
+      DocumentEmployee.update_file(request.form['id'], support)
+
+      flash('Se ha subido el contrato con éxito.', 'success')
+
+      return redirect(url_for('contract_data.show', rut = request.form['rut']))
+   else:
+      return render_template('administrator/human_resources/contract_data/contract_data_upload.html', id = id, rut = rut)

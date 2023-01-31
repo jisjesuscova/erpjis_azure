@@ -2,30 +2,32 @@ import dropbox
 from PIL import Image
 from dropbox.exceptions import AuthError, ApiError
 from app.settings.setting import Setting
+from app.helpers.helper import Helper
 from flask_login import current_user
 from datetime import datetime
+import os
 
 class Dropbox():
     @staticmethod
     def upload(name = '', description = '', data = '', dropbox_path = '', computer_path = '', resize = 0):
         settings = Setting.get()
-
         f = data['file']
+
+        extesion = f.filename.split('.')
+        dropbox_file_name = Helper.file_name(str(name), str(description))
+
+        dropbox_path = dropbox_path + dropbox_file_name + "." + extesion[1]
+        computer_path = computer_path + dropbox_file_name + "." + extesion[1]
+
         if resize  == 1:
             image = Image.open(f)
             image = image.resize((200, 200))
-            image.save(f.filename)
+            image.save(os.path.join(computer_path))
         else:
-            f.save(f.filename)
-
-        extesion = f.filename.split('.')
-        dropbox_file_name = str(name) + str(description)
-
-        dropbox_path = dropbox_path + dropbox_file_name + "." + extesion[1]
-        computer_path = computer_path + f.filename
+            f.save(os.path.join(computer_path))
 
         dbx = dropbox.Dropbox(settings.dropbox_token)
-        if dbx.files_upload(open(computer_path, "rb").read(), dropbox_path):
+        if dbx.files_upload(open(os.path.join(computer_path), "rb").read(), dropbox_path):
             return dropbox_file_name + "." + extesion[1]
         else:
             return 0

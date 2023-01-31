@@ -8,6 +8,22 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    {% if category == 'error' %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                    {% if category == 'success' %}
+                                        <div class="alert alert-success" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
                         <!-- form start -->
                         <form role="form" action="{{ url_for('contract_data.update') }}/{{ rut }}" method="POST">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
@@ -201,7 +217,7 @@
                                                     <i class="fa fa-arrow-down"></i>
                                                 </a>
                                             {% else %}
-                                                <a href="{{ url_for('contract_data.download', id=contract_datum['id']) }}" class="btn btn-success">
+                                                <a href="{{ url_for('contract_data.upload') }}/{{ contract_datum['id'] }}/{{ rut }}" class="btn btn-success">
                                                     <i class="fa fa-arrow-up"></i>
                                                 </a>
                                             {% endif %}

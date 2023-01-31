@@ -231,7 +231,7 @@
                                         programación mensual le será informada a más tardar durante la última semana del mes anterior al del inicio de la nueva
                                         programación:<br><br>
                                         <strong>Condiciones de Turnos de Trabajo:</strong><br>
-                                        <center><img style="width:710px;" src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('backend/img/schedule.jpg'))) }}"><br></center>
+                                        <center><img style="width:800px;" src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('backend/img/schedule.jpg'))) }}"><br></center>
                                         Duración de la jornada diaria Tiempo Completo: La jornada diaria tendrá una duración de entre 7 hasta 8,20 horas, sin
                                         considerar para estos efectos el tiempo destinado a colación.
                                         Duración de la jornada diaria Medio Tiempo: La jornada diaria tendrá una duración de entre 4, 5 y 10 horas, sin considerar para
