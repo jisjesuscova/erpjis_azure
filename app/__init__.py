@@ -95,6 +95,7 @@ from app.home.controllers import home
 from app.employee_extra_data.controllers import employee_extra_datum
 from app.signatures.controllers import signature
 from app.end_documents.controllers import end_document
+from app.news.controllers import new
 
 app.register_blueprint(employee)
 app.register_blueprint(auth)
@@ -139,6 +140,7 @@ app.register_blueprint(home)
 app.register_blueprint(employee_extra_datum)
 app.register_blueprint(signature)
 app.register_blueprint(end_document)
+app.register_blueprint(new)
 
 @app.route("/")
 def index():

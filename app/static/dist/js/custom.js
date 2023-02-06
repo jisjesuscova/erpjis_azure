@@ -1,5 +1,90 @@
 $(document).ready(function () {
+    $('#slider').slick({
+        arrows: true,
+        prevArrow: '.slick-prev',
+        nextArrow: '.slick-next'
+    });
+
     $('#sign-button').prop("disabled", true);
+
+    $(".modal").on("hidden.bs.modal", function() {
+        location.reload();
+    });
+
+    $("#status_id").change(function() {
+        var status_id = $(this).val();
+
+        $(".status_id").val(status_id)
+    });
+
+    $("#causal_id").change(function() {
+        var causal_id = $(this).val();
+
+        $(".causal_id").val(causal_id)
+    });
+
+    $("#exit_company").change(function() {
+        var exit_company = $(this).val();
+
+        $(".exit_company").val(exit_company)
+    });
+
+    $("#number_holidays").change(function() {
+        var number_holidays = $(this).val();
+
+        $(".number_holidays").val(number_holidays)
+    });
+
+    $("#voluntary_indemnity").change(function() {
+        var total
+
+        var voluntary_indemnity = $(this).val();
+
+        $(".voluntary_indemnity").val(voluntary_indemnity) 
+
+        total = parseInt($("#voluntary_indemnity").val()) + parseInt($("#indemnity_years_service").val()) + parseInt($("#substitute_compensation").val()) + parseInt($("#fertility_proportional").val())
+
+        $("#total").val(total)
+    });
+
+    $("#indemnity_years_service").change(function() {
+        var total
+
+        total = parseInt($("#voluntary_indemnity").val()) + parseInt($("#indemnity_years_service").val()) + parseInt($("#substitute_compensation").val()) + parseInt($("#fertility_proportional").val())
+
+        $("#total").val(total)
+    });
+
+    $("#substitute_compensation").change(function() {
+        var total
+
+        total = parseInt($("#voluntary_indemnity").val()) + parseInt($("#indemnity_years_service").val()) + parseInt($("#substitute_compensation").val()) + parseInt($("#fertility_proportional").val())
+
+        $("#total").val(total)
+    });
+
+    $("#fertility_proportional").change(function() {
+        var total
+
+        total = parseInt($("#voluntary_indemnity").val()) + parseInt($("#indemnity_years_service").val()) + parseInt($("#substitute_compensation").val()) + parseInt($("#fertility_proportional").val())
+
+        $("#total").val(total)
+    });
+
+    $("#region_id").change(function() {
+        var regionId = $(this).val();
+
+        $.ajax({
+          url: "/master_data/communes/region/" + regionId,
+          type: "GET",
+          success: function(communes) {
+            $("#commune_id").empty();
+            $.each(communes, function(key, commune) {
+              $("#commune_id").append('<option value="' + commune.id + '">' + commune.commune + '</option>');
+            });
+          }
+        });
+    });
     
     $(".modal").on("hidden.bs.modal", function() {
         location.reload();

@@ -9,6 +9,8 @@ from app.contract_data.contract_datum import ContractDatum
 from app.users.user import User
 from app.audits.audit import Audit
 from app.branch_offices.branch_office import BranchOffice
+from app.clock_users.clock_user import ClockUser
+import datetime
 
 employee = Blueprint("employees", __name__)
 
@@ -38,8 +40,10 @@ def search(page=1):
 def create():
    genders = Gender.get()
    nationalities = Nationality.get()
+   uid = ClockUser.get_last_uid()
+   current_date = datetime.datetime.now()
 
-   return render_template('human_resources/personal_data/personal_data_create.html', genders = genders, nationalities = nationalities)
+   return render_template('administrator/human_resources/personal_data/personal_data_create.html', genders = genders, nationalities = nationalities, uid = uid, current_date = current_date)
 
 @employee.route("/human_resources/employee/store", methods=['POST'])
 def store():
@@ -49,6 +53,8 @@ def store():
    Audit.store(request.form, 'contract_data/store')
    User.store(request.form)
    Audit.store(request.form, 'user/store')
+   ClockUser.store(request.form)
+   Audit.store(request.form, 'clock_user/store')
 
    return redirect(url_for('personal_data.show', rut = employee.rut))
 

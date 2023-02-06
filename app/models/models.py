@@ -354,6 +354,16 @@ class ContractScheduleModel(db.Model):
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
+class NewModel(db.Model):
+    __tablename__ = 'news'
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255))
+    description = db.Column(db.Text())
+    picture = db.Column(db.String(255))
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
 class CommunesModel(db.Model):
     __tablename__ = 'communes'
 
@@ -362,6 +372,13 @@ class CommunesModel(db.Model):
     commune = db.Column(db.String(255))
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
+
+    def to_dict(self):
+        return {
+                'id': self.id, 
+                'region_id': self.region_id,
+                'commune': self.commune
+            }
 
 class SettingModel(db.Model):
     __tablename__ = 'settings'
@@ -426,6 +443,17 @@ class HealthModel(db.Model):
     health = db.Column(db.String(255))
     rut = db.Column(db.String(20))
     previred_code = db.Column(db.Integer)
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
+class WhatsappTemplateModel(db.Model):
+    __tablename__ = 'whatsapp_templates'
+
+    id = db.Column(db.Integer, primary_key=True)
+    administrator_id = db.Column(db.Integer)
+    group_id = db.Column(db.Integer)
+    whatsapp_template = db.Column(db.Text())
+    template = db.Column(db.Text())
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 

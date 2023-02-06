@@ -8,6 +8,7 @@ from fitz import fitz
 from dateutil.relativedelta import relativedelta
 import calendar
 import re
+import random
 
 class Helper:
     @staticmethod
@@ -28,6 +29,12 @@ class Helper:
             result = "0" + str(number)
         else:
             result = number
+
+        return result
+
+    @staticmethod
+    def upper_string(string):
+        result = string.upper()
 
         return result
 
@@ -55,7 +62,9 @@ class Helper:
 
         current_month = Helper.add_zero(current_month)
 
-        file_name = str(rut) + str(description) + "_" + str(current_day) + "_" + str(current_month) + "_" + str(current_year)
+        random_float = random.randint(1, 9999999999999999)
+
+        file_name = str(random_float) + "_" + str(rut) + str(description) + "_" + str(current_day) + "_" + str(current_month) + "_" + str(current_year)
 
         return file_name
 
@@ -120,6 +129,11 @@ class Helper:
     def months(since, until):
 
         return (until.year - since.year) * 12 + until.month - since.month
+
+    @staticmethod
+    def gratification(salary):
+
+        return round(salary * 0.25)
     
     @staticmethod
     def vacation_days(months, extreme_zone_status_id):

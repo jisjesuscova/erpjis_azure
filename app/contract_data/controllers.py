@@ -58,6 +58,8 @@ def update(rut):
    ContractDatum.update(request.form, rut)
    Audit.store(request.form, 'employee/contract_data')
 
+   flash('Se ha actualizado el contrato con éxito.', 'success')
+
    return redirect(url_for('contract_data.show', rut = rut))
 
 @contract_datum.route("/human_resources/contract_data/generate", methods=['POST'])

@@ -43,15 +43,15 @@ class Dropbox():
         if resize  == 1:
             image = Image.open(f)
             image = image.resize((200, 200))
-            image.save(f.filename)
+            image.save(os.path.join(f.filename))
         else:
-            f.save(computer_path + dropbox_file_name)
+            f.save(os.path.join(computer_path + dropbox_file_name))
 
         dropbox_path = dropbox_path + dropbox_file_name
         computer_path = computer_path + dropbox_file_name
 
         dbx = dropbox.Dropbox(settings.dropbox_token)
-        if dbx.files_upload(open(computer_path, "rb").read(), dropbox_path):
+        if dbx.files_upload(open(os.path.join(computer_path), "rb").read(), dropbox_path):
             return dropbox_file_name
         else:
             return 0
@@ -61,7 +61,7 @@ class Dropbox():
         settings = Setting.get()
 
         f = data['file']
-        f.save(f.filename)
+        f.save(os.path.join(f.filename))
 
         extesion = f.filename.split('.')
         dropbox_file_name = str(name) + str(description)
@@ -70,7 +70,7 @@ class Dropbox():
         computer_path = computer_path + f.filename
 
         dbx = dropbox.Dropbox(settings.dropbox_token)
-        if dbx.files_upload(open(computer_path, "rb").read(), dropbox_path,  mode=dropbox.files.WriteMode('overwrite')):
+        if dbx.files_upload(open(os.path.join(computer_path), "rb").read(), dropbox_path,  mode=dropbox.files.WriteMode('overwrite')):
             return dropbox_file_name + "." + extesion[1]
         else:
             return 0
@@ -80,7 +80,7 @@ class Dropbox():
         settings = Setting.get()
 
         f = data['file']
-        f.save(f.filename)
+        f.save(os.path.join(f.filename))
 
         extesion = f.filename.split('.')
         dropbox_file_name = str(name) + str(description)
@@ -89,7 +89,7 @@ class Dropbox():
         computer_path = computer_path + f.filename
 
         dbx = dropbox.Dropbox(settings.dropbox_token)
-        if dbx.files_upload(open(computer_path, "rb").read(), dropbox_path,  mode=dropbox.files.WriteMode('overwrite')):
+        if dbx.files_upload(open(os.path.join(computer_path), "rb").read(), dropbox_path,  mode=dropbox.files.WriteMode('overwrite')):
             return dropbox_file_name + "." + extesion[1]
         else:
             return 0
@@ -102,10 +102,10 @@ class Dropbox():
         dbx = dropbox.Dropbox(settings.dropbox_token)
         file_name = '/signature/'+ str(current_user.rut) +'.png'
  
-        with open('app/static/dist/files/signature_data/' + str(current_user.rut) +'.png', "wb") as f:
+        with open(os.path.join(str(current_user.rut) +'.png'), "wb") as f:
             f.write(file)
 
-        if dbx.files_upload(file, file_name, mode=dropbox.files.WriteMode('overwrite')):
+        if dbx.files_upload(os.path.join(file), file_name, mode=dropbox.files.WriteMode('overwrite')):
             return  str(current_user.rut) +'.png'
         else:
             return 0
@@ -117,11 +117,16 @@ class Dropbox():
         dbx = dropbox.Dropbox(settings.dropbox_token)
 
         try:
-            dbx.files_get_metadata(url + file)
-            
-            link = dbx.files_get_temporary_link(url + file)
+            exist = Dropbox.exist(url + file)
 
-            return link.link
+            if exist == 1:
+                dbx.files_get_metadata(url + file)
+            
+                link = dbx.files_get_temporary_link(url + file)
+
+                return link.link
+            else:
+                return ''
         except ApiError:
             return 0
 

@@ -15,6 +15,14 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+          <li class="nav-item">
+            <a href="{{ url_for('home.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-home"></i>
+              <p>
+                Inicio
+              </p>
+            </a>
+          </li>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-people-group"></i>
@@ -133,6 +141,23 @@
                 <a href="{{ url_for('mesh_data.index') }}"  class="nav-link">
                   <i class="far fa-calendar nav-icon"></i>
                   <p>Malla Horaria</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-bullhorn"></i>
+              <p>
+                Publicidad
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ url_for('news.index') }}" class="nav-link">
+                  <i class="fas fa-newspaper nav-icon"></i>
+                  <p>Noticias</p>
                 </a>
               </li>
             </ul>

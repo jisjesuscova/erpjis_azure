@@ -15,6 +15,12 @@ class Commune():
             return communes
 
     @staticmethod
+    def region(id):
+        communes = CommunesModel.query.filter_by(region_id=id).order_by(CommunesModel.commune).all()
+
+        return communes
+
+    @staticmethod
     def store(data):
         communes = CommunesModel()
         communes.region_id = data['region_id'] 

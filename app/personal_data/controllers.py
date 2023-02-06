@@ -25,8 +25,12 @@ def show(rut):
    employee_labor_datum = EmployeeLaborDatum.get(rut)
    genders = Gender.get()
    nationalities = Nationality.get()
-   download_url = Dropbox.get('/flask_user_photos/', employee.picture)
-   print(download_url)
+
+   if employee.picture != None:
+      download_url = Dropbox.get('/flask_user_photos/', employee.picture)
+   else:
+      download_url = url_for("static", filename="dist/img/logo.png")
+   
    if employee.signature != None:
       signature_exist = Dropbox.exist('/signature/', employee.signature)
 

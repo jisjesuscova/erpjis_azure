@@ -82,11 +82,25 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Rol en el Reloj</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="privilege">
+                                                <option value="">- Seleccionar -</option>
+                                                <option value="0">Colaborador</option>
+                                                <option value="14">Administrador</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <!-- /.card-body -->
 
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-primary">Guardar</button>
+                                <input type="hidden" class="form-control" id="exampleInputEmail1" name="uid" value="{{ uid }}">
+                                <input type="hidden" class="form-control" id="exampleInputEmail1" name="entrance_company" value="{{ current_date }}">
 
                                 <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
                             </div>

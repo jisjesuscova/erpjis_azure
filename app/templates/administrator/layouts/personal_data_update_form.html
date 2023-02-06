@@ -14,7 +14,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        {% if employee.picture != '' %}
+                                        {% if employee.picture != '' and employee.picture is not None %}
                                             <div class="card-body">
                                                 <center>
                                                     <div class="image-area">
@@ -34,7 +34,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">RUT</label>
-                                            <input type="text" value="{{ employee.visual_rut }}" class="form-control" id="exampleInputEmail1" placeholder="RUT" name="no_disable_rut">
+                                            <input type="text" value="{{ employee.visual_rut }}" class="form-control rut" id="exampleInputEmail1" placeholder="RUT" name="no_disable_rut">
                                             <input type="hidden" value="{{ employee.visual_rut }}" class="form-control" id="exampleInputEmail1" placeholder="RUT" name="rut">
                                         </div>
 
@@ -113,66 +113,67 @@
                     </div>
                 </div>
                 
-                
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Firma</h3>
-                    </div>
-                    
-                    <div class="card-body">
-                        {% if signature_exist == 0 %}
-                            <!-- form start -->
-                            
-                            <form action="/save-signature" method="POST" id="signature-form">
-                                <input type="hidden" id="csrf_token" name="csrf_token" value="{{ csrf_token() }}" />
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <center>
-                                                <div class="alert alert-warning" role="alert">
-                                                    Recuerde que esta firma será la que se utilizará en cada uno de los documentos a descargar de <strong>Jisparking.com</strong>. Ejemplo: Liquidaciones.
-                                                </div>
-                                            </center>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <center>
-                                                <input type="hidden" name="signature" id="signature">
-                                                <input type="hidden" name="rut" id="rut" value="{{ current_user.rut }}">
-                                                <canvas class="signature-pad" id="signature-pad" height="200"></canvas>
-                                            </center>
+                {% if signature_exist != 0 %}
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Firma</h3>
+                        </div>
+                        
+                        <div class="card-body">
+                            {% if signature_exist == 0 %}
+                                <!-- form start -->
+                                
+                                <form action="/save-signature" method="POST" id="signature-form">
+                                    <input type="hidden" id="csrf_token" name="csrf_token" value="{{ csrf_token() }}" />
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <center>
+                                                    <div class="alert alert-warning" role="alert">
+                                                        Recuerde que esta firma será la que se utilizará en cada uno de los documentos a descargar de <strong>Jisparking.com</strong>. Ejemplo: Liquidaciones.
+                                                    </div>
+                                                </center>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <center>
+                                                    <input type="hidden" name="signature" id="signature">
+                                                    <input type="hidden" name="rut" id="rut" value="{{ current_user.rut }}">
+                                                    <canvas class="signature-pad" id="signature-pad" height="200"></canvas>
+                                                </center>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="card-footer">
-                                    <button type="button" id="save-button" class="btn btn-success">Guardar</button>
+                                    <div class="card-footer">
+                                        <button type="button" id="save-button" class="btn btn-success">Guardar</button>
 
-                                    <a href="{{ url_for('home.index') }}" class="btn btn-secondary">Cancelar</a>
+                                        <a href="{{ url_for('home.index') }}" class="btn btn-secondary">Cancelar</a>
+                                    </div>
+                                </form>
+                                <!-- form end -->
+                            {% else %}
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <center>
+                                            <div class="alert alert-warning" role="alert">
+                                                Recuerde que esta firma será la que se utilizará en cada uno de los documentos a descargar de <strong>Jisparking.com</strong>. Ejemplo: Liquidaciones.
+                                            </div>
+                                        </center>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <center>
+                                            <div class="image-area-signature">
+                                                
+                                                <img src="{{ signature }}" >
+                                            </div>
+                                        </center>
+                                    </div>
                                 </div>
-                            </form>
-                            <!-- form end -->
-                        {% else %}
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <center>
-                                        <div class="alert alert-warning" role="alert">
-                                            Recuerde que esta firma será la que se utilizará en cada uno de los documentos a descargar de <strong>Jisparking.com</strong>. Ejemplo: Liquidaciones.
-                                        </div>
-                                    </center>
-                                </div>
-                                <div class="col-md-8">
-                                    <center>
-                                        <div class="image-area-signature">
-                                            
-                                            <img src="{{ signature }}" >
-                                        </div>
-                                    </center>
-                                </div>
-                            </div>
-                            
-                        {% endif %}
+                                
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
+                {% endif %}
             </div>
         </div>
     </div>
