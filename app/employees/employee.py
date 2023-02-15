@@ -1,5 +1,5 @@
 from flask import request
-from app.models.models import EmployeeModel, EmployeeLaborDatumModel, OldEmployeeModel, OldEmployeeLaborDatumModel
+from app.models.models import EmployeeModel, UserModel, EmployeeLaborDatumModel, OldEmployeeModel, OldEmployeeLaborDatumModel
 from app.helpers.helper import Helper
 from app import db
 from datetime import datetime
@@ -21,6 +21,20 @@ class Employee():
 
                 return employee
 
+    @staticmethod
+    def get_by_rol(rol_id):
+        employees = EmployeeModel.query\
+                            .join(UserModel, UserModel.rut == EmployeeModel.rut)\
+                            .filter(UserModel.rol_id==rol_id)\
+                            .add_columns(UserModel.nickname, EmployeeModel.cellphone, EmployeeModel.rut, UserModel.api_token).all()
+
+        return employees
+
+    @staticmethod
+    def get_by_rut(rut = ''):
+        employees = EmployeeModel.query.filter_by(rut = rut).all()
+
+        return employees
 
     @staticmethod
     def search(data, page = ''):
@@ -182,3 +196,86 @@ class Employee():
         else:
             return {'msg': 'Data could not be stored'}
 
+    @staticmethod
+    def delete(id):
+        employee= EmployeeModel.query.filter_by(id=id).first()
+
+        db.session.delete(employee)
+        try:
+            db.session.commit()
+
+            return employee
+        except Exception as e:
+            return {'msg': 'Data could not be stored'}
+
+    @staticmethod
+    def old_data_get_by_rut(rut = '', order_id = ''):
+        old_employees = OldEmployeeModel.query.filter_by(rut = rut, order_id = order_id).all()
+
+        return old_employees
+
+    @staticmethod
+    def restore(rut, order_id):
+        old_employees = Employee.old_data_get_by_rut(rut, order_id)
+
+        data = []
+
+        for old_employee in old_employees:
+            data = [
+                old_employee.rut,
+                old_employee.visual_rut,
+                old_employee.names,
+                old_employee.father_lastname,
+                old_employee.mother_lastname,
+                old_employee.nickname,
+                old_employee.gender_id,
+                old_employee.nationality_id,
+                old_employee.cellphone,
+                old_employee.born_date,
+                old_employee.added_date,
+                old_employee.updated_date
+            ]
+
+            Employee.restore_store(data)
+
+            Employee.old_data_delete(old_employee.id)
+
+        return 1
+
+    @staticmethod
+    def restore_store(data):
+        employee = EmployeeModel()
+        employee.rut = data[0]
+        employee.visual_rut = data[1]
+        employee.names = data[2]
+        employee.father_lastname = data[3]
+        employee.mother_lastname = data[4]
+        employee.nickname = data[5]
+        employee.gender_id = data[6]
+        employee.nationality_id = data[7]
+        employee.cellphone = data[8]
+        employee.born_date = data[9]
+        employee.added_date = data[10]
+        employee.updated_date = data[11]
+
+        db.session.add(employee)
+
+        try:
+            db.session.commit()
+
+            return employee
+        except Exception as e:
+            return {'msg': 'Data could not be stored'}
+
+
+    @staticmethod
+    def old_data_delete(id):
+        old_employee= OldEmployeeModel.query.filter_by(id=id).first()
+
+        db.session.delete(old_employee)
+        try:
+            db.session.commit()
+
+            return old_employee
+        except Exception as e:
+            return {'msg': 'Data could not be stored'}

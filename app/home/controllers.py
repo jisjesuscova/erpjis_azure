@@ -16,10 +16,10 @@ def index():
    news = New.get()
 
    if current_user.rol_id == 1:
-      return render_template('collaborator/home/index.html')
+      return render_template('collaborator/home/index.html', news = news)
    elif current_user.rol_id == 2:
-      return render_template('incharge/home/index.html')
+      return render_template('incharge/home/index.html', news = news)
    elif current_user.rol_id == 3:
-      return render_template('supervisor/home/index.html')
+      return render_template('supervisor/home/index.html', news = news)
    elif current_user.rol_id == 4:
       return render_template('administrator/home/index.html', news = news)

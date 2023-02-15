@@ -1,8 +1,10 @@
 from flask import request
-from app.models.models import DocumentEmployeeModel, EmployeeModel, EmployeeLaborDatumModel, BranchOfficeModel, SupervisorModel, DocumentTypeModel
+from app.models.models import OldDocumentEmployeeModel, DocumentEmployeeModel, EmployeeModel, EmployeeLaborDatumModel, BranchOfficeModel, SupervisorModel, DocumentTypeModel
 from app import db
 from datetime import datetime
-from sqlalchemy import and_, func
+from app.end_documents.end_document import EndDocument
+from app.medical_licenses.medical_license import MedicalLicense
+from app.vacations.vacation import Vacation
 
 class DocumentEmployee():
     @staticmethod
@@ -11,11 +13,11 @@ class DocumentEmployee():
             if rut == '':
                 documents_employees = DocumentEmployeeModel.query\
                     .join(DocumentTypeModel, DocumentTypeModel.id == DocumentEmployeeModel.document_type_id)\
-                    .add_columns(DocumentEmployeeModel.id, DocumentTypeModel.document_type, DocumentEmployeeModel.added_date, DocumentEmployeeModel.status_id).filter(DocumentTypeModel.document_group_id==group)
+                    .add_columns(DocumentEmployeeModel.rut, DocumentEmployeeModel.id, DocumentTypeModel.document_type, DocumentEmployeeModel.added_date, DocumentEmployeeModel.status_id).filter(DocumentTypeModel.document_group_id==group)
             else:
                 documents_employees = DocumentEmployeeModel.query\
                     .join(DocumentTypeModel, DocumentTypeModel.id == DocumentEmployeeModel.document_type_id)\
-                    .add_columns(DocumentEmployeeModel.id, DocumentTypeModel.document_type, DocumentEmployeeModel.added_date, DocumentEmployeeModel.status_id).filter(DocumentEmployeeModel.rut==rut, DocumentTypeModel.document_group_id==group)
+                    .add_columns(DocumentEmployeeModel.rut, DocumentEmployeeModel.id, DocumentTypeModel.document_type, DocumentEmployeeModel.added_date, DocumentEmployeeModel.status_id).filter(DocumentEmployeeModel.rut==rut, DocumentTypeModel.document_group_id==group)
         elif type != '':
             documents_employees = DocumentEmployeeModel.query.filter_by(rut=rut, document_type_id=type).order_by(db.desc(DocumentEmployeeModel.added_date)).paginate(page=page, per_page=10, error_out=False)
         else:
@@ -23,6 +25,14 @@ class DocumentEmployee():
 
         return documents_employees
     
+    @staticmethod
+    def get_by_rut(rut):
+        documents_employees = DocumentEmployeeModel.query\
+                    .join(DocumentTypeModel, DocumentTypeModel.id == DocumentEmployeeModel.document_type_id)\
+                    .add_columns(DocumentEmployeeModel.id, DocumentEmployeeModel.status_id, DocumentEmployeeModel.rut, DocumentEmployeeModel.document_type_id, DocumentEmployeeModel.support, DocumentEmployeeModel.updated_date, DocumentEmployeeModel.added_date, DocumentEmployeeModel.status_id).filter(DocumentEmployeeModel.rut==rut).all()
+
+        return documents_employees
+
     @staticmethod
     def get_by_id(id):
         document_employee = DocumentEmployeeModel.query.filter_by(id=id).first()
@@ -255,5 +265,76 @@ class DocumentEmployee():
             db.session.commit()
 
             return document_employee
+        except Exception as e:
+            return {'msg': 'Data could not be stored'}
+
+    @staticmethod
+    def old_data_get_by_rut(rut, order_id):
+        old_documents_employees = OldDocumentEmployeeModel.query\
+                    .join(DocumentTypeModel, DocumentTypeModel.id == OldDocumentEmployeeModel.document_type_id)\
+                    .add_columns(OldDocumentEmployeeModel.id, OldDocumentEmployeeModel.status_id, OldDocumentEmployeeModel.rut, OldDocumentEmployeeModel.document_type_id, OldDocumentEmployeeModel.support, OldDocumentEmployeeModel.updated_date, OldDocumentEmployeeModel.added_date).filter(OldDocumentEmployeeModel.rut==rut, OldDocumentEmployeeModel.order_id==order_id).all()
+
+        return old_documents_employees
+
+    @staticmethod
+    def restore(rut, order_id):
+        old_documents_employees = DocumentEmployee.old_data_get_by_rut(rut, order_id)
+
+        data = []
+
+        for old_documents_employee in old_documents_employees:
+            status_id = old_documents_employee['status_id']
+            rut = old_documents_employee['rut']
+            document_type_id = old_documents_employee['document_type_id']
+            support = old_documents_employee['support']
+            added_date = old_documents_employee['added_date']
+            updated_date = old_documents_employee['updated_date']
+
+            data = [
+                status_id,
+                rut,
+                document_type_id,
+                support,
+                added_date,
+                updated_date
+            ]
+
+            id = DocumentEmployee.restore_store(data)
+
+            if old_documents_employee['document_type_id'] == 6:
+                Vacation.end_document_update(old_documents_employee['id'], id)
+
+            if old_documents_employee['document_type_id'] == 35:
+                MedicalLicense.update(old_documents_employee['id'], id)
+
+            DocumentEmployee.old_data_delete(old_documents_employee['id'])
+
+        return 1
+
+    @staticmethod
+    def restore_store(data):
+        document_employee = DocumentEmployeeModel()
+        document_employee.status_id = data[0]
+        document_employee.rut = data[1]
+        document_employee.document_type_id = data[2]
+        document_employee.support = data[3]
+        document_employee.added_date = data[4]
+        document_employee.updated_date = data[5]
+
+        db.session.add(document_employee)
+        db.session.commit()
+        
+        return document_employee.id
+
+    
+    @staticmethod
+    def old_data_delete(id):
+        old_document_employee = OldDocumentEmployeeModel.query.filter_by(id=id).first()
+
+        db.session.delete(old_document_employee)
+        try:
+            db.session.commit()
+
+            return old_document_employee
         except Exception as e:
             return {'msg': 'Data could not be stored'}

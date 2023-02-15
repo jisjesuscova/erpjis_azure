@@ -17,7 +17,6 @@
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Tipo de Contrato</label>
                                             <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="contract_schedule_id">
-                                                <option value="">- Seleccionar -</option>
                                                 {% for contract_schedule in contract_schedules %}
                                                     <option {% if contract_schedule.id == employee_extra_datum.contract_schedule_id %} selected {% endif %} value="{{ contract_schedule.id }}">{{ contract_schedule.contract_schedule }}</option>
                                                 {% endfor %}

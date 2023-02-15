@@ -5,6 +5,8 @@ from app.news.new import New
 from app.dropbox_data.dropbox import Dropbox
 from app.helpers.file import File
 from app.helpers.whatsapp import Whatsapp
+from app.whatsapp_groups.whatsapp_group import WhatsappGroup
+
 
 new = Blueprint("news", __name__)
 
@@ -20,16 +22,24 @@ def index(page=1):
 
    return render_template('administrator/publicities/news/news.html', news = news)
 
+@new.route("/publicities/new/show/<int:id>", methods=['GET'])
+def show(id):
+   new = New.get(id)
+   
+   return render_template('administrator/publicities/news/new_show.html', new = new)
+
 @new.route("/publicities/new/create", methods=['GET'])
 def create():
-
-   return render_template('administrator/publicities/news/new_create.html')
+   whatsapp_groups = WhatsappGroup.get()
+   
+   return render_template('administrator/publicities/news/new_create.html', whatsapp_groups = whatsapp_groups)
 
 @new.route("/publicities/new/store", methods=['POST'])
 def store():
    picture = Dropbox.upload('nueva', '_noticia', request.files, "/blogs/", "app/static/dist/files/new_data/")
+   
    new = New.store(request.form, picture)
-   Whatsapp.send(new.id, request.form['send_whatsapp'], 4)
+   Whatsapp.send(new.id, request.form['send_whatsapp'], request.form['group_id'], 4)
 
    flash('Se ha publicado la noticia')
 

@@ -1,0 +1,13 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <span><font class="new_title">{{ new['title'] }}</font> - {{ new['added_date']|datetime("dd-MM-yyyy") }}</span>
+                <hr>
+                <img src="{{ url_for("static", filename="dist/files/new_data/"+new.picture) }}" class="slider">
+                <hr>
+                <p class="new_description">{{ new['description'] }}</p>
+            </div>
+        </div>
+    </div>
+</section>

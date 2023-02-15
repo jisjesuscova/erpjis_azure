@@ -7,6 +7,8 @@ from app.document_types.document_type import DocumentType
 from app.dropbox_data.dropbox import Dropbox
 from datetime import datetime
 from app.documents_employees.document_employee import DocumentEmployee
+from app.old_documents_employees.old_document_employee import OldDocumentEmployee
+from app.helpers.helper import Helper
 
 kardex_datum = Blueprint("kardex_data", __name__)
 
@@ -19,9 +21,18 @@ def constructor():
 @kardex_datum.route("/human_resources/kardex_data/<int:rut>/<int:page>", methods=['GET'])
 @kardex_datum.route("/human_resources/kardex_data/<int:rut>", methods=['GET'])
 def index(rut, page = 1):
-   kardex_data = DocumentEmployee.get(rut, '', page, 1)
+   status_id = Helper.is_active(rut)
 
-   return render_template('administrator/human_resources/kardex_data/kardex_data.html', kardex_data = kardex_data, rut = rut)
+   if status_id == 1:
+      kardex_data = DocumentEmployee.get(rut, '', page, 1)
+
+      is_active = 1
+   else:
+      kardex_data = OldDocumentEmployee.get(rut, '', page, 1)
+
+      is_active = 0
+
+   return render_template('administrator/human_resources/kardex_data/kardex_data.html', kardex_data = kardex_data, rut = rut, is_active = is_active)
 
 @kardex_datum.route("/human_resources/kardex_data/create/<int:rut>", methods=['GET'])
 @kardex_datum.route("/human_resources/kardex_data/create", methods=['GET'])
@@ -55,15 +66,19 @@ def delete(rut, id):
 
    return redirect(url_for('kardex_data.index', rut = rut))
 
-@kardex_datum.route("/human_resources/kardex_data/download/<int:id>", methods=['GET'])
+@kardex_datum.route("/human_resources/kardex_data/download/<int:id>/<int:rut>", methods=['GET'])
 @kardex_datum.route("/human_resources/kardex_data/download", methods=['GET'])
-def download(id):
-   document_employee = DocumentEmployee.get_by_id(id)
+def download(id, rut):
+   status_id = Helper.is_active(rut)
+
+   if status_id == 1:
+      document_employee = DocumentEmployee.get_by_id(id)
+   else:
+      document_employee = OldDocumentEmployee.get_by_id(id)
 
    response = Dropbox.get('/employee_documents/', document_employee.support)
 
    return redirect(response)
-
 
 @kardex_datum.route("/human_resources/kardex_datum/store", methods=['POST'])
 def store():

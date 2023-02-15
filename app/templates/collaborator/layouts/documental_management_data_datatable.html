@@ -38,7 +38,7 @@
                                     <tr>
                                         <td>{{ kardex_datum['document_type'] }}</td>
                                         <td>
-                                            <a href="{{ url_for('kardex_data.download') }}/{{ kardex_datum['id']}}" class="btn btn-success">
+                                            <a href="{{ url_for('kardex_data.download') }}/{{ kardex_datum['id']}}/{{ kardex_datum['rut']}}" class="btn btn-success">
                                                 <i class="fa fa-arrow-down"></i>
                                             </a>
                                         </td>
@@ -83,14 +83,9 @@
                                             {% endif %}
                                         </td>
                                         <td>
-                                            {% if certificate['status_id'] == 2 %}
-                                                <a href="{{ url_for('document_requests.download', id=certificate['id']) }}" class="btn btn-warning">
-                                                    <i class="fa fa-arrow-down"></i>
-                                                </a>
-                                            {% endif %}
                                             {% if certificate['status_id'] == 3 %}
-                                                <a href="{{ url_for('kardex_data.delete') }}/{{ certificate['rut']}}/{{ certificate['id']}}" class="btn btn-warning">
-                                                    <i class="fa fa-times"></i>
+                                                <a href="{{ url_for('document_requests.download', id=certificate['id']) }}" class="btn btn-success">
+                                                    <i class="fa fa-arrow-down"></i>
                                                 </a>
                                             {% endif %}
                                         </td>
@@ -201,10 +196,13 @@
                                                     <i class="fa fa-arrow-down"></i>
                                                 </a>
                                             {% endif %}
-                                            {% if vacation['status_id'] == 3  %}
-                                                <a href="{{ url_for('documental_management_data.signed', rut=vacation['rut'], id=vacation['document_employee_id']) }}" class="btn btn-success">
-                                                    <i class="fa fa-arrow-up"></i>
-                                                </a>
+                                            
+                                            {% if is_active == 1 %}
+                                                {% if vacation['status_id'] == 3  %}
+                                                    <a href="{{ url_for('documental_management_data.signed', rut=vacation['rut'], id=vacation['document_employee_id']) }}" class="btn btn-success">
+                                                        <i class="fa fa-arrow-up"></i>
+                                                    </a>
+                                                {% endif %}
                                             {% endif %}
                                         </td>
                                     </tr>

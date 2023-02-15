@@ -128,6 +128,7 @@ class OldEmployeeModel(db.Model):
     father_lastname = db.Column(db.String(255))
     mother_lastname = db.Column(db.String(255))
     nickname = db.Column(db.String(255))
+    order_id = db.Column(db.Integer)
     gender_id = db.Column(db.Integer)
     nationality_id = db.Column(db.Integer)
     personal_email = db.Column(db.String(255))
@@ -162,6 +163,36 @@ class VacationModel(db.Model):
     support = db.Column(db.String(255))
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
+
+class ProgressiveVacationModel(db.Model):
+    __tablename__ = 'progressive_vacations'
+
+    id = db.Column(db.Integer, primary_key=True)
+    document_employee_id = db.Column(db.Integer)
+    rut = db.Column(db.Integer)
+    since = db.Column(db.Date())
+    until = db.Column(db.Date())
+    days = db.Column(db.Integer)
+    no_valid_days = db.Column(db.Integer)
+    support = db.Column(db.String(255))
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
+class OldVacationModel(db.Model):
+    __tablename__ = 'old_vacations'
+
+    id = db.Column(db.Integer, primary_key=True)
+    document_employee_id = db.Column(db.Integer)
+    order_id = db.Column(db.Integer)
+    rut = db.Column(db.Integer)
+    since = db.Column(db.Date())
+    until = db.Column(db.Date())
+    days = db.Column(db.Integer)
+    no_valid_days = db.Column(db.Integer)
+    support = db.Column(db.String(255))
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
 
 class RolModel(db.Model):
     __tablename__ = 'rols'
@@ -212,9 +243,12 @@ class EmployeeLaborDatumModel(db.Model):
     job_position_id = db.Column(db.Integer)
     extreme_zone_id = db.Column(db.Integer)
     employee_type_id = db.Column(db.Integer)
+    regime_id = db.Column(db.Integer)
     status_id = db.Column(db.Integer)
     address = db.Column(db.String(255))
+    entrance_pention  = db.Column(db.Date())
     entrance_company  = db.Column(db.Date())
+    entrance_health = db.Column(db.Date())
     exit_company  = db.Column(db.Date())
     salary = db.Column(db.Integer)
     collation = db.Column(db.Integer)
@@ -239,14 +273,26 @@ class OldEmployeeLaborDatumModel(db.Model):
     job_position_id = db.Column(db.Integer)
     extreme_zone_id = db.Column(db.Integer)
     employee_type_id = db.Column(db.Integer)
+    regime_id = db.Column(db.Integer)
+    order_id = db.Column(db.Integer)
     status_id = db.Column(db.Integer)
     address = db.Column(db.String(255))
+    entrance_pention  = db.Column(db.Date())
     entrance_company  = db.Column(db.Date())
+    entrance_health = db.Column(db.Date())
     exit_company  = db.Column(db.Date())
     salary = db.Column(db.Integer)
     collation = db.Column(db.Integer)
     locomotion = db.Column(db.Integer)
     company_email = db.Column(db.String(255))
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
+class CausalModel(db.Model):
+    __tablename__ = 'causals'
+
+    id = db.Column(db.Integer, primary_key=True)
+    causal = db.Column(db.String(255))
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
@@ -256,6 +302,22 @@ class HrFinalDayMonthModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     end_day = db.Column(db.Integer)
     adjustment_day = db.Column(db.Integer)
+
+class EndDocumentModel(db.Model):
+    __tablename__ = 'end_documents'
+
+    id = db.Column(db.Integer, primary_key=True)
+    document_employee_id = db.Column(db.Integer)
+    causal_id = db.Column(db.Integer)
+    rut = db.Column(db.Integer)
+    number_holidays = db.Column(db.Integer)
+    voluntary_indemnity = db.Column(db.Integer)
+    indemnity_years_service = db.Column(db.Integer)
+    substitute_compensation = db.Column(db.Integer)
+    fertility_proportional = db.Column(db.Integer)
+    total = db.Column(db.Integer)
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
 
 class HrEmployeeInputModel(db.Model):
     __tablename__ = 'hr_employee_inputs'
@@ -425,6 +487,17 @@ class DocumentEmployeeModel(db.Model):
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
+class OldDocumentEmployeeModel(db.Model):
+    __tablename__ = 'old_documents_employees'
+
+    id = db.Column(db.Integer, primary_key=True)
+    status_id = db.Column(db.Integer)
+    order_id = db.Column(db.Integer)
+    document_type_id = db.Column(db.Integer)
+    rut = db.Column(db.String(20))
+    support = db.Column(db.String(255))
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
 
 class ContractTypeModel(db.Model):
     __tablename__ = 'contract_type'
@@ -433,7 +506,6 @@ class ContractTypeModel(db.Model):
     contract_type = db.Column(db.String(255))
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
-
 
 class HealthModel(db.Model):
     __tablename__ = 'healths'
@@ -457,6 +529,22 @@ class WhatsappTemplateModel(db.Model):
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
+class WhatsappGroupModel(db.Model):
+    __tablename__ = 'whatsapp_groups'
+
+    id = db.Column(db.Integer, primary_key=True)
+    whatsapp_group = db.Column(db.String(255))
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
+class WhatsappGroupRolModel(db.Model):
+    __tablename__ = 'whatsapp_groups_rols'
+
+    id = db.Column(db.Integer, primary_key=True)
+    group_id = db.Column(db.Integer)
+    rol_id = db.Column(db.Integer)
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
 
 class PentionModel(db.Model):
     __tablename__ = 'pentions'
@@ -673,6 +761,23 @@ class MedicalLicenseModel(db.Model, UserMixin):
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
+class OldMedicalLicenseModel(db.Model, UserMixin):
+    __tablename__ = 'old_medical_licenses'
+
+    id = db.Column(db.Integer, primary_key=True)
+    document_employee_id = db.Column(db.Integer)
+    medical_license_type_id = db.Column(db.Integer)
+    patology_type_id = db.Column(db.Integer)
+    order_id = db.Column(db.Integer)
+    period = db.Column(db.String(255))
+    rut = db.Column(db.String(255))
+    folio = db.Column(db.String(255))
+    since = db.Column(db.Date())
+    until = db.Column(db.Date())
+    days = db.Column(db.Integer)
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
 class EmployeeExtraModel(db.Model, UserMixin):
     __tablename__ = 'employee_extras'
 
@@ -683,17 +788,14 @@ class EmployeeExtraModel(db.Model, UserMixin):
     extreme_zone_id = db.Column(db.Integer)
     employee_type_id = db.Column(db.Integer)
     health_payment_type_id = db.Column(db.Integer)
-    regime_id = db.Column(db.Integer)
     young_job_status_id = db.Column(db.Integer)
     be_paid_id = db.Column(db.Integer)
     suplemental_health_insurance_id = db.Column(db.Integer)
-    pention_id = db.Column(db.Integer)
     pensioner_id = db.Column(db.Integer)
     disability_id = db.Column(db.Integer)
     progressive_vacation_status_id = db.Column(db.Integer)
-    health_id = db.Column(db.Integer)
-    entrance_health = db.Column(db.Date())
-    entrance_pention = db.Column(db.Date())
+    extra_health_amount = db.Column(db.String(255))
+    progressive_vacation_date = db.Column(db.Date())
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
@@ -707,17 +809,15 @@ class OldEmployeeExtraModel(db.Model, UserMixin):
     extreme_zone_id = db.Column(db.Integer)
     employee_type_id = db.Column(db.Integer)
     health_payment_type_id = db.Column(db.Integer)
-    regime_id = db.Column(db.Integer)
     young_job_status_id = db.Column(db.Integer)
     be_paid_id = db.Column(db.Integer)
     suplemental_health_insurance_id = db.Column(db.Integer)
-    pention_id = db.Column(db.Integer)
     pensioner_id = db.Column(db.Integer)
     disability_id = db.Column(db.Integer)
+    order_id = db.Column(db.Integer)
     progressive_vacation_status_id = db.Column(db.Integer)
-    health_id = db.Column(db.Integer)
-    entrance_health = db.Column(db.Date())
-    entrance_pention = db.Column(db.Date())
+    extra_health_amount = db.Column(db.String(255))
+    progressive_vacation_date = db.Column(db.Date())
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 

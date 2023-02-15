@@ -9,6 +9,9 @@ from app.vacations.vacation import Vacation
 from app.employees.employee import Employee
 from app.dropbox_data.dropbox import Dropbox
 from datetime import datetime
+from app.helpers.helper import Helper
+from app.old_documents_employees.old_document_employee import OldDocumentEmployee
+from app.old_vacations.old_vacation import OldVacation
 
 documental_management_datum = Blueprint("documental_management_data", __name__)
 
@@ -41,19 +44,27 @@ def create():
 @documental_management_datum.route("/human_resources/documental_management_data/<int:rut>", methods=['GET'])
 @documental_management_datum.route("/human_resources/documental_management_data/<int:rut>/<int:page>", methods=['GET'])
 def index(rut = '', page=1):
-   kardex_data = DocumentEmployee.get(rut, '', page, 1)
-   settlement_data = DocumentEmployee.get(rut, 5, page, '')
-   certificates = DocumentEmployee.get_by_type(rut, 4, page, [], 2)
-   vacations = Vacation.get(rut, '', '')
+   status_id = Helper.is_active(rut)
+
+   if status_id == 1:
+      kardex_data = DocumentEmployee.get(rut, '', page, 1)
+      settlement_data = DocumentEmployee.get(rut, 5, page, '')
+      certificates = DocumentEmployee.get_by_type(rut, 4, page, [], 2)
+      vacations = Vacation.get(rut, '', '')
+   else:
+      kardex_data = OldDocumentEmployee.get(rut, '', page, 1)
+      settlement_data = OldDocumentEmployee.get(rut, 5, page, '')
+      certificates = OldDocumentEmployee.get_by_type(rut, 4, page, [], 2)
+      vacations = OldVacation.get(rut, '', '')
 
    if current_user.rol_id == 1:
-      return render_template('collaborator/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations)
+      return render_template('collaborator/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations, status_id = status_id)
    elif current_user.rol_id == 2:
-      return render_template('incharge/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations)
+      return render_template('incharge/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations, status_id = status_id)
    elif current_user.rol_id == 3:
-      return render_template('supervisor/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations)
+      return render_template('supervisor/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations, status_id = status_id)
    elif current_user.rol_id == 4:
-      return render_template('administrator/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations)
+      return render_template('administrator/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations, status_id = status_id)
 
 @documental_management_datum.route("/human_resources/documental_management_data/review/<int:page>", methods=['GET'])
 def review(page=1):
@@ -129,12 +140,29 @@ def upload():
    if current_user.rol_id == 3:
       return redirect(url_for('documental_management_data.index', rut=request.form['rut']))
    elif current_user.rol_id == 4:
-      return redirect(url_for('documental_management_data.review', page=1))
+      if document_type.id == 6 or document_type.id == 36:
+         return redirect(url_for('vacations.index', rut=document_employee.rut))
+      else:
+         return redirect(url_for('documental_management_data.review', page=1))
  
 @documental_management_datum.route("/human_resources/documental_management_data/download/<int:id>", methods=['GET'])
 def download(id):
    document_employee = DocumentEmployee.get_by_id(id)
+
    response = Dropbox.get('/employee_documents/', document_employee.support)
 
    return redirect(response)
- 
+
+@documental_management_datum.route("/human_resources/documental_management_data/delete/<int:id>", methods=['GET'])
+def delete(id):
+   document_employee = DocumentEmployee.get_by_id(id)
+   DocumentEmployee.delete(id)
+
+   if document_employee.support != None:
+      Dropbox.delete('/employee_documents/', document_employee.support)
+
+   if document_employee.document_type_id == 6 or document_employee.document_type_id == 36:
+      Vacation.delete(id)
+      return redirect(url_for('vacations.index', rut = document_employee.rut))
+
+   

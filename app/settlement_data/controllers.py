@@ -8,6 +8,9 @@ from app.dropbox_data.dropbox import Dropbox
 from app.helpers.helper import Helper
 from app.documents_employees.document_employee import DocumentEmployee
 from app.helpers.helper import Helper
+from app.old_documents_employees.old_document_employee import OldDocumentEmployee
+import os
+from app.helpers.file import File
 
 settlement_datum = Blueprint("settlement_data", __name__)
 
@@ -21,22 +24,20 @@ def constructor():
 @settlement_datum.route("/management_payroll/settlement_data/<int:rut>", methods=['GET'])
 @settlement_datum.route("/management_payroll/settlement_data", methods=['GET'])
 def index(rut = '', page = 1):
-    
-    if current_user.rol_id == 1:
-        documents_employees = DocumentEmployee.get_by_type(rut, 5, page)
+    status_id = Helper.is_active(rut)
 
+    if status_id == 1:
+        documents_employees = DocumentEmployee.get_by_type(rut, 5, page)
+    else:
+        documents_employees = OldDocumentEmployee.get_by_type(rut, 5, page)
+
+    if current_user.rol_id == 1:
         return render_template('collaborator/management_payrolls/settlement_data/settlement_data_download.html', documents_employees = documents_employees, rut = rut)
     elif current_user.rol_id == 2:
-        documents_employees = DocumentEmployee.get_by_type(rut, 5, page)
-
         return render_template('incharge/management_payrolls/settlement_data/settlement_data_download.html', documents_employees = documents_employees, rut = rut)
     elif current_user.rol_id == 3:
-        documents_employees = DocumentEmployee.get_by_type(rut, 5, page)
-
         return render_template('supervisor/management_payrolls/settlement_data/settlement_data_download.html', documents_employees = documents_employees, rut = rut)
     elif current_user.rol_id == 4:
-        documents_employees = DocumentEmployee.get_by_type('', 5, page)
-
         return render_template('administrator/management_payrolls/settlement_data/settlement_data_download.html', documents_employees = documents_employees, rut = rut)
 
 @settlement_datum.route("/management_payroll/settlement_data/uploaded/<int:page>", methods=['GET'])
@@ -80,7 +81,7 @@ def upload_store():
 def uploaded_download(id):
     settlement_datum = SettlementDatum.download(id)
 
-    with open('app/static/dist/files/settlement_data/' + settlement_datum, 'rb') as f:
+    with open(os.path.join('app/static/dist/files/settlement_data/' + settlement_datum), 'rb') as f:
         data = f.read()
 
     response = make_response(data)
@@ -94,7 +95,7 @@ def uploaded_download(id):
 def sign(id):
     settlement_datum = SettlementDatum.download(id)
 
-    with open('app/static/dist/files/settlement_data/' + settlement_datum, 'rb') as f:
+    with open(os.path.join('app/static/dist/files/settlement_data/' + settlement_datum), 'rb') as f:
         data = f.read()
 
     response = make_response(data)
@@ -129,14 +130,15 @@ def search(page=1):
 @settlement_datum.route("/management_payroll/settlement_data/delete/<int:rut>/<int:id>", methods=['GET'])
 @settlement_datum.route("/management_payroll/settlement_data/delete", methods=['GET'])
 def delete(rut, id):
-   document_employee = DocumentEmployee.get_by_id(id)
+    document_employee = DocumentEmployee.get_by_id(id)
 
-   if document_employee.support != None:
-      Dropbox.delete('/settlement_data/', document_employee.support)
+    if document_employee.support != None:
+        Dropbox.delete('/settlement_data/', document_employee.support)
+        File.delete('app/static/dist/files/end_document_data', document_employee.support)
 
-   DocumentEmployee.delete(id)
+    DocumentEmployee.delete(id)
 
-   return redirect(url_for('settlement_data.uploaded'))
+    return redirect(url_for('settlement_data.uploaded'))
 
 
 

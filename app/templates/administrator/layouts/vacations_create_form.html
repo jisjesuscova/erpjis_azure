@@ -13,17 +13,6 @@
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <label for="exampleInputEmail1">Empleado</label>
-                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="rut">
-                                            <option value="1">- Seleccionar -</option>
-                                            {% for employee in employees %}
-                                                <option value="{{ employee.rut }}">{{ employee.nickname }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Desde</label>

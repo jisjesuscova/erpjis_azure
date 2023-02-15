@@ -8,28 +8,35 @@
                     </div>
                     
                     <div class="card-body">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    {% if category == 'error' %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                    {% if category == 'success' %}
+                                        <div class="alert alert-success" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
                         <!-- form start -->
                         <form role="form" action="{{ url_for('personal_data.update') }}/{{ employee.rut }}" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        {% if employee.picture != '' and employee.picture is not None %}
-                                            <div class="card-body">
-                                                <center>
-                                                    <div class="image-area">
-                                                        <img src="{{ download_url }}" alt="Picture">
-                                                    </div>
-                                                </center>
-                                            </div>
-                                        {% else %}
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="exampleInputEmail1">Foto</label>
-                                                    <input type="file" value="" class="form-control" id="exampleInputEmail1" placeholder="Imagen" name="file">
+                                        <div class="card-body">
+                                            <center>
+                                                <div class="image-area">
+                                                    <img src="{{ download_url }}" alt="Picture">
                                                 </div>
-                                            </div>
-                                        {% endif %}
+                                            </center>
+                                        </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
@@ -102,12 +109,14 @@
 
                             <input type="hidden" value="{{ employee.rut }}" class="form-control" id="exampleInputEmail1" name="id">
                             <!-- /.card-body -->
+                            
+                            {% if is_active == 1 %}
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Actualizar</button>
 
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Actualizar</button>
-
-                                <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
-                            </div>
+                                    <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
+                                </div>
+                            {% endif %}
                         </form>
                         <!-- form end -->
                     </div>
@@ -143,12 +152,14 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
+                                    {% if is_active == 1 %}
+                                        <div class="card-footer">
+                                            <button type="button" id="save-button" class="btn btn-success">Guardar</button>
 
-                                    <div class="card-footer">
-                                        <button type="button" id="save-button" class="btn btn-success">Guardar</button>
-
-                                        <a href="{{ url_for('home.index') }}" class="btn btn-secondary">Cancelar</a>
-                                    </div>
+                                            <a href="{{ url_for('home.index') }}" class="btn btn-secondary">Cancelar</a>
+                                        </div>
+                                    {% endif %}
                                 </form>
                                 <!-- form end -->
                             {% else %}

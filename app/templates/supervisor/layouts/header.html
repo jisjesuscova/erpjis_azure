@@ -25,6 +25,8 @@
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
   
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
 
@@ -46,6 +48,37 @@
       #calendar {
         max-width: 1100px;
         margin: 20px auto;
+      }
+
+      .slick-prev, .slick-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1;
+        font-size: 5em;
+        color: #fff;
+        cursor: pointer;
+      }
+      
+      .slick-prev {
+        left: 10px;
+      }
+      
+      .slick-next {
+        right: 10px;
+      }
+
+      .slider {
+        width: 100% !important;
+      }
+
+      .new_description {
+        text-align: justify;
+        text-justify: inter-word;
+      }
+
+      .new_title {
+        font-size: 40px;
       }
 </style>
 </head>

@@ -104,11 +104,13 @@
                             <input type="hidden" value="{{ employee.rut }}" class="form-control" id="exampleInputEmail1" name="id">
                             <!-- /.card-body -->
 
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Actualizar</button>
+                            {% if is_active == 1 %}
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Actualizar</button>
 
-                                <a href="{{ url_for('home.index') }}" class="btn btn-secondary">Cancelar</a>
-                            </div>
+                                    <a href="{{ url_for('home.index') }}" class="btn btn-secondary">Cancelar</a>
+                                </div>
+                            {% endif %}
                         </form>
                         <!-- form end -->
                     </div>
@@ -143,11 +145,13 @@
                                     </div>
                                 </div>
 
-                                <div class="card-footer">
-                                    <button type="button" id="save-button" class="btn btn-success">Guardar</button>
+                                {% if is_active == 1 %}
+                                    <div class="card-footer">
+                                        <button type="button" id="save-button" class="btn btn-success">Guardar</button>
 
-                                    <a href="{{ url_for('home.index') }}" class="btn btn-secondary">Cancelar</a>
-                                </div>
+                                        <a href="{{ url_for('home.index') }}" class="btn btn-secondary">Cancelar</a>
+                                    </div>
+                                {% endif %}
                             </form>
                             <!-- form end -->
                         {% else %}

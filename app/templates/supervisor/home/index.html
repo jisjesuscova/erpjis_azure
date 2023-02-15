@@ -1,5 +1,25 @@
 {% extends 'supervisor/layouts/base.html' %}
 {% block content %}
-
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="slider">
+                        {% for new in news %}
+                            <a href="{{ url_for('news.show', id=new['id']) }}">
+                                <img src="{{ url_for("static", filename="dist/files/new_data/"+new.picture) }}" class="slider" alt="imagen1">
+                            </a>
+                        {% endfor %}
+                    </div>
+                    <div class="slick-prev">
+                        <i class="fas fa-chevron-left"></i>
+                    </div>
+                    <div class="slick-next">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 {% endblock %}
     

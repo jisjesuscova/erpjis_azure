@@ -48,7 +48,7 @@
                                 <tr>
                                     <td><center>{{ multiple_datum['since']|datetime("dd-MM-yyyy") }}</center></td>
                                     <td><center>{{ multiple_datum['until']|datetime("dd-MM-yyyy") }}</center></td>
-                                    <td><center>{{ multiple_datum['days'] }}</center></td>
+                                    <td><center>{{ multiple_datum['days']-multiple_datum['no_valid_days'] }}</center></td>
                                 </tr>
                             {% endfor %}
                         </table>

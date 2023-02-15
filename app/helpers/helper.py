@@ -1,8 +1,8 @@
 from datetime import datetime
-from app.models.models import VacationModel, DocumentEmployeeModel
+from app.models.models import ProgressiveVacationModel, VacationModel, DocumentEmployeeModel, EmployeeModel, OldVacationModel, OldDocumentEmployeeModel
 from app.hr_final_day_months.hr_final_day_month import HrFinalDayMonth
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 from app import db
 from fitz import fitz
 from dateutil.relativedelta import relativedelta
@@ -11,6 +11,26 @@ import re
 import random
 
 class Helper:
+    @staticmethod
+    def document_date(date):
+        object_date = datetime.strptime(date, "%Y-%m-%d")
+
+        months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+
+        month_name = months[object_date.month - 1]
+        fixed_date = f"{object_date.day} de {month_name} del {object_date.year}"
+
+        return fixed_date
+
+    @staticmethod
+    def fix_entrance_date(date):
+        if date != '':
+            return date
+        else:
+            date = None
+
+            return date
+
     @staticmethod
     def numeric_rut(rut):
         rut = rut.split('-')
@@ -27,6 +47,17 @@ class Helper:
     def add_zero(number):
         if number < 10:
             result = "0" + str(number)
+        else:
+            result = number
+
+        return result
+
+    @staticmethod
+    def get_last_order_id_to_restore(number):
+        number = int(number) - 1
+
+        if 0 == number:
+            result = 1
         else:
             result = number
 
@@ -84,6 +115,18 @@ class Helper:
         return value
 
     @staticmethod
+    def is_active(rut):
+        employee = EmployeeModel.query.filter_by(rut=rut).count()
+
+        return employee
+
+    @staticmethod
+    def vacation_day_value(amount):
+        value = round(amount/30)
+
+        return value
+
+    @staticmethod
     def fix_date(value):
         value = value.split("-")
 
@@ -122,7 +165,7 @@ class Helper:
         d2 = datetime.strptime(until, "%Y-%m-%d")
         subtotal = abs((d2 - d1 ).days)
         subtotal = abs(subtotal) + abs(1)
-        total = abs(subtotal) + abs(int(no_valid_days))
+        total = abs(subtotal) - abs(int(no_valid_days))
         return total
     
     @staticmethod
@@ -134,6 +177,22 @@ class Helper:
     def gratification(salary):
 
         return round(salary * 0.25)
+
+    @staticmethod
+    def calculate_end_document_end_date(start_date, balance):
+        start_date = datetime.strptime(start_date, "%Y-%m-%d")
+        end_date = start_date + timedelta(days=balance)
+
+        return end_date
+
+    @staticmethod
+    def weekends_between_dates(start_date, end_date):
+        start_date = str(start_date)
+        end_date = str(end_date)
+        start_date = datetime.strptime(start_date, '%Y-%m-%d')
+        end_date = datetime.strptime(end_date, '%Y-%m-%d')
+        delta = end_date - start_date
+        return (delta.days + 1 + (start_date.weekday() > 4) + (end_date.weekday() > 4)) // 7
     
     @staticmethod
     def vacation_days(months, extreme_zone_status_id):
@@ -143,19 +202,101 @@ class Helper:
             total = round(months*1.25)
 
         return total
+
+    @staticmethod
+    def progressive_vacation_days(months, extreme_zone_status_id = ''):
+        total = 0
+
+        if months >= 36:
+            total = total + 1
+        
+        if months >= 48:
+            total = total + 1
+        
+        if months >= 60:
+            total = total + 1
+        
+        if months >= 72:
+            total = total + 2
+        
+        if months >= 84:
+            total = total + 2
+        
+        if months >= 96:
+            total = total + 2
+        
+        if months >= 108:
+            total = total + 3
+        
+        if months >= 120:
+            total = total + 3
+        
+        if months >= 132:
+            total = total + 3
+        
+        if months >= 144:
+            total = total + 4
+
+        if months >= 156:
+            total = total + 4
+
+        if months >= 168:
+            total = total + 4
+
+        if months >= 180:
+            total = total + 5
+
+        if months >= 192:
+            total = total + 5
+
+        if months >= 204:
+            total = total + 5
+
+
+        return total
     
     @staticmethod
     def get_taken_days(rut):
-        vacations = VacationModel.query\
-                    .join(DocumentEmployeeModel, DocumentEmployeeModel.id == VacationModel.document_employee_id)\
-                    .add_columns(VacationModel.id, VacationModel.rut, VacationModel.since, VacationModel.until, VacationModel.days, DocumentEmployeeModel.status_id)\
-                    .filter(DocumentEmployeeModel.rut==rut, DocumentEmployeeModel.document_type_id==6, db.or_(DocumentEmployeeModel.status_id==4, DocumentEmployeeModel.status_id==3)) \
-                    .order_by(db.desc(DocumentEmployeeModel.added_date))
+        status_id = Helper.is_active(rut)
+
+        if status_id == 1:
+            vacations = VacationModel.query\
+                        .join(DocumentEmployeeModel, DocumentEmployeeModel.id == VacationModel.document_employee_id)\
+                        .add_columns(VacationModel.no_valid_days, VacationModel.id, VacationModel.rut, VacationModel.since, VacationModel.until, VacationModel.days, DocumentEmployeeModel.status_id)\
+                        .filter(DocumentEmployeeModel.rut==rut, DocumentEmployeeModel.document_type_id==6, db.or_(DocumentEmployeeModel.status_id==4, DocumentEmployeeModel.status_id==3)) \
+                        .order_by(db.desc(DocumentEmployeeModel.added_date))
+
+            taken_days = 0
+
+            for vacation in vacations:
+                taken_days = taken_days + vacation.days - vacation.no_valid_days
+        else:
+            vacations = OldVacationModel.query\
+                        .join(OldDocumentEmployeeModel, OldDocumentEmployeeModel.id == OldVacationModel.document_employee_id)\
+                        .add_columns(OldVacationModel.no_valid_days, OldVacationModel.id, OldVacationModel.rut, OldVacationModel.since, OldVacationModel.until, OldVacationModel.days, OldDocumentEmployeeModel.status_id)\
+                        .filter(OldDocumentEmployeeModel.rut==rut, OldDocumentEmployeeModel.document_type_id==6, db.or_(OldDocumentEmployeeModel.status_id==4, OldDocumentEmployeeModel.status_id==3)) \
+                        .order_by(db.desc(OldDocumentEmployeeModel.added_date))
+
+            taken_days = 0
+
+            for vacation in vacations:
+                taken_days = taken_days + vacation.days - vacation.no_valid_days
+
+        return taken_days
+
+    @staticmethod
+    def get_taken_progressive_days(rut):
+
+        vacations = ProgressiveVacationModel.query\
+                        .join(DocumentEmployeeModel, DocumentEmployeeModel.id == ProgressiveVacationModel.document_employee_id)\
+                        .add_columns(ProgressiveVacationModel.no_valid_days, ProgressiveVacationModel.id, ProgressiveVacationModel.rut, ProgressiveVacationModel.since, ProgressiveVacationModel.until, ProgressiveVacationModel.days, DocumentEmployeeModel.status_id)\
+                        .filter(DocumentEmployeeModel.rut==rut, DocumentEmployeeModel.document_type_id==36, db.or_(DocumentEmployeeModel.status_id==4, DocumentEmployeeModel.status_id==3)) \
+                        .order_by(db.desc(DocumentEmployeeModel.added_date))
 
         taken_days = 0
 
         for vacation in vacations:
-            taken_days = taken_days + vacation.days
+            taken_days = taken_days + vacation.days - vacation.no_valid_days
 
         return taken_days
     
@@ -217,6 +358,24 @@ class Helper:
         total = seconds*days
         return time.strftime('%H:%M', time.gmtime(total))
 
+    def get_end_document_total_years(start_year, end_year):
+        date1 = datetime.strptime(str(start_year), "%Y-%m-%d")
+        date2 = datetime.strptime(str(end_year), "%Y-%m-%d")
+
+        delta = date2 - date1
+
+        years = delta.days / 365.2425
+
+        months = Helper.split(end_year, '-')
+
+        if years >= 1:
+            if int(months[1]) >= 6:
+                years = years + 1
+        else:
+            years = 0
+        
+        return round(years)
+
     @staticmethod
     def serialize(data, type):
         res = []
@@ -253,6 +412,14 @@ class Helper:
         return res
     
     @staticmethod
+    def add_months(dt, months):
+        month = dt.month - 1 + months
+        year = dt.year + month // 12
+        month = month % 12 + 1
+        day = min(dt.day, calendar.monthrange(year, month)[1])
+        return dt.replace(year=year, month=month, day=day)
+
+    staticmethod
     def get_periods(since, until):
         d1 = datetime.strptime(since, "%Y-%m-%d")
         d2 = datetime.strptime(until, "%Y-%m-%d")
@@ -261,51 +428,65 @@ class Helper:
         splited_since = since.split("-")
         splited_until = until.split("-")
 
-        if days < 60:
-            final_day = HrFinalDayMonth.get(splited_since[1])
-            final_day = final_day.end_day
+        if days < 30:
             first_since = since
-            first_until = splited_since[0] +'-'+ splited_since[1] + '-' + str(final_day)
+            first_until = until
             d1 = datetime.strptime(first_since, "%Y-%m-%d")
             d2 = datetime.strptime(first_until, "%Y-%m-%d")
             first_days = abs((d2 - d1).days)
             first_days = first_days + 1
 
-            second_since = splited_until[0] +'-'+ splited_until[1] + '-01'
-            second_until = until
-            d1 = datetime.strptime(second_since, "%Y-%m-%d")
-            d2 = datetime.strptime(second_until, "%Y-%m-%d")
-            second_days = abs((d2 - d1).days)
-            second_days = second_days + 1
-
-            data = [[first_since, first_until, first_days], [second_since, second_until, second_days]]
+            data = [[first_since, first_until, first_days]]
         else:
-            final_day = HrFinalDayMonth.get(splited_since[1])
-            final_day = final_day.end_day
-            first_since = since
-            first_until = splited_since[0] +'-'+ splited_since[1] + '-' + str(final_day)
-            d1 = datetime.strptime(first_since, "%Y-%m-%d")
-            d2 = datetime.strptime(first_until, "%Y-%m-%d")
-            first_days = abs((d2 - d1).days)
-            first_days = first_days + 1
-            
-            middle_month = splited_since[1] + 1
-            final_day = HrFinalDayMonth.get(middle_month)
-            final_day = final_day.end_day
-            second_since = splited_until[0] +'-'+ middle_month + '-01'
-            second_until = splited_until[0] +'-'+ middle_month + '-' + str(final_day)
-            d1 = datetime.strptime(second_since, "%Y-%m-%d")
-            d2 = datetime.strptime(second_until, "%Y-%m-%d")
-            second_days = abs((d2 - d1).days)
-            second_days = second_days + 1
+            if days < 60:
+                final_day = HrFinalDayMonth.get(splited_since[1])
+                final_day = final_day.end_day
+                first_since = since
+                first_until = splited_since[0] +'-'+ splited_since[1] + '-' + str(final_day)
+                d1 = datetime.strptime(first_since, "%Y-%m-%d")
+                d2 = datetime.strptime(first_until, "%Y-%m-%d")
+                first_days = abs((d2 - d1).days)
+                first_days = first_days + 1
 
-            third_since = splited_until[0] +'-'+ splited_since[1] + '-01'
-            third_until = until
-            d1 = datetime.strptime(third_since, "%Y-%m-%d")
-            d2 = datetime.strptime(third_until, "%Y-%m-%d")
-            third_days = abs((d2 - d1).days)
-            third_days = third_days + 1
+                second_since = splited_until[0] +'-'+ splited_until[1] + '-01'
+                second_until = until
+                d1 = datetime.strptime(second_since, "%Y-%m-%d")
+                d2 = datetime.strptime(second_until, "%Y-%m-%d")
+                second_days = abs((d2 - d1).days)
+                second_days = second_days + 1
 
-            data = [[first_since, first_until, first_days], [second_since, second_until, second_days], [third_since, third_until, third_days]]
+                data = [[first_since, first_until, first_days], [second_since, second_until, second_days]]
+            else:
+                final_day = HrFinalDayMonth.get(splited_since[1])
+                final_day = final_day.end_day
+                first_since = since
+                first_until = splited_since[0] +'-'+ splited_since[1] + '-' + str(final_day)
+                d1 = datetime.strptime(first_since, "%Y-%m-%d")
+                d2 = datetime.strptime(first_until, "%Y-%m-%d")
+                first_days = abs((d2 - d1).days)
+                first_days = first_days + 1
+                
+                middle_month = int(splited_since[1]) + 1
+                final_day = HrFinalDayMonth.get(middle_month)
+                final_day = final_day.end_day
+                second_since = str(splited_until[0]) +'-'+ str(middle_month) + '-01'
+                second_until = str(splited_until[0]) +'-'+ str(middle_month) + '-' + str(final_day)
+                d1 = datetime.strptime(second_since, "%Y-%m-%d")
+                d2 = datetime.strptime(second_until, "%Y-%m-%d")
+                second_days = abs((d2 - d1).days)
+                second_days = second_days + 1
+
+                splited_since = second_since.split("-")
+                splited_until = second_until.split("-")
+
+                middle_month = int(splited_since[1]) + 1
+                third_since = splited_until[0] +'-'+ str(middle_month) + '-01'
+                third_until = until
+                d1 = datetime.strptime(third_since, "%Y-%m-%d")
+                d2 = datetime.strptime(third_until, "%Y-%m-%d")
+                third_days = abs((d2 - d1).days)
+                third_days = third_days + 1
+
+                data = [[first_since, first_until, first_days], [second_since, second_until, second_days], [third_since, third_until, third_days]]
 
         return data

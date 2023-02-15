@@ -36,7 +36,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Hasta</label>
-                                                <input type="date" value="{{ vacation['until'] }}" class="form-control" id="exampleInputEmail1" placeholder="Desde" name="until">
+                                                <input type="date" value="{{ vacation['until'] }}" class="form-control" id="exampleInputEmail1" placeholder="Hasta" name="until">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -48,13 +48,14 @@
                                     </div>
                                 {% endif %}
                             </div>
-                            <input type="hidden" value="{{ id }}" class="form-control" id="exampleInputEmail1" name="document_type_id">
                             <input type="hidden" value="{{ document_employee.id }}" class="form-control" id="exampleInputEmail1" name="id">
 
                             <div class="card-footer">
+                                <input type="hidden" name="answer" value="1">
+                                <input type="hidden" name="document_type_id" value="{{ document_type_id }}">
                                 <button type="submit" class="btn btn-success">Aceptar</button>
 
-                                <a href="{{ url_for('documental_management_data.index') }}/{{ current_user.rut }}" class="btn btn-danger">Rechazar</a>
+                                <a href="{{ url_for('document_requests.reject', id = document_employee.id, type_id = document_employee.document_type_id) }}" class="btn btn-danger">Rechazar</a>
                             </div>
                         </form>
                         <!-- form end -->

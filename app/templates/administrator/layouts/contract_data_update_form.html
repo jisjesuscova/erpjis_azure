@@ -69,6 +69,9 @@
                                             <label for="exampleInputEmail1">Comuna</label>
                                             <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="commune_id" name="commune_id" required>
                                                 <option value="">- Seleccionar -</option>
+                                                {% for commune in communes %}
+                                                    <option {% if commune.id == contract_datum.commune_id %} selected {% endif %} value="{{ commune.id }}">{{ commune.commune }}</option>
+                                                {% endfor %}
                                             </select>
                                         </div>
                                     </div>
@@ -104,13 +107,8 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">AFP</label>
-                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="pention_id" required>
-                                                <option value="">- Seleccionar -</option>
-                                                {% for pention in pentions %}
-                                                    <option {% if pention.id == contract_datum.pention_id %} selected {% endif %} value="{{ pention.id }}">{{ pention.pention }}</option>
-                                                {% endfor %}
-                                            </select>
+                                            <label for="exampleInputEmail1">Fecha de Entrada a la Salud</label>
+                                            <input type="date" value="{{ contract_datum.entrance_health }}" class="form-control" id="exampleInputEmail1" placeholder="Entrada a la Salud" name="entrance_health" required>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -163,18 +161,50 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Regimen Previsional</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="regime_id" name="regime_id" required>
+                                                <option value="">- Seleccionar -</option>
+                                                <option {% if 1 == contract_datum.regime_id %} selected {% endif %} value="1">AFP</option>
+                                                <option {% if 2 == contract_datum.regime_id %} selected {% endif %} value="2">IPS (Ex-INP)</option>
+                                                <option {% if 3 == contract_datum.regime_id %} selected {% endif %} value="3">Sin Institución Previsional (SIP)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="row" id="regime_afp">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">AFP</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="pention_id">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for pention in pentions %}
+                                                    <option {% if pention.id == contract_datum.pention_id %} selected {% endif %} value="{{ pention.id }}">{{ pention.pention }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Fecha de Entrada a la AFP</label>
+                                            <input type="date" value="{{ contract_datum.entrance_pention }}" value="00-00-0000" class="form-control" id="exampleInputEmail1" placeholder="Fecha Entrada AFP" name="entrance_pention">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
                             <input type="hidden" value="{{ contract_datum.rut }}" class="form-control" id="exampleInputEmail1" name="rut">
                             
                             <!-- /.card-body -->
+                            {% if is_active == 1 %}
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Actualizar</button>
 
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Actualizar</button>
-
-                                <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
-                            </div>
+                                    <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
+                                </div>
+                            {% endif %}
                         </form>
                         <!-- form end -->
                     </div>
@@ -184,11 +214,13 @@
                         <h3 class="card-title">
                             <form role="form" action="{{ url_for('contract_data.generate') }}" method="POST">
                                 Contratos
-                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-                                <button type="submit" class="btn btn-success">Crear</button>
-                                <input type="hidden" name="rut" value="{{ rut }}">
-                                <input type="hidden" name="document_type_id" value="21">
-                                <input type="hidden" name="status_id" value="3">
+                                {% if is_active == 1 %}
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                                    <button type="submit" class="btn btn-success">Crear</button>
+                                    <input type="hidden" name="rut" value="{{ rut }}">
+                                    <input type="hidden" name="document_type_id" value="21">
+                                    <input type="hidden" name="status_id" value="3">
+                                {% endif %}
                             </form>        
                         </h3>
                     </div>
@@ -232,7 +264,9 @@
                     <div class="card-header">
                         <h3 class="card-title">
                             Finiquito
-                            <a href="{{ url_for('end_documents.create', rut=rut) }}" class="btn btn-danger">Crear</a>
+                            {% if not end_documents %}
+                                <a href="{{ url_for('end_documents.create', rut=rut) }}" class="btn btn-danger">Crear</a>
+                            {% endif %}
                         </h3>
                     </div>
                     <!-- /.card-header -->
@@ -243,6 +277,30 @@
                                 <th>Fecha</th>
                                 <th></th>
                             </tr>
+                            {% for end_document in end_documents %}
+                                <tr>
+                                    <td>{{ end_document['added_date']|datetime("dd-MM-yyyy") }}</td>
+                                    <td>
+                                        {% if end_document['status_id'] == 3  %}
+                                            <a href="{{ url_for('end_documents.upload', id=end_document['document_employee_id'], rut=rut) }}" class="btn btn-success">
+                                                <i class="fa fa-arrow-up"></i>
+                                            </a>
+                                        {% else  %}
+                                            <a href="{{ url_for('end_documents.download', id=end_document['document_employee_id'], rut=rut) }}" class="btn btn-primary">
+                                                <i class="fa fa-arrow-down"></i>
+                                            </a>
+                                        {% endif %}
+
+                                        <a href="{{ url_for('end_documents.document', id=end_document['id'], rut=rut) }}" class="btn btn-warning">
+                                            <i class="fa fa-file"></i>
+                                        </a>
+
+                                        <a href="{{ url_for('end_documents.delete', end_document_id=end_document['id'], document_employee_id=end_document['document_employee_id'], rut=rut) }}" class="btn btn-danger">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
                         </thead>
                     </table>
                 </div>

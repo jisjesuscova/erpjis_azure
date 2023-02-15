@@ -6,7 +6,7 @@ class Commune():
     @staticmethod
     def get(id = ''):
         if id == '':
-            communes = CommunesModel.query.all()
+            communes = CommunesModel.query.order_by(CommunesModel.commune).all()
 
             return communes
         else:

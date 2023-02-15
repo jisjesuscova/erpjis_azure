@@ -85,21 +85,23 @@ class SettlementDatum():
         if count == 0:
             employee = EmployeeModel.query.filter_by(rut = settlement_datum.rut).first()
             
-            with fitz.open('app/static/dist/files/settlement_data/' + settlement_datum.support) as pdf_document:
+            with fitz.open(os.path.join('app/static/dist/files/settlement_data/' + settlement_datum.support)) as pdf_document:
                 img_rect = fitz.Rect(300, 550, 600, 650)
                 page = pdf_document[0]
-                page.insert_image(img_rect, filename='app/static/dist/files/signature_data/' + employee.signature)
 
-                pdf_document.save('app/static/dist/files/settlement_data/signed_' +settlement_datum.support)
+                if employee.signature != None:
+                    page.insert_image(img_rect, filename=os.path.join('app/static/dist/files/signature_data/' + employee.signature))
+
+                pdf_document.save(os.path.join('app/static/dist/files/settlement_data/signed_' +settlement_datum.support))
 
             settings = Setting.get()
 
             dbx = dropbox.Dropbox(settings.dropbox_token)
 
-            with open('app/static/dist/files/settlement_data/signed_' +settlement_datum.support, 'rb') as f:
+            with open(os.path.join('app/static/dist/files/settlement_data/signed_' +settlement_datum.support), 'rb') as f:
                 dbx.files_upload(f.read(), '/salary_settlements/signed_' +settlement_datum.support, mode=dropbox.files.WriteMode.overwrite)
 
-            os.remove('app/static/dist/files/settlement_data/' + settlement_datum.support)
+            os.remove(os.path.join('app/static/dist/files/settlement_data/' + settlement_datum.support))
 
             settlement_datum = DocumentEmployeeModel.query.filter_by(id = id).first()
             settlement_datum.status_id = 4

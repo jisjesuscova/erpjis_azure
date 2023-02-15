@@ -6,7 +6,9 @@
                     <div class="card-header">
                         <h3 class="card-title">
                             Kardex
-                            <a href="{{ url_for('kardex_data.create', rut=rut) }}" class="btn btn-success">Agregar</a>
+                            {% if is_active == 1 %}
+                                <a href="{{ url_for('kardex_data.create', rut=rut) }}" class="btn btn-success">Agregar</a>
+                            {% endif %}
                         </h3>
                     </div>
                     <!-- /.card-header -->
@@ -25,10 +27,12 @@
                                     <td>{{ kardex_datum['document_type'] }}</td>
                                     <td>{{ kardex_datum['added_date']|datetime("dd-MM-yyyy") }}</td>
                                     <td>
-                                        <a href="{{ url_for('kardex_data.delete', rut=rut, id=kardex_datum['id']) }}" class="btn btn-danger">
-                                            <i class="fa fa-times"></i>
-                                        </a>
-                                        <a href="{{ url_for('kardex_data.download') }}/{{ kardex_datum['id']}}" class="btn btn-success">
+                                        {% if is_active == 1 %}
+                                            <a href="{{ url_for('kardex_data.delete', rut=rut, id=kardex_datum['id']) }}" class="btn btn-danger">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                        {% endif %}
+                                        <a href="{{ url_for('kardex_data.download', id=kardex_datum['id'], rut=rut) }}" class="btn btn-success">
                                             <i class="fa fa-arrow-down"></i>
                                         </a>
                                     </td>

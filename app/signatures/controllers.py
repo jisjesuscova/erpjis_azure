@@ -30,7 +30,7 @@ def delete():
 
     employee = Employee.get(rut)
 
-    signature = Dropbox.delete('/signature/', employee.signature)
+    Dropbox.delete('/signatures/', employee.signature)
 
     Employee.update_signature('', current_user.rut)
 

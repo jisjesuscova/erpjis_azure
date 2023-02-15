@@ -3,10 +3,12 @@
     <div class="content-wrapper">
         <section class="content">
             <div class="row">
-                <div class="col-12">
+                <div class="col-md-12">
                     <div id="slider">
                         {% for new in news %}
-                            <img src="{{ url_for("static", filename="dist/files/new_data/"+new.picture) }}" alt="imagen1">
+                            <a href="{{ url_for('news.show', id=new['id']) }}">
+                                <img src="{{ url_for("static", filename="dist/files/new_data/"+new.picture) }}" class="slider" alt="imagen1">
+                            </a>
                         {% endfor %}
                     </div>
                     <div class="slick-prev">

@@ -1,4 +1,42 @@
 $(document).ready(function () {
+    $("#regime_afp").hide();
+    $("#progressive_vacation_date").hide();
+
+    $('body').on('mousemove', function(event) {
+        var regime_id = $("#regime_id").val();
+        var progressive_vacation_status_id = $("#progressive_vacation_status_id").val();
+
+        if(regime_id == 1) {
+            $("#regime_afp").show();
+        } else {
+            $("#regime_afp").hide();
+        }
+
+        if(progressive_vacation_status_id == 1) {
+            $("#progressive_vacation_date").show();
+        } else {
+            $("#progressive_vacation_date").hide();
+        }
+    });
+
+    $('#progressive_vacation_status_id').change(function() {
+        var id = $(this).val()
+        if(id == 1) {
+            $("#progressive_vacation_date").show();
+        } else {
+            $("#progressive_vacation_date").hide();
+        }
+    });
+
+    $('#regime_id').change(function() {
+        var id = $(this).val()
+        if(id == 1) {
+            $("#regime_afp").show();
+        } else {
+            $("#regime_afp").hide();
+        }
+    });
+
     $('#slider').slick({
         arrows: true,
         prevArrow: '.slick-prev',
@@ -11,10 +49,10 @@ $(document).ready(function () {
         location.reload();
     });
 
-    $("#status_id").change(function() {
-        var status_id = $(this).val();
+    $("#employee_status_id").change(function() {
+        var employee_status_id = $(this).val();
 
-        $(".status_id").val(status_id)
+        $(".employee_status_id").val(employee_status_id)
     });
 
     $("#causal_id").change(function() {

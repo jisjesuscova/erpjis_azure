@@ -102,10 +102,10 @@ class Dropbox():
         dbx = dropbox.Dropbox(settings.dropbox_token)
         file_name = '/signature/'+ str(current_user.rut) +'.png'
  
-        with open(os.path.join(str(current_user.rut) +'.png'), "wb") as f:
+        with open(os.path.join( 'app/static/dist/files/signature_data/' + str(current_user.rut) +'.png'), "wb") as f:
             f.write(file)
 
-        if dbx.files_upload(os.path.join(file), file_name, mode=dropbox.files.WriteMode('overwrite')):
+        if dbx.files_upload(file, file_name, mode=dropbox.files.WriteMode('overwrite')):
             return  str(current_user.rut) +'.png'
         else:
             return 0
@@ -117,7 +117,7 @@ class Dropbox():
         dbx = dropbox.Dropbox(settings.dropbox_token)
 
         try:
-            exist = Dropbox.exist(url + file)
+            exist = Dropbox.exist(url, file)
 
             if exist == 1:
                 dbx.files_get_metadata(url + file)
@@ -165,16 +165,19 @@ class Dropbox():
 
     @staticmethod
     def exist(url, file):
-        settings = Setting.get()
-
-        dbx = dropbox.Dropbox(settings.dropbox_token)
-
-        try:
-            dbx.files_get_metadata(url + file)
-            
-            return 1
-        except ApiError:
+        if file == None:
             return 0
+        else:
+            settings = Setting.get()
+
+            dbx = dropbox.Dropbox(settings.dropbox_token)
+
+            try:
+                dbx.files_get_metadata(url + file)
+                
+                return 1
+            except ApiError:
+                return 0
         
 
         

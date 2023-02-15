@@ -1,12 +1,18 @@
 from app.models.models import EmployeeLaborDatumModel
 from app.helpers.helper import Helper
 from app.hr_final_day_months.hr_final_day_month import HrFinalDayMonth
-from app.models.models import EmployeeModel, UserModel
+from app.models.models import EmployeeModel, UserModel, OldEmployeeLaborDatumModel
 from datetime import datetime
+from app import db
 
 class EmployeeLaborDatum():
     def get(rut):
         employee_labor_data = EmployeeLaborDatumModel.query.filter_by(rut=rut).first()
+
+        return employee_labor_data
+
+    def get_by_rut(rut):
+        employee_labor_data = EmployeeLaborDatumModel.query.filter_by(rut=rut).all()
 
         return employee_labor_data
 
@@ -51,3 +57,96 @@ class EmployeeLaborDatum():
             days = 0
 
         return days
+
+    def old_data_get_by_rut(rut, order_id):
+        old_employee_labor_data = OldEmployeeLaborDatumModel.query.filter_by(rut=rut, order_id=order_id).all()
+
+        return old_employee_labor_data
+
+    @staticmethod
+    def restore(rut, order_id):
+        old_employee_labor_data = EmployeeLaborDatum.old_data_get_by_rut(rut, order_id)
+
+        data = []
+
+        for old_employee_labor_datum in old_employee_labor_data:
+            data = [
+                old_employee_labor_datum.rut,
+                old_employee_labor_datum.visual_rut,
+                old_employee_labor_datum.contract_type_id,
+                old_employee_labor_datum.branch_office_id,
+                old_employee_labor_datum.address,
+                old_employee_labor_datum.region_id,
+                old_employee_labor_datum.commune_id,
+                old_employee_labor_datum.civil_state_id,
+                old_employee_labor_datum.health_id,
+                old_employee_labor_datum.pention_id,
+                old_employee_labor_datum.job_position_id,
+                old_employee_labor_datum.employee_type_id,
+                old_employee_labor_datum.address,
+                old_employee_labor_datum.entrance_company,
+                old_employee_labor_datum.salary,
+                old_employee_labor_datum.collation,
+                old_employee_labor_datum.locomotion,
+                old_employee_labor_datum.added_date,
+                old_employee_labor_datum.updated_date,
+            ]
+
+            EmployeeLaborDatum.restore_store(data)
+
+            EmployeeLaborDatum.old_data_delete(old_employee_labor_datum.id)
+
+        return 1
+
+    @staticmethod
+    def restore_store(data):
+        employee_labor_data = EmployeeLaborDatumModel()
+        employee_labor_data.rut = data[0]
+        employee_labor_data.visual_rut = data[1]
+        employee_labor_data.contract_type_id = data[2]
+        employee_labor_data.branch_office_id = data[3]
+        employee_labor_data.address = data[4]
+        employee_labor_data.region_id = data[5]
+        employee_labor_data.commune_id = data[6]
+        employee_labor_data.civil_state_id = data[7]
+        employee_labor_data.health_id = data[8]
+        employee_labor_data.pention_id = data[9]
+        employee_labor_data.job_position_id = data[10]
+        employee_labor_data.employee_type_id = data[11]
+        employee_labor_data.address = data[12]
+        employee_labor_data.entrance_company = data[13]
+        employee_labor_data.salary = data[14]
+        employee_labor_data.collation = data[15]
+        employee_labor_data.locomotion = data[16]
+        employee_labor_data.added_date = data[17]
+        employee_labor_data.updated_date = data[18]
+
+        db.session.add(employee_labor_data)
+        db.session.commit()
+        
+        return employee_labor_data
+
+    @staticmethod
+    def old_data_delete(id):
+        old_employee_labor_datum = OldEmployeeLaborDatumModel.query.filter_by(id=id).first()
+
+        db.session.delete(old_employee_labor_datum)
+        try:
+            db.session.commit()
+
+            return old_employee_labor_datum
+        except Exception as e:
+            return {'msg': 'Data could not be stored'}
+
+
+    @staticmethod
+    def delete(id):
+        employee_labor_datum = EmployeeLaborDatumModel.query.filter_by(id=id).first()
+
+        db.session.delete(employee_labor_datum)
+        try:
+            db.session.commit()
+
+            return employee_labor_datum
+        except Exception as e:
+            return {'msg': 'Data could not be stored'}

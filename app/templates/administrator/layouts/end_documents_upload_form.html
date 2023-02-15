@@ -1,0 +1,41 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Agregar Soporte de Finiquito</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- form start -->
+                        <form role="form" action="{{ url_for('end_documents.upload', id=id, rut=rut) }}" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Soporte</label>
+                                            <input type="file" value="0" class="form-control" id="exampleInputEmail1" placeholder="Soporte" name="file">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                            
+                            <input type="hidden" value="{{ rut }}" class="form-control" id="exampleInputEmail1" name="rut">
+                            <input type="hidden" value="{{ id }}" class="form-control" id="exampleInputEmail1" name="id">
+                            
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+
+                                <a href="{{ url_for('medical_licenses.index', rut=rut) }}" class="btn btn-secondary">Cancelar</a>
+                            </div>
+                        </form>
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
