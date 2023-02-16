@@ -91,13 +91,8 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">AFP</label>
-                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="pention_id">
-                                                <option value="">- Seleccionar -</option>
-                                                {% for pention in pentions %}
-                                                    <option {% if pention.id == contract_datum.pention_id %} selected {% endif %} value="{{ pention.id }}">{{ pention.pention }}</option>
-                                                {% endfor %}
-                                            </select>
+                                            <label for="exampleInputEmail1">Fecha de Entrada a la Salud</label>
+                                            <input type="date" value="{{ contract_datum.entrance_health }}" class="form-control" id="exampleInputEmail1" placeholder="Entrada a la Salud" name="entrance_health" disabled required>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -156,6 +151,38 @@
                                             </select>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Regimen Previsional</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="regime_id" name="regime_id" required disabled>
+                                                <option value="">- Seleccionar -</option>
+                                                <option {% if 1 == contract_datum.regime_id %} selected {% endif %} value="1">AFP</option>
+                                                <option {% if 2 == contract_datum.regime_id %} selected {% endif %} value="2">IPS (Ex-INP)</option>
+                                                <option {% if 3 == contract_datum.regime_id %} selected {% endif %} value="3">Sin Institución Previsional (SIP)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    {% if contract_datum.regime_id == 1 %}
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">AFP</label>
+                                                <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="pention_id" disabled>
+                                                    <option value="">- Seleccionar -</option>
+                                                    {% for pention in pentions %}
+                                                        <option {% if pention.id == contract_datum.pention_id %} selected {% endif %} value="{{ pention.id }}">{{ pention.pention }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Fecha de Entrada a la AFP</label>
+                                                <input type="date" value="{{ contract_datum.entrance_pention }}" value="00-00-0000" class="form-control" id="exampleInputEmail1" placeholder="Fecha Entrada AFP" name="entrance_pention" disabled>
+                                            </div>
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
 

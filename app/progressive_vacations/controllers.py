@@ -45,7 +45,7 @@ def store():
 @progressive_vacation.route("/human_resources/progressive_vacation/upload", methods=['GET', 'POST'])
 def upload(rut, id):
    if request.method == 'POST':
-      support = Dropbox.upload(rut, '_vacaciones_progresivas', request.files, "/vacations/", "C:/Users/jesus/OneDrive/Desktop/erp_azure/")
+      support = Dropbox.upload(rut, '_vacaciones_progresivas', request.files, "/vacations/", "app/static/dist/files/vacation_data/")
       ProgressiveVacation.upload(id, support)
 
       if current_user.rol_id == 1:

@@ -130,7 +130,7 @@ def upload():
    file_name = "_" + document_type.document_type + "_" + str(datetime.now())
 
    if request.files['file'].filename != '':
-      support = Dropbox.sign(request.form['rut'], file_name, request.files, "/employee_documents/", "C:/Users/jesus/OneDrive/Desktop/erpjis_azure/")
+      support = Dropbox.sign(request.form['rut'], file_name, request.files, "/employee_documents/", "app/static/dist/files/document_data/")
       DocumentEmployee.sign(request.form['id'], request.form['rut'], support)
 
    flash('El documento ha sido subido con éxito', 'success')
