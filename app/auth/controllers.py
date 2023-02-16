@@ -6,6 +6,7 @@ from app import login_manager, mail
 from flask_login import login_user, logout_user, current_user
 from flask_mail import Message
 from app.rols.rol import Rol
+from app.helpers.whatsapp import Whatsapp
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -44,6 +45,8 @@ def password(id = '', api_token = ''):
 
         flash('Se ha actualizado la contraseña con éxito.', 'success')
 
+        Whatsapp.send(form.rut.data, 1, 1, 17)
+
         return redirect(url_for("auth.login"))
     else:
         qty = User.check_user_exists_by_token(api_token)
@@ -68,8 +71,8 @@ def recover():
         if qty > 0:
             user = User.get_by_rut(form.rut.data)
             msg = Message('Recuperar Contraseña', recipients = [form.email.data])
-            logo = 'https://erpjis.azurewebsites.net/static/dist/img/logo.png'
-            url = 'https://erpjis.azurewebsites.net/password/' + str(user.id) + '/' + str(user.api_token)
+            logo = 'https://jiserp.com/static/dist/img/logo.png'
+            url = 'https://jiserp.com/password/' + str(user.id) + '/' + str(user.api_token)
             msg.html = render_template('emails/recover.html', logo=logo, full_name=user.nickname, url=url)
             mail.send(msg)
 

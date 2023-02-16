@@ -275,5 +275,44 @@ class Whatsapp:
                 response = requests.request("POST", url, headers=headers, data=payload)
 
                 print(response.text)
+            elif template_type_id == 17:
+                whatsapp_template = WhatsappTemplate.get(template_type_id)
+
+                employee = Employee.get(id)
+
+                url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+
+                payload = json.dumps({
+                                "messaging_product": "whatsapp",
+                                "to": "56" + str(employee.cellphone),
+                                "type": "template",
+                                "template": {
+                                    "name": str(whatsapp_template.whatsapp_template),
+                                    "language": {
+                                    "code": "es"
+                                    },
+                                    "components": [
+                                    {
+                                        "type": "body",
+                                        "parameters": [
+                                        {
+                                            "type": "text",
+                                            "text": employee.nickname
+                                        }
+                                        ]
+                                    }
+                                    ]
+                                }
+                                })
+                    
+                headers = {
+                            'Authorization': settings.facebook_token,
+                            'Content-Type': 'application/json'
+                            }
+
+                response = requests.request("POST", url, headers=headers, data=payload)
+
+                print(response.text)
+
 
         return 1
