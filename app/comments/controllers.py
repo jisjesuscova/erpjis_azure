@@ -22,11 +22,10 @@ def store():
 
    return redirect(url_for('news.show', id=request.form['new_id']))
 
-@comment.route("/publicities/new/delete/<int:id>", methods=['GET'])
+@comment.route("/comment/delete/<int:id>", methods=['GET'])
 def delete(id):
-   new = New.get(id)
-   New.delete(id)
-   Dropbox.delete('/blogs/', new.picture)
-   File.delete('/app/static/dist/files/new_data/', new.picture)
+   Comment.delete(id)
 
-   return redirect(url_for('news.index'))
+   flash('Se ha borrado el comentario', 'success')
+
+   return redirect(url_for('comments.show', id=id))

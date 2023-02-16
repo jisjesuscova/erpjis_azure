@@ -51,17 +51,29 @@
                 {% if comment.picture == '' or comment.picture == none %}
                     <div class="col-md-1">
                         <img src="{{ url_for("static", filename="dist/img/logo.png/") }}" class="slider">
-                        <center>{{ comment.added_date|datetime("dd-MM-yyyy") }}</center>
+                        <center>
+                            {{ comment.added_date|datetime("dd-MM-yyyy") }}
+                        </center>
+                        
                     </div>
                 {% else %}
                     <div class="col-md-1">
                         <img src="{{ url_for("static", filename="dist/files/picture_data/"+comment.picture) }}" class="slider">
-                        <center>{{ comment.added_date|datetime("dd-MM-yyyy") }}</center>
+                        <center>
+                            {{ comment.added_date|datetime("dd-MM-yyyy") }}
+                        </center>
                     </div>
                 {% endif %}
                 
-                <div class="col-md-11">
+                <div class="col-md-9">
                     {{ comment.comment }}
+                </div>
+                <div class="col-md-2">
+                    <center>
+                        <a href="{{ url_for('comments.delete', id = comment['id']) }}" class="btn btn-danger">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </center>
                 </div>
             </div>
             <hr>
