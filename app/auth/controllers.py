@@ -44,7 +44,7 @@ def password(id = '', api_token = ''):
         User.special_update(form.rut.data, form.password.data)
 
         flash('Se ha actualizado la contraseña con éxito.', 'success')
-
+        print(form.rut.data)
         Whatsapp.send(form.rut.data, 1, 1, 17)
 
         return redirect(url_for("auth.login"))
