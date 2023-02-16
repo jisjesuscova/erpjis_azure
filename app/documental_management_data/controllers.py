@@ -113,6 +113,7 @@ def show(id, page=1):
 
 @documental_management_datum.route("/human_resources/documental_management_data/signed/<int:rut>/<int:id>", methods=['GET'])
 def signed(rut, id):
+   print(current_user.rol_id )
    if current_user.rol_id == 1:
       return render_template('collaborator/human_resources/documental_management_data/upload_signed_document.html', id = id, rut = rut)
    elif current_user.rol_id == 2:

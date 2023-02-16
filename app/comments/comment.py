@@ -11,7 +11,7 @@ class Comment():
                             .join(EmployeeModel, EmployeeModel.rut == CommentModel.rut)\
                             .filter(CommentModel.new_id==new_id)\
                             .order_by(CommentModel.added_date)\
-                            .add_columns(CommentModel.added_date, CommentModel.comment, CommentModel.id, EmployeeModel.picture).all()
+                            .add_columns(CommentModel.added_date, CommentModel.comment, CommentModel.new_id, CommentModel.id, EmployeeModel.picture).all()
 
         return comments
 

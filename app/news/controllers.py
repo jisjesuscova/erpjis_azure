@@ -30,6 +30,10 @@ def show(id):
    
    if current_user.rol_id == 1:
       return render_template('collaborator/publicities/news/new_show.html', new = new, comments = comments)
+   elif current_user.rol_id == 2:
+      return render_template('incharge/publicities/news/new_show.html', new = new, comments = comments)
+   elif current_user.rol_id == 3:
+      return render_template('incharge/publicities/news/new_show.html', new = new, comments = comments)
    elif current_user.rol_id == 4:
       return render_template('administrator/publicities/news/new_show.html', new = new, comments = comments)
 

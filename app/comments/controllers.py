@@ -22,10 +22,10 @@ def store():
 
    return redirect(url_for('news.show', id=request.form['new_id']))
 
-@comment.route("/comment/delete/<int:id>", methods=['GET'])
-def delete(id):
+@comment.route("/comment/delete/<int:id>/<int:new_id>", methods=['GET'])
+def delete(id, new_id):
    Comment.delete(id)
 
    flash('Se ha borrado el comentario', 'success')
 
-   return redirect(url_for('comments.show', id=id))
+   return redirect(url_for('news.show', id=new_id))
