@@ -97,6 +97,7 @@ from app.signatures.controllers import signature
 from app.end_documents.controllers import end_document
 from app.news.controllers import new
 from app.progressive_vacations.controllers import progressive_vacation
+from app.comments.controllers import comment
 
 app.register_blueprint(employee)
 app.register_blueprint(auth)
@@ -143,6 +144,7 @@ app.register_blueprint(signature)
 app.register_blueprint(end_document)
 app.register_blueprint(new)
 app.register_blueprint(progressive_vacation)
+app.register_blueprint(comment)
 
 @app.route("/")
 def index():

@@ -14,7 +14,14 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        {% if employee.picture != '' %}
+                                        {% if employee.picture == none or employee.picture == '' %}
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Foto</label>
+                                                    <input type="file" value="" class="form-control" id="exampleInputEmail1" placeholder="Imagen" name="file">
+                                                </div>
+                                            </div>
+                                        {% else %}
                                             <div class="card-body">
                                                 <center>
                                                     <div class="image-area">
@@ -22,13 +29,6 @@
                                                         <img src="{{ download_url }}" alt="Picture">
                                                     </div>
                                                 </center>
-                                            </div>
-                                        {% else %}
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="exampleInputEmail1">Foto</label>
-                                                    <input type="file" value="" class="form-control" id="exampleInputEmail1" placeholder="Imagen" name="file">
-                                                </div>
                                             </div>
                                         {% endif %}
                                     </div>

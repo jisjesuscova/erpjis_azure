@@ -1,12 +1,12 @@
 from flask import Blueprint, render_template, redirect, request, url_for, flash
-from flask_login import login_required
+from flask_login import login_required, current_user
 from app import app, regular_employee_rol_need, db
 from app.news.new import New
 from app.dropbox_data.dropbox import Dropbox
 from app.helpers.file import File
 from app.helpers.whatsapp import Whatsapp
 from app.whatsapp_groups.whatsapp_group import WhatsappGroup
-
+from app.comments.comment import Comment
 
 new = Blueprint("news", __name__)
 
@@ -25,8 +25,13 @@ def index(page=1):
 @new.route("/publicities/new/show/<int:id>", methods=['GET'])
 def show(id):
    new = New.get(id)
+
+   comments = Comment.get(id)
    
-   return render_template('administrator/publicities/news/new_show.html', new = new)
+   if current_user.rol_id == 1:
+      return render_template('collaborator/publicities/news/new_show.html', new = new, comments = comments)
+   elif current_user.rol_id == 4:
+      return render_template('administrator/publicities/news/new_show.html', new = new, comments = comments)
 
 @new.route("/publicities/new/create", methods=['GET'])
 def create():

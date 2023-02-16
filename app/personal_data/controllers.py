@@ -86,9 +86,10 @@ def show(rut):
 @personal_datum.route("/human_resources/personal_data", methods=['POST'])
 def update(rut):
    
-   if request.files['file'].filename != '':
-      picture = Dropbox.upload(rut, "_photo", request.files, "/flask_user_photos/", "C:/Users/jesus/OneDrive/Desktop/erpjis_azure/", 1)
-      Employee.upload(rut, picture)
+   if 'file' in request.files:
+      if request.files['file'].filename != '':
+         picture = Dropbox.upload(rut, "_photo", request.files, "/pictures/", "app/static/dist/files/picture_data/", 1)
+         Employee.upload(rut, picture)
 
    Employee.update(request.form, rut)
 
@@ -98,7 +99,9 @@ def update(rut):
 @personal_datum.route("/human_resources/personal_datum/delete_picture", methods=['GET'])
 def delete_picture(rut):
    employee = Employee.get(rut)
-   Dropbox.delete("/pictures/", employee.picture)
-   Employee.delete_picture(rut)
+
+   if employee.picture != None:
+      Dropbox.delete("/pictures/", employee.picture)
+      Employee.delete_picture(rut)
    
    return redirect(url_for('personal_data.show', rut = rut))

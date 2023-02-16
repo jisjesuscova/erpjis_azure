@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, request, url_for
+from flask import Blueprint, render_template, redirect, request, url_for, flash
 from flask_login import login_required, current_user
 from app import app, regular_employee_rol_need
 from app.dropbox_data.dropbox import Dropbox
@@ -78,7 +78,7 @@ def store():
 @vacation.route("/human_resources/vacation/upload", methods=['GET', 'POST'])
 def upload(rut, id):
    if request.method == 'POST':
-      support = Dropbox.upload(rut, '_vacation', request.files, "/vacations/", "C:/Users/jesus/OneDrive/Desktop/erp_azure/")
+      support = Dropbox.upload(rut, '_vacation', request.files, "/vacations/", "app/static/dist/files/vacation_data/")
       Vacation.upload(id, support)
 
       if current_user.rol_id == 1:

@@ -193,12 +193,21 @@ class OldVacationModel(db.Model):
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
-
 class RolModel(db.Model):
     __tablename__ = 'rols'
 
     id = db.Column(db.Integer, primary_key=True)
     rol = db.Column(db.String(255))
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
+class CommentModel(db.Model):
+    __tablename__ = 'comments'
+
+    id = db.Column(db.Integer, primary_key=True)
+    new_id = db.Column(db.Integer)
+    rut = db.Column(db.String(255))
+    comment = db.Column(db.String(255))
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 

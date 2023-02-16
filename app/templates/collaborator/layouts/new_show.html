@@ -1,5 +1,21 @@
 <section class="content pt-4">
     <div class="container-fluid">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'error' %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                    {% if category == 'success' %}
+                        <div class="alert alert-success" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         <div class="row">
             <div class="col-md-12">
                 <span><font class="new_title">{{ new['title'] }}</font> - {{ new['added_date']|datetime("dd-MM-yyyy") }}</span>

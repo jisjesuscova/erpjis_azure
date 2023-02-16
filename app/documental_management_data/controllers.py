@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from app import app, regular_employee_rol_need
 from app.models.models import EmployeeModel
@@ -132,6 +132,8 @@ def upload():
    if request.files['file'].filename != '':
       support = Dropbox.sign(request.form['rut'], file_name, request.files, "/employee_documents/", "C:/Users/jesus/OneDrive/Desktop/erpjis_azure/")
       DocumentEmployee.sign(request.form['id'], request.form['rut'], support)
+
+   flash('El documento ha sido subido con éxito', 'success')
 
    if current_user.rol_id == 1:
       return redirect(url_for('documental_management_data.index', rut=request.form['rut']))
