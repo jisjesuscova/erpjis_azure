@@ -456,6 +456,7 @@ class SettingModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     dropbox_token = db.Column(db.Text)
+    facebook_token = db.Column(db.Text)
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
