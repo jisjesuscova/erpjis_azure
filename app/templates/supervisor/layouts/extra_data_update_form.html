@@ -17,7 +17,6 @@
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Tipo de Contrato</label>
                                             <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="contract_schedule_id">
-                                                <option value="">- Seleccionar -</option>
                                                 {% for contract_schedule in contract_schedules %}
                                                     <option {% if contract_schedule.id == employee_extra_datum.contract_schedule_id %} selected {% endif %} value="{{ contract_schedule.id }}">{{ contract_schedule.contract_schedule }}</option>
                                                 {% endfor %}
@@ -36,7 +35,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Tipo de Contrato</label>
+                                            <label for="exampleInputEmail1">Tipo de Empleado</label>
                                             <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="employee_type_id">
                                                 <option value="">- Seleccionar -</option>
                                                 <option {% if 1 == employee_extra_datum.employee_type_id %} selected {% endif %} value="1">Activo</option>
@@ -62,6 +61,12 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
+                                            <label for="exampleInputEmail1">Monto Extra Salud</label>
+                                            <input type="number" value="{{ employee_extra_datum.extra_health_amount }}" class="form-control" id="exampleInputEmail1" placeholder="Monto Extra Salud" name="extra_health_amount" required disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
                                             <label for="exampleInputEmail1">Empleo Jovén</label>
                                             <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="young_job_status_id">
                                                 <option value="">- Seleccionar -</option>
@@ -70,14 +75,37 @@
                                             </select>
                                         </div>
                                     </div>
-
+                                </div>
+                                <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Goce de Sueldo</label>
-                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="be_paid_id">
+                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="be_paid_id" disabled>
                                                 <option value="">- Seleccionar -</option>
                                                 <option {% if 1 == employee_extra_datum.be_paid_id %} selected {% endif %} value="1">Si</option>
                                                 <option {% if 2 == employee_extra_datum.be_paid_id %} selected {% endif %} value="2">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Invalidez</label>
+                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="disability_id" disabled>
+                                                <option value="">- Seleccionar -</option>
+                                                <option {% if 0 == employee_extra_datum.disability_id %} selected {% endif %} value="0">No</option>
+                                                <option {% if 1 == employee_extra_datum.disability_id %} selected {% endif %} value="1">Discapacidad Certificada por la Compin</option>
+                                                <option {% if 2 == employee_extra_datum.disability_id %} selected {% endif %} value="2">Asignatario Pensión por Invalidez Total</option>
+                                                <option {% if 3 == employee_extra_datum.disability_id %} selected {% endif %} value="3">Pensionado con Invalidez Parcial</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Aporte SIS (mayor de 65 años o pensionado total)</label>
+                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="pensioner_id" disabled>
+                                                <option value="">- Seleccionar -</option>
+                                                <option {% if 1 == employee_extra_datum.progressive_vacation_status_id %} selected {% endif %} value="1">Si</option>
+                                                <option {% if 2 == employee_extra_datum.progressive_vacation_status_id %} selected {% endif %} value="2">No</option>
                                             </select>
                                         </div>
                                     </div>
@@ -85,143 +113,21 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Regimen Previsional</label>
-                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="regime_id">
+                                            <label for="exampleInputEmail1">Vacaciones Progresivas</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="progressive_vacation_status_id" id="progressive_vacation_status_id" required disabled>
                                                 <option value="">- Seleccionar -</option>
-                                                <option {% if 1 == employee_extra_datum.regime_id %} selected {% endif %} value="1">AFP</option>
-                                                <option {% if 2 == employee_extra_datum.regime_id %} selected {% endif %} value="2">IPS (Ex-INP)</option>
-                                                <option {% if 3 == employee_extra_datum.regime_id %} selected {% endif %} value="3">Sin Institución Previsional (SIP)</option>
+                                                <option {% if 1 == employee_extra_datum.progressive_vacation_status_id %} selected {% endif %} value="1">Si</option>
+                                                <option {% if 2 == employee_extra_datum.progressive_vacation_status_id %} selected {% endif %} value="2">No</option>
                                             </select>
                                         </div>
                                     </div>
-                                    {% if employee_extra_datum.regime_id == 1 %}
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">AFP</label>
-                                                <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="contract_schedule_id">
-                                                    <option value="">- Seleccionar -</option>
-                                                    {% for pention in pentions %}
-                                                        <option {% if pention.id == employee_extra_datum.pention_id %} selected {% endif %} value="{{ pention.id }}">{{ pention.pention }}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
+                                    <div class="col-md-4" id="progressive_vacation_date">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Fecha de Vacaciones Progresivas</label>
+                                            <input type="date" value="{{ employee_extra_datum.progressive_vacation_date }}" class="form-control" id="exampleInputEmail1" placeholder="Fecha de Vacaciones Progresivas" name="progressive_vacation_date" required disabled>
                                         </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Fecha de Entrada a la AFP</label>
-                                                <input disabled type="date" value="{{ employee_extra_datum.entrance_pention }}" class="form-control" id="exampleInputEmail1" placeholder="Colación" name="entrance_pention">
-                                            </div>
-                                        </div>
-                                    {% else %}
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Invalidez</label>
-                                                <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="disability_id">
-                                                    <option value="">- Seleccionar -</option>
-                                                    <option {% if 0 == employee_extra_datum.disability_id %} selected {% endif %} value="0">No</option>
-                                                    <option {% if 1 == employee_extra_datum.disability_id %} selected {% endif %} value="1">Discapacidad Certificada por la Compin</option>
-                                                    <option {% if 2 == employee_extra_datum.disability_id %} selected {% endif %} value="2">Asignatario Pensión por Invalidez Total</option>
-                                                    <option {% if 3 == employee_extra_datum.disability_id %} selected {% endif %} value="3">Pensionado con Invalidez Parcial</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Vacaciones progresivas</label>
-                                                <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="progressive_vacation_status_id">
-                                                    <option value="">- Seleccionar -</option>
-                                                    <option {% if 1 == employee_extra_datum.progressive_vacation_status_id %} selected {% endif %} value="1">Si</option>
-                                                    <option {% if 2 == employee_extra_datum.progressive_vacation_status_id %} selected {% endif %} value="2">No</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    {% endif %}
+                                    </div>
                                 </div>
-                                {% if employee_extra_datum.regime_id == 1 %}
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Invalidez</label>
-                                                <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="disability_id">
-                                                    <option value="">- Seleccionar -</option>
-                                                    <option {% if 0 == employee_extra_datum.disability_id %} selected {% endif %} value="0">No</option>
-                                                    <option {% if 1 == employee_extra_datum.disability_id %} selected {% endif %} value="1">Discapacidad Certificada por la Compin</option>
-                                                    <option {% if 2 == employee_extra_datum.disability_id %} selected {% endif %} value="2">Asignatario Pensión por Invalidez Total</option>
-                                                    <option {% if 3 == employee_extra_datum.disability_id %} selected {% endif %} value="3">Pensionado con Invalidez Parcial</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Vacaciones progresivas</label>
-                                                <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="progressive_vacation_status_id">
-                                                    <option value="">- Seleccionar -</option>
-                                                    <option {% if 1 == employee_extra_datum.progressive_vacation_status_id %} selected {% endif %} value="1">Si</option>
-                                                    <option {% if 2 == employee_extra_datum.progressive_vacation_status_id %} selected {% endif %} value="2">No</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Aporte SIS (mayor de 65 años o pensionado total)</label>
-                                                <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="pensioner_id">
-                                                    <option value="">- Seleccionar -</option>
-                                                    <option {% if 1 == employee_extra_datum.progressive_vacation_status_id %} selected {% endif %} value="1">Si</option>
-                                                    <option {% if 2 == employee_extra_datum.progressive_vacation_status_id %} selected {% endif %} value="2">No</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Salud</label>
-                                                <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="health_id">
-                                                    <option value="">- Seleccionar -</option>
-                                                    {% for health in healths %}
-                                                        <option {% if health.id == employee_extra_datum.health_id %} selected {% endif %} value="{{ health.id }}">{{ health.health }}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Fecha de Entrada a la Salud</label>
-                                                <input disabled type="date" value="{{ employee_extra_datum.entrance_health }}" class="form-control" id="exampleInputEmail1" placeholder="Entrada a la Salud" name="entrance_health">
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% else %}
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Aporte SIS (mayor de 65 años o pensionado total)</label>
-                                                <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="pensioner_id">
-                                                    <option value="">- Seleccionar -</option>
-                                                    <option {% if 1 == employee_extra_datum.progressive_vacation_status_id %} selected {% endif %} value="1">Si</option>
-                                                    <option {% if 2 == employee_extra_datum.progressive_vacation_status_id %} selected {% endif %} value="2">No</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Salud</label>
-                                                <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="health_id">
-                                                    <option value="">- Seleccionar -</option>
-                                                    {% for health in healths %}
-                                                        <option {% if health.id == employee_extra_datum.health_id %} selected {% endif %} value="{{ health.id }}">{{ health.health }}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Fecha de Entrada a la Salud</label>
-                                                <input disabled type="date" value="{{ employee_extra_datum.entrance_health }}" class="form-control" id="exampleInputEmail1" placeholder="Entrada a la Salud" name="entrance_health">
-                                            </div>
-                                        </div>
-                                    </div>
-                                {% endif %}
                             </div>
                         </form>
                         <!-- form end -->
