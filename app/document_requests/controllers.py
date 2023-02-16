@@ -44,7 +44,9 @@ def show(id):
 def store():
    document_id = DocumentRequest.store(request.form)
 
-   if 'document_type_id' in request.form and request.form['document_type_id'] == '6':
+   document_employee = DocumentEmployee.get_by_id(document_id)
+
+   if document_employee.document_type_id == 6:
       Vacation.store(request.form, document_id)
 
    if current_user.rol_id == 1 or current_user.rol_id == 2:
