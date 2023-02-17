@@ -19,7 +19,7 @@ class Pdf:
 
     @staticmethod
     def create_vacation_pdf(file_name, data, multiple_data = '', total_data = ''):
-        path_wkhtmltopdf = '/usr/bin/wkhtmltopdf'
+        path_wkhtmltopdf = '/usr/local/bin/wkhtmltopdf'
         config = pdfkit.configuration(wkhtmltopdf = path_wkhtmltopdf)
 
         template_path = 'pdfs/' + str(file_name) + '.html'
