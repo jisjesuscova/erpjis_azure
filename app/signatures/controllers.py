@@ -22,7 +22,6 @@ def store():
 
     return redirect(url_for('personal_data.show', rut = current_user.rut))
 
-
 @signature.route("/signature/delete", methods=['GET'])
 @csrf_protect.exempt
 def delete():

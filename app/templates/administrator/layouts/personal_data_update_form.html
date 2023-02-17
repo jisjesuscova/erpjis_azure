@@ -30,13 +30,33 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <div class="card-body">
-                                            <center>
-                                                <div class="image-area">
-                                                    <img src="{{ download_url }}" alt="Picture">
+                                        {% if employee.rut == current_user.rut %}
+                                            {% if employee.picture == none or employee.picture == '' %}
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputEmail1">Foto</label>
+                                                        <input type="file" value="" class="form-control" id="exampleInputEmail1" placeholder="Imagen" name="file">
+                                                    </div>
                                                 </div>
-                                            </center>
-                                        </div>
+                                            {% else %}
+                                                <div class="card-body">
+                                                    <center>
+                                                        <div class="image-area">
+                                                            <a href="{{ url_for('personal_data.delete_picture') }}/{{ employee.rut }}" class="remove-image" style="display: inline;">&#215;</a>
+                                                            <img src="{{ download_url }}" alt="Picture">
+                                                        </div>
+                                                    </center>
+                                                </div>
+                                            {% endif %}
+                                        {% else %}
+                                            <div class="card-body">
+                                                <center>
+                                                    <div class="image-area">
+                                                        <img src="{{ download_url }}" alt="Picture">
+                                                    </div>
+                                                </center>
+                                            </div>
+                                        {% endif %}
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
@@ -122,7 +142,7 @@
                     </div>
                 </div>
                 
-                {% if signature_exist != 0 %}
+                {% if signature_exist != 0 or employee.rut == current_user.rut %}
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Firma</h3>
@@ -174,13 +194,14 @@
                                     <div class="col-md-8">
                                         <center>
                                             <div class="image-area-signature">
-                                                
+                                                {% if employee.rut == current_user.rut %}
+                                                    <a href="{{ url_for('signatures.delete') }}" class="remove-image" style="display: inline;">&#215;</a>
+                                                {% endif %}
                                                 <img src="{{ signature }}" >
                                             </div>
                                         </center>
                                     </div>
                                 </div>
-                                
                             {% endif %}
                         </div>
                     </div>

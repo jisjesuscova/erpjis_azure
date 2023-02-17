@@ -264,7 +264,7 @@
             </li>
           {% endif %}
           <li class="nav-item ">
-            <a href="{{ url_for('personal_data.show') }}/{{ session['rut'] }}" class="nav-link">
+            <a href="{{ url_for('personal_data.show', rut=current_user.rut) }}" class="nav-link">
               <i class="nav-icon fas fa-circle-user"></i>
               <p>
                 Datos Personales
