@@ -86,7 +86,7 @@ class Dropbox():
 
         dropbox_path = dropbox_path + dropbox_file_name + "." + extesion[1]
         computer_path = computer_path + dropbox_file_name + "." + extesion[1]
-        print(computer_path)
+
         f.save(os.path.join(computer_path))
 
         dbx = dropbox.Dropbox(settings.dropbox_token)

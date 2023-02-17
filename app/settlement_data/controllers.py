@@ -90,7 +90,6 @@ def uploaded_download(id):
 
     return response
 
-
 @settlement_datum.route("/management_payroll/settlement_data/uploaded/sign/<int:id>", methods=['GET'])
 def sign(id):
     settlement_datum = SettlementDatum.download(id)
