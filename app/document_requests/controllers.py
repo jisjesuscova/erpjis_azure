@@ -14,7 +14,6 @@ from app.vacations.vacation import Vacation
 from app.dropbox_data.dropbox import Dropbox
 from app.helpers.whatsapp import Whatsapp
 from app.progressive_vacations.progressive_vacation import ProgressiveVacation
-import pdfkit
 
 document_request = Blueprint("document_requests", __name__)
 
@@ -23,23 +22,6 @@ document_request = Blueprint("document_requests", __name__)
 @regular_employee_rol_need
 def constructor():
    pass
-
-@document_request.route("/human_resources/prueba", methods=['GET'])
-def prueba():
-   template_path = 'pdfs/abandon_day.html'
-
-   path_wkhtmltopdf = '/usr/bin/wkhtmltopdf'
-   config = pdfkit.configuration(wkhtmltopdf = path_wkhtmltopdf)
-
-   rendered = render_template(template_path)
-
-   pdf = pdfkit.from_string(rendered, False, configuration = config)
-
-   response = make_response(pdf)
-   response.headers['Content-Type'] = 'application/pdf'
-   response.headers['Content-Disposition'] = 'attachment; filename=document.pdf'
-
-   return response
 
 @document_request.route("/human_resources/document_requests/<int:id>", methods=['GET'])
 @document_request.route("/human_resources/document_requests", methods=['GET'])
@@ -165,24 +147,14 @@ def download(id):
          
          signature = Dropbox.get('/signature/', employee.signature)
 
-         data = {
-            'full_name': full_name,
-            'rut': rut,
-            'entrance_company': entrance_company,
-            'signature': signature
-         }
+         data = [full_name, rut, entrance_company, signature]
 
       else:
          signature = ''
 
-         data = {
-            'full_name': full_name,
-            'rut': rut,
-            'entrance_company': entrance_company,
-            'signature': signature
-         }
+         data = [full_name, rut, entrance_company, signature]
 
-      pdf = Pdf.create_pdf2('antique_certification.pdf', data)
+      pdf = Pdf.create_pdf('antique_certification.pdf', data)
 
       response = make_response(pdf)
       response.headers['Content-Type'] = 'application/pdf'

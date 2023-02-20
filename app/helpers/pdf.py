@@ -3,11 +3,12 @@ import pdfkit
 from app.hr_single_taxes.hr_single_tax import HrSingleTax
 from werkzeug.utils import secure_filename
 
-class Pdf:
+import os
 
+class Pdf:
     @staticmethod
     def create_pdf(file_name, data, multiple_data = ''):
-        path_wkhtmltopdf = '/usr/local/bin/wkhtmltopdf'
+        path_wkhtmltopdf = '/usr/bin/wkhtmltopdf'
         config = pdfkit.configuration(wkhtmltopdf = path_wkhtmltopdf)
 
         template_path = 'pdfs/' + str(file_name) + '.html'
@@ -20,7 +21,7 @@ class Pdf:
 
     @staticmethod
     def create_vacation_pdf(file_name, data, multiple_data = '', total_data = ''):
-        path_wkhtmltopdf = '/usr/local/bin/wkhtmltopdf'
+        path_wkhtmltopdf = '/usr/bin/wkhtmltopdf'
         config = pdfkit.configuration(wkhtmltopdf = path_wkhtmltopdf)
 
         template_path = 'pdfs/' + str(file_name) + '.html'
