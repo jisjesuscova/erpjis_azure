@@ -14,6 +14,7 @@ from app.vacations.vacation import Vacation
 from app.dropbox_data.dropbox import Dropbox
 from app.helpers.whatsapp import Whatsapp
 from app.progressive_vacations.progressive_vacation import ProgressiveVacation
+import pdfkit
 
 document_request = Blueprint("document_requests", __name__)
 
@@ -22,6 +23,14 @@ document_request = Blueprint("document_requests", __name__)
 @regular_employee_rol_need
 def constructor():
    pass
+
+@document_request.route("/human_resources/prueba", methods=['GET'])
+def prueba():
+   template_path = 'pdfs/abandon_day.html'
+
+   rendered = render_template(template_path)
+
+   pdf = pdfkit.from_string(rendered, False)
 
 @document_request.route("/human_resources/document_requests/<int:id>", methods=['GET'])
 @document_request.route("/human_resources/document_requests", methods=['GET'])

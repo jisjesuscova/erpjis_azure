@@ -2,7 +2,6 @@ from flask import Blueprint, render_template, redirect, request, url_for, make_r
 import pdfkit
 from app.hr_single_taxes.hr_single_tax import HrSingleTax
 from werkzeug.utils import secure_filename
-import os
 
 class Pdf:
 
