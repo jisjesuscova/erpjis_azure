@@ -28,9 +28,12 @@ def constructor():
 def prueba():
    template_path = 'pdfs/abandon_day.html'
 
+   path_wkhtmltopdf = '/usr/bin/wkhtmltopdf'
+   config = pdfkit.configuration(wkhtmltopdf = path_wkhtmltopdf)
+
    rendered = render_template(template_path)
 
-   pdf = pdfkit.from_string(rendered, False)
+   pdf = pdfkit.from_string(rendered, False, configuration = config)
 
    response = make_response(pdf)
    response.headers['Content-Type'] = 'application/pdf'
