@@ -2,16 +2,9 @@ from flask import Blueprint, render_template, redirect, request, url_for, make_r
 import pdfkit
 from app.hr_single_taxes.hr_single_tax import HrSingleTax
 from werkzeug.utils import secure_filename
-from weasyprint import HTML
 import os
 
 class Pdf:
-    @staticmethod
-    def create_pdf2(file_name, data):
-
-        pdf = HTML(string=open(os.path.join('app/static/templates/pdfs/' + str(file_name)), 'r').read()).render(context=data).write_pdf(ruta_pdf)
-
-        return pdf
 
     @staticmethod
     def create_pdf(file_name, data, multiple_data = ''):
