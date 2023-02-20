@@ -144,16 +144,27 @@ def download(id):
       signature_exist = Dropbox.exist('/signature/', employee.signature)
 
       if signature_exist == 1:
-   
+         
          signature = Dropbox.get('/signature/', employee.signature)
-       
-         data = [full_name, rut, entrance_company, signature]
+
+         data = {
+            'full_name': full_name,
+            'rut': rut,
+            'entrance_company': entrance_company,
+            'signature': signature
+         }
+
       else:
          signature = ''
 
-         data = [full_name, rut, entrance_company, signature]
+         data = {
+            'full_name': full_name,
+            'rut': rut,
+            'entrance_company': entrance_company,
+            'signature': signature
+         }
 
-      pdf = Pdf.create_pdf('antique_certification', data)
+      pdf = Pdf.create_pdf2('antique_certification.pdf', data)
 
       response = make_response(pdf)
       response.headers['Content-Type'] = 'application/pdf'

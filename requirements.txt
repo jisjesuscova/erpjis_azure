@@ -96,3 +96,4 @@ virtualenv==20.16.5
 waitress==1.4.4
 Werkzeug==2.2.2
 WTForms==3.0.1
+weasyprint==58.0
