@@ -32,6 +32,12 @@ def prueba():
 
    pdf = pdfkit.from_string(rendered, False)
 
+   response = make_response(pdf)
+   response.headers['Content-Type'] = 'application/pdf'
+   response.headers['Content-Disposition'] = 'attachment; filename=document.pdf'
+
+   return response
+
 @document_request.route("/human_resources/document_requests/<int:id>", methods=['GET'])
 @document_request.route("/human_resources/document_requests", methods=['GET'])
 def show(id):
