@@ -1,5 +1,5 @@
 from flask import request
-from app.models.models import EmployeeModel, UserModel, EmployeeLaborDatumModel, OldEmployeeModel, OldEmployeeLaborDatumModel
+from app.models.models import EmployeeLaborDatumModel, EmployeeModel, UserModel, EmployeeLaborDatumModel, OldEmployeeModel, OldEmployeeLaborDatumModel, BranchOfficeModel
 from app.helpers.helper import Helper
 from app import db
 from datetime import datetime
@@ -279,3 +279,32 @@ class Employee():
             return old_employee
         except Exception as e:
             return {'msg': 'Data could not be stored'}
+
+    @staticmethod
+    def get_birthdays():
+        today = datetime.today()
+
+        employees = db.session.query(EmployeeModel.rut, EmployeeModel.nickname, EmployeeModel.names, EmployeeModel.father_lastname, BranchOfficeModel.branch_office, db.func.DATE_FORMAT(EmployeeModel.born_date, "%d").label('day'), db.func.DATE_FORMAT(EmployeeModel.born_date, "%M").label('month')) \
+            .join(EmployeeLaborDatumModel, EmployeeLaborDatumModel.rut == EmployeeModel.rut) \
+            .join(BranchOfficeModel, BranchOfficeModel.id == EmployeeLaborDatumModel.branch_office_id) \
+            .filter(db.func.DAY(EmployeeModel.born_date) >= today.day, db.func.MONTH(EmployeeModel.born_date) == today.month) \
+            .order_by(db.func.DAY(EmployeeModel.born_date)) \
+            .limit(4) \
+            .all()
+
+        return employees
+
+
+    @staticmethod
+    def get_birthday_quantities():
+        today = datetime.today()
+
+        employees = db.session.query(EmployeeModel.rut, EmployeeModel.nickname, EmployeeModel.names, EmployeeModel.father_lastname, BranchOfficeModel.branch_office, db.func.DATE_FORMAT(EmployeeModel.born_date, "%d").label('day'), db.func.DATE_FORMAT(EmployeeModel.born_date, "%M").label('month')) \
+            .join(EmployeeLaborDatumModel, EmployeeLaborDatumModel.rut == EmployeeModel.rut) \
+            .join(BranchOfficeModel, BranchOfficeModel.id == EmployeeLaborDatumModel.branch_office_id) \
+            .filter(db.func.DAY(EmployeeModel.born_date) >= today.day, db.func.MONTH(EmployeeModel.born_date) == today.month) \
+            .order_by(db.func.DAY(EmployeeModel.born_date)) \
+            .limit(4) \
+            .count()
+
+        return employees
