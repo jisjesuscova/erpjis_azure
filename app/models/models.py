@@ -677,6 +677,33 @@ class SupervisorModel(db.Model):
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
+class UniformModel(db.Model, UserMixin):
+    __tablename__ = 'uniforms'
+
+    id = db.Column(db.Integer, primary_key=True)
+    uniform_type_id = db.Column(db.Integer)
+    rut = db.Column(db.Integer)
+    delivered_date = db.Column(db.Date())
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
+class UniformTypeModel(db.Model, UserMixin):
+    __tablename__ = 'uniform_types'
+
+    id = db.Column(db.Integer, primary_key=True)
+    uniform_type = db.Column(db.String(255))
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
+class OldUniformModel(db.Model, UserMixin):
+    __tablename__ = 'old_uniforms'
+
+    id = db.Column(db.Integer, primary_key=True)
+    uniform_type_id = db.Column(db.Integer)
+    rut = db.Column(db.Integer)
+    delivered_date = db.Column(db.Date())
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
 
 class UserModel(db.Model, UserMixin):
     __tablename__ = 'users'
