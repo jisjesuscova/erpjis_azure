@@ -87,7 +87,8 @@ def recover():
     return render_template('recover.html', form=form)
 
 @auth.route('/login', methods=['GET', 'POST'])
-def login():
+@auth.route('/login/<api_token>', methods=['GET'])
+def login(api_token = ''):
     form = LoginForm(meta={ 'crsf':True })
     
     if form.validate_on_submit():

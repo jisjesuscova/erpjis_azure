@@ -28,6 +28,11 @@ class User():
 
         return user
 
+    def get_by_int_rut(rut):
+        user = UserModel.query.filter_by(rut=rut).first()
+
+        return user
+
     def check_user_exists_by_token(token):
         quantity = UserModel.query.filter_by(api_token=token).count()
         
@@ -61,6 +66,7 @@ class User():
         user.email = data['email']
         user.nickname = nickname
         user.password = generate_password_hash(data['rut'])
+        user.api_token = generate_password_hash(data['rut'])
         user.added_date = datetime.now()
         user.updated_date = datetime.now()
 

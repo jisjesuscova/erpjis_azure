@@ -124,28 +124,35 @@
                         {% if signature_exist == 0 %}
                             <!-- form start -->
                             
-                            <form action="/save-signature" method="POST" id="signature-form">
+                            <form action="" method="POST" class="sigPad">
                                 <input type="hidden" id="csrf_token" name="csrf_token" value="{{ csrf_token() }}" />
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-12">
                                             <center>
                                                 <div class="alert alert-warning" role="alert">
                                                     Recuerde que esta firma será la que se utilizará en cada uno de los documentos a descargar de <strong>Jisparking.com</strong>. Ejemplo: Liquidaciones.
                                                 </div>
                                             </center>
                                         </div>
-                                        <div class="col-md-8">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
                                             <center>
-                                                <input type="hidden" name="signature" id="signature">
-                                                <input type="hidden" name="rut" id="rut" value="{{ current_user.rut }}">
-                                                <canvas class="signature-pad" id="signature-pad" height="200"></canvas>
+                                                
+                                                <div class="sig sigWrapper">
+                                                    <div class="typed"></div>
+                                                    <canvas class="pad" width="198" height="55"></canvas>
+                                                    <input type="hidden" name="output" class="output">
+                                                </div>
+                                                    <a class="clearButton" href="#clear">Limpiar</a>
                                             </center>
                                         </div>
                                     </div>
                                 </div>
                                 {% if is_active == 1 %}
                                     <div class="card-footer">
+                                        <input type="" id="rut" value="{{ rut }}">
                                         <button type="button" id="save-button" class="btn btn-success">Guardar</button>
 
                                         <a href="{{ url_for('home.index') }}" class="btn btn-secondary">Cancelar</a>
@@ -167,6 +174,7 @@
                                         <div class="image-area-signature">
                                             <a href="{{ url_for('signatures.delete') }}" class="remove-image" style="display: inline;">&#215;</a>
                                             <img src="{{ signature }}" >
+                                            
                                         </div>
                                     </center>
                                 </div>

@@ -14,6 +14,7 @@ from app.vacations.vacation import Vacation
 from app.dropbox_data.dropbox import Dropbox
 from app.helpers.whatsapp import Whatsapp
 from app.progressive_vacations.progressive_vacation import ProgressiveVacation
+import pdfkit
 
 document_request = Blueprint("document_requests", __name__)
 
@@ -154,7 +155,7 @@ def download(id):
 
          data = [full_name, rut, entrance_company, signature]
 
-      pdf = Pdf.create_pdf('antique_certification.pdf', data)
+      pdf = Pdf.create_pdf('antique_certification', data)
 
       response = make_response(pdf)
       response.headers['Content-Type'] = 'application/pdf'

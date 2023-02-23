@@ -11,6 +11,7 @@ from app.helpers.helper import Helper
 from app.old_documents_employees.old_document_employee import OldDocumentEmployee
 import os
 from app.helpers.file import File
+from app.helpers.whatsapp import Whatsapp
 
 settlement_datum = Blueprint("settlement_data", __name__)
 
@@ -73,8 +74,9 @@ def upload_store():
     for file in files:
         detail = Helper.split(file.filename, '_')
         filename = Dropbox.upload_local_cloud(detail[3] + "_" + str(month) + "-" + str(year), "_settlement", request.files, "/salary_settlements/", "app/static/dist/files/settlement_data/", 0)
-        DocumentEmployee.store_by_dropbox(detail[3], filename, 5, 2, period)
-    
+        document_id = DocumentEmployee.store_by_dropbox(detail[3], filename, 5, 2, period)
+        Whatsapp.send(document_id, '1', 4, 12)
+
     return redirect(url_for('settlement_data.uploaded'))
 
 @settlement_datum.route("/management_payroll/settlement_data/uploaded/download/<int:id>", methods=['GET'])

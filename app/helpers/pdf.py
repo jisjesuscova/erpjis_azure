@@ -7,26 +7,28 @@ import os
 
 class Pdf:
     @staticmethod
-    def create_pdf(file_name, data, multiple_data = ''):
-        path_wkhtmltopdf = '/usr/bin/wkhtmltopdf'
+    def create_pdf(file_name, data):
+        path_wkhtmltopdf = 'C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe'
         config = pdfkit.configuration(wkhtmltopdf = path_wkhtmltopdf)
 
         template_path = 'pdfs/' + str(file_name) + '.html'
 
-        rendered = render_template(template_path, data = data, root = 'http://127.0.0.1:5000/', multiple_data = multiple_data)
+        rendered = render_template(template_path, data = data, root = 'http://localhost:5000/')
 
-        pdf = pdfkit.from_string(rendered, False, configuration = config)
-        
+        pdf = pdfkit.from_string(rendered, options={"enable-local-file-access": ""}, configuration = config)
+
         return pdf
 
     @staticmethod
     def create_vacation_pdf(file_name, data, multiple_data = '', total_data = ''):
-        path_wkhtmltopdf = '/usr/bin/wkhtmltopdf'
+        path_wkhtmltopdf = 'C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe'
         config = pdfkit.configuration(wkhtmltopdf = path_wkhtmltopdf)
 
         template_path = 'pdfs/' + str(file_name) + '.html'
 
-        rendered = render_template(template_path, data = data, root = 'https://127.0.0.1:5000/', multiple_data = multiple_data, total_data = total_data)
+        logo = os.path.join('app/static/dist/img/logo.png')
+
+        rendered = render_template(template_path, data = data, root = 'https://127.0.0.1:5000/', multiple_data = multiple_data, total_data = total_data, logo = logo)
 
         pdf = pdfkit.from_string(rendered, False, configuration = config)
         
@@ -34,7 +36,7 @@ class Pdf:
 
     @staticmethod
     def create_settlement(file_name, header_data, positive_data, settlement_positive_name, negative_data, settlement_negative_name, total_positive_data, total_negative_data, total_values):
-        path_wkhtmltopdf = '/usr/bin/wkhtmltopdf'
+        path_wkhtmltopdf = 'C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe'
         config = pdfkit.configuration(wkhtmltopdf = path_wkhtmltopdf)
 
         template_path = 'pdfs/' + str(file_name) + '.html'

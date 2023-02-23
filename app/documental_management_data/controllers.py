@@ -57,14 +57,16 @@ def index(rut = '', page=1):
       certificates = OldDocumentEmployee.get_by_type(rut, 4, page, [], 2)
       vacations = OldVacation.get(rut, '', '')
 
+   employee = Employee.get(rut)
+
    if current_user.rol_id == 1:
-      return render_template('collaborator/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations, status_id = status_id)
+      return render_template('collaborator/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations, status_id = status_id, employee = employee)
    elif current_user.rol_id == 2:
-      return render_template('incharge/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations, status_id = status_id)
+      return render_template('incharge/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations, status_id = status_id, employee = employee)
    elif current_user.rol_id == 3:
-      return render_template('supervisor/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations, status_id = status_id)
+      return render_template('supervisor/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations, status_id = status_id, employee = employee)
    elif current_user.rol_id == 4:
-      return render_template('administrator/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations, status_id = status_id)
+      return render_template('administrator/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations, status_id = status_id, employee = employee)
 
 @documental_management_datum.route("/human_resources/documental_management_data/review/<int:page>", methods=['GET'])
 def review(page=1):

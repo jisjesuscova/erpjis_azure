@@ -82,32 +82,32 @@ class SettlementDatum():
         
         count = support.count(word_to_find)
 
-        if count == 0:
-            employee = EmployeeModel.query.filter_by(rut = settlement_datum.rut).first()
-            
-            with fitz.open(os.path.join('app/static/dist/files/settlement_data/' + settlement_datum.support)) as pdf_document:
-                img_rect = fitz.Rect(300, 550, 600, 650)
-                page = pdf_document[0]
+        employee = EmployeeModel.query.filter_by(rut = settlement_datum.rut).first()
+        
+        if employee.signature != None and employee.signature != '':
+            if count == 0:
+                with fitz.open(os.path.join('app/static/dist/files/settlement_data/' + settlement_datum.support)) as pdf_document:
+                    img_rect = fitz.Rect(300, 550, 600, 650)
+                    page = pdf_document[0]
 
-                if employee.signature != None:
                     page.insert_image(img_rect, filename=os.path.join('app/static/dist/files/signature_data/' + employee.signature))
 
-                pdf_document.save(os.path.join('app/static/dist/files/settlement_data/signed_' +settlement_datum.support))
+                    pdf_document.save(os.path.join('app/static/dist/files/settlement_data/signed_' +settlement_datum.support))
 
-            settings = Setting.get()
+                settings = Setting.get()
 
-            dbx = dropbox.Dropbox(settings.dropbox_token)
+                dbx = dropbox.Dropbox(settings.dropbox_token)
 
-            with open(os.path.join('app/static/dist/files/settlement_data/signed_' +settlement_datum.support), 'rb') as f:
-                dbx.files_upload(f.read(), '/salary_settlements/signed_' +settlement_datum.support, mode=dropbox.files.WriteMode.overwrite)
+                with open(os.path.join('app/static/dist/files/settlement_data/signed_' +settlement_datum.support), 'rb') as f:
+                    dbx.files_upload(f.read(), '/salary_settlements/signed_' +settlement_datum.support, mode=dropbox.files.WriteMode.overwrite)
 
-            os.remove(os.path.join('app/static/dist/files/settlement_data/' + settlement_datum.support))
+                os.remove(os.path.join('app/static/dist/files/settlement_data/' + settlement_datum.support))
 
-            settlement_datum = DocumentEmployeeModel.query.filter_by(id = id).first()
-            settlement_datum.status_id = 4
-            settlement_datum.support = 'signed_' + support
-            db.session.add(settlement_datum)
-            db.session.commit()
+                settlement_datum = DocumentEmployeeModel.query.filter_by(id = id).first()
+                settlement_datum.status_id = 4
+                settlement_datum.support = 'signed_' + support
+                db.session.add(settlement_datum)
+                db.session.commit()
 
         return settlement_datum.support
 

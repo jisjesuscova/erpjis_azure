@@ -140,11 +140,20 @@
                                         </div>
 
                                         <div class="modal-body">
+                                            {% if employee.signature == none or employee.signature == ''  %}
+                                                <div class="alert alert-danger" role="alert">
+                                                    Debe crear una firma para descargar el documento
+                                                </div>
+                                            {% endif %}
                                             <iframe src="{{ url_for("static", filename="dist/files/settlement_data/"+settlement_datum['support']) }}#toolbar=0&navpanes=0&scrollbar=0" width="100%" height="800"></iframe>
                                         </div>
                                         <div class="modal-footer">
-                                            <a href="{{ url_for('settlement_data.sign', id=settlement_datum['id']) }}" id="sign-button" class="btn btn-primary">Firmar</a>
-                                            <a href="#" class="btn btn-danger" data-dismiss="modal">Cerrar</a>
+                                            {% if employee.signature != none and employee.signature != ''  %}
+                                                <a href="{{ url_for('settlement_data.sign', id=settlement_datum['id']) }}" id="sign-button" class="btn btn-primary">Firmar</a>
+                                                <a href="#" class="btn btn-danger" data-dismiss="modal">Cerrar</a>
+                                            {% else %}
+                                                <a href="{{ url_for('personal_data.show', rut=employee.rut) }}" class="btn btn-warning">Crear Firma</a>
+                                            {% endif %}
                                         </div>
                                     </div>
                                     </div>
