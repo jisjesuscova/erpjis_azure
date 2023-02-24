@@ -236,6 +236,16 @@ class HrEmployeeDayModel(db.Model):
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
+class BirthdayModel(db.Model):
+    __tablename__ = 'birthdays'
+
+    id = db.Column(db.Integer, primary_key=True)
+    send_rut = db.Column(db.Integer)
+    receive_rut = db.Column(db.Integer)
+    message = db.Column(db.String(255))
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
 class EmployeeLaborDatumModel(db.Model):
     __tablename__ = 'employee_labor_data'
 

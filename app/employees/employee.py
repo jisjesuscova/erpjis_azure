@@ -291,7 +291,7 @@ class Employee():
             .order_by(db.func.DAY(EmployeeModel.born_date)) \
             .limit(4) \
             .all()
-
+        
         return employees
 
 

@@ -16,7 +16,7 @@
                             <div class="card-body text-center">
                                 <h4>Felicita a: <strong>{{ birthdays[0][1] }}</strong></h4>
                                 <h6>SUCURSAL {{ birthdays[0][4] }}</h6>
-                                <a class="btn" style="background-color: #fff; color: #000;"><i class="fa-brands fa-whatsapp"></i> ¡Felicitalo con un Mensaje!</a>
+                                <a class="btn" href="{{ url_for('employees.congratulate', rut=birthdays[0][0]) }}" style="background-color: #fff; color: #000;"><i class="fa-brands fa-whatsapp"></i> ¡Felicitalo con un Mensaje!</a>
                             </div>
                         </div>
                     </div>

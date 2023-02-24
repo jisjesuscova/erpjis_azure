@@ -11,6 +11,8 @@ from app.audits.audit import Audit
 from app.branch_offices.branch_office import BranchOffice
 from app.clock_users.clock_user import ClockUser
 import datetime
+from app.helpers.whatsapp import Whatsapp
+from app.birthdays.birthday import Birthday
 
 employee = Blueprint("employees", __name__)
 
@@ -35,7 +37,6 @@ def search(page=1):
 
    return render_template('administrator/human_resources/employees/employees.html', employees = employees, branch_offices = branch_offices)
 
-
 @employee.route("/human_resources/employee/create", methods=['GET'])
 def create():
    genders = Gender.get()
@@ -58,3 +59,16 @@ def store():
 
    return redirect(url_for('personal_data.show', rut = employee.rut))
 
+@employee.route("/human_resources/employee/congratulate/<int:rut>", methods=['GET'])
+@employee.route("/human_resources/employee/congratulate", methods=['POST'])
+def congratulate(rut = ''):
+   if request.method == 'POST':
+      birthday = Birthday.store(request.form)
+
+      Whatsapp.send(birthday.id, '1', 1, 9)
+
+      return redirect(url_for('home.index'))
+   else:
+      employee = Employee.get(rut)
+
+      return render_template('administrator/human_resources/birthdays/birthdays.html', employee = employee, rut = rut)

@@ -8,7 +8,7 @@ import os
 class Pdf:
     @staticmethod
     def create_pdf(file_name, data):
-        path_wkhtmltopdf = 'C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe'
+        path_wkhtmltopdf = '/usr/bin/wkhtmltopdf'
         config = pdfkit.configuration(wkhtmltopdf = path_wkhtmltopdf)
 
         template_path = 'pdfs/' + str(file_name) + '.html'
@@ -21,7 +21,7 @@ class Pdf:
 
     @staticmethod
     def create_vacation_pdf(file_name, data, multiple_data = '', total_data = ''):
-        path_wkhtmltopdf = 'C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe'
+        path_wkhtmltopdf = '/usr/bin/wkhtmltopdf'
         config = pdfkit.configuration(wkhtmltopdf = path_wkhtmltopdf)
 
         template_path = 'pdfs/' + str(file_name) + '.html'
@@ -36,7 +36,7 @@ class Pdf:
 
     @staticmethod
     def create_settlement(file_name, header_data, positive_data, settlement_positive_name, negative_data, settlement_negative_name, total_positive_data, total_negative_data, total_values):
-        path_wkhtmltopdf = 'C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe'
+        path_wkhtmltopdf = '/usr/bin/wkhtmltopdf'
         config = pdfkit.configuration(wkhtmltopdf = path_wkhtmltopdf)
 
         template_path = 'pdfs/' + str(file_name) + '.html'
