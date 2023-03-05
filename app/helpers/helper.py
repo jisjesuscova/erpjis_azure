@@ -170,8 +170,10 @@ class Helper:
     
     @staticmethod
     def months(since, until):
-        
-        return (until.year - since.year) * 12 + until.month - since.month
+        if since != None and until != None:
+            return (until.year - since.year) * 12 + until.month - since.month
+        else:
+            return 0
 
     @staticmethod
     def gratification(salary):
