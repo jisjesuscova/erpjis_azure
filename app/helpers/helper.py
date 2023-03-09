@@ -338,6 +338,10 @@ class Helper:
     @staticmethod
     def period(month, year):
         return month +'-'+year
+    
+    @staticmethod
+    def create_date(month, year):
+        return str(year) +"-"+ str(month) +"-01 00:00:00"
 
     @staticmethod
     def calculate_work_hours(data):

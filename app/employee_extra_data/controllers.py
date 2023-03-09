@@ -2,8 +2,6 @@ from flask import Blueprint, render_template, redirect, request, url_for
 from flask_login import login_required, current_user
 from app import app, regular_employee_rol_need
 from app.contract_schedules.contract_schedule import ContractSchedule
-from app.audits.audit import Audit
-from app.employee_types.employee_type import EmployeeType
 from app.pentions.pention import Pention
 from app.employee_extra_data.employee_extra_datum import EmployeeExtraDatum
 from app.healths.health import Health

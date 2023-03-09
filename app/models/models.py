@@ -246,6 +246,41 @@ class BirthdayModel(db.Model):
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
+class CheckModel(db.Model):
+    __tablename__ = 'checks'
+
+    id = db.Column(db.Integer, primary_key=True)
+    branch_office_id = db.Column(db.Integer)
+    check_title = db.Column(db.String(255))
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
+class CheckQuestionModel(db.Model):
+    __tablename__ = 'check_questions'
+
+    id = db.Column(db.Integer, primary_key=True)
+    check_id = db.Column(db.Integer)
+    question = db.Column(db.String(255))
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+    
+class CheckGroupQuestionModel(db.Model):
+    __tablename__ = 'check_group_questions'
+
+    id = db.Column(db.Integer, primary_key=True)
+    check_group_question = db.Column(db.String(255))
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
+class CheckGroupQuestionDetailModel(db.Model):
+    __tablename__ = 'check_group_question_details'
+
+    id = db.Column(db.Integer, primary_key=True)
+    check_group_question_id = db.Column(db.Integer)
+    question = db.Column(db.String(255))
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
 class EmployeeLaborDatumModel(db.Model):
     __tablename__ = 'employee_labor_data'
 

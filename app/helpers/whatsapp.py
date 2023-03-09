@@ -36,10 +36,9 @@ class Whatsapp:
                     for employee in employees:
                         user = User.get_by_int_rut(employee.rut)
 
-                        if employee.rut == 15538007:
-                            url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+                        url = "https://graph.facebook.com/v16.0/101066132689690/messages"
 
-                            payload = json.dumps({
+                        payload = json.dumps({
                                 "messaging_product": "whatsapp",
                                 "to": "56" + str(employee['cellphone']),
                                 "type": "template",
@@ -87,14 +86,14 @@ class Whatsapp:
                                     ]
                                 }
                                 })
-                            headers = {
+                        headers = {
                                 'Authorization': settings.facebook_token,
                                 'Content-Type': 'application/json'
                                 }
 
-                            response = requests.request("POST", url, headers=headers, data=payload)
+                        response = requests.request("POST", url, headers=headers, data=payload)
 
-                            print(response.text)
+                        print(response.text)
             elif template_type_id == 9:
                 whatsapp_template = WhatsappTemplate.get(template_type_id)
 
@@ -112,7 +111,7 @@ class Whatsapp:
 
                 payload = json.dumps({
                                 "messaging_product": "whatsapp",
-                                "to": "56" + str(935887241),
+                                "to": "56" + str(receive_employee.cellphone),
                                 "type": "template",
                                 "template": {
                                     "name": str(whatsapp_template.whatsapp_template),
