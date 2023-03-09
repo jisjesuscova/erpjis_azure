@@ -255,11 +255,24 @@ class CheckModel(db.Model):
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
+class CheckAnswerModel(db.Model):
+    __tablename__ = 'check_answers'
+
+    id = db.Column(db.Integer, primary_key=True)
+    check_id = db.Column(db.Integer)
+    check_question_id = db.Column(db.Integer)
+    answer_id = db.Column(db.Integer)
+    description = db.Column(db.String(255))
+    support = db.Column(db.String(255))
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
 class CheckQuestionModel(db.Model):
     __tablename__ = 'check_questions'
 
     id = db.Column(db.Integer, primary_key=True)
     check_id = db.Column(db.Integer)
+    status_id = db.Column(db.Integer)
     question = db.Column(db.String(255))
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())

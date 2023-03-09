@@ -51,6 +51,12 @@ def show(id):
 
    return render_template('administrator/checks/check_questions.html', title = title, check_questions = check_questions)
 
+@check.route("/check/answer/<int:check_id>/<int:check_question_id>", methods=['GET'])
+def answer(check_id, check_question_id):
+   check_question = CheckQuestion.get_filter_by('', id)
+
+   return render_template('administrator/checks/check_answers_create.html', check_question = check_question, check_id = check_id, check_question_id = check_question_id)
+
 @check.route("/check/delete/<int:id>", methods=['GET'])
 def delete(id):
    Check.delete(id)

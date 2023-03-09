@@ -1,6 +1,5 @@
 from app.models.models import CheckModel, BranchOfficeModel, CheckGroupQuestionDetailModel, CheckQuestionModel
 from app import db
-from datetime import datetime
 from app.helpers.helper import Helper
 
 class Check():

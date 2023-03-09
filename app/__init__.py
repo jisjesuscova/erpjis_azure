@@ -100,6 +100,7 @@ from app.progressive_vacations.controllers import progressive_vacation
 from app.comments.controllers import comment
 from app.uniforms.controllers import uniform
 from app.checks.controllers import check
+from app.check_answers.controllers import check_answer
 
 app.register_blueprint(employee)
 app.register_blueprint(auth)
@@ -149,6 +150,7 @@ app.register_blueprint(progressive_vacation)
 app.register_blueprint(comment)
 app.register_blueprint(uniform)
 app.register_blueprint(check)
+app.register_blueprint(check_answer)
 
 @app.route("/")
 def index():
