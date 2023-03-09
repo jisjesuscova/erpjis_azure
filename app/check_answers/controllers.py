@@ -21,7 +21,7 @@ def store():
 
    if check_question_id == 1:
       if request.files['file'].filename != '':
-         support = Dropbox.upload(request.form['check_question_id'], 'check', request.files, "/checks/", "app/static/dist/files/check_data/", 0)
+         support = Dropbox.upload(request.form['check_question_id'], '_check', request.files, "/checks/", "app/static/dist/files/check_data/")
          CheckAnswer.store(request.form, support)
          CheckQuestion.update(request.form['check_question_id'], 2)
    else:
@@ -30,7 +30,7 @@ def store():
       File.delete("app/static/dist/files/check_data/", check_answer.support)
       
       if request.files['file'].filename != '':
-         support = Dropbox.upload(request.form['check_question_id'], 'check', request.files, "/checks/", "app/static/dist/files/check_data/", 0)
+         support = Dropbox.upload(request.form['check_question_id'], '_check', request.files, "/checks/", "app/static/dist/files/check_data/")
          CheckAnswer.update(request.form, support)
          CheckQuestion.update(request.form['check_question_id'], 2)
 
