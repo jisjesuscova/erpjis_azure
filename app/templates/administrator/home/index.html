@@ -4,7 +4,7 @@
         <section class="content">
             <div class="row pt-3">
                 <div class="col-md-12">
-                <h2>Cumpleaños</h2>
+                <h2>Cumpleaños de {{ current_month }}</h2>
                 <hr>
                 </div>
             </div>
@@ -12,7 +12,7 @@
                 {% if birthday_quantities == 1 %}
                     <div class="col-md-12">
                         <div class="card text-bg-primary mb-3 " style="background-color: #357EBE; color: #fff; height: 250px !important;">
-                            <div class="card-header"><h3>{{ birthdays[0][5] }} de {{ birthdays[0][6] }}</h3></div>
+                            <div class="card-header"><h3>Día {{ birthdays[0][5] }}</h3></div>
                             <div class="card-body text-center">
                                 <h5>Felicita a: <strong>{{ birthdays[0][1] }}</strong></h5>
                                 <h6>SUCURSAL {{ birthdays[0][4] }}</h6>
@@ -23,7 +23,7 @@
                 {% elif birthday_quantities == 2 %}
                     <div class="col-md-6">
                         <div class="card text-bg-primary mb-3 " style="background-color: #357EBE; color: #fff; height: 250px !important;">
-                            <div class="card-header"><h3>{{ birthdays[0][5] }} de {{ birthdays[0][6] }}</h3></div>
+                            <div class="card-header"><h3>Día {{ birthdays[0][5] }}</h3></div>
                             <div class="card-body text-center">
                                 <h5>Felicita a: <strong>{{ birthdays[0][1] }}</strong></h5>
                                 <h6>SUCURSAL {{ birthdays[0][4] }}</h6>
@@ -33,7 +33,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="card text-bg-primary mb-3 " style="background-color: #3BBE35; color: #fff; height: 250px !important;">
-                            <div class="card-header"><h3>{{ birthdays[1][5] }} de {{ birthdays[1][6] }}</h3></div>
+                            <div class="card-header"><h3>Día {{ birthdays[1][5] }}</h3></div>
                             <div class="card-body text-center">
                                 <h5>Felicita a: <strong>{{ birthdays[1][1] }}</strong></h5>
                                 <h6>SUCURSAL {{ birthdays[1][4] }}</h6>
@@ -44,7 +44,7 @@
                 {% elif birthday_quantities == 3 %}
                     <div class="col-md-4">
                         <div class="card text-bg-primary mb-3 " style="background-color: #357EBE; color: #fff; height: 250px !important;">
-                            <div class="card-header"><h3>{{ birthdays[0][5] }} de {{ birthdays[0][6] }}</h3></div>
+                            <div class="card-header"><h3>Día {{ birthdays[0][5] }}</h3></div>
                             <div class="card-body text-center">
                                 <h5>Felicita a: <strong>{{ birthdays[0][1] }}</strong></h5>
                                 <h6>SUCURSAL {{ birthdays[0][4] }}</h6>
@@ -54,7 +54,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="card text-bg-primary mb-3 " style="background-color: #3BBE35; color: #fff; height: 250px !important;">
-                            <div class="card-header"><h3>{{ birthdays[1][5] }} de {{ birthdays[1][6] }}</h3></div>
+                            <div class="card-header"><h3>Día {{ birthdays[1][5] }}</h3></div>
                             <div class="card-body text-center">
                                 <h5>Felicita a: <strong>{{ birthdays[1][1] }}</strong></h5>
                                 <h6>SUCURSAL {{ birthdays[1][4] }}</h6>
@@ -64,7 +64,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="card text-bg-primary mb-3 " style="background-color: #C43131; color: #fff; height: 250px !important;">
-                            <div class="card-header"><h3>{{ birthdays[2][5] }} de {{ birthdays[2][6] }}</h3></div>
+                            <div class="card-header"><h3>Día {{ birthdays[2][5] }}</h3></div>
                             <div class="card-body text-center">
                                 <h5>Felicita a: <strong>{{ birthdays[2][1] }}</strong></h5>
                                 <h6>SUCURSAL {{ birthdays[2][4] }}</h6>
@@ -75,7 +75,7 @@
                 {% elif birthday_quantities == 4 %}
                     <div class="col-md-3">
                         <div class="card text-bg-primary mb-3 " style="background-color: #357EBE; color: #fff; height: 250px !important;">
-                            <div class="card-header"><h3>{{ birthdays[0][5] }} de {{ birthdays[0][6] }}</h3></div>
+                            <div class="card-header"><h3>Día {{ birthdays[0][5] }}</h3></div>
                             <div class="card-body text-center">
                                 <h5>Felicita a: <strong>{{ birthdays[0][1] }}</strong></h5>
                                 <h6>SUCURSAL {{ birthdays[0][4] }}</h6>
@@ -85,7 +85,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="card text-bg-primary mb-3 " style="background-color: #3BBE35; color: #fff; height: 250px !important;">
-                            <div class="card-header"><h3>{{ birthdays[1][5] }} de {{ birthdays[1][6] }}</h3></div>
+                            <div class="card-header"><h3>Día {{ birthdays[1][5] }}</h3></div>
                             <div class="card-body text-center">
                                 <h5>Felicita a: <strong>{{ birthdays[1][1] }}</strong></h5>
                                 <h6>SUCURSAL {{ birthdays[1][4] }}</h6>
@@ -95,7 +95,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="card text-bg-primary mb-3 " style="background-color: #C43131; color: #fff; height: 250px !important;">
-                            <div class="card-header"><h3>{{ birthdays[2][5] }} de {{ birthdays[2][6] }}</h3></div>
+                            <div class="card-header"><h3>Día {{ birthdays[2][5] }}</h3></div>
                             <div class="card-body text-center">
                                 <h5>Felicita a: <strong>{{ birthdays[2][1] }}</strong></h5>
                                 <h6>SUCURSAL {{ birthdays[2][4] }}</h6>
@@ -105,7 +105,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="card text-bg-primary mb-3 " style="background-color: #7D2A9A; color: #fff; height: 250px !important;">
-                            <div class="card-header"><h3>{{ birthdays[3][5] }} de {{ birthdays[3][6] }}</h3></div>
+                            <div class="card-header"><h3>Día {{ birthdays[3][5] }}</h3></div>
                             <div class="card-body text-center">
                                 <h5>Felicita a: <strong>{{ birthdays[3][1] }}</strong></h5>
                                 <h6>SUCURSAL {{ birthdays[3][4] }}</h6>
