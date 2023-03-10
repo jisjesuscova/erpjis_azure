@@ -4,7 +4,7 @@ from app import app, regular_employee_rol_need
 from app.news.new import New
 from app.employees.employee import Employee
 from datetime import datetime
-import locale
+from app.helpers.helper import Helper
 
 home = Blueprint("home", __name__)
 
@@ -19,9 +19,8 @@ def index():
    news = New.get()
    birthdays = Employee.get_birthdays()
    birthday_quantities = Employee.get_birthday_quantities()
-   locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
    current_month = datetime.today().month
-   current_month = datetime(2000, current_month, 1).strftime('%B').capitalize()
+   current_month = Helper.month_name(current_month)
 
    if current_user.rol_id == 1:
       return render_template('collaborator/home/index.html', current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities)

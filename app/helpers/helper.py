@@ -425,6 +425,26 @@ class Helper:
         day = min(dt.day, calendar.monthrange(year, month)[1])
         return dt.replace(year=year, month=month, day=day)
 
+    @staticmethod
+    def month_name(month):
+
+        MONTH_NAMES_ES = {
+            1: 'Enero',
+            2: 'Febrero',
+            3: 'Marzo',
+            4: 'Abril',
+            5: 'Mayo',
+            6: 'Junio',
+            7: 'Julio',
+            8: 'Agosto',
+            9: 'Septiembre',
+            10: 'Octubre',
+            11: 'Noviembre',
+            12: 'Diciembre'
+        }
+
+        return MONTH_NAMES_ES[month]
+
     staticmethod
     def get_periods(since, until):
         d1 = datetime.strptime(since, "%Y-%m-%d")
