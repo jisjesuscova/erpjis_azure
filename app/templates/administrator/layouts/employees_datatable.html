@@ -33,10 +33,10 @@
                                         <a title="Datos Extras" href="{{ url_for('employee_extra_data.show') }}/{{ employee['rut'] }}" class="btn btn-dark">
                                             <i class="fas fa-plus"></i>
                                         </a>
-                                        <a title="Nucleo Familiar" href="{{ url_for('family_core_data.index') }}/{{ employee['rut'] }}" class="btn btn-primary">
+                                        <a title="Núcleo Familiar" href="{{ url_for('family_core_data.index') }}/{{ employee['rut'] }}" class="btn btn-primary">
                                             <i class="fas fa-user-group"></i>
                                         </a>
-                                        <a title="Krdex" href="{{ url_for('kardex_data.index', rut=employee['rut'] ) }}" class="btn btn-secondary">
+                                        <a title="Kardex" href="{{ url_for('kardex_data.index', rut=employee['rut'] ) }}" class="btn btn-secondary">
                                             <i class="fa fa-file"></i>
                                         </a>
                                         <a title="Vacaciones" href="{{ url_for('vacations.index') }}/{{ employee['rut'] }}" class="btn btn-dark">

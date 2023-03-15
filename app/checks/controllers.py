@@ -20,8 +20,10 @@ def constructor():
 @check.route("/checks/<int:page>", methods=['GET'])
 def index(page=1):
    checks = Check.get('', page)
+   title = 'Revisión'
+   module_name = 'Revisión'
 
-   return render_template('administrator/checks/checks.html', checks = checks)
+   return render_template('administrator/checks/checks.html', title = title, module_name = module_name, checks = checks)
 
 @check.route("/check/create", methods=['GET'])
 def create():
