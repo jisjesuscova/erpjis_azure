@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, request, url_for
+from flask import Blueprint, render_template, redirect, request, url_for, flash
 from flask_login import login_required
 from app import regular_employee_rol_need
 from app.genders.gender import Gender
@@ -43,8 +43,10 @@ def create():
    nationalities = Nationality.get()
    uid = ClockUser.get_last_uid()
    current_date = datetime.datetime.now()
+   title = 'Crear empleado'
+   module_name = 'Recursos Humanos'
 
-   return render_template('administrator/human_resources/personal_data/personal_data_create.html', genders = genders, nationalities = nationalities, uid = uid, current_date = current_date)
+   return render_template('administrator/human_resources/personal_data/personal_data_create.html', title = title, module_name = module_name, genders = genders, nationalities = nationalities, uid = uid, current_date = current_date)
 
 @employee.route("/human_resources/employee/store", methods=['POST'])
 def store():
@@ -57,6 +59,8 @@ def store():
    Audit.store(request.form, 'user/store')
    ClockUser.store(request.form)
    Audit.store(request.form, 'clock_user/store')
+
+   flash('Un nuevo empleado ha sido agregado con éxito', 'success')
 
    return redirect(url_for('personal_data.show', rut = employee.rut))
 
