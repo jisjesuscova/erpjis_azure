@@ -61,9 +61,10 @@ class User():
 
         user = UserModel()
         user.rol_id = 1
+        user.clock_rol_id = data['privilege']
         user.rut = numeric_rut
         user.visual_rut = data['rut']
-        user.email = data['email']
+        user.email = data['personal_email']
         user.nickname = nickname
         user.password = generate_password_hash(data['rut'])
         user.api_token = generate_password_hash(data['rut'])
