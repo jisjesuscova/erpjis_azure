@@ -68,10 +68,14 @@ class ProgressiveVacation():
     @staticmethod
     def legal(rut):
         employee_extra_data = EmployeeExtraDatum.get(rut)
-        months = Helper.months(employee_extra_data.progressive_vacation_date, date.today())
-        progressive_vacation_days = Helper.progressive_vacation_days(months)
 
-        return progressive_vacation_days
+        if employee_extra_data != None:
+            months = Helper.months(employee_extra_data.progressive_vacation_date, date.today())
+            progressive_vacation_days = Helper.progressive_vacation_days(months)
+
+            return progressive_vacation_days
+        else:
+            return 0
 
     @staticmethod
     def taken_days(rut):

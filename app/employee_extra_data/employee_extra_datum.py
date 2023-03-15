@@ -1,6 +1,7 @@
 from flask import request
 from app.models.models import EmployeeExtraModel, OldEmployeeExtraModel
 from app import db
+from app.helpers.helper import Helper
 
 class EmployeeExtraDatum():
     @staticmethod
@@ -27,6 +28,19 @@ class EmployeeExtraDatum():
         except Exception as e:
             return {'msg': 'Data could not be stored'}
 
+    @staticmethod
+    def store(data):
+        numeric_rut = Helper.numeric_rut(data['rut'])
+
+        employee_extra_datum = EmployeeExtraModel()
+        employee_extra_datum.rut = numeric_rut
+        employee_extra_datum.visual_rut = data['rut']
+
+        db.session.add(employee_extra_datum)
+        db.session.commit()
+        
+        return employee_extra_datum
+    
     @staticmethod
     def update(data, rut):
         employee_extra_datum = EmployeeExtraModel.query.filter_by(rut=rut).first()

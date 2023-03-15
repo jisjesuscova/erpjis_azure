@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from app import app, regular_employee_rol_need
 from app.employees.employee import Employee
@@ -90,8 +90,10 @@ def update(rut):
       if request.files['file'].filename != '':
          picture = Dropbox.upload(rut, "_photo", request.files, "/pictures/", "app/static/dist/files/picture_data/", 1)
          Employee.upload(rut, picture)
-
+   print(request.form)
    Employee.update(request.form, rut)
+
+   flash('Se ha actualizado con éxito', 'success')
 
    return redirect(url_for('personal_data.show', rut = rut))
 

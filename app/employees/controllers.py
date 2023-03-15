@@ -12,6 +12,7 @@ from app.clock_users.clock_user import ClockUser
 import datetime
 from app.helpers.whatsapp import Whatsapp
 from app.birthdays.birthday import Birthday
+from app.employee_extra_data.employee_extra_datum import EmployeeExtraDatum
 
 employee = Blueprint("employees", __name__)
 
@@ -50,6 +51,7 @@ def store():
    employee = Employee.store(request.form)
    Audit.store(request.form, 'personal_data/store')
    ContractDatum.store(request.form)
+   EmployeeExtraDatum.store(request.form)
    Audit.store(request.form, 'contract_data/store')
    User.store(request.form)
    Audit.store(request.form, 'user/store')

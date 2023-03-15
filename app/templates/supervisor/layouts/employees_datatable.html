@@ -24,7 +24,7 @@
                                     <td>{{ employee['rut'] }}</td>
                                     <td>{{ employee['names'] }} {{ employee['father_lastname'] }} {{ employee['mother_lastname'] }}</td>
                                     <td>
-                                        <a href="{{ url_for('personal_data.show') }}/{{ employee['rut'] }}" class="btn btn-warning">
+                                        <a title="This is additional info" href="{{ url_for('personal_data.show') }}/{{ employee['rut'] }}" class="btn btn-warning">
                                             <i class="fa fa-id-card"></i>
                                         </a>
                                         <a href="{{ url_for('contract_data.show') }}/{{ employee['rut'] }}" class="btn btn-success">
