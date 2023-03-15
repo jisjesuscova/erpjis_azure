@@ -31,8 +31,10 @@ def create():
    years = Year.get()
    branch_offices = BranchOffice.get()
    check_group_questions = CheckGroupQuestion.get()
+   title = 'Crear Revisión'
+   module_name = 'Revisión'
 
-   return render_template('administrator/checks/checks_create.html', branch_offices = branch_offices, months = months, years = years, check_group_questions = check_group_questions)
+   return render_template('administrator/checks/checks_create.html', title = title, module_name = module_name, branch_offices = branch_offices, months = months, years = years, check_group_questions = check_group_questions)
 
 @check.route("/checks/store", methods=['POST'])
 def store():

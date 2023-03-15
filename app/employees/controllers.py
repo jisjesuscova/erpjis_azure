@@ -27,8 +27,10 @@ def constructor():
 def index(page=1):
    employees = Employee.get('', page)
    branch_offices = BranchOffice.get()
+   title = 'Empleados'
+   module_name = 'Recursos Humanos'
 
-   return render_template('administrator/human_resources/employees/employees.html', employees = employees, branch_offices = branch_offices)
+   return render_template('administrator/human_resources/employees/employees.html', title = title, module_name = module_name, employees = employees, branch_offices = branch_offices)
 
 @employee.route("/human_resources/employees/search/<int:page>", methods=['POST'])
 def search(page=1):
