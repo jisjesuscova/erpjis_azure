@@ -77,7 +77,7 @@ $(document).ready(function () {
 
                     if (parseInt(total) == parseInt(total_questions)) {
                         alert('La encuesta ha culminado con éxito. Muchas gracias.')
-                        window.location.href = "http://localhost:5000/checks";
+                        window.location.href = "https://jiserp.com/checks";
                     }
                 },
                 error: function() {
