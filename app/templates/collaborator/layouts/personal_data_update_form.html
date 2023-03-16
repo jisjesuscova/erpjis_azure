@@ -152,7 +152,7 @@
                                 </div>
                                 {% if is_active == 1 %}
                                     <div class="card-footer">
-                                        <input type="" id="rut" value="{{ rut }}">
+                                        <input type="hidden" id="rut" value="{{ rut }}">
                                         <button type="button" id="save-button" class="btn btn-success">Guardar</button>
 
                                         <a href="{{ url_for('home.index') }}" class="btn btn-secondary">Cancelar</a>
