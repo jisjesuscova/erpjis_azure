@@ -54,36 +54,41 @@ $(document).ready(function () {
             formData.append('description', $('#description_' + rowId).val());
             formData.append('file', $('input[name="file_' + rowId + '"]')[0].files[0]);
             
-    
-            // Enviar la solicitud AJAX
-            $.ajax({
-                url: "/check_answer/store",
-                method: 'POST',
-                headers: {
-                    "X-CSRFToken": $('input[name="csrf_token_' + rowId + '"]').val()
-                },
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    // Actualizar la interfaz de usuario
-                    $('span#loading-icon_' + rowId).hide();
-                    $('.guardar-btn').show();
-                    $('#no_answered_row_' + rowId).hide();
-                    $('#answered_row_' + rowId).show();
+            if (selectedValue != undefined) {
+                // Enviar la solicitud AJAX
+                $.ajax({
+                    url: "/check_answer/store",
+                    method: 'POST',
+                    headers: {
+                        "X-CSRFToken": $('input[name="csrf_token_' + rowId + '"]').val()
+                    },
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        // Actualizar la interfaz de usuario
+                        $('span#loading-icon_' + rowId).hide();
+                        $('.guardar-btn').show();
+                        $('#no_answered_row_' + rowId).hide();
+                        $('#answered_row_' + rowId).show();
 
-                    total = parseInt(total_answered_questions) + 1;
-                    $("#total_answered_questions").text(total)
+                        total = parseInt(total_answered_questions) + 1;
+                        $("#total_answered_questions").text(total)
 
-                    if (parseInt(total) == parseInt(total_questions)) {
-                        alert('La encuesta ha culminado con éxito. Muchas gracias.')
-                        window.location.href = "https://jiserp.com/checks";
+                        if (parseInt(total) == parseInt(total_questions)) {
+                            alert('La encuesta ha culminado con éxito. Muchas gracias.')
+                            window.location.href = "https://jiserp.com/checks";
+                        }
+                    },
+                    error: function() {
+                        alert('Error al guardar los datos');
                     }
-                },
-                error: function() {
-                    alert('Error al guardar los datos');
-                }
-            });
+                });
+            } else {
+                alert('Debes ingresar la respuesta');
+                $('span#loading-icon_' + rowId).hide();
+                $('.guardar-btn').show();
+            }
         });
     });
 
