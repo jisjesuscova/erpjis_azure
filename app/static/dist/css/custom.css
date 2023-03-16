@@ -8,6 +8,10 @@
   .signature-pad {
     width: 200px;
   }
+
+  .form-check-inline {
+    font-size: 10px !important;
+  }
 }
 
 
