@@ -1,4 +1,4 @@
-from app.models.models import CheckModel, BranchOfficeModel, CheckGroupQuestionDetailModel, CheckQuestionModel
+from app.models.models import CheckModel, BranchOfficeModel, CheckGroupQuestionDetailModel, CheckQuestionModel, CheckGroupQuestionModel
 from app import db
 from app.helpers.helper import Helper
 
@@ -10,9 +10,7 @@ class Check():
 
             return check
         else:
-            checks = CheckModel.query\
-                                .join(BranchOfficeModel, BranchOfficeModel.id == CheckModel.branch_office_id)\
-                                .add_columns(CheckModel.added_date, CheckModel.check_title, CheckModel.id, BranchOfficeModel.branch_office).order_by(CheckModel.added_date.desc()).paginate(page=page, per_page=20, error_out=False)
+            checks = CheckGroupQuestionModel.query.order_by(CheckGroupQuestionModel.added_date.desc()).paginate(page=page, per_page=20, error_out=False)
 
             return checks
     

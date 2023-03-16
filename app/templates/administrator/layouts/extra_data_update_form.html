@@ -63,12 +63,12 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Monto Extra Salud</label>
-                                            <input type="number" value="{{ employee_extra_datum.extra_health_amount }}" class="form-control" id="exampleInputEmail1" placeholder="Monto Extra Salud" name="extra_health_amount" required>
+                                            <input type="text" value="{{ employee_extra_datum.extra_health_amount }}" class="form-control" id="exampleInputEmail1" placeholder="Monto Extra Salud" name="extra_health_amount">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Empleo Jovén</label>
+                                            <label for="exampleInputEmail1">Subsidio Empleo Jovén</label>
                                             <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="young_job_status_id" required>
                                                 <option value="">- Seleccionar -</option>
                                                 <option {% if 1 == employee_extra_datum.young_job_status_id %} selected {% endif %} value="1">Si</option>
@@ -125,7 +125,7 @@
                                     <div class="col-md-4" id="progressive_vacation_date">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Fecha de Vacaciones Progresivas</label>
-                                            <input type="date" value="{{ employee_extra_datum.progressive_vacation_date }}" class="form-control" id="exampleInputEmail1" placeholder="Fecha de Vacaciones Progresivas" name="progressive_vacation_date" required>
+                                            <input type="date" value="{{ employee_extra_datum.progressive_vacation_date }}" class="form-control" id="exampleInputEmail1" placeholder="Fecha de Vacaciones Progresivas" name="progressive_vacation_date">
                                         </div>
                                     </div>
                                 </div>

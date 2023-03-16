@@ -6,6 +6,7 @@ from app.check_answers.check_answer import CheckAnswer
 from app.check_questions.check_question import CheckQuestion
 from app.helpers.file import File
 from app.checks.check import Check
+from app.check_group_question_details.check_group_question_detail import CheckGroupQuestionDetail
 
 check_answer = Blueprint("check_answers", __name__)
 
@@ -17,26 +18,19 @@ def constructor():
 
 @check_answer.route("/check_answer/store", methods=['POST'])
 def store():
-   check_question_id = CheckQuestion.status(request.form['check_question_id'])
+   id = request.form['id']
 
-   if check_question_id == 1:
+   if 'file' in request.files:
       if request.files['file'].filename != '':
-         support = Dropbox.upload(request.form['check_question_id'], '_check', request.files, "/checks/", "app/static/dist/files/check_data/")
-         CheckAnswer.store(request.form, support)
-         CheckQuestion.update(request.form['check_question_id'], 2)
+         support = Dropbox.upload(id, '_foto', request.files, "/checks/", "app/static/dist/files/check_data/", 0)
+      else:
+         support = ''
    else:
-      check_answer = CheckAnswer.get(request.form['check_question_id'])
-      Dropbox.delete('/checks/', check_answer.support)
-      File.delete("app/static/dist/files/check_data/", check_answer.support)
-      
-      if request.files['file'].filename != '':
-         support = Dropbox.upload(request.form['check_question_id'], '_check', request.files, "/checks/", "app/static/dist/files/check_data/")
-         CheckAnswer.update(request.form, support)
-         CheckQuestion.update(request.form['check_question_id'], 2)
+      support = ''
+   
+   CheckGroupQuestionDetail.store(request.form, id, support)
 
-   flash('La pregunta ha sido respondida con éxito', 'success')
-
-   return redirect(url_for('checks.show', id = request.form['check_id']))
+   return '1'
 
 @check_answer.route("/check_answer/show/<int:check_id>/<int:check_question_id>", methods=['GET'])
 def show(check_id, check_question_id):

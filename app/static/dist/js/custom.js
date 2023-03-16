@@ -1,4 +1,92 @@
 $(document).ready(function () {
+    $(document).ready(function() {
+        $('.answered_row').hide();
+        $("#total_answered_questions").text("0");
+        if ($('#branch_office_id').val() == '' || $('#added_date').val() == '') {
+            $('#questions_to_answer').hide();
+        } else {
+            $('#questions_to_answer').show();
+        }
+
+        $('#branch_office_id').change(function() {
+            if ($('#branch_office_id').val() == '' || $('#added_date').val() == '') {
+                $('#questions_to_answer').hide();
+            } else {
+                $('#questions_to_answer').show();
+            }
+        });
+
+        $('#added_date').change(function() {
+            if ($('#branch_office_id').val() == '' || $('#added_date').val() == '') {
+                $('#questions_to_answer').hide();
+            } else {
+                $('#questions_to_answer').show();
+            }
+        });
+
+        $('.guardar-btn').click(function(event) {
+            event.preventDefault();
+    
+            // Obtener el ID de fila
+            var rowId = $(this).data('row-id');
+    
+            // Mostrar el mensaje de "Cargando..."
+            $(this).hide();
+            $('span#loading-icon_' + rowId).show();
+
+            // Crear un objeto FormData y agregar los datos del formulario
+            var formData = new FormData();
+
+            var radioButtons = $('input[name="answer_id_' + rowId + '"]');
+
+            // Obtener el valor del radio button seleccionado
+            var selectedValue = radioButtons.filter(':checked').val();
+
+            var total_answered_questions = $("#total_answered_questions").text();
+            var total_questions = $("#total_questions").text();
+
+            formData.append('id', rowId);
+            formData.append('check_group_question_id', $('#check_group_question_id').val());
+            formData.append('check_group_question_detail_id', $('#check_group_question_detail_id_' + rowId).val());
+            formData.append('branch_office_id', $('#branch_office_id').val());
+            formData.append('added_date', $('#added_date').val());
+            formData.append('answer_id', selectedValue);
+            formData.append('description', $('#description_' + rowId).val());
+            formData.append('file', $('input[name="file_' + rowId + '"]')[0].files[0]);
+            
+    
+            // Enviar la solicitud AJAX
+            $.ajax({
+                url: "/check_answer/store",
+                method: 'POST',
+                headers: {
+                    "X-CSRFToken": $('input[name="csrf_token_' + rowId + '"]').val()
+                },
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    // Actualizar la interfaz de usuario
+                    $('span#loading-icon_' + rowId).hide();
+                    $('.guardar-btn').show();
+                    $('#no_answered_row_' + rowId).hide();
+                    $('#answered_row_' + rowId).show();
+
+                    total = parseInt(total_answered_questions) + 1;
+                    $("#total_answered_questions").text(total)
+
+                    if (parseInt(total) == parseInt(total_questions)) {
+                        alert('La encuesta ha culminado con éxito. Muchas gracias.')
+                        window.location.href = "http://localhost:5000/checks";
+                    }
+                },
+                error: function() {
+                    alert('Error al guardar los datos');
+                }
+            });
+        });
+    });
+
     $('.sigPad').signaturePad({drawOnly:true});
 
     $("#regime_afp").hide();

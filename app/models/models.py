@@ -259,8 +259,9 @@ class CheckAnswerModel(db.Model):
     __tablename__ = 'check_answers'
 
     id = db.Column(db.Integer, primary_key=True)
-    check_id = db.Column(db.Integer)
-    check_question_id = db.Column(db.Integer)
+    check_group_question_id = db.Column(db.Integer)
+    check_group_question_detail_id = db.Column(db.Integer)
+    branch_office_id = db.Column(db.Integer)
     answer_id = db.Column(db.Integer)
     description = db.Column(db.String(255))
     support = db.Column(db.String(255))
@@ -768,6 +769,7 @@ class UserModel(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     rol_id = db.Column(db.Integer, db.ForeignKey('rols.id'))
+    clock_rol_id = db.Column(db.Integer)
     rut = db.Column(db.Integer)
     visual_rut = db.Column(db.String(20))
     nickname = db.Column(db.String(255))

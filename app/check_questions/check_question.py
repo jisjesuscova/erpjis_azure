@@ -71,7 +71,6 @@ class CheckQuestion():
             db.session.add(check_question)
             db.session.commit()
         return 1
-    
 
     @staticmethod
     def update(id, status_id):
