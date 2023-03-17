@@ -273,7 +273,7 @@ $(document).ready(function () {
             contentType: false,
             success: function(response) {
                 if (response == 1) {
-                    window.location.replace("http://jiserp.com/human_resources/personal_data/"+rut);
+                    window.location.replace("http://localhost:5000/human_resources/personal_data/"+rut);
                 } else {
                     $('.alert-danger-404-form').show();
                     $('.alert-danger-cellphone-form').hide();
@@ -338,30 +338,29 @@ $(document).ready(function () {
                 processData: false,
                 contentType: false,
                 success: function(response) {
-                        // Actualizar la interfaz de usuario
-                        $('span#loading-icon_' + rowId).hide();
-                        $('.guardar-btn').show();
-                        $('#no_answered_row_' + rowId).hide();
-                        $('#answered_row_' + rowId).show();
+                    // Actualizar la interfaz de usuario
+                    $('span#loading-icon_' + rowId).hide();
+                    $('.guardar-btn').show();
+                    $('#no_answered_row_' + rowId).hide();
+                    $('#answered_row_' + rowId).show();
 
-                        total = parseInt(total_answered_questions) + 1;
-                        $("#total_answered_questions").text(total)
+                    total = parseInt(total_answered_questions) + 1;
+                    $("#total_answered_questions").text(total)
 
-                        if (parseInt(total) == parseInt(total_questions)) {
-                            alert('La encuesta ha culminado con éxito. Muchas gracias.')
-                            window.location.href = "https://jiserp.com/checks";
-                        }
-                    },
-                    error: function() {
-                        alert('Error al guardar los datos');
+                    if (parseInt(total) == parseInt(total_questions)) {
+                        alert('La encuesta ha culminado con éxito. Muchas gracias.')
+                        window.location.href = "https://jiserp.com/checks";
                     }
-                });
-            } else {
-                alert('Debes ingresar la respuesta');
-                $('span#loading-icon_' + rowId).hide();
-                $('.guardar-btn').show();
-            }
-        });
+                },
+                error: function() {
+                    alert('Error al guardar los datos');
+                }
+            });
+        } else {
+            alert('Debes ingresar la respuesta');
+            $('span#loading-icon_' + rowId).hide();
+            $('.guardar-btn').show();
+        }
     });
 
     $('.sigPad').signaturePad({drawOnly:true});
@@ -545,13 +544,14 @@ $(document).ready(function () {
         $.ajax({
             url: '/turns/types/' + $('#employee_id').val() + '/' + $(this).val(),
             type: 'GET',
-        success: function(data) {
-            data = JSON.parse(data)
-            $('#turns').empty();
+            success: function(data) {
+                data = JSON.parse(data)
+                $('#turns').empty();
 
-            for (var i = 0; i < data.length; ++i) {
-                $('<div duration="'+ data[i].group_day_id +'" class="fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event"><div class="fc-event-main"><center>Id: '+ data[i].id +' - Horario: '+ data[i].turn +'. Días: '+ data[i].group_day_id +'x' + data[i].free_day_group_id + '</center></div></div>').appendTo('#turns');
+                for (var i = 0; i < data.length; ++i) {
+                    $('<div duration="'+ data[i].group_day_id +'" class="fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event"><div class="fc-event-main"><center>Id: '+ data[i].id +' - Horario: '+ data[i].turn +'. Días: '+ data[i].group_day_id +'x' + data[i].free_day_group_id + '</center></div></div>').appendTo('#turns');
+                }
             }
-        }
+        });
     });
 });
