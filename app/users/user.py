@@ -72,12 +72,13 @@ class User():
         user.updated_date = datetime.now()
 
         db.session.add(user)
-        db.session.commit()
 
-        if db.session.commit():
-            return user
-        else:
-            return {'msg': 'Data could not be stored'}
+        try:
+            db.session.commit()
+
+            return 1
+        except Exception as e:
+            return 0
 
     @staticmethod
     def special_update(rut, password):

@@ -20,11 +20,14 @@ class ContractDatum():
         employee_labor_data.visual_rut = data['rut']
         employee_labor_data.entrance_company = data['entrance_company']
         employee_labor_data.added_date = datetime.now()
-
-        db.session.add(employee_labor_data)
-        db.session.commit()
         
-        return employee_labor_data
+        db.session.add(employee_labor_data)
+        try:
+            db.session.commit()
+
+            return 1
+        except Exception as e:
+            return 0
 
     @staticmethod
     def restore(rut):

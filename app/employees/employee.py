@@ -20,6 +20,24 @@ class Employee():
                 employee = EmployeeModel.query.filter_by(rut = rut).first()
 
                 return employee
+            
+    @staticmethod
+    def check_rut(rut):
+        employee_qty = EmployeeModel.query.filter_by(rut=rut).count()
+
+        if(employee_qty > 0):
+            return 1
+        else:
+            return 0
+        
+    @staticmethod
+    def check_cellphone(cellphone):
+        employee_qty = EmployeeModel.query.filter_by(cellphone=cellphone).count()
+
+        if(employee_qty > 0):
+            return 1
+        else:
+            return 0
 
     @staticmethod
     def get_by_rol(rol_id):
@@ -144,9 +162,9 @@ class Employee():
         try:
             db.session.commit()
 
-            return employee
+            return 1
         except Exception as e:
-            return {'msg': 'Data could not be stored'}
+            return 0
 
     @staticmethod
     def update(data, id):

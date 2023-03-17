@@ -52,19 +52,21 @@ def create():
 
 @employee.route("/human_resources/employee/store", methods=['POST'])
 def store():
-   employee = Employee.store(request.form)
+   employee_status_id = Employee.store(request.form)
    Audit.store(request.form, 'personal_data/store')
-   ContractDatum.store(request.form)
-   EmployeeExtraDatum.store(request.form)
+   contract_datum_status_id = ContractDatum.store(request.form)
+   Audit.store(request.form, 'employee_extra_data/store')
+   employee_extra_datum_id = EmployeeExtraDatum.store(request.form)
    Audit.store(request.form, 'contract_data/store')
-   User.store(request.form)
+   user_status_id = User.store(request.form)
    Audit.store(request.form, 'user/store')
-   ClockUser.store(request.form)
+   clock_user_status_id = ClockUser.store(request.form)
    Audit.store(request.form, 'clock_user/store')
 
-   flash('Un nuevo empleado ha sido agregado con éxito', 'success')
-
-   return redirect(url_for('personal_data.show', rut = employee.rut))
+   if employee_status_id != 0 and contract_datum_status_id != 0 and employee_extra_datum_id != 0 and user_status_id != 0 and clock_user_status_id != 0:
+      return '1'
+   else:
+      return '0'
 
 @employee.route("/human_resources/employee/congratulate/<int:rut>", methods=['GET'])
 @employee.route("/human_resources/employee/congratulate", methods=['POST'])
@@ -79,3 +81,25 @@ def congratulate(rut = ''):
       employee = Employee.get(rut)
 
       return render_template('administrator/human_resources/birthdays/birthdays.html', employee = employee, rut = rut)
+
+@employee.route("/human_resources/employee/check_rut", methods=['POST'])
+def check_rut():
+   rut = request.form['rut']
+
+   status_id = Employee.check_rut(rut)
+
+   if status_id == 1:
+      return '1'
+   else:
+      return '0'
+   
+@employee.route("/human_resources/employee/check_cellphone", methods=['POST'])
+def check_cellphone():
+   cellphone = request.form['cellphone']
+
+   status_id = Employee.check_cellphone(cellphone)
+
+   if status_id == 1:
+      return '1'
+   else:
+      return '0'

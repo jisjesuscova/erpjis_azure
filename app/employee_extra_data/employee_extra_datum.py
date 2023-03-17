@@ -37,9 +37,13 @@ class EmployeeExtraDatum():
         employee_extra_datum.visual_rut = data['rut']
 
         db.session.add(employee_extra_datum)
-        db.session.commit()
-        
-        return employee_extra_datum
+
+        try:
+            db.session.commit()
+
+            return 1
+        except Exception as e:
+            return 0
     
     @staticmethod
     def update(data, rut):

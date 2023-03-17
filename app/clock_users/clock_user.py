@@ -56,9 +56,14 @@ class ClockUser():
         clock_user.updated_date = datetime.now()
 
         db.session.add(clock_user)
-        db.session.commit()
+        try:
+            db.session.commit()
+
+            return str(data['uid']) + "_" + str(data['rut']) + "_" + upper_string + "_" + str(data['privilege'])
+        except Exception as e:
+            return 0
         
-        return str(data['uid']) + "_" + str(data['rut']) + "_" + upper_string + "_" + str(data['privilege'])
+        
  
     @staticmethod
     def update(data):

@@ -14,6 +14,17 @@
   }
 }
 
+.help-button {
+  border-radius: 50px;
+  background: #FFE633;
+  color: #000;
+  font-size: 13px;
+}
+
+.example_input_form {
+  font-size: 12px;
+  color: #E54E4E;
+}
 
 .signature-pad {
   border: 2px solid black;
