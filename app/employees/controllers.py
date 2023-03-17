@@ -63,6 +63,8 @@ def store():
    clock_user_status_id = ClockUser.store(request.form)
    Audit.store(request.form, 'clock_user/store')
 
+   flash('El empleado ha sido registrado con éxito', 'success')
+
    if employee_status_id != 0 and contract_datum_status_id != 0 and employee_extra_datum_id != 0 and user_status_id != 0 and clock_user_status_id != 0:
       return '1'
    else:

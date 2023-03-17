@@ -260,6 +260,7 @@ $(document).ready(function () {
         formData.append('privilege', $('#privilege').val());
         formData.append('uid', $('#uid').val());
         formData.append('entrance_company', $('#entrance_company').val());
+        formData.append('success_store_id', 1);
 
         $.ajax({
             url: "/human_resources/employee/store",
