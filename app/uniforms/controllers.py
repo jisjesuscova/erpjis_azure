@@ -30,7 +30,9 @@ def index(rut):
 
       is_active = 0
 
-   return render_template('administrator/human_resources/uniforms/uniforms.html', uniforms = uniforms, rut = rut, is_active = is_active)
+   uniform_button_status_id = 1
+
+   return render_template('administrator/human_resources/uniforms/uniforms.html', uniform_button_status_id = uniform_button_status_id, uniforms = uniforms, rut = rut, is_active = is_active)
 
 @uniform.route("/human_resources/uniform/create/<int:rut>", methods=['GET'])
 @uniform.route("/human_resources/uniform/create", methods=['GET'])

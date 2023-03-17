@@ -32,7 +32,9 @@ def index(rut, page = 1):
 
       is_active = 0
 
-   return render_template('administrator/human_resources/kardex_data/kardex_data.html', kardex_data = kardex_data, rut = rut, is_active = is_active)
+   kardex_button_status_id = 1
+
+   return render_template('administrator/human_resources/kardex_data/kardex_data.html', kardex_button_status_id = kardex_button_status_id, kardex_data = kardex_data, rut = rut, is_active = is_active)
 
 @kardex_datum.route("/human_resources/kardex_data/create/<int:rut>", methods=['GET'])
 @kardex_datum.route("/human_resources/kardex_data/create", methods=['GET'])

@@ -73,14 +73,16 @@ def show(rut):
 
       is_active = 0
 
+   personal_datum_button_status_id = 1
+
    if current_user.rol_id == 1:
-      return render_template('collaborator/human_resources/personal_data/personal_data_update.html', employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active)
+      return render_template('collaborator/human_resources/personal_data/personal_data_update.html', personal_datum_button_status_id = personal_datum_button_status_id, employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active)
    elif current_user.rol_id == 2:
-      return render_template('incharge/human_resources/personal_data/personal_data_update.html', employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active)
+      return render_template('incharge/human_resources/personal_data/personal_data_update.html', personal_datum_button_status_id = personal_datum_button_status_id, employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active)
    elif current_user.rol_id == 3:
-      return render_template('supervisor/human_resources/personal_data/personal_data_update.html', employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active)
+      return render_template('supervisor/human_resources/personal_data/personal_data_update.html', personal_datum_button_status_id = personal_datum_button_status_id, employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active)
    elif current_user.rol_id == 4:
-      return render_template('administrator/human_resources/personal_data/personal_data_update.html', employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active)
+      return render_template('administrator/human_resources/personal_data/personal_data_update.html', personal_datum_button_status_id = personal_datum_button_status_id, employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active)
 
 @personal_datum.route("/human_resources/personal_data/<int:rut>", methods=['POST'])
 @personal_datum.route("/human_resources/personal_data", methods=['POST'])
@@ -90,7 +92,7 @@ def update(rut):
       if request.files['file'].filename != '':
          picture = Dropbox.upload(rut, "_photo", request.files, "/pictures/", "app/static/dist/files/picture_data/", 1)
          Employee.upload(rut, picture)
-   print(request.form)
+
    Employee.update(request.form, rut)
 
    flash('Se ha actualizado con éxito', 'success')

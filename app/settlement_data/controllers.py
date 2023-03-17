@@ -32,14 +32,16 @@ def index(rut = '', page = 1):
     else:
         documents_employees = OldDocumentEmployee.get_by_type(rut, 5, page)
 
+    settlement_button_status_id = 1
+
     if current_user.rol_id == 1:
-        return render_template('collaborator/management_payrolls/settlement_data/settlement_data_download.html', documents_employees = documents_employees, rut = rut)
+        return render_template('collaborator/management_payrolls/settlement_data/settlement_data_download.html', settlement_button_status_id = settlement_button_status_id, documents_employees = documents_employees, rut = rut)
     elif current_user.rol_id == 2:
-        return render_template('incharge/management_payrolls/settlement_data/settlement_data_download.html', documents_employees = documents_employees, rut = rut)
+        return render_template('incharge/management_payrolls/settlement_data/settlement_data_download.html', settlement_button_status_id = settlement_button_status_id, documents_employees = documents_employees, rut = rut)
     elif current_user.rol_id == 3:
-        return render_template('supervisor/management_payrolls/settlement_data/settlement_data_download.html', documents_employees = documents_employees, rut = rut)
+        return render_template('supervisor/management_payrolls/settlement_data/settlement_data_download.html', settlement_button_status_id = settlement_button_status_id, documents_employees = documents_employees, rut = rut)
     elif current_user.rol_id == 4:
-        return render_template('administrator/management_payrolls/settlement_data/settlement_data_download.html', documents_employees = documents_employees, rut = rut)
+        return render_template('administrator/management_payrolls/settlement_data/settlement_data_download.html', settlement_button_status_id = settlement_button_status_id, documents_employees = documents_employees, rut = rut)
 
 @settlement_datum.route("/management_payroll/settlement_data/uploaded/<int:page>", methods=['GET'])
 @settlement_datum.route("/management_payroll/settlement_data/uploaded", methods=['GET'])

@@ -21,6 +21,12 @@
   font-size: 13px;
 }
 
+li.active {
+  color: #ECA538 !important;
+  text-decoration: underline;
+  font-weight: bolder;
+}
+
 .example_input_form {
   font-size: 12px;
   color: #E54E4E;

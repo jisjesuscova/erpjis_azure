@@ -66,14 +66,16 @@ def show(rut):
 
       is_active = 0
 
+   employee_contract_datum_button_status_id = 1
+
    if current_user.rol_id == 1:
-      return render_template('collaborator/human_resources/contract_data/contract_data_update.html', contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, is_active = is_active)
+      return render_template('collaborator/human_resources/contract_data/contract_data_update.html', employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, is_active = is_active)
    elif current_user.rol_id == 2:
-      return render_template('incharge/human_resources/contract_data/contract_data_update.html', contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, is_active = is_active)
+      return render_template('incharge/human_resources/contract_data/contract_data_update.html', employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, is_active = is_active)
    elif current_user.rol_id == 3:
-      return render_template('supervisor/human_resources/contract_data/contract_data_update.html', contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, is_active = is_active)
+      return render_template('supervisor/human_resources/contract_data/contract_data_update.html', employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, is_active = is_active)
    elif current_user.rol_id == 4:
-      return render_template('administrator/human_resources/contract_data/contract_data_update.html', contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, contract_data = contract_data, end_documents = end_documents, is_active = is_active)
+      return render_template('administrator/human_resources/contract_data/contract_data_update.html', employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, contract_data = contract_data, end_documents = end_documents, is_active = is_active)
 
 @contract_datum.route("/human_resources/contract_data/<int:rut>", methods=['POST'])
 @contract_datum.route("/human_resources/contract_data", methods=['POST'])

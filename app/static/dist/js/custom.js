@@ -213,6 +213,89 @@ $(document).ready(function () {
          });
     });
 
+    $('.update-user-btn').click(function(event) {
+        event.preventDefault();
+
+        // Verificar si hay campos vacíos o indefinidos
+        var requiredFields = ['rut', 'names', 'father_lastname', 'mother_lastname', 'gender_id', 'nationality_id', 'personal_email', 'cellphone', 'born_date', 'privilege'];
+        var hasEmptyField = false;
+        for (var i = 0; i < requiredFields.length; i++) {
+            var field = $('#' + requiredFields[i]);
+            if (field.val() === '' || typeof field.val() === 'undefined') {
+                hasEmptyField = true;
+                break;
+            }
+        }
+
+        if (hasEmptyField) {
+            $('.alert-danger-form').show();
+            return;
+        }
+
+        var cellphone = $('#cellphone').val();
+        if (cellphone.length < 9) {
+            $('.alert-danger-cellphone-form').show();
+            $('.alert-danger-form').hide();
+            return;
+        }
+
+        $('span#loading-icon').show();
+        $('.create-user-btn').hide();
+        
+        var formData = new FormData();
+        var rut =  $('#rut').val()
+
+        rut = rut.split('-')
+        rut = rut[0]
+        
+        formData.append('rut', $('#rut').val());
+        formData.append('names', $('#names').val());
+        formData.append('father_lastname', $('#father_lastname').val());
+        formData.append('mother_lastname', $('#mother_lastname').val());
+        formData.append('gender_id', $('#gender_id').val()); 
+        formData.append('nationality_id', $('#nationality_id').val());
+        formData.append('personal_email', $('#personal_email').val());
+        formData.append('cellphone', $('#cellphone').val());
+        formData.append('born_date', $('#born_date').val());
+        formData.append('privilege', $('#privilege').val());
+        formData.append('uid', $('#uid').val());
+        formData.append('entrance_company', $('#entrance_company').val());
+        formData.append('success_store_id', 1);
+
+        $.ajax({
+            url: "/human_resources/employee/store",
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response == 1) {
+                    window.location.replace("https://jiserp.com/human_resources/personal_data/"+rut);
+                } else {
+                    $('.alert-danger-404-form').show();
+                    $('.alert-danger-cellphone-form').hide();
+                    $('.alert-danger-form').hide();
+                    $('.alert-danger-rut-exist-form').hide();
+                    $('.alert-danger-cellphone-exist-form').hide();
+                    $('span#loading-icon').hide();
+                    $('.create-user-btn').show();
+                }
+            },
+            error: function() {
+                $('.alert-danger-404-form').show();
+                $('.alert-danger-cellphone-form').hide();
+                $('.alert-danger-form').hide();
+                $('.alert-danger-rut-exist-form').hide();
+                $('.alert-danger-cellphone-exist-form').hide();
+                $('span#loading-icon').hide();
+                $('.create-user-btn').show();
+            }
+        });
+    });
+
     $('.create-user-btn').click(function(event) {
         event.preventDefault();
 
@@ -273,7 +356,7 @@ $(document).ready(function () {
             contentType: false,
             success: function(response) {
                 if (response == 1) {
-                    window.location.replace("http://localhost:5000/human_resources/personal_data/"+rut);
+                    window.location.replace("https://jiserp.com/human_resources/personal_data/"+rut);
                 } else {
                     $('.alert-danger-404-form').show();
                     $('.alert-danger-cellphone-form').hide();

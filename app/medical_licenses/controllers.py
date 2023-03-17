@@ -34,14 +34,16 @@ def index(rut):
 
       medical_licenses = OldMedicalLicense.get(rut)
 
+   medical_license_button_status_id = 1
+
    if current_user.rol_id == 1:
-      return render_template('collaborator/human_resources/medical_licenses/medical_licenses.html', medical_licenses = medical_licenses, rut = rut, is_active = is_active)
+      return render_template('collaborator/human_resources/medical_licenses/medical_licenses.html', medical_license_button_status_id = medical_license_button_status_id, medical_licenses = medical_licenses, rut = rut, is_active = is_active)
    elif current_user.rol_id == 2:
-      return render_template('incharge/human_resources/medical_licenses/medical_licenses.html', medical_licenses = medical_licenses, rut = rut, is_active = is_active)
+      return render_template('incharge/human_resources/medical_licenses/medical_licenses.html', medical_license_button_status_id = medical_license_button_status_id, medical_licenses = medical_licenses, rut = rut, is_active = is_active)
    elif current_user.rol_id == 3:
-      return render_template('supervisor/human_resources/medical_licenses/medical_licenses.html', medical_licenses = medical_licenses, rut = rut, is_active = is_active)
+      return render_template('supervisor/human_resources/medical_licenses/medical_licenses.html', medical_license_button_status_id = medical_license_button_status_id, medical_licenses = medical_licenses, rut = rut, is_active = is_active)
    elif current_user.rol_id == 4:
-      return render_template('administrator/human_resources/medical_licenses/medical_licenses.html', medical_licenses = medical_licenses, rut = rut, is_active = is_active)
+      return render_template('administrator/human_resources/medical_licenses/medical_licenses.html', medical_license_button_status_id = medical_license_button_status_id, medical_licenses = medical_licenses, rut = rut, is_active = is_active)
 
 @medical_license.route("/human_resources/medical_license/create/<int:rut>", methods=['GET'])
 @medical_license.route("/human_resources/medical_license/create", methods=['GET'])
