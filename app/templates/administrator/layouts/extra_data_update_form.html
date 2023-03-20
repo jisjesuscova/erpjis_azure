@@ -132,9 +132,16 @@
                             </div>
                             {% if is_active == 1 %}
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <button type="submit" class="btn btn-success">Actualizar</button>
 
-                                    <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
+                                            <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
+                                        </div>
+                                        <div class="col-md-6 text-right">
+                                            <a href="{{ url_for('family_core_data.index', rut=rut) }}" class="btn btn-primary">Ir a Datos de Nucleo Familiar</a>
+                                        </div>
+                                    </div>
                                 </div>
                             {% endif %}
                         </form>

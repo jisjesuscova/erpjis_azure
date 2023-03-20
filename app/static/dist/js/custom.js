@@ -189,13 +189,17 @@ $(document).ready(function () {
                         $('span#loading-icon').hide();
                         $('.create-user-btn').show();
                         $(".create-user-btn").prop("disabled", true);
+                        $('.update-user-btn').show();
+                        $(".update-user-btn").prop("disabled", true);
     
                         return;
                     } else {
                         $(".create-user-btn").prop("disabled", false);
+                        $(".update-user-btn").prop("disabled", false);
                         $('.alert-danger-cellphone-exist-form').hide();
                         $('span#loading-icon').hide();
                         $('.create-user-btn').show();
+                        $('.update-user-btn').show();
                         return;
                     }
                 }
@@ -209,6 +213,7 @@ $(document).ready(function () {
                 $('.alert-danger-cellphone-exist-form').hide();
                 $('span#loading-icon').hide();
                 $('.create-user-btn').show();
+                $('.update-user-btn').show();
             }
          });
     });
@@ -217,7 +222,7 @@ $(document).ready(function () {
         event.preventDefault();
 
         // Verificar si hay campos vacíos o indefinidos
-        var requiredFields = ['rut', 'names', 'father_lastname', 'mother_lastname', 'gender_id', 'nationality_id', 'personal_email', 'cellphone', 'born_date', 'privilege'];
+        var requiredFields = ['names', 'father_lastname', 'mother_lastname', 'gender_id', 'nationality_id', 'personal_email', 'cellphone', 'born_date'];
         var hasEmptyField = false;
         for (var i = 0; i < requiredFields.length; i++) {
             var field = $('#' + requiredFields[i]);
@@ -240,7 +245,7 @@ $(document).ready(function () {
         }
 
         $('span#loading-icon').show();
-        $('.create-user-btn').hide();
+        $('.update-user-btn').hide();
         
         var formData = new FormData();
         var rut =  $('#rut').val()
@@ -257,13 +262,10 @@ $(document).ready(function () {
         formData.append('personal_email', $('#personal_email').val());
         formData.append('cellphone', $('#cellphone').val());
         formData.append('born_date', $('#born_date').val());
-        formData.append('privilege', $('#privilege').val());
-        formData.append('uid', $('#uid').val());
-        formData.append('entrance_company', $('#entrance_company').val());
-        formData.append('success_store_id', 1);
+        formData.append('success_update_id', 1);
 
         $.ajax({
-            url: "/human_resources/employee/store",
+            url: "/human_resources/personal_data/"+rut,
             method: 'POST',
             headers: {
                 "X-CSRFToken": $('input[name="csrf_token"]').val()
@@ -281,7 +283,7 @@ $(document).ready(function () {
                     $('.alert-danger-rut-exist-form').hide();
                     $('.alert-danger-cellphone-exist-form').hide();
                     $('span#loading-icon').hide();
-                    $('.create-user-btn').show();
+                    $('.update-user-btn').show();
                 }
             },
             error: function() {
@@ -291,7 +293,7 @@ $(document).ready(function () {
                 $('.alert-danger-rut-exist-form').hide();
                 $('.alert-danger-cellphone-exist-form').hide();
                 $('span#loading-icon').hide();
-                $('.create-user-btn').show();
+                $('.update-user-btn').show();
             }
         });
     });
@@ -375,6 +377,86 @@ $(document).ready(function () {
                 $('.alert-danger-cellphone-exist-form').hide();
                 $('span#loading-icon').hide();
                 $('.create-user-btn').show();
+            }
+        });
+    });
+
+    $('.update-user-btn').click(function(event) {
+        event.preventDefault();
+
+        // Verificar si hay campos vacíos o indefinidos
+        var requiredFields = ['names', 'father_lastname', 'mother_lastname', 'gender_id', 'nationality_id', 'personal_email', 'cellphone', 'born_date'];
+        var hasEmptyField = false;
+        for (var i = 0; i < requiredFields.length; i++) {
+            var field = $('#' + requiredFields[i]);
+            if (field.val() === '' || typeof field.val() === 'undefined') {
+                hasEmptyField = true;
+                break;
+            }
+        }
+
+        if (hasEmptyField) {
+            $('.alert-danger-form').show();
+            return;
+        }
+
+        var cellphone = $('#cellphone').val();
+        if (cellphone.length < 9) {
+            $('.alert-danger-cellphone-form').show();
+            $('.alert-danger-form').hide();
+            return;
+        }
+
+        $('span#loading-icon').show();
+        $('.update-user-btn').hide();
+        
+        var formData = new FormData();
+        var rut =  $('#rut').val()
+
+        rut = rut.split('-')
+        rut = rut[0]
+        
+        formData.append('names', $('#names').val());
+        formData.append('father_lastname', $('#father_lastname').val());
+        formData.append('mother_lastname', $('#mother_lastname').val());
+        formData.append('gender_id', $('#gender_id').val()); 
+        formData.append('nationality_id', $('#nationality_id').val());
+        formData.append('personal_email', $('#personal_email').val());
+        formData.append('cellphone', $('#cellphone').val());
+        formData.append('born_date', $('#born_date').val());
+        formData.append('file', $('input[name="file"]')[0].files[0]);
+        formData.append('success_update_id', 1);
+
+        $.ajax({
+            url: "/human_resources/personal_data/" + rut,
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response == 1) {
+                    window.location.replace("https://jiserp.com/human_resources/personal_data/"+rut);
+                } else {
+                    $('.alert-danger-404-form').show();
+                    $('.alert-danger-cellphone-form').hide();
+                    $('.alert-danger-form').hide();
+                    $('.alert-danger-rut-exist-form').hide();
+                    $('.alert-danger-cellphone-exist-form').hide();
+                    $('span#loading-icon').hide();
+                    $('.update-user-btn').show();
+                }
+            },
+            error: function() {
+                $('.alert-danger-404-form').show();
+                $('.alert-danger-cellphone-form').hide();
+                $('.alert-danger-form').hide();
+                $('.alert-danger-rut-exist-form').hide();
+                $('.alert-danger-cellphone-exist-form').hide();
+                $('span#loading-icon').hide();
+                $('.update-user-btn').show();
             }
         });
     });
@@ -473,12 +555,22 @@ $(document).ready(function () {
     $('#save-button').click(function(){
         var dataUrl = api.getSignatureImage();
 
+        $('#save-button').hide()
+        $('span#loading-icon-signature').show();
+
+        var rut =  $('#rut').val()
+
+        rut = rut.split('-')
+        rut = rut[0]
+
         $.ajax({
             type: "POST",
             url: '/signature/store',
             data: { signature: dataUrl },
             success: function(response) {
-                window.location.href = 'http://127.0.0.1:5000/human_resources/personal_data/' + $('#rut').val();
+                $('#save-button').show()
+                $('span#loading-icon-signature').hide();
+                window.location.href = 'https://jiserp.com/human_resources/personal_data/' + rut;
             }
         });
     });

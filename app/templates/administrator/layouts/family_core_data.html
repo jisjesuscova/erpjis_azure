@@ -44,9 +44,14 @@
                                 </tr>
                             </tbody>
                         {% endfor %}
-
-                        
                     </table>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <a href="{{ url_for('kardex_data.index', rut=rut) }}" class="btn btn-primary">Ir a Kardex</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

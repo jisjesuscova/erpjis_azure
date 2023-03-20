@@ -168,25 +168,27 @@ class Employee():
 
     @staticmethod
     def update(data, id):
-        nickname = Helper.nickname(data['no_disable_names'], data['no_disable_father_lastname'])
+        nickname = Helper.nickname(data['names'], data['father_lastname'])
 
         employee = EmployeeModel.query.filter_by(rut = id).first()
-        employee.names = data['no_disable_names']
-        employee.father_lastname = data['no_disable_father_lastname']
-        employee.mother_lastname = data['no_disable_mother_lastname']
+        employee.names = data['names']
+        employee.father_lastname = data['father_lastname']
+        employee.mother_lastname = data['mother_lastname']
         employee.nickname = nickname
-        employee.gender_id = data['no_disable_gender_id']
-        employee.nationality_id = data['no_disable_nationality_id']
+        employee.gender_id = data['gender_id']
+        employee.nationality_id = data['nationality_id']
         employee.cellphone = data['cellphone']
         employee.personal_email = data['personal_email']
-        employee.born_date = data['no_disable_born_date']
+        employee.born_date = data['born_date']
         employee.updated_date = datetime.now()
 
         db.session.add(employee)
-        if db.session.commit():
-            return employee
-        else:
-            return {'msg': 'Data could not be stored'}
+        try:
+            db.session.commit()
+
+            return 1
+        except Exception as e:
+            return 0
 
     @staticmethod
     def update_signature(signature, id):

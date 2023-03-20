@@ -93,11 +93,14 @@ def update(rut):
          picture = Dropbox.upload(rut, "_photo", request.files, "/pictures/", "app/static/dist/files/picture_data/", 1)
          Employee.upload(rut, picture)
 
-   Employee.update(request.form, rut)
+   status_id = Employee.update(request.form, rut)
 
    flash('Se ha actualizado con éxito', 'success')
 
-   return redirect(url_for('personal_data.show', rut = rut))
+   if status_id == 1:
+      return '1'
+   else:
+      return '0'
 
 @personal_datum.route("/human_resources/personal_datum/delete_picture/<int:rut>", methods=['GET'])
 @personal_datum.route("/human_resources/personal_datum/delete_picture", methods=['GET'])

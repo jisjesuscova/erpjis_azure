@@ -104,7 +104,7 @@
 
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Celular</label>
-                                        <input type="text" value="{{ employee.cellphone }}" class="form-control" id="cellphone" placeholder="Celular" name="cellphone">
+                                        <input type="text" maxlength="9" value="{{ employee.cellphone }}" class="form-control" id="cellphone" placeholder="Celular" name="cellphone">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -136,9 +136,17 @@
                             
                         {% if is_active == 1 %}
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Actualizar</button>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <span class="loading-icon" id="loading-icon" style="display:none;">Cargando...</span>
+                                        <button type="submit" class="btn btn-success update-user-btn">Actualizar</button>
 
-                                <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
+                                        <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
+                                    </div>
+                                    <div class="col-md-6 text-right">
+                                        <a href="{{ url_for('contract_data.show', rut=rut) }}" class="btn btn-primary">Ir a Datos de Contrato</a>
+                                    </div>
+                                </div>
                             </div>
                         {% endif %}
                         <!-- form end -->
@@ -155,31 +163,38 @@
                             {% if signature_exist == 0 %}
                                 <!-- form start -->
                                 
-                                <form action="/save-signature" method="POST" id="signature-form">
+                                <form action="" method="POST" class="sigPad">
                                     <input type="hidden" id="csrf_token" name="csrf_token" value="{{ csrf_token() }}" />
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-12">
                                                 <center>
                                                     <div class="alert alert-warning" role="alert">
                                                         Recuerde que esta firma será la que se utilizará en cada uno de los documentos a descargar de <strong>Jisparking.com</strong>. Ejemplo: Liquidaciones.
                                                     </div>
                                                 </center>
                                             </div>
-                                            <div class="col-md-8">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
                                                 <center>
-                                                    <input type="hidden" name="signature" id="signature">
-                                                    <input type="hidden" name="rut" id="rut" value="{{ current_user.rut }}">
-                                                    <canvas class="signature-pad" id="signature-pad" height="200"></canvas>
+                                                    
+                                                    <div class="sig sigWrapper">
+                                                        <div class="typed"></div>
+                                                        <canvas class="pad" width="198" height="55"></canvas>
+                                                        <input type="hidden" name="output" class="output">
+                                                    </div>
+                                                        <a class="clearButton" href="#clear">Limpiar</a>
                                                 </center>
                                             </div>
                                         </div>
                                     </div>
-                                    
                                     {% if is_active == 1 %}
                                         <div class="card-footer">
+                                            <input type="hidden" id="rut" value="{{ rut }}">
+                                            <span class="loading-icon" id="loading-icon-signature" style="display:none;">Cargando...</span>
                                             <button type="button" id="save-button" class="btn btn-success">Guardar</button>
-
+    
                                             <a href="{{ url_for('home.index') }}" class="btn btn-secondary">Cancelar</a>
                                         </div>
                                     {% endif %}
