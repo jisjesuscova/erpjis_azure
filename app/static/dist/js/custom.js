@@ -461,6 +461,148 @@ $(document).ready(function () {
         });
     });
 
+    $('.update-contract-btn').click(function(event) {
+        event.preventDefault();
+
+        // Verificar si hay campos vacíos o indefinidos
+        var requiredFields = ['contract_type_id', 'branch_office_id', 'region_id', 'commune_id', 'address', 'civil_state_id', 'entrance_health', 'job_position_id', 'entrance_company', 'salary', 'collation', 'locomotion', 'employee_type_id', 'regime_id', 'health_id'];
+        var hasEmptyField = false;
+        for (var i = 0; i < requiredFields.length; i++) {
+            var field = $('#' + requiredFields[i]);
+            if (field.val() === '' || typeof field.val() === 'undefined') {
+                hasEmptyField = true;
+                break;
+            }
+        }
+
+        if (hasEmptyField) {
+            $('.alert-danger-form').show();
+            return;
+        }
+
+        $('span#loading-icon').show();
+        $('.update-contract-btn').hide();
+        
+        var formData = new FormData();
+        var rut =  $('#rut').val()
+        
+        formData.append('rut', $('#rut').val());
+        formData.append('contract_type_id', $('#contract_type_id').val());
+        formData.append('branch_office_id', $('#branch_office_id').val());
+        formData.append('region_id', $('#region_id').val());
+        formData.append('commune_id', $('#commune_id').val()); 
+        formData.append('address', $('#address').val());
+        formData.append('civil_state_id', $('#civil_state_id').val());
+        formData.append('entrance_health', $('#entrance_health').val());
+        formData.append('job_position_id', $('#job_position_id').val());
+        formData.append('entrance_company', $('#entrance_company').val());
+        formData.append('salary', $('#salary').val());
+        formData.append('collation', $('#collation').val());
+        formData.append('locomotion', $('#locomotion').val());
+        formData.append('employee_type_id', $('#employee_type_id').val());
+        formData.append('regime_id', $('#regime_id').val());
+        formData.append('health_id', $('#health_id').val());
+        formData.append('pention_id', $('#pention_id').val());
+        formData.append('entrance_pention', $('#entrance_pention').val());
+        formData.append('health_payment_id', $('#health_payment_id').val());
+        formData.append('extra_health_amount', $('#extra_health_amount').val());
+
+        $.ajax({
+            url: "/human_resources/contract_data/" + rut,
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response == 1) {
+                    window.location.replace("http://localhost:5000/human_resources/contract_data/"+rut);
+                } else {
+                    $('.alert-danger-404-form').show();
+                    $('.alert-danger-form').hide();
+                    $('span#loading-icon').hide();
+                    $('.update-contract-btn').show();
+                }
+            },
+            error: function() {
+                $('.alert-danger-404-form').show();
+                $('.alert-danger-form').hide();
+                $('span#loading-icon').hide();
+                $('.update-contract-btn').show();
+            }
+        });
+    });
+
+    $('.create-end-document-btn').click(function(event) {
+        event.preventDefault();
+
+        // Verificar si hay campos vacíos o indefinidos
+        var requiredFields = ['employee_status_id', 'causal_id', 'exit_company', 'number_holidays', 'voluntary_indemnity'];
+        var hasEmptyField = false;
+        for (var i = 0; i < requiredFields.length; i++) {
+            var field = $('#' + requiredFields[i]);
+            if (field.val() === '' || typeof field.val() === 'undefined') {
+                hasEmptyField = true;
+                break;
+            }
+        }
+
+        if (hasEmptyField) {
+            $('.alert-danger-form').show();
+            return;
+        }
+
+        $('span#loading-icon').show();
+        $('.create-end-document-btn').hide();
+        
+        var formData = new FormData();
+        var rut =  $('#rut').val()
+        
+        formData.append('employee_status_id', $('#employee_status_id').val());
+        formData.append('causal_id', $('#causal_id').val());
+        formData.append('exit_company', $('#exit_company').val());
+        formData.append('number_holidays', $('#number_holidays').val());
+        formData.append('voluntary_indemnity', $('#voluntary_indemnity').val()); 
+        formData.append('number_holidays', $('#number_holidays').val());
+        formData.append('voluntary_indemnity', $('#voluntary_indemnity').val());
+        formData.append('indemnity_years_service', $('#indemnity_years_service').val());
+        formData.append('fertility_proportional', $('#fertility_proportional').val());
+        formData.append('document_type_id', $('#document_type_id').val());
+        formData.append('status_id', $('#status_id').val());
+        formData.append('rut', $('#rut').val());
+        formData.append('total', $('#total').val());
+        formData.append('substitute_compensation', $('#substitute_compensation').val());
+
+        $.ajax({
+            url: "/human_resources/end_document/store",
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response == 1) {
+                    window.location.replace("http://localhost:5000/human_resources/contract_data/"+rut);
+                } else {
+                    $('.alert-danger-404-form').show();
+                    $('.alert-danger-form').hide();
+                    $('span#loading-icon').hide();
+                    $('.create-end-document-btn').show();
+                }
+            },
+            error: function() {
+                $('.alert-danger-404-form').show();
+                $('.alert-danger-form').hide();
+                $('span#loading-icon').hide();
+                $('.create-end-document-btn').show();
+            }
+        });
+    });
+
     $('.guardar-btn').click(function(event) {
         event.preventDefault();
     
@@ -547,6 +689,20 @@ $(document).ready(function () {
             $("#progressive_vacation_date").show();
         } else {
             $("#progressive_vacation_date").hide();
+        }
+    });
+
+    $('body').on('mousemove', function(event) {
+        var health_id = $("#health_id").val();
+
+        if (health_id != '') {
+            if(health_id != 2) {
+                $("#health_company").show();
+            } else {
+                $("#health_company").hide();
+            }
+        } else {
+            $("#health_company").hide();
         }
     });
 

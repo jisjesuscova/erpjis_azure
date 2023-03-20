@@ -32,6 +32,8 @@ def show(rut):
       genders = Gender.get()
       nationalities = Nationality.get()
 
+      empty_field_status_id = Employee.empty_fields(rut)
+
       if employee.picture != '' and employee.picture != None:
          download_url = Dropbox.get('/pictures/', employee.picture)
       else:
@@ -54,6 +56,8 @@ def show(rut):
       employee_labor_datum = OldEmployeeLaborDatum.get(rut)
       genders = Gender.get()
       nationalities = Nationality.get()
+
+      empty_field_status_id = 1
 
       if employee.picture != '' and employee.picture != None:
          download_url = Dropbox.get('/pictures/', employee.picture)
@@ -82,7 +86,7 @@ def show(rut):
    elif current_user.rol_id == 3:
       return render_template('supervisor/human_resources/personal_data/personal_data_update.html', personal_datum_button_status_id = personal_datum_button_status_id, employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active)
    elif current_user.rol_id == 4:
-      return render_template('administrator/human_resources/personal_data/personal_data_update.html', personal_datum_button_status_id = personal_datum_button_status_id, employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active)
+      return render_template('administrator/human_resources/personal_data/personal_data_update.html', empty_field_status_id = empty_field_status_id, personal_datum_button_status_id = personal_datum_button_status_id, employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active)
 
 @personal_datum.route("/human_resources/personal_data/<int:rut>", methods=['POST'])
 @personal_datum.route("/human_resources/personal_data", methods=['POST'])

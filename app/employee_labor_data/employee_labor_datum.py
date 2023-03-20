@@ -82,14 +82,21 @@ class EmployeeLaborDatum():
                 old_employee_labor_datum.health_id,
                 old_employee_labor_datum.pention_id,
                 old_employee_labor_datum.job_position_id,
+                old_employee_labor_datum.extreme_zone_id,
                 old_employee_labor_datum.employee_type_id,
-                old_employee_labor_datum.address,
+                old_employee_labor_datum.regime_id,
+                old_employee_labor_datum.status_id,
+                old_employee_labor_datum.health_payment_id,
+                old_employee_labor_datum.entrance_pention,
                 old_employee_labor_datum.entrance_company,
+                old_employee_labor_datum.entrance_health,
                 old_employee_labor_datum.salary,
                 old_employee_labor_datum.collation,
                 old_employee_labor_datum.locomotion,
+                old_employee_labor_datum.company_email,
+                old_employee_labor_datum.extra_health_amount,
                 old_employee_labor_datum.added_date,
-                old_employee_labor_datum.updated_date,
+                old_employee_labor_datum.updated_date
             ]
 
             EmployeeLaborDatum.restore_store(data)
@@ -112,14 +119,21 @@ class EmployeeLaborDatum():
         employee_labor_data.health_id = data[8]
         employee_labor_data.pention_id = data[9]
         employee_labor_data.job_position_id = data[10]
-        employee_labor_data.employee_type_id = data[11]
-        employee_labor_data.address = data[12]
-        employee_labor_data.entrance_company = data[13]
-        employee_labor_data.salary = data[14]
-        employee_labor_data.collation = data[15]
-        employee_labor_data.locomotion = data[16]
-        employee_labor_data.added_date = data[17]
-        employee_labor_data.updated_date = data[18]
+        employee_labor_data.extreme_zone_id = data[11]
+        employee_labor_data.employee_type_id = data[12]
+        employee_labor_data.regime_id = data[13]
+        employee_labor_data.status_id = data[14]
+        employee_labor_data.health_payment_id = data[15]
+        employee_labor_data.entrance_pention = data[16]
+        employee_labor_data.entrance_company = data[17]
+        employee_labor_data.entrance_health = data[18]
+        employee_labor_data.salary = data[19]
+        employee_labor_data.collation = data[20]
+        employee_labor_data.locomotion = data[21]
+        employee_labor_data.company_email = data[22]
+        employee_labor_data.extra_health_amount = data[23]
+        employee_labor_data.added_date = data[24]
+        employee_labor_data.updated_date = data[25]
 
         db.session.add(employee_labor_data)
         db.session.commit()

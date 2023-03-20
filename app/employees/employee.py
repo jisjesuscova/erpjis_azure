@@ -20,7 +20,48 @@ class Employee():
                 employee = EmployeeModel.query.filter_by(rut = rut).first()
 
                 return employee
-            
+    
+    @staticmethod
+    def empty_fields(rut):
+        employee = EmployeeModel.query.filter_by(rut=rut).first()
+
+        count = 0
+
+        if employee.names == None or employee.names == '':
+            count = count + 1
+
+        if employee.father_lastname == None or employee.father_lastname == '':
+            count = count + 1
+
+        if employee.mother_lastname == None or employee.mother_lastname == '':
+            count = count + 1
+
+        if employee.nickname == None or employee.nickname == '':
+            count = count + 1
+
+        if employee.gender_id == None or employee.gender_id == '':
+            count = count + 1
+
+        if employee.nationality_id == None or employee.nationality_id == '':
+            count = count + 1
+
+        if employee.cellphone == None or employee.cellphone == '':
+            count = count + 1
+
+        if employee.personal_email == None or employee.personal_email == '':
+            count = count + 1
+
+        if employee.born_date == None or employee.born_date == '':
+            count = count + 1
+
+        if employee.picture == None or employee.picture == '':
+            count = count + 1
+
+        if count > 4:
+            return 0
+        else:
+            return 1
+
     @staticmethod
     def check_rut(rut):
         employee_qty = EmployeeModel.query.filter_by(rut=rut).count()
@@ -248,6 +289,7 @@ class Employee():
                 old_employee.nickname,
                 old_employee.gender_id,
                 old_employee.nationality_id,
+                old_employee.personal_email,
                 old_employee.cellphone,
                 old_employee.born_date,
                 old_employee.added_date,
@@ -271,10 +313,11 @@ class Employee():
         employee.nickname = data[5]
         employee.gender_id = data[6]
         employee.nationality_id = data[7]
-        employee.cellphone = data[8]
-        employee.born_date = data[9]
-        employee.added_date = data[10]
-        employee.updated_date = data[11]
+        employee.personal_email = data[8]
+        employee.cellphone = data[9]
+        employee.born_date = data[10]
+        employee.added_date = data[11]
+        employee.updated_date = data[12]
 
         db.session.add(employee)
 

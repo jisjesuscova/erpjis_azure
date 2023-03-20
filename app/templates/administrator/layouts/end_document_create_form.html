@@ -8,6 +8,9 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
+                        <div class="alert alert-danger alert-danger-form" style="display:none;" role="alert">
+                            Todos los campos del formulario son <strong>obligatorios</strong>.
+                        </div>
                         <!-- form start -->
                         <form role="form" action="{{ url_for('end_documents.store') }}" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
@@ -142,11 +145,11 @@
                             <input type="hidden" class="form-control causal_id" value="{{ causal_id }}" id="exampleInputEmail1" name="causal_id">
                             <input type="hidden" class="form-control exit_company" value="{{ exit_company }}" id="exampleInputEmail1" name="exit_company">
                             <input type="hidden" class="form-control number_holidays" value="{{ number_holidays }}" id="exampleInputEmail1" name="number_holidays">
-                            <input type="hidden" class="form-control voluntary_indemnity" value="{{ voluntary_indemnity }}" id="exampleInputEmail1" name="voluntary_indemnity">
+                            <input type="hidden" class="form-control voluntary_indemnity" value="{{ voluntary_indemnity }}" id="voluntary_indemnity" name="voluntary_indemnity">
                             <input type="hidden" id="indemnity_years_service" value="{{ indemnity_years_service }}" name="indemnity_years_service">
                             <input type="hidden" id="fertility_proportional" value="{{ fertility_proportional }}" name="fertility_proportional">
 
-                            <input type="hidden" value="{{ rut }}" class="form-control" id="exampleInputEmail1" name="rut">
+                            <input type="hidden" value="{{ rut }}" class="form-control" id="rut" name="rut">
                             
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-primary">Calcular</button>
@@ -189,7 +192,7 @@
                             <input type="hidden" value="{{ rut }}" class="form-control" id="exampleInputEmail1" name="rut">
                             
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Calcular</button>
+                                <button type="submit" class="btn btn-primary ">Calcular</button>
                             </div>
                         </form>
                         <!-- form end -->
@@ -206,37 +209,36 @@
                             Recuerde que este va a ser el valor final a pagar al empleado en el finiquito.
                         </div>
                         <!-- form start -->
-                        <form role="form" action="{{ url_for('end_documents.store') }}" method="POST" enctype="multipart/form-data">
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-                            <div class="card-body">
-                                
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Valor</label>
-                                            <input type="number" class="form-control" id="total" value="{{ total }}" name="total" required>
-                                        </div>
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Valor</label>
+                                        <input type="number" class="form-control" id="total" value="{{ total }}" name="total" required>
                                     </div>
                                 </div>
                             </div>
-                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card-body -->
 
-                            <input type="hidden" class="form-control employee_status_id" value="{{ employee_status_id }}" id="exampleInputEmail1" name="employee_status_id">
-                            <input type="hidden" class="form-control causal_id" value="{{ causal_id }}" id="exampleInputEmail1" name="causal_id">
-                            <input type="hidden" class="form-control exit_company" value="{{ exit_company }}" id="exampleInputEmail1" name="exit_company">
-                            <input type="hidden" class="form-control number_holidays" value="{{ number_holidays }}" id="exampleInputEmail1" name="number_holidays">
-                            <input type="hidden" class="form-control voluntary_indemnity" value="{{ voluntary_indemnity }}" id="exampleInputEmail1" name="voluntary_indemnity">
-                            <input type="hidden" id="indemnity_years_service" value="{{ indemnity_years_service }}" name="indemnity_years_service">
-                            <input type="hidden" id="substitute_compensation" value="{{ substitute_compensation }}" name="substitute_compensation">
-                            <input type="hidden" id="fertility_proportional" value="{{ fertility_proportional }}" name="fertility_proportional">
-                            <input type="hidden" value="22" name="document_type_id">
-                            <input type="hidden" value="{{ rut }}" class="form-control" id="exampleInputEmail1" name="rut">
-                            <input type="hidden" id="status_id" value="3" name="status_id">
+                        <input type="hidden" class="form-control employee_status_id" value="{{ employee_status_id }}" id="employee_status_id" name="employee_status_id">
+                        <input type="hidden" class="form-control causal_id" value="{{ causal_id }}" id="causal_id" name="causal_id">
+                        <input type="hidden" class="form-control exit_company" value="{{ exit_company }}" id="exit_company" name="exit_company">
+                        <input type="hidden" class="form-control number_holidays" value="{{ number_holidays }}" id="number_holidays" name="number_holidays">
+                        <input type="hidden" class="form-control voluntary_indemnity" value="{{ voluntary_indemnity }}" id="voluntary_indemnity" name="voluntary_indemnity">
+                        <input type="hidden" id="indemnity_years_service" value="{{ indemnity_years_service }}" name="indemnity_years_service">
+                        <input type="hidden" id="substitute_compensation" value="{{ substitute_compensation }}" name="substitute_compensation">
+                        <input type="hidden" id="fertility_proportional" value="{{ fertility_proportional }}" name="fertility_proportional">
+                        <input type="hidden" value="22" id="document_type_id" name="document_type_id">
+                        <input type="hidden" value="{{ rut }}" class="form-control" id="rut" name="rut">
+                        <input type="hidden" id="status_id" value="3" name="status_id">
 
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-success">Guardar</button>
-                            </div>
-                        </form>
+                        <div class="card-footer">
+                            <span class="loading-icon" id="loading-icon" style="display:none;">Cargando...</span>
+                            <button type="submit" class="btn btn-success create-end-document-btn">Guardar</button>
+                            <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
+                        </div>
                         <!-- form end -->
                     </div>
                 </div>

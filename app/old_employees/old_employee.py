@@ -21,6 +21,7 @@ class OldEmployee():
                 employee.gender_id,
                 employee.nationality_id,
                 employee.cellphone,
+                employee.personal_email,
                 employee.born_date,
                 employee.added_date,
                 employee.updated_date
@@ -45,9 +46,10 @@ class OldEmployee():
         old_employee.gender_id = data[7]
         old_employee.nationality_id = data[8]
         old_employee.cellphone = data[9]
-        old_employee.born_date = data[10]
-        old_employee.added_date = data[11]
-        old_employee.updated_date = data[12]
+        old_employee.personal_email = data[10]
+        old_employee.born_date = data[11]
+        old_employee.added_date = data[12]
+        old_employee.updated_date = data[13]
 
         db.session.add(old_employee)
 

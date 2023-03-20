@@ -32,6 +32,7 @@ class OldEmployeeLaborDatum():
                 employee_labor_datum.visual_rut,
                 employee_labor_datum.contract_type_id,
                 employee_labor_datum.branch_office_id,
+                employee_labor_datum.address,
                 employee_labor_datum.region_id,
                 employee_labor_datum.commune_id,
                 employee_labor_datum.civil_state_id,
@@ -43,7 +44,6 @@ class OldEmployeeLaborDatum():
                 order_id,
                 employee_labor_datum.regime_id,
                 employee_labor_datum.status_id,
-                employee_labor_datum.address,
                 employee_labor_datum.entrance_pention,
                 employee_labor_datum.entrance_company,
                 employee_labor_datum.entrance_health,
@@ -53,6 +53,8 @@ class OldEmployeeLaborDatum():
                 employee_labor_datum.company_email,
                 employee_labor_datum.added_date,
                 employee_labor_datum.updated_date,
+                employee_labor_datum.health_payment_id,
+                employee_labor_datum.extra_health_amount
             ]
 
             OldEmployeeLaborDatum.store(data)
@@ -68,18 +70,18 @@ class OldEmployeeLaborDatum():
         old_employee_labor_data.visual_rut = data[1]
         old_employee_labor_data.contract_type_id = data[2]
         old_employee_labor_data.branch_office_id = data[3]
-        old_employee_labor_data.region_id = data[4]
-        old_employee_labor_data.commune_id = data[5]
-        old_employee_labor_data.civil_state_id = data[6]
-        old_employee_labor_data.health_id = data[7]
-        old_employee_labor_data.pention_id = data[8]
-        old_employee_labor_data.job_position_id = data[9]
-        old_employee_labor_data.employee_type_id = data[10]
-        old_employee_labor_data.employee_type_id = data[11]
-        old_employee_labor_data.order_id = data[12]
-        old_employee_labor_data.regime_id = data[13]
-        old_employee_labor_data.status_id = data[14]
-        old_employee_labor_data.address = data[15]
+        old_employee_labor_data.address = data[4]
+        old_employee_labor_data.region_id = data[5]
+        old_employee_labor_data.commune_id = data[6]
+        old_employee_labor_data.civil_state_id = data[7]
+        old_employee_labor_data.health_id = data[8]
+        old_employee_labor_data.pention_id = data[9]
+        old_employee_labor_data.job_position_id = data[10]
+        old_employee_labor_data.extreme_zone_id = data[11]
+        old_employee_labor_data.employee_type_id = data[12]
+        old_employee_labor_data.order_id = data[13]
+        old_employee_labor_data.regime_id = data[14]
+        old_employee_labor_data.status_id = data[15]
         old_employee_labor_data.entrance_pention = data[16]
         old_employee_labor_data.entrance_company = data[17]
         old_employee_labor_data.entrance_health = data[18]
@@ -89,6 +91,8 @@ class OldEmployeeLaborDatum():
         old_employee_labor_data.company_email = data[22]
         old_employee_labor_data.added_date = data[23]
         old_employee_labor_data.updated_date = data[24]
+        old_employee_labor_data.health_payment_id = data[25]
+        old_employee_labor_data.extra_health_amount = data[26]
 
         db.session.add(old_employee_labor_data)
         db.session.commit()

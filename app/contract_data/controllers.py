@@ -49,6 +49,8 @@ def show(rut):
       end_documents = EndDocument.get(rut)
       contract_data = DocumentEmployee.get_by_type(rut, 21)
 
+      empty_field_status_id = ContractDatum.empty_fields(rut)
+
       is_active = 1
    else:
       contract_datum = OldContractDatum.get(rut)
@@ -64,6 +66,8 @@ def show(rut):
       end_documents = EndDocument.get(rut)
       contract_data = OldDocumentEmployee.get_by_type(rut, 21)
 
+      empty_field_status_id = 1
+
       is_active = 0
 
    employee_contract_datum_button_status_id = 1
@@ -75,17 +79,20 @@ def show(rut):
    elif current_user.rol_id == 3:
       return render_template('supervisor/human_resources/contract_data/contract_data_update.html', employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, is_active = is_active)
    elif current_user.rol_id == 4:
-      return render_template('administrator/human_resources/contract_data/contract_data_update.html', employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, contract_data = contract_data, end_documents = end_documents, is_active = is_active)
+      return render_template('administrator/human_resources/contract_data/contract_data_update.html', empty_field_status_id = empty_field_status_id, employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, contract_data = contract_data, end_documents = end_documents, is_active = is_active)
 
 @contract_datum.route("/human_resources/contract_data/<int:rut>", methods=['POST'])
 @contract_datum.route("/human_resources/contract_data", methods=['POST'])
 def update(rut):
-   ContractDatum.update(request.form, rut)
+   status_id = ContractDatum.update(request.form, rut)
    Audit.store(request.form, 'employee/contract_data')
 
    flash('Se ha actualizado el contrato con éxito.', 'success')
 
-   return redirect(url_for('contract_data.show', rut = rut))
+   if status_id == 1:
+      return '1'
+   else:
+      return '0'
 
 @contract_datum.route("/human_resources/contract_data/generate", methods=['POST'])
 def generate():

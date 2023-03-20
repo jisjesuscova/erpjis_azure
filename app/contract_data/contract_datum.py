@@ -12,6 +12,68 @@ class ContractDatum():
         return employee_labor_data
 
     @staticmethod
+    def empty_fields(rut):
+        employee_labor_datum = EmployeeLaborDatumModel.query.filter_by(rut = rut).first()
+
+        count = 0
+
+        if employee_labor_datum.contract_type_id == None or employee_labor_datum.contract_type_id == '':
+            count = count + 1
+
+        if employee_labor_datum.branch_office_id == None or employee_labor_datum.branch_office_id == '':
+            count = count + 1
+
+        if employee_labor_datum.region_id == None or employee_labor_datum.region_id == '':
+            count = count + 1
+
+        if employee_labor_datum.commune_id == None or employee_labor_datum.commune_id == '':
+            count = count + 1
+
+        if employee_labor_datum.address == None or employee_labor_datum.address == '':
+            count = count + 1
+
+        if employee_labor_datum.civil_state_id == None or employee_labor_datum.civil_state_id == '':
+            count = count + 1
+
+        if employee_labor_datum.entrance_health == None or employee_labor_datum.entrance_health == '':
+            count = count + 1
+
+        if employee_labor_datum.job_position_id == None or employee_labor_datum.job_position_id == '':
+            count = count + 1
+
+        if employee_labor_datum.entrance_company == None or employee_labor_datum.entrance_company == '':
+            count = count + 1
+
+        if employee_labor_datum.salary == None or employee_labor_datum.salary == '':
+            count = count + 1
+
+        if employee_labor_datum.collation == None or employee_labor_datum.collation == '':
+            count = count + 1
+
+        if employee_labor_datum.regime_id == None or employee_labor_datum.regime_id == '':
+            count = count + 1
+
+        if employee_labor_datum.health_id == None or employee_labor_datum.health_id == '':
+            count = count + 1
+
+        if employee_labor_datum.pention_id == None or employee_labor_datum.pention_id == '':
+            count = count + 1
+
+        if employee_labor_datum.entrance_pention == None or employee_labor_datum.entrance_pention == '':
+            count = count + 1
+
+        if employee_labor_datum.health_payment_id == None or employee_labor_datum.health_payment_id == '':
+            count = count + 1
+
+        if employee_labor_datum.extra_health_amount == None or employee_labor_datum.extra_health_amount == '':
+            count = count + 1
+
+        if  count > 4:
+            return 0
+        else:
+            return 1
+        
+    @staticmethod
     def store(data):
         numeric_rut = Helper.numeric_rut(data['rut'])
 
@@ -63,9 +125,14 @@ class ContractDatum():
         employee_labor_data.salary = data['salary']
         employee_labor_data.collation = data['collation']
         employee_labor_data.locomotion = data['locomotion']
+        employee_labor_data.health_payment_id = data['health_payment_id']
+        employee_labor_data.extra_health_amount = data['extra_health_amount']
         employee_labor_data.updated_date = datetime.now()
 
         db.session.add(employee_labor_data)
-        db.session.commit()
-        
-        return employee_labor_data
+        try:
+            db.session.commit()
+
+            return 1
+        except Exception as e:
+            return 0

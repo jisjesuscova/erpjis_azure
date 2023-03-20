@@ -106,9 +106,9 @@ def store():
    OldEmployee.finish(rut, employee_order_id)
    OldEmployeeLaborDatum.end(rut, exit_company, status_id)
 
-   flash('Se ha generado un nuevo finiquito', 'success')
-   
-   return redirect(url_for('contract_data.show', rut = request.form['rut']))
+   flash('Se ha creado un nuevo finiquito', 'success')
+
+   return '1'
 
 @end_document.route("/human_resources/end_document/delete/<int:end_document_id>/<int:document_employee_id>/<int:rut>", methods=['GET'])
 def delete(end_document_id, document_employee_id, rut):
