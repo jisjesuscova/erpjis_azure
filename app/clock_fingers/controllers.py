@@ -15,7 +15,7 @@ def data():
    
    return str(data)
 
-@clock_finger.route("/clock_user", methods=['GET'])
+@clock_finger.route("/clock_finger", methods=['GET'])
 def index():
    
    data = ClockFinger.get()
