@@ -28,9 +28,10 @@ class KardexDatum():
         document_employee_data.added_date = datetime.now()
 
         db.session.add(document_employee_data)
+        
         try:
             db.session.commit()
 
-            return document_employee_data
+            return 1
         except Exception as e:
-            return {'msg': 'Data could not be stored'}
+            return 0

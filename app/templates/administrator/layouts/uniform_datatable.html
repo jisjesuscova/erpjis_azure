@@ -45,7 +45,7 @@
                                         <td>{{ uniform['delivered_date']|datetime("dd-MM-yyyy") }}</td>
                                         <td>
                                             {% if is_active == 1 %}
-                                                <a href="{{ url_for('uniforms.delete', rut=rut, id=uniform['id']) }}" class="btn btn-danger">
+                                                <a href="{{ url_for('uniforms.delete', rut=rut, id=uniform['id']) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar el registro?')">
                                                     <i class="fa fa-times"></i>
                                                 </a>
                                             {% endif %}

@@ -1,12 +1,12 @@
-from flask import Blueprint, render_template, redirect, request, url_for
+from flask import Blueprint, render_template, redirect, request, url_for, flash
 from flask_login import login_required, current_user
 from app import app, regular_employee_rol_need
 from app.audits.audit import Audit
 from app.family_core_data.family_core_datum import FamilyCoreDatum
 from app.genders.gender import Gender
 from app.family_types.family_type import FamilyType
-from datetime import datetime
 from app.dropbox_data.dropbox import Dropbox
+from app.helpers.file import File
 
 family_core_datum = Blueprint("family_core_data", __name__)
 
@@ -47,19 +47,27 @@ def edit(rut, id):
    family_types = FamilyType.get()
    family_core_datum = FamilyCoreDatum.get(id, '')
 
-   return render_template('administrator/human_resources/family_core_data/family_core_data_edit.html', family_core_datum = family_core_datum, genders = genders, rut = rut, family_types = family_types)
+   return render_template('administrator/human_resources/family_core_data/family_core_data_edit.html', family_core_datum = family_core_datum, genders = genders, rut = rut, family_types = family_types, id = id)
 
 @family_core_datum.route("/human_resources/family_core_data/update/<int:rut>/<int:id>", methods=['POST'])
 @family_core_datum.route("/human_resources/family_core_data/update", methods=['POST'])
 def update(rut, id):
-   if request.files['file'].filename != '':
-      support = Dropbox.born_document(request.form['family_rut'], "_born_document", request.files, "/families/", "C:/Users/jesus/OneDrive/Desktop/erpjis_azure/", 1)
-      FamilyCoreDatum.update(id, request.form, support)
+   if 'file' in request.files:
+      family_core_data = FamilyCoreDatum.get(id)
+      support = Dropbox.born_document(request.form['family_rut'], "_born_document", request.files, "/families/", "app/static/dist/files/family_data/", 0)
+      File.delete("app/static/dist/files/family_data/", family_core_data.support)
+
+      status_id = FamilyCoreDatum.update(id, request.form, support)
    else:
       family_core_data = FamilyCoreDatum.get(id)
-      FamilyCoreDatum.update(id, request.form, family_core_data.support)
+      status_id = FamilyCoreDatum.update(id, request.form, family_core_data.support)
 
-   return redirect(url_for('family_core_data.index', rut = rut))
+   flash('El familiar ha sido actualizado con éxito', 'success')
+
+   if status_id == 1:
+      return '1'
+   else:
+      return '0'
 
 @family_core_datum.route("/human_resources/family_core_data/delete/<int:rut>/<int:id>", methods=['GET'])
 @family_core_datum.route("/human_resources/family_core_data/delete", methods=['GET'])
@@ -67,18 +75,26 @@ def delete(rut, id):
    family_core_data = FamilyCoreDatum.get(id)
    FamilyCoreDatum.delete(id)
    Dropbox.delete('/families/', family_core_data.support)
+   File.delete("app/static/dist/files/family_data/", family_core_data.support)
+
+   flash('El familiar ha sido borrado con éxito', 'success')
 
    return redirect(url_for('family_core_data.index', rut = rut))
 
 @family_core_datum.route("/human_resources/family_core_datum/store", methods=['POST'])
 def store():
-   if request.files['file'].filename != '':
-      support = Dropbox.born_document(request.form['family_rut'], "_born_document", request.files, "/families/", "C:/Users/jesus/OneDrive/Desktop/erpjis_azure/", 1)
-      FamilyCoreDatum.store(request.form, support)
+   if 'file' in request.files:
+      support = Dropbox.born_document(request.form['family_rut'], "_born_document", request.files, "/families/", "app/static/dist/files/family_data/", 0)
+      status_id = FamilyCoreDatum.store(request.form, support)
 
    Audit.store(request.form, 'personal_data/store')
 
-   return redirect(url_for('family_core_data.index', rut = request.form['rut']))
+   flash('El familiar ha sido agregado con éxito', 'success')
+
+   if status_id == 1:
+      return '1'
+   else:
+      return '0'
 
 @family_core_datum.route("/human_resources/family_core_datum/download/<int:id>", methods=['GET'])
 def download(id):

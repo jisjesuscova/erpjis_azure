@@ -67,14 +67,21 @@ def delete(rut, id):
    Vacation.delete(id)
    Dropbox.delete('/employee_documents/', document_employee.support)
 
+   flash('La vacación ha sido borrada con éxito', 'success')
+
    return redirect(url_for('vacations.index', rut = rut))
 
 @vacation.route("/human_resources/vacation/store", methods=['POST'])
 def store():
    document_employee_id = DocumentEmployee.store(request.form)
-   Vacation.store(request.form, document_employee_id)
-   
-   return redirect(url_for('vacations.index', rut = request.form['rut']))
+   status_id = Vacation.store(request.form, document_employee_id)
+
+   flash('La vacación ha sido registrada con éxito', 'success')
+
+   if status_id == 1:
+      return '1'
+   else:
+      return '0'
 
 @vacation.route("/human_resources/vacation/upload/<int:rut>/<int:id>", methods=['GET', 'POST'])
 @vacation.route("/human_resources/vacation/upload", methods=['GET', 'POST'])

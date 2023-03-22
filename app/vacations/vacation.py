@@ -51,7 +51,7 @@ class Vacation():
 
         count = vacation_count.count()
 
-        if count > 1:
+        if count >= 1:
             vacations = VacationModel.query\
                     .join(DocumentEmployeeModel, DocumentEmployeeModel.id == VacationModel.document_employee_id)\
                     .add_columns(VacationModel.rut, func.sum(VacationModel.days).label('total_days'))\
@@ -89,9 +89,9 @@ class Vacation():
         try:
             db.session.commit()
 
-            return vacation
+            return 1
         except Exception as e:
-            return {'msg': 'Data could not be stored'}
+            return 0
 
     @staticmethod
     def update(id = '', document_employee_id = '', data = []):
@@ -145,7 +145,7 @@ class Vacation():
         
     @staticmethod
     def delete(id):
-        vacation = VacationModel.query.filter_by(id=id).first()
+        vacation = VacationModel.query.filter_by(document_employee_id=id).first()
 
         db.session.delete(vacation)
         try:

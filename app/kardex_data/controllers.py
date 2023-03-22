@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, request, url_for
+from flask import Blueprint, render_template, redirect, request, url_for, flash
 from flask_login import login_required
 from app import app, regular_employee_rol_need
 from app.audits.audit import Audit
@@ -9,6 +9,7 @@ from datetime import datetime
 from app.documents_employees.document_employee import DocumentEmployee
 from app.old_documents_employees.old_document_employee import OldDocumentEmployee
 from app.helpers.helper import Helper
+from app.helpers.file import File
 
 kardex_datum = Blueprint("kardex_data", __name__)
 
@@ -63,8 +64,10 @@ def delete(rut, id):
    document_employee = DocumentEmployee.get_by_id(id)
    
    DocumentEmployee.delete(id)
-
    Dropbox.delete('/employee_documents/', document_employee.support)
+   File.delete("app/static/dist/files/kardex_data/", document_employee.support)
+
+   flash('El registro ha sido borrado con éxito', 'success')
 
    return redirect(url_for('kardex_data.index', rut = rut))
 
@@ -88,8 +91,14 @@ def store():
 
    file_name = "_" + document_type.document_type + "_kardex"
 
-   support = Dropbox.upload(request.form['rut'], file_name, request.files, "/employee_documents/", "C:/Users/jesus/OneDrive/Desktop/erpjis_azure/")
+   support = Dropbox.upload(request.form['rut'], file_name, request.files, "/employee_documents/", "app/static/dist/files/kardex_data/", 0)
+   
    if support != 0:
-      KardexDatum.store(request.form, support)
+      status_id = KardexDatum.store(request.form, support)
 
-   return redirect(url_for('kardex_data.index', rut = request.form['rut']))
+   flash('El documento se ha guardado con éxito', 'success')
+
+   if status_id == 1:
+      return '1'
+   else:
+      return '0'

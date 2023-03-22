@@ -54,14 +54,19 @@ class EmployeeExtraDatum():
         employee_extra_datum.young_job_status_id = data['young_job_status_id']
         employee_extra_datum.be_paid_id = data['be_paid_id']
         employee_extra_datum.disability_id = data['disability_id']
+        employee_extra_datum.suplemental_health_insurance_id = data['suplemental_health_insurance_id']
         employee_extra_datum.progressive_vacation_status_id = data['progressive_vacation_status_id']
         employee_extra_datum.progressive_vacation_date = data['progressive_vacation_date']
         employee_extra_datum.pensioner_id = data['pensioner_id']
 
         db.session.add(employee_extra_datum)
-        db.session.commit()
         
-        return employee_extra_datum
+        try:
+            db.session.commit()
+
+            return employee_extra_datum
+        except Exception as e:
+            return employee_extra_datum
 
     @staticmethod
     def old_data_get_by_rut(rut = '', order_id = ''):

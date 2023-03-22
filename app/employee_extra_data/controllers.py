@@ -7,6 +7,8 @@ from app.employee_extra_data.employee_extra_datum import EmployeeExtraDatum
 from app.healths.health import Health
 from app.helpers.helper import Helper
 from app.old_employee_extra_data.old_employee_extra_datum import OldEmployeeExtraDatum
+from app.models.models import EmployeeExtraModel
+from app import db
 
 employee_extra_datum = Blueprint("employee_extra_data", __name__)
 
@@ -53,6 +55,19 @@ def show(rut):
 @employee_extra_datum.route("/human_resources/employee_extra_data/<int:rut>", methods=['POST'])
 @employee_extra_datum.route("/human_resources/employee_extra_data", methods=['POST'])
 def update(rut):
-   EmployeeExtraDatum.update(request.form, rut)
 
-   return redirect(url_for('employee_extra_data.show', rut = rut))
+   employee_extra_datum = EmployeeExtraModel.query.filter_by(rut=rut).first()
+   employee_extra_datum.contract_schedule_id = request.form['contract_schedule_id']
+   employee_extra_datum.extreme_zone_id = request.form['extreme_zone_id']
+   employee_extra_datum.employee_type_id = request.form['employee_type_id']
+   employee_extra_datum.young_job_status_id = request.form['young_job_status_id']
+   employee_extra_datum.be_paid_id = request.form['be_paid_id']
+   employee_extra_datum.disability_id = request.form['disability_id']
+   employee_extra_datum.suplemental_health_insurance_id = request.form['suplemental_health_insurance_id']
+   employee_extra_datum.progressive_vacation_status_id = request.form['progressive_vacation_status_id']
+   employee_extra_datum.progressive_vacation_date = request.form['progressive_vacation_date']
+   employee_extra_datum.pensioner_id = request.form['pensioner_id']
+   db.session.add(employee_extra_datum)
+   db.session.commit()
+
+   return str(request.form['pensioner_id'])

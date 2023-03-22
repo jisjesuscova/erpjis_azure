@@ -893,6 +893,7 @@ class EmployeeExtraModel(db.Model, UserMixin):
     suplemental_health_insurance_id = db.Column(db.Integer)
     pensioner_id = db.Column(db.Integer)
     disability_id = db.Column(db.Integer)
+    suplemental_health_insurance_id = db.Column(db.Integer)
     progressive_vacation_status_id = db.Column(db.Integer)
     progressive_vacation_date = db.Column(db.Date())
     added_date = db.Column(db.DateTime())

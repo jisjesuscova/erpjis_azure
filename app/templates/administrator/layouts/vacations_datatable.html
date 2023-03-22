@@ -93,7 +93,7 @@
                                                     <i class="fa fa-file"></i>
                                                 </a>
                                             {% endif %}
-                                            <a href="{{ url_for('documental_management_data.delete', id=vacation['document_employee_id']) }}" class="btn btn-danger">
+                                            <a href="{{ url_for('documental_management_data.delete', id=vacation['document_employee_id']) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar el registro?')">
                                                 <i class="fa fa-times"></i>
                                             </a>
                                         </td>

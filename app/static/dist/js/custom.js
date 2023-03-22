@@ -381,6 +381,69 @@ $(document).ready(function () {
         });
     });
 
+    $('.create-vacation-btn').click(function(event) {
+        event.preventDefault();
+
+        // Verificar si hay campos vacíos o indefinidos
+        var requiredFields = ['since', 'until', 'no_valid_days'];
+        var hasEmptyField = false;
+        for (var i = 0; i < requiredFields.length; i++) {
+            var field = $('#' + requiredFields[i]);
+            if (field.val() === '' || typeof field.val() === 'undefined') {
+                hasEmptyField = true;
+                break;
+            }
+        }
+
+        if (hasEmptyField) {
+            $('.alert-danger-form').show();
+            return;
+        }
+
+        $('span#loading-icon').show();
+        $('.create-vacation-btn').hide();
+        
+        var formData = new FormData();
+        var rut =  $('#rut').val()
+
+        rut = rut.split('-')
+        rut = rut[0]
+        
+        formData.append('rut', $('#rut').val());
+        formData.append('since', $('#since').val());
+        formData.append('until', $('#until').val());
+        formData.append('no_valid_days', $('#no_valid_days').val());
+        formData.append('document_type_id', $('#document_type_id').val()); 
+        formData.append('status_id', $('#status_id').val());
+
+        $.ajax({
+            url: "/human_resources/vacation/store",
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response == 1) {
+                    window.location.replace("http://localhost:5000/human_resources/vacations/"+rut);
+                } else {
+                    $('.alert-danger-404-form').show();
+                    $('.alert-danger-form').hide();
+                    $('span#loading-icon').hide();
+                    $('.create-vacation-btn').show();
+                }
+            },
+            error: function() {
+                $('.alert-danger-404-form').show();
+                $('.alert-danger-form').hide();
+                $('span#loading-icon').hide();
+                $('.create-vacation-btn').show();
+            }
+        });
+    });
+
     $('.update-user-btn').click(function(event) {
         event.preventDefault();
 
@@ -531,6 +594,313 @@ $(document).ready(function () {
                 $('.alert-danger-form').hide();
                 $('span#loading-icon').hide();
                 $('.update-contract-btn').show();
+            }
+        });
+    });
+
+    $('.create-uniform-data-btn').click(function(event) {
+        event.preventDefault();
+
+        // Verificar si hay campos vacíos o indefinidos
+        var requiredFields = ['uniform_type_id', 'delivered_date'];
+        var hasEmptyField = false;
+        for (var i = 0; i < requiredFields.length; i++) {
+            var field = $('#' + requiredFields[i]);
+            if (field.val() === '' || typeof field.val() === 'undefined') {
+                hasEmptyField = true;
+                break;
+            }
+        }
+
+        if (hasEmptyField) {
+            $('.alert-danger-form').show();
+            return;
+        }
+
+        $('span#loading-icon').show();
+        $('.create-uniform-data-btn').hide();
+        
+        var formData = new FormData();
+        var rut =  $('#rut').val()
+        
+        formData.append('rut', $('#rut').val());
+        formData.append('uniform_type_id', $('#uniform_type_id').val());
+        formData.append('delivered_date', $('#delivered_date').val());
+
+        $.ajax({
+            url: "/human_resources/uniform/store",
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response == 1) {
+                    window.location.replace("http://localhost:5000/human_resources/uniform/"+rut);
+                } else {
+                    $('.alert-danger-404-form').show();
+                    $('.alert-danger-form').hide();
+                    $('span#loading-icon').hide();
+                    $('.create-uniform-data-btn').show();
+                }
+            },
+            error: function() {
+                $('.alert-danger-404-form').show();
+                $('.alert-danger-form').hide();
+                $('span#loading-icon').hide();
+                $('.create-uniform-data-btn').show();
+            }
+        });
+    });
+
+    $('.create-kardex-data-btn').click(function(event) {
+        event.preventDefault();
+
+        // Verificar si hay campos vacíos o indefinidos
+        var requiredFields = ['document_type_id', 'file'];
+        var hasEmptyField = false;
+        for (var i = 0; i < requiredFields.length; i++) {
+            var field = $('#' + requiredFields[i]);
+            if (field.val() === '' || typeof field.val() === 'undefined') {
+                hasEmptyField = true;
+                break;
+            }
+        }
+
+        if (hasEmptyField) {
+            $('.alert-danger-form').show();
+            return;
+        }
+
+        $('span#loading-icon').show();
+        $('.create-kardex-data-btn').hide();
+        
+        var formData = new FormData();
+        var rut =  $('#rut').val()
+        
+        formData.append('rut', $('#rut').val());
+        formData.append('document_type_id', $('#document_type_id').val());
+        formData.append('file', $('input[name="file"]')[0].files[0]);
+
+        $.ajax({
+            url: "/human_resources/kardex_datum/store",
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response == 1) {
+                    window.location.replace("http://localhost:5000/human_resources/kardex_data/"+rut);
+                } else {
+                    $('.alert-danger-404-form').show();
+                    $('.alert-danger-form').hide();
+                    $('span#loading-icon').hide();
+                    $('.create-kardex-data-btn').show();
+                }
+            },
+            error: function() {
+                $('.alert-danger-404-form').show();
+                $('.alert-danger-form').hide();
+                $('span#loading-icon').hide();
+                $('.create-kardex-data-btn').show();
+            }
+        });
+    });
+
+    $('.update-family-data-btn').click(function(event) {
+        event.preventDefault();
+
+        // Verificar si hay campos vacíos o indefinidos
+        var requiredFields = ['family_rut', 'names', 'father_lastname', 'mother_lastname', 'born_date', 'gender_id', 'family_type_id'];
+        var hasEmptyField = false;
+        for (var i = 0; i < requiredFields.length; i++) {
+            var field = $('#' + requiredFields[i]);
+            if (field.val() === '' || typeof field.val() === 'undefined') {
+                hasEmptyField = true;
+                break;
+            }
+        }
+
+        if (hasEmptyField) {
+            $('.alert-danger-form').show();
+            return;
+        }
+
+        $('span#loading-icon').show();
+        $('.update-family-data-btn').hide();
+        
+        var formData = new FormData();
+        var rut =  $('#rut').val()
+        
+        formData.append('rut', $('#rut').val());
+        formData.append('id', $('#id').val());
+        formData.append('family_rut', $('#family_rut').val());
+        formData.append('names', $('#names').val());
+        formData.append('father_lastname', $('#father_lastname').val());
+        formData.append('mother_lastname', $('#mother_lastname').val()); 
+        formData.append('born_date', $('#born_date').val());
+        formData.append('gender_id', $('#gender_id').val());
+        formData.append('family_type_id', $('#family_type_id').val());
+        formData.append('file', $('input[name="file"]')[0].files[0]);
+
+        $.ajax({
+            url: "/human_resources/family_core_data/update/" + $('#rut').val() + "/" + $('#id').val(),
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response == 1) {
+                    window.location.replace("http://localhost:5000/human_resources/family_core_data/"+rut);
+                } else {
+                    $('.alert-danger-404-form').show();
+                    $('.alert-danger-form').hide();
+                    $('span#loading-icon').hide();
+                    $('.update-family-data-btn').show();
+                }
+            },
+            error: function() {
+                $('.alert-danger-404-form').show();
+                $('.alert-danger-form').hide();
+                $('span#loading-icon').hide();
+                $('.update-family-data-btn').show();
+            }
+        });
+    });
+
+    $('.create-family-data-btn').click(function(event) {
+        event.preventDefault();
+
+        // Verificar si hay campos vacíos o indefinidos
+        var requiredFields = ['family_rut', 'names', 'father_lastname', 'mother_lastname', 'born_date', 'gender_id', 'family_type_id', 'file'];
+        var hasEmptyField = false;
+        for (var i = 0; i < requiredFields.length; i++) {
+            var field = $('#' + requiredFields[i]);
+            if (field.val() === '' || typeof field.val() === 'undefined') {
+                hasEmptyField = true;
+                break;
+            }
+        }
+
+        if (hasEmptyField) {
+            $('.alert-danger-form').show();
+            return;
+        }
+
+        $('span#loading-icon').show();
+        $('.create-family-data-btn').hide();
+        
+        var formData = new FormData();
+        var rut =  $('#rut').val()
+        
+        formData.append('rut', $('#rut').val());
+        formData.append('family_rut', $('#family_rut').val());
+        formData.append('names', $('#names').val());
+        formData.append('father_lastname', $('#father_lastname').val());
+        formData.append('mother_lastname', $('#mother_lastname').val()); 
+        formData.append('born_date', $('#born_date').val());
+        formData.append('gender_id', $('#gender_id').val());
+        formData.append('family_type_id', $('#family_type_id').val());
+        formData.append('file', $('input[name="file"]')[0].files[0]);
+
+        $.ajax({
+            url: "/human_resources/family_core_datum/store",
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response == 1) {
+                    window.location.replace("http://localhost:5000/human_resources/family_core_data/"+rut);
+                } else {
+                    $('.alert-danger-404-form').show();
+                    $('.alert-danger-form').hide();
+                    $('span#loading-icon').hide();
+                    $('.create-family-data-btn').show();
+                }
+            },
+            error: function() {
+                $('.alert-danger-404-form').show();
+                $('.alert-danger-form').hide();
+                $('span#loading-icon').hide();
+                $('.create-family-data-btn').show();
+            }
+        });
+    });
+
+    $('.update-extra-data-btn').click(function(event) {
+        event.preventDefault();
+
+        // Verificar si hay campos vacíos o indefinidos
+        var requiredFields = ['contract_schedule_id', 'extreme_zone_id', 'employee_type_id', 'young_job_status_id', 'be_paid_id', 'disability_id', 'pensioner_id'];
+        var hasEmptyField = false;
+        for (var i = 0; i < requiredFields.length; i++) {
+            var field = $('#' + requiredFields[i]);
+            if (field.val() === '' || typeof field.val() === 'undefined') {
+                hasEmptyField = true;
+                break;
+            }
+        }
+
+        if (hasEmptyField) {
+            $('.alert-danger-form').show();
+            return;
+        }
+
+        $('span#loading-icon').show();
+        $('.update-extra-data-btn').hide();
+        
+        var formData = new FormData();
+        var rut =  $('#rut').val()
+        
+        formData.append('rut', $('#rut').val());
+        formData.append('contract_schedule_id', $('#contract_schedule_id').val());
+        formData.append('extreme_zone_id', $('#extreme_zone_id').val());
+        formData.append('employee_type_id', $('#employee_type_id').val());
+        formData.append('young_job_status_id', $('#young_job_status_id').val()); 
+        formData.append('be_paid_id', $('#be_paid_id').val());
+        formData.append('disability_id', $('#disability_id').val());
+        formData.append('pensioner_id', $('#pensioner_id').val());
+        formData.append('progressive_vacation_status_id', $('#progressive_vacation_status_id').val());
+        formData.append('progressive_vacation_date', $('#progressive_vacation_date_value').val());
+        formData.append('suplemental_health_insurance_id', $('#suplemental_health_insurance_id').val());
+
+        $.ajax({
+            url: "/human_resources/employee_extra_data/" + rut,
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                alert(response)
+                if (response == 1) {
+                    window.location.replace("http://localhost:5000/human_resources/employee_extra_data/"+rut);
+                } else {
+                    $('.alert-danger-404-form').show();
+                    $('.alert-danger-form').hide();
+                    $('span#loading-icon').hide();
+                    $('.update-extra-data-btn').show();
+                }
+            },
+            error: function() {
+                $('.alert-danger-404-form').show();
+                $('.alert-danger-form').hide();
+                $('span#loading-icon').hide();
+                $('.update-extra-data-btn').show();
             }
         });
     });

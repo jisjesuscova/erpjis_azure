@@ -38,12 +38,13 @@ class FamilyCoreDatum():
         family_core_data.added_date = datetime.now()
 
         db.session.add(family_core_data)
+        
         try:
             db.session.commit()
 
-            return family_core_data
+            return 1
         except Exception as e:
-            return {'msg': 'Data could not be stored'}
+            return 0
 
     @staticmethod
     def update(id, data, support = ''):
@@ -62,12 +63,13 @@ class FamilyCoreDatum():
         family_core_data.updated_date = datetime.now()
 
         db.session.add(family_core_data)
+        
         try:
             db.session.commit()
 
-            return family_core_data
+            return 1
         except Exception as e:
-            return {'msg': 'Data could not be stored'}
+            return 0
 
     @staticmethod
     def delete(id):

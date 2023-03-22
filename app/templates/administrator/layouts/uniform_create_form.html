@@ -9,39 +9,38 @@
                     <!-- /.card-header -->
                     <div class="card-body">
                         <!-- form start -->
-                        <form role="form" action="{{ url_for('uniforms.store') }}" method="POST" enctype="multipart/form-data">
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Tipo de Uniforme</label>
-                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="uniform_type_id">
-                                                <option value="">- Seleccionar -</option>
-                                                {% for uniform_type in uniform_types %}
-                                                    <option value="{{ uniform_type.id }}">{{ uniform_type.uniform_type }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Tipo de Uniforme</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="uniform_type_id" style="width: 100%;" name="uniform_type_id">
+                                            <option value="">- Seleccionar -</option>
+                                            {% for uniform_type in uniform_types %}
+                                                <option value="{{ uniform_type.id }}">{{ uniform_type.uniform_type }}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Fecha de Despacho</label>
-                                            <input class="form-control" type="date" value="Fecha de Despacho" name="delivered_date">
-                                        </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Fecha de Despacho</label>
+                                        <input class="form-control" type="date" id="delivered_date" name="delivered_date">
                                     </div>
                                 </div>
                             </div>
-                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card-body -->
 
-                            <input type="hidden" value="{{ rut }}" class="form-control" id="exampleInputEmail1" name="rut">
+                        <input type="hidden" value="{{ rut }}" class="form-control" id="rut" name="rut">
                             
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Guardar</button>
+                        <div class="card-footer">
+                            <span class="loading-icon" id="loading-icon" style="display:none;">Cargando...</span>
+                            <button type="button" class="btn btn-primary create-uniform-data-btn">Guardar</button>
 
-                                <a href="{{ url_for('uniforms.index', rut=rut) }}" class="btn btn-secondary">Cancelar</a>
-                            </div>
-                        </form>
+                            <a href="{{ url_for('uniforms.index', rut=rut) }}" class="btn btn-secondary">Cancelar</a>
+                        </div>
                         <!-- form end -->
                     </div>
                 </div>

@@ -52,8 +52,11 @@ def delete(rut, id):
 
 @uniform.route("/human_resources/uniform/store", methods=['POST'])
 def store():
-   Uniform.store(request.form)
+   status_id = Uniform.store(request.form)
 
    flash('El registro ha sido guardado con éxito', 'success')
 
-   return redirect(url_for('uniforms.index', rut = request.form['rut']))
+   if status_id == 1:
+      return '1'
+   else:
+      return '0'

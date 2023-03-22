@@ -9,6 +9,7 @@ from dateutil.relativedelta import relativedelta
 import calendar
 import re
 import random
+import pandas as pd
 
 class Helper:
     @staticmethod
@@ -160,13 +161,10 @@ class Helper:
         return nickname
     
     @staticmethod
-    def days(since, until, no_valid_days):
-        d1 = datetime.strptime(since, "%Y-%m-%d")
-        d2 = datetime.strptime(until, "%Y-%m-%d")
-        subtotal = abs((d2 - d1 ).days)
-        subtotal = abs(subtotal) + abs(1)
-        total = abs(subtotal) - abs(int(no_valid_days))
-        return total
+    def days(since, until, no_valid_entered_days):
+        dias_laborables = pd.bdate_range(since, until).size
+        dias_laborables = int(dias_laborables) - int(no_valid_entered_days) + 1
+        return dias_laborables
     
     @staticmethod
     def months(since, until):

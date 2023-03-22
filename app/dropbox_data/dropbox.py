@@ -61,16 +61,16 @@ class Dropbox():
         settings = Setting.get()
 
         f = data['file']
-        f.save(os.path.join(f.filename))
-
         extesion = f.filename.split('.')
-        dropbox_file_name = str(name) + str(description)
+        dropbox_file_name = Helper.file_name(str(name), str(description))
 
         dropbox_path = dropbox_path + dropbox_file_name + "." + extesion[1]
-        computer_path = computer_path + f.filename
+        computer_path = computer_path + dropbox_file_name + "." + extesion[1]
+
+        f.save(os.path.join(computer_path))
 
         dbx = dropbox.Dropbox(settings.dropbox_token)
-        if dbx.files_upload(open(os.path.join(computer_path), "rb").read(), dropbox_path,  mode=dropbox.files.WriteMode('overwrite')):
+        if dbx.files_upload(open(os.path.join(computer_path), "rb").read(), dropbox_path):
             return dropbox_file_name + "." + extesion[1]
         else:
             return 0
