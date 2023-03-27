@@ -13,6 +13,20 @@ import pandas as pd
 
 class Helper:
     @staticmethod
+    def weeks_in_month(year, month):
+        # Get the number of days in the month and the first day of the week
+        num_days_month = calendar.monthrange(year, month)[1]
+        first_weekday = calendar.weekday(year, month, 1)
+        
+        # Calculate the number of weeks in the month
+        remaining_days = num_days_month - (7 - first_weekday)
+        complete_weeks = remaining_days // 7
+        if remaining_days % 7 > 0:
+            complete_weeks += 1
+        
+        return complete_weeks + 1
+
+    @staticmethod
     def document_date(date):
         object_date = datetime.strptime(date, "%Y-%m-%d")
 
@@ -347,11 +361,17 @@ class Helper:
         return data.working
 
     @staticmethod
-    def get_last_date(start_date, add_days):
-        s = start_date
-        date = datetime.strptime(s, "%Y/%m/%d")
+    def get_last_date(start_date, days):
+        # Convertir la fecha inicial a objeto datetime
+        start_datetime = datetime.strptime(start_date, '%Y-%m-%d')
         
-        return pd.to_datetime(start_date) + pd.DateOffset(days=add_days)
+        # Sumar los días especificados a la fecha inicial
+        end_datetime = (start_datetime + timedelta(days=days)) - timedelta(days=1)
+        
+        # Formatear la fecha final como una cadena 'YYYY-mm-dd'
+        end_date = end_datetime.strftime('%Y-%m-%d')
+        
+        return end_date
 
     def get_seconds(data):
         time_str = data.working
@@ -411,6 +431,11 @@ class Helper:
             for datum in data:
                 res.append({
                     'days': datum.free_day_group_id,
+                })
+        elif type == 4:
+            for datum in data:
+                res.append({
+                    'id': datum.id,
                 })
 
         return res

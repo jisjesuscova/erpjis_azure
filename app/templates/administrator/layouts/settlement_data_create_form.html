@@ -8,61 +8,65 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
+                        <div class="alert alert-danger alert-danger-form" style="display:none;" role="alert">
+                            Todos los campos del formulario son <strong>obligatorios</strong>.
+                        </div>
+                        <div class="alert alert-danger alert-danger-404-form" style="display:none;" role="alert">
+                            Error al procesar el formulario. Por favor haca click en Guardar nuevamente.
+                        </div>
                         <!-- form start -->
-                        <form role="form" action="{{ url_for('settlement_data.store') }}" method="POST" enctype="multipart/form-data">
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Mes</label>
-                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="month" required>
-                                                <option value="">- Seleccionar -</option>
-                                                <option value="1">Enero</option>
-                                                <option value="2">Febrero</option>
-                                                <option value="3">Marzo</option>
-                                                <option value="4">Abril</option>
-                                                <option value="5">Mayo</option>
-                                                <option value="6">Junio</option>
-                                                <option value="7">Julio</option>
-                                                <option value="8">Agosto</option>
-                                                <option value="9">Septiembre</option>
-                                                <option value="10">Octubre</option>
-                                                <option value="11">Noviembre</option>
-                                                <option value="12">Diciembre</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Año</label>
-                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="year" required>
-                                                <option value="">- Seleccionar -</option>
-                                                {% for i in range(2023, 2031) %}
-                                                    <option value="{{ i }}">{{ i }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Mes</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="month" required>
+                                            <option value="">- Seleccionar -</option>
+                                            <option value="1">Enero</option>
+                                            <option value="2">Febrero</option>
+                                            <option value="3">Marzo</option>
+                                            <option value="4">Abril</option>
+                                            <option value="5">Mayo</option>
+                                            <option value="6">Junio</option>
+                                            <option value="7">Julio</option>
+                                            <option value="8">Agosto</option>
+                                            <option value="9">Septiembre</option>
+                                            <option value="10">Octubre</option>
+                                            <option value="11">Noviembre</option>
+                                            <option value="12">Diciembre</option>
+                                        </select>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Liquidación</label>
-                                            <input type="file" value="" class="form-control" id="exampleInputEmail1" multiple placeholder="Imagen" name="file" required>
-                                        </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Año</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="year" required>
+                                            <option value="">- Seleccionar -</option>
+                                            {% for i in range(2023, 2031) %}
+                                                <option value="{{ i }}">{{ i }}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Liquidación</label>
+                                        <input type="file" value="" class="form-control" id="exampleInputEmail1" multiple placeholder="Imagen" name="file" required>
+                                    </div>
+                                </div>
+                            </div>
                                 
-                            </div>
-                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card-body -->
 
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Subir</button>
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-primary upload-settlement-data-btn">Subir</button>
 
-                                <a href="{{ url_for('settlement_data.uploaded') }}" class="btn btn-secondary">Cancelar</a>
-                            </div>
-                        </form>
+                            <a href="{{ url_for('settlement_data.uploaded') }}" class="btn btn-secondary">Cancelar</a>
+                        </div>
                         <!-- form end -->
                     </div>
                 </div>

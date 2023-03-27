@@ -218,6 +218,38 @@ $(document).ready(function () {
          });
     });
 
+    $('.create-mesh-btn').click(function(event) {
+        var formData = new FormData();
+
+        $('span#loading-icon').show();
+        $('.create-mesh-btn').hide();
+
+        formData.append('rut', $("#employee_id").val());
+
+        $.ajax({
+            url: "/mesh_data/store",
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response == 1) {
+                    window.location.replace("https://jiserp.com/mesh_data");
+                } else {
+                    $('span#loading-icon').hide();
+                    $('.create-mesh-btn').show();
+                }
+            },
+            error: function() {
+                $('span#loading-icon').hide();
+                $('.create-mesh-btn').show();
+            }
+        });
+    });
+
     $('.update-user-btn').click(function(event) {
         event.preventDefault();
 
@@ -427,7 +459,7 @@ $(document).ready(function () {
             contentType: false,
             success: function(response) {
                 if (response == 1) {
-                    window.location.replace("http://localhost:5000/human_resources/vacations/"+rut);
+                    window.location.replace("https://jiserp.com/human_resources/vacations/"+rut);
                 } else {
                     $('.alert-danger-404-form').show();
                     $('.alert-danger-form').hide();
@@ -440,6 +472,189 @@ $(document).ready(function () {
                 $('.alert-danger-form').hide();
                 $('span#loading-icon').hide();
                 $('.create-vacation-btn').show();
+            }
+        });
+    });
+
+    $('.create-license-btn').click(function(event) {
+        event.preventDefault();
+
+        // Verificar si hay campos vacíos o indefinidos
+        var requiredFields = ['folio', 'medical_license_type_id', 'patology_type_id', 'since', 'until'];
+        var hasEmptyField = false;
+        for (var i = 0; i < requiredFields.length; i++) {
+            var field = $('#' + requiredFields[i]);
+            if (field.val() === '' || typeof field.val() === 'undefined') {
+                hasEmptyField = true;
+                break;
+            }
+        }
+
+        if (hasEmptyField) {
+            $('.alert-danger-form').show();
+            return;
+        }
+
+        $('span#loading-icon').show();
+        $('.create-license-btn').hide();
+        
+        var formData = new FormData();
+        var rut =  $('#rut').val()
+
+        rut = rut.split('-')
+        rut = rut[0]
+        
+        formData.append('rut', $('#rut').val());
+        formData.append('status_id', $('#status_id').val());
+        formData.append('document_type_id', $('#document_type_id').val());
+        formData.append('folio', $('#folio').val());
+        formData.append('medical_license_type_id', $('#medical_license_type_id').val()); 
+        formData.append('patology_type_id', $('#patology_type_id').val());
+        formData.append('since', $('#since').val());
+        formData.append('until', $('#until').val());
+
+        $.ajax({
+            url: "/human_resources/medical_license/store/" + $('#rut').val(),
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response == 1) {
+                    window.location.replace("https://jiserp.com/human_resources/medical_licenses/"+rut);
+                } else {
+                    $('.alert-danger-404-form').show();
+                    $('.alert-danger-form').hide();
+                    $('span#loading-icon').hide();
+                    $('.create-license-btn').show();
+                }
+            },
+            error: function() {
+                $('.alert-danger-404-form').show();
+                $('.alert-danger-form').hide();
+                $('span#loading-icon').hide();
+                $('.create-license-btn').show();
+            }
+        });
+    });
+
+    $('.upload-vacation-btn').click(function(event) {
+        event.preventDefault();
+
+        // Verificar si hay campos vacíos o indefinidos
+        var requiredFields = ['file'];
+        var hasEmptyField = false;
+        for (var i = 0; i < requiredFields.length; i++) {
+            var field = $('#' + requiredFields[i]);
+            if (field.val() === '' || typeof field.val() === 'undefined') {
+                hasEmptyField = true;
+                break;
+            }
+        }
+
+        if (hasEmptyField) {
+            $('.alert-danger-form').show();
+            return;
+        }
+
+        $('span#loading-icon').show();
+        $('.upload-vacation-btn').hide();
+        
+        var formData = new FormData();
+        var rut =  $('#rut').val()
+
+        rut = rut.split('-')
+        rut = rut[0]
+        
+        formData.append('file', $('input[name="file"]')[0].files[0]);
+
+        $.ajax({
+            url: "/human_resources/vacation/upload/" + rut,
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response == 1) {
+                    window.location.replace("https://jiserp.com/human_resources/vacation/"+rut);
+                } else {
+                    $('.alert-danger-404-form').show();
+                    $('.alert-danger-form').hide();
+                    $('span#loading-icon').hide();
+                    $('.upload-vacation-btn').show();
+                }
+            },
+            error: function() {
+                $('.alert-danger-404-form').show();
+                $('.alert-danger-form').hide();
+                $('span#loading-icon').hide();
+                $('.upload-vacation-btn').show();
+            }
+        });
+    });
+
+    $('.upload-license-btn').click(function(event) {
+        event.preventDefault();
+
+        // Verificar si hay campos vacíos o indefinidos
+        var requiredFields = ['file'];
+        var hasEmptyField = false;
+        for (var i = 0; i < requiredFields.length; i++) {
+            var field = $('#' + requiredFields[i]);
+            if (field.val() === '' || typeof field.val() === 'undefined') {
+                hasEmptyField = true;
+                break;
+            }
+        }
+
+        if (hasEmptyField) {
+            $('.alert-danger-form').show();
+            return;
+        }
+
+        $('span#loading-icon').show();
+        $('.upload-license-btn').hide();
+        
+        var formData = new FormData();
+        var rut =  $('#rut').val()
+
+        rut = rut.split('-')
+        rut = rut[0]
+        
+        formData.append('id', $('#id').val());
+        formData.append('rut', $('#rut').val());
+        formData.append('file', $('input[name="file"]')[0].files[0]);
+
+        $.ajax({
+            url: "/human_resources/medical_license/upload/" + $('#id').val() + "/" + $('#rut').val(),
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response == 1) {
+                    window.location.replace("https://jiserp.com/human_resources/medical_licenses/"+rut);
+                } else {
+                    $('.alert-danger-404-form').show();
+                    $('.alert-danger-form').hide();
+                    $('span#loading-icon').hide();
+                    $('.upload-license-btn').show();
+                }
+            },
+            error: function() {
+                $('.alert-danger-404-form').show();
+                $('.alert-danger-form').hide();
+                $('span#loading-icon').hide();
+                $('.upload-license-btn').show();
             }
         });
     });
@@ -581,7 +796,7 @@ $(document).ready(function () {
             contentType: false,
             success: function(response) {
                 if (response == 1) {
-                    window.location.replace("http://localhost:5000/human_resources/contract_data/"+rut);
+                    window.location.replace("https://jiserp.com/human_resources/contract_data/"+rut);
                 } else {
                     $('.alert-danger-404-form').show();
                     $('.alert-danger-form').hide();
@@ -638,7 +853,7 @@ $(document).ready(function () {
             contentType: false,
             success: function(response) {
                 if (response == 1) {
-                    window.location.replace("http://localhost:5000/human_resources/uniform/"+rut);
+                    window.location.replace("https://jiserp.com/human_resources/uniform/"+rut);
                 } else {
                     $('.alert-danger-404-form').show();
                     $('.alert-danger-form').hide();
@@ -695,7 +910,7 @@ $(document).ready(function () {
             contentType: false,
             success: function(response) {
                 if (response == 1) {
-                    window.location.replace("http://localhost:5000/human_resources/kardex_data/"+rut);
+                    window.location.replace("https://jiserp.com/human_resources/kardex_data/"+rut);
                 } else {
                     $('.alert-danger-404-form').show();
                     $('.alert-danger-form').hide();
@@ -759,7 +974,7 @@ $(document).ready(function () {
             contentType: false,
             success: function(response) {
                 if (response == 1) {
-                    window.location.replace("http://localhost:5000/human_resources/family_core_data/"+rut);
+                    window.location.replace("https://jiserp.com/human_resources/family_core_data/"+rut);
                 } else {
                     $('.alert-danger-404-form').show();
                     $('.alert-danger-form').hide();
@@ -822,7 +1037,7 @@ $(document).ready(function () {
             contentType: false,
             success: function(response) {
                 if (response == 1) {
-                    window.location.replace("http://localhost:5000/human_resources/family_core_data/"+rut);
+                    window.location.replace("https://jiserp.com/human_resources/family_core_data/"+rut);
                 } else {
                     $('.alert-danger-404-form').show();
                     $('.alert-danger-form').hide();
@@ -835,6 +1050,72 @@ $(document).ready(function () {
                 $('.alert-danger-form').hide();
                 $('span#loading-icon').hide();
                 $('.create-family-data-btn').show();
+            }
+        });
+    });
+
+    $('.upload-settlement-data-btn').click(function(event) {
+        event.preventDefault();
+
+        // Verificar si hay campos vacíos o indefinidos
+        var requiredFields = ['contract_schedule_id', 'extreme_zone_id', 'employee_type_id', 'young_job_status_id', 'be_paid_id', 'disability_id', 'pensioner_id'];
+        var hasEmptyField = false;
+        for (var i = 0; i < requiredFields.length; i++) {
+            var field = $('#' + requiredFields[i]);
+            if (field.val() === '' || typeof field.val() === 'undefined') {
+                hasEmptyField = true;
+                break;
+            }
+        }
+
+        if (hasEmptyField) {
+            $('.alert-danger-form').show();
+            return;
+        }
+
+        $('span#loading-icon').show();
+        $('.update-extra-data-btn').hide();
+        
+        var formData = new FormData();
+        var rut =  $('#rut').val()
+        
+        formData.append('rut', $('#rut').val());
+        formData.append('contract_schedule_id', $('#contract_schedule_id').val());
+        formData.append('extreme_zone_id', $('#extreme_zone_id').val());
+        formData.append('employee_type_id', $('#employee_type_id').val());
+        formData.append('young_job_status_id', $('#young_job_status_id').val()); 
+        formData.append('be_paid_id', $('#be_paid_id').val());
+        formData.append('disability_id', $('#disability_id').val());
+        formData.append('pensioner_id', $('#pensioner_id').val());
+        formData.append('progressive_vacation_status_id', $('#progressive_vacation_status_id').val());
+        formData.append('progressive_vacation_date', $('#progressive_vacation_date_value').val());
+        formData.append('suplemental_health_insurance_id', $('#suplemental_health_insurance_id').val());
+
+        $.ajax({
+            url: "/human_resources/employee_extra_data/" + rut,
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                alert(response)
+                if (response == 1) {
+                    window.location.replace("https://jiserp.com/human_resources/employee_extra_data/"+rut);
+                } else {
+                    $('.alert-danger-404-form').show();
+                    $('.alert-danger-form').hide();
+                    $('span#loading-icon').hide();
+                    $('.update-extra-data-btn').show();
+                }
+            },
+            error: function() {
+                $('.alert-danger-404-form').show();
+                $('.alert-danger-form').hide();
+                $('span#loading-icon').hide();
+                $('.update-extra-data-btn').show();
             }
         });
     });
@@ -888,7 +1169,7 @@ $(document).ready(function () {
             success: function(response) {
                 alert(response)
                 if (response == 1) {
-                    window.location.replace("http://localhost:5000/human_resources/employee_extra_data/"+rut);
+                    window.location.replace("https://jiserp.com/human_resources/employee_extra_data/"+rut);
                 } else {
                     $('.alert-danger-404-form').show();
                     $('.alert-danger-form').hide();
@@ -956,7 +1237,7 @@ $(document).ready(function () {
             contentType: false,
             success: function(response) {
                 if (response == 1) {
-                    window.location.replace("http://localhost:5000/human_resources/contract_data/"+rut);
+                    window.location.replace("https://jiserp.com/human_resources/contract_data/"+rut);
                 } else {
                     $('.alert-danger-404-form').show();
                     $('.alert-danger-form').hide();
@@ -1216,26 +1497,13 @@ $(document).ready(function () {
         $.ajax({
             url: 'branch_offices/employees/' + $(this).val(),
             type: 'GET',
-            success: function(data){
+            success: function(data) {
+                $('#employee_id').empty();
+                $('#employee_id').append('<option value="">- Seleccionar -</option>');
+
                 data = JSON.parse(data)
                 for (var i = 0; i < data.length; ++i) {
                     $('<option value="'+data[i].rut+'">'+data[i].nickname+'</option>').appendTo('#employee_id');
-                }
-            }
-        });
-    });
-
-    $('#employee_id').change(function() {
-        $.ajax({
-            url: '/turns/types/' + $(this).val() + '/' + $('#group_id').val(),
-            type: 'GET',
-            success: function(data) {
-                data = JSON.parse(data)
-                console.log(data)
-                $('#turns').empty();
-                
-                for (var i = 0; i < data.length; ++i) {
-                    $('<div duration="'+ data[i].group_day_id +'" class="fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event"><div class="fc-event-main"><center>Id: '+ data[i].id +' - Horario: '+ data[i].turn +'. Días: '+ data[i].group_day_id +'x' + data[i].free_day_group_id + '</center></div></div>').appendTo('#turns');
                 }
             }
         });
@@ -1246,6 +1514,9 @@ $(document).ready(function () {
             url: '/turns/types/' + $('#employee_id').val() + '/' + $(this).val(),
             type: 'GET',
             success: function(data) {
+                $(".select_turn").removeAttr('style');
+                $(".alert-turn-form").attr('style', 'display:none');
+
                 data = JSON.parse(data)
                 $('#turns').empty();
 

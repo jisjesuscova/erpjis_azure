@@ -77,9 +77,20 @@ class PreEmployeeTurnModel(db.Model):
     turn_id = db.Column(db.Integer)
     rut = db.Column(db.Integer)
     start_date = db.Column(db.Date())
+    end_date = db.Column(db.Date())
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
+class MeshDatumModel(db.Model):
+    __tablename__ = 'mesh_data'
+
+    id = db.Column(db.Integer, primary_key=True)
+    turn_id = db.Column(db.Integer)
+    rut = db.Column(db.Integer)
+    start_date = db.Column(db.Date())
+    end_date = db.Column(db.Date())
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
 
 class HrUnemploymentInsuranceModel(db.Model):
     __tablename__ = 'hr_unemployment_insurances'

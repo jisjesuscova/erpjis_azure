@@ -26,7 +26,15 @@
                               </div>
                               <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Turno</label>
+                                    <label for="exampleInputEmail1">Empleado</label>
+                                    <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="employee_id" id="employee_id">
+                                      <option value="">- Seleccionar -</option>
+                                    </select>
+                                </div>
+                              </div>
+                              <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Jornada</label>
                                     <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="employee_id" id="group_id">
                                       <option value="">- Seleccionar -</option>
                                       <option value="1">Mañana</option>
@@ -34,14 +42,6 @@
                                     </select>
                                 </div>
                             </div>
-                              <div class="col-md-4">
-                                  <div class="form-group">
-                                      <label for="exampleInputEmail1">Empleado</label>
-                                      <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="employee_id" id="employee_id">
-                                        <option value="">- Seleccionar -</option>
-                                      </select>
-                                  </div>
-                              </div>
                           </div>
                       </div>
                   </form>
@@ -50,65 +50,49 @@
           </div>
         </div>
         <hr>
+
         <div class="row">
-            <div class="col-4">
-                <div id='external-events'>
-                  <p class='free_days' style="display: none;">
-                    <strong>Libres</strong>
-                  </p>
-                  <div class='free_days' id="free_days" style="display: none;">
-                    <div class="fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event"><div class="fc-event-main"><center>Debe seleccionar el empleado</center></div></div>
-                  </div>
-                  <p class="select_turn">
-                    <strong>Turnos</strong>
-                  </p>
-                  <div id='turns' class="select_turn">
-                    <div class="fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event"><div class="fc-event-main"><center>Debe seleccionar el empleado</center></div></div>
-                  </div>
-                </div>
-                <input id="free_day_value" value="0" type="hidden">
-                <input id="week_value" value="0" type="hidden">
+          <div class="col-4">
+            <div id='external-events'>
+              <p class='free_days' style="display: none;">
+                <strong>Libres</strong>
+              </p>
+              <div class='free_days' id="free_days" style="display: none;">
+                <div class="fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event"><div class="fc-event-main"><center>Debe seleccionar el empleado</center></div></div>
+              </div>
+              <p class="select_turn">
+                <strong>Turnos</strong>
+              </p>
+              <div id='turns' class="select_turn">
+                <div class="fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event"><div class="fc-event-main"><center>Debe seleccionar el empleado</center></div></div>
+              </div>
             </div>
-            <div class="col-8">
-                <div id='calendar-container'>
-                    <div id='calendar'></div>
-                </div>
+            <input id="free_day_value" value="0" type="hidden">
+            <input id="week_value" value="0" type="hidden">
+          </div>
+          <div class="col-8">
+            <div class="alert alert-danger alert-turn-form" style="display:none;" role="alert">
+              Debe seleccionar la jornada para esta nueva semana.
             </div>
-        </div>
-        <hr>
-        <div class="row">
-          <div class="col-12">
-              <h1>Resumen</h1>
+            <div id='calendar-container'>
+              <div id='calendar'></div>
+            </div>
           </div>
         </div>
-        <div class="row">
+        <hr>
+        <div class="row pb-5 text-right">
           <div class="col-12">
-            <table>
-              <tr>
-                <td id="1_week">
-                  Total
-                </td>
-              </tr>
-              <tr>
-                <td id="2_week">
-                  Total
-                </td>
-              </tr>
-              <tr>
-                <td id="3_week">
-                  Total
-                </td>
-              </tr>
-              <tr>
-                <td id="4_week">
-                  Total
-                </td>
-              </tr>
-            </table>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            <span class="loading-icon" id="loading-icon" style="display:none;">Cargando...</span>
+            <button type="button" class="btn btn-success create-mesh-btn">Guardar</button>
+            <a href="{{ url_for('home.index') }}" class="btn btn-secondary">Cancelar</a>
           </div>
         </div>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
+                var originalDate;
+                var turn_id;
+                var pre_store_id;
                 var Calendar = FullCalendar.Calendar;
                 var Draggable = FullCalendar.Draggable;
 
@@ -172,9 +156,9 @@
                 var calendar = new Calendar(calendarEl, {
                   firstDay: 1,
                   headerToolbar: {
-                    left: 'prev,next today',
+                    left: '',
                     center: 'title',
-                    right: 'dayGridMonth'
+                    right: ''
                   },
                   events: function (fetchInfo, successCallback, failureCallback) {
                     jQuery.ajax({
@@ -248,7 +232,6 @@
                           }
                       });
 
-
                       $.ajax({
                           url: '/turns/calculate/'+turn_id[1],
                           headers: {
@@ -268,18 +251,108 @@
                           }
                       });
                     } else {
+                      if (turn_id[1] == "libre") {
+                        turn_id[1] = 0;
+                      }
+                      
+                      var formData = {
+                        employee_id: $("#employee_id").val(),
+                        turn_id: turn_id[1],
+                        start_date: info.dateStr,
+                      };
+
+                      var csrf_token = "{{ csrf_token() }}";
+
+                      $.ajax({
+                          url: '/turns/pre_store',
+                          headers: {
+                              "X-CSRFToken": csrf_token,
+                          },
+                          type: 'POST',
+                          data: formData,
+                          success: function(data) {
+                          }
+                      });
+
                       var old_free_day_value = $('#free_day_value').val();
+
                       var free_day_value = old_free_day_value - 1;
                       $('#free_day_value').val(free_day_value)
 
-                      if(free_day_value == 0) {
-                        $(".select_turn").removeAttr('style');
+                      if(free_day_value < 0) {
                         $(".free_days").attr('style', 'display:none');
+                        $(".alert-turn-form").attr('style', 'display:block');
+                        $('#group_id').empty();
+                        $('#group_id').append('<option value="">- Seleccionar -</option><option value="1">Mañana</option><option value="2">Tarde</option>');
                       }
                     }
                   },
-                  eventClick: function(event) {
-                    console.log(event)
+                  eventOverlap: function(stillEvent, movingEvent) {
+                    if (stillEvent.start < movingEvent.end && stillEvent.end > movingEvent.start) {
+                      // los eventos se solapan, así que no se permite el drop
+                      return false;
+                    } else {
+                      // los eventos no se solapan, así que se permite el drop
+                      return true;
+                    }
+                  },
+                  eventDragStart: function(info) {
+                    turn_id = info.event._def.title;
+                    turn_id = turn_id.split(' ');
+                    turn_id = turn_id[1];
+
+                    originalDate = info.event.startStr;
+                  },
+                  eventDrop: function(info) {
+                    old_turn_id = turn_id
+                    old_date = originalDate
+
+                    new_date = info.event.startStr;
+                    
+                    var formData = {
+                      employee_id: $("#employee_id").val(),
+                      turn_id: old_turn_id,
+                      start_date: old_date,
+                    };
+
+                    var csrf_token = "{{ csrf_token() }}";
+
+                    $.ajax({
+                        url: '/turns/get',
+                        headers: {
+                            "X-CSRFToken": csrf_token,
+                        },
+                        type: 'POST',
+                        data: formData,
+                        success: function(data) {
+                          var jsonObject = JSON.parse(data);
+                          pre_store_id = jsonObject[0]['id'];
+
+                          update(pre_store_id, old_turn_id, new_date);
+                        }
+                    });
+
+                    function update(pre_store_id, turn_id, new_date) {
+                      var formData = {
+                        id: pre_store_id,
+                        employee_id: $("#employee_id").val(),
+                        turn_id: turn_id,
+                        start_date: new_date,
+                      };
+  
+                      var csrf_token = "{{ csrf_token() }}";
+  
+                      $.ajax({
+                          url: '/turns/update',
+                          headers: {
+                              "X-CSRFToken": csrf_token,
+                          },
+                          type: 'POST',
+                          data: formData,
+                          success: function(data) {
+                          }
+                      });
+                    }
                   }
                 });
               

@@ -24,6 +24,11 @@
                                 {% endfor %}
                             {% endif %}
                         {% endwith %}
+                        {% if empty_field_status_id == 0 %}
+                            <div class="alert alert-danger alert-danger-404-form" role="alert">
+                                Debe rellenar los campos del formulario. Tiene más de (4) cuatro campos vacios.
+                            </div>
+                        {% endif %}
                         <div class="alert alert-danger alert-danger-form" style="display:none;" role="alert">
                             Todos los campos del formulario son <strong>obligatorios</strong>.
                         </div>
@@ -109,8 +114,8 @@
                                         <label for="exampleInputEmail1">Aporte SIS (mayor de 65 años o pensionado total)</label>
                                         <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="pensioner_id" name="pensioner_id">
                                             <option value="">- Seleccionar -</option>
-                                            <option {% if 1 == employee_extra_datum.progressive_vacation_status_id %} selected {% endif %} value="1">Si</option>
-                                            <option {% if 2 == employee_extra_datum.progressive_vacation_status_id %} selected {% endif %} value="2">No</option>
+                                            <option {% if 1 == employee_extra_datum.pensioner_id %} selected {% endif %} value="1">Si</option>
+                                            <option {% if 2 == employee_extra_datum.pensioner_id %} selected {% endif %} value="2">No</option>
                                         </select>
                                     </div>
                                 </div>
@@ -119,8 +124,8 @@
                                         <label for="exampleInputEmail1">¿Tiene seguro complementario?</label>
                                         <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="suplemental_health_insurance_id" name="suplemental_health_insurance_id">
                                             <option value="">- Seleccionar -</option>
-                                            <option {% if 0 == employee_extra_datum.suplemental_health_insurance_id %} selected {% endif %} value="1">Si</option>
-                                            <option {% if 1 == employee_extra_datum.suplemental_health_insurance_id %} selected {% endif %} value="0">No</option>
+                                            <option {% if 1 == employee_extra_datum.suplemental_health_insurance_id %} selected {% endif %} value="1">Si</option>
+                                            <option {% if 2 == employee_extra_datum.suplemental_health_insurance_id %} selected {% endif %} value="2">No</option>
                                         </select>
                                     </div>
                                 </div>

@@ -9,29 +9,27 @@
                     <!-- /.card-header -->
                     <div class="card-body">
                         <!-- form start -->
-                        <form role="form" action="{{ url_for('documental_management_data.upload') }}" method="POST" enctype="multipart/form-data">
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Documento</label>
-                                            <input type="file" value="" class="form-control" id="exampleInputEmail1" placeholder="Imagen" name="file" required>
-                                        </div>
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Documento</label>
+                                        <input type="file" value="" class="form-control" id="file" placeholder="Imagen" name="file" required>
                                     </div>
                                 </div>
                             </div>
-                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card-body -->
 
-                            <input type="hidden" value="{{ rut }}" class="form-control" id="exampleInputEmail1" name="rut">
-                            <input type="hidden" value="{{ id }}" class="form-control" id="exampleInputEmail1" name="id">
+                        <input type="hidden" value="{{ rut }}" class="form-control" id="rut" name="rut">
+                        <input type="hidden" value="{{ id }}" class="form-control" id="id" name="id">
                             
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Guardar</button>
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-primary">Guardar</button>
 
-                                <a href="{{ url_for('documental_management_data.review', page=1) }}" class="btn btn-secondary">Cancelar</a>
-                            </div>
-                        </form>
+                            <a href="{{ url_for('documental_management_data.review', page=1) }}" class="btn btn-secondary">Cancelar</a>
+                        </div>
                         <!-- form end -->
                     </div>
                 </div>

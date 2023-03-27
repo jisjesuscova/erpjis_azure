@@ -30,6 +30,18 @@ def pre_store():
 
    return json.dumps(status)
 
+@turn.route("/turns/update", methods=['POST'])
+def update():
+   status = EmployeeTurn.update(request.form)
+
+   return json.dumps(status)
+
+@turn.route("/turns/get", methods=['POST'])
+def get():
+   pre_employee_turn = EmployeeTurn.get(request.form)
+   id = Helper.serialize(pre_employee_turn, 4)
+
+   return json.dumps(id)
 
 @turn.route("/turns/free_days/<id>", methods=['GET'])
 @turn.route("/turns/free_days", methods=['GET'])
