@@ -102,11 +102,11 @@ class EndDocument():
         end_document.causal_id = data['causal_id']
         end_document.rut = data['rut']
         end_document.number_holidays = data['number_holidays']
-        end_document.voluntary_indemnity = data['voluntary_indemnity']
-        end_document.indemnity_years_service = data['indemnity_years_service']
-        end_document.substitute_compensation = data['substitute_compensation']
-        end_document.fertility_proportional = data['fertility_proportional']
-        end_document.total = data['total']
+        end_document.voluntary_indemnity = Helper.remove_from_string(".", data['voluntary_indemnity'])
+        end_document.indemnity_years_service = Helper.remove_from_string(".", data['indemnity_years_service'])
+        end_document.substitute_compensation = Helper.remove_from_string(".", data['substitute_compensation'])
+        end_document.fertility_proportional = Helper.remove_from_string(".", data['fertility_proportional'])
+        end_document.total = Helper.remove_from_string(".", data['total'])
         end_document.added_date = datetime.now()
         end_document.updated_date = datetime.now()
 
