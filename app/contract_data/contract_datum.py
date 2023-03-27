@@ -122,9 +122,9 @@ class ContractDatum():
         employee_labor_data.entrance_pention = entrance_pention
         employee_labor_data.entrance_company = data['entrance_company']
         employee_labor_data.entrance_health = data['entrance_health']
-        employee_labor_data.salary = data['salary']
-        employee_labor_data.collation = data['collation']
-        employee_labor_data.locomotion = data['locomotion']
+        employee_labor_data.salary = Helper.remove_from_string('.', data['salary'])
+        employee_labor_data.collation = Helper.remove_from_string('.', data['collation'])
+        employee_labor_data.locomotion = Helper.remove_from_string('.', data['locomotion'])
         employee_labor_data.health_payment_id = data['health_payment_id']
         employee_labor_data.extra_health_amount = data['extra_health_amount']
         employee_labor_data.updated_date = datetime.now()

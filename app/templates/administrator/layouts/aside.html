@@ -38,14 +38,12 @@
                   <p>Trabajadores</p>
                 </a>
               </li>
-              {% if 1 == 0 %}
-                <li class="nav-item">
-                  <a href="/index3" class="nav-link">
-                    <i class="fas fa-rectangle-list nav-icon"></i>
-                    <p>Honorarios</p>
-                  </a>
-                </li>
-              {% endif %}
+              <li class="nav-item">
+                <a href="{{ url_for('honoraries.index') }}" class="nav-link">
+                  <i class="fas fa-rectangle-list nav-icon"></i>
+                  <p>Honorarios</p>
+                </a>
+              </li>
             </ul>
           </li>
           <li class="nav-item">

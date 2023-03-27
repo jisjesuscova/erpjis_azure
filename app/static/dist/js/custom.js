@@ -1475,6 +1475,7 @@ $(document).ready(function () {
     });
 
     $('.rut').mask('99999999-9');
+    $('.money_value').mask('000.000.000.000', {reverse: true, autoclear: false});
 
     $('#branch_office_id').change(function() {
         $.ajax({

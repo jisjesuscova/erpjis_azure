@@ -102,6 +102,7 @@ from app.uniforms.controllers import uniform
 from app.checks.controllers import check
 from app.check_answers.controllers import check_answer
 from app.check_group_questions.controllers import check_group_question
+from app.honoraries.controllers import honorary
 
 app.register_blueprint(employee)
 app.register_blueprint(auth)
@@ -152,6 +153,7 @@ app.register_blueprint(comment)
 app.register_blueprint(uniform)
 app.register_blueprint(check)
 app.register_blueprint(check_answer)
+app.register_blueprint(honorary)
 app.register_blueprint(check_group_question)
 
 @app.route("/")

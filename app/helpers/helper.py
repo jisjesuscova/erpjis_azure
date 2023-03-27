@@ -13,6 +13,10 @@ import pandas as pd
 
 class Helper:
     @staticmethod
+    def remove_from_string(value_to_remove, string):
+        return string.replace(value_to_remove, "")
+
+    @staticmethod
     def weeks_in_month(year, month):
         # Get the number of days in the month and the first day of the week
         num_days_month = calendar.monthrange(year, month)[1]
