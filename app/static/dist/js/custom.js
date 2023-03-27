@@ -1058,7 +1058,7 @@ $(document).ready(function () {
         event.preventDefault();
 
         // Verificar si hay campos vacíos o indefinidos
-        var requiredFields = ['contract_schedule_id', 'extreme_zone_id', 'employee_type_id', 'young_job_status_id', 'be_paid_id', 'disability_id', 'pensioner_id'];
+        var requiredFields = ['month', 'year', 'file'];
         var hasEmptyField = false;
         for (var i = 0; i < requiredFields.length; i++) {
             var field = $('#' + requiredFields[i]);
@@ -1074,25 +1074,17 @@ $(document).ready(function () {
         }
 
         $('span#loading-icon').show();
-        $('.update-extra-data-btn').hide();
+        $('.upload-settlement-data-btn').hide();
         
         var formData = new FormData();
         var rut =  $('#rut').val()
         
-        formData.append('rut', $('#rut').val());
-        formData.append('contract_schedule_id', $('#contract_schedule_id').val());
-        formData.append('extreme_zone_id', $('#extreme_zone_id').val());
-        formData.append('employee_type_id', $('#employee_type_id').val());
-        formData.append('young_job_status_id', $('#young_job_status_id').val()); 
-        formData.append('be_paid_id', $('#be_paid_id').val());
-        formData.append('disability_id', $('#disability_id').val());
-        formData.append('pensioner_id', $('#pensioner_id').val());
-        formData.append('progressive_vacation_status_id', $('#progressive_vacation_status_id').val());
-        formData.append('progressive_vacation_date', $('#progressive_vacation_date_value').val());
-        formData.append('suplemental_health_insurance_id', $('#suplemental_health_insurance_id').val());
+        formData.append('month', $('#month').val());
+        formData.append('year', $('#year').val());
+        formData.append('file', $('input[name="file"]')[0].files[0]);
 
         $.ajax({
-            url: "/human_resources/employee_extra_data/" + rut,
+            url: "/management_payroll/settlement_data/store",
             method: 'POST',
             headers: {
                 "X-CSRFToken": $('input[name="csrf_token"]').val()
@@ -1103,19 +1095,19 @@ $(document).ready(function () {
             success: function(response) {
                 alert(response)
                 if (response == 1) {
-                    window.location.replace("https://jiserp.com/human_resources/employee_extra_data/"+rut);
+                    window.location.replace("http://localhost:5000/management_payroll/settlement_data/uploaded");
                 } else {
                     $('.alert-danger-404-form').show();
                     $('.alert-danger-form').hide();
                     $('span#loading-icon').hide();
-                    $('.update-extra-data-btn').show();
+                    $('.upload-settlement-data-btn').show();
                 }
             },
             error: function() {
                 $('.alert-danger-404-form').show();
                 $('.alert-danger-form').hide();
                 $('span#loading-icon').hide();
-                $('.update-extra-data-btn').show();
+                $('.upload-settlement-data-btn').show();
             }
         });
     });
