@@ -1054,62 +1054,35 @@ $(document).ready(function () {
         });
     });
 
-    $('.upload-settlement-data-btn').click(function(event) {
+    $('#my-form').submit(function(event) {
         event.preventDefault();
-
-        // Verificar si hay campos vacíos o indefinidos
-        var requiredFields = ['month', 'year', 'file'];
-        var hasEmptyField = false;
-        for (var i = 0; i < requiredFields.length; i++) {
-            var field = $('#' + requiredFields[i]);
-            if (field.val() === '' || typeof field.val() === 'undefined') {
-                hasEmptyField = true;
-                break;
-            }
-        }
-
-        if (hasEmptyField) {
-            $('.alert-danger-form').show();
-            return;
-        }
-
-        $('span#loading-icon').show();
-        $('.upload-settlement-data-btn').hide();
         
         var formData = new FormData();
-        var rut =  $('#rut').val()
-        
         formData.append('month', $('#month').val());
         formData.append('year', $('#year').val());
-        formData.append('file', $('input[name="file"]')[0].files[0]);
-
+        
+        // Agregar los archivos al objeto FormData
+        var files = $('input[name="file"]')[0].files;
+        for (var i = 0; i < files.length; i++) {
+            formData.append('files[]', files[i]);
+        }
+        
+        // Enviar la solicitud AJAX
         $.ajax({
-            url: "/management_payroll/settlement_data/store",
-            method: 'POST',
-            headers: {
-                "X-CSRFToken": $('input[name="csrf_token"]').val()
-            },
+            url: '/management_payroll/settlement_data/store',
+            type: 'POST',
             data: formData,
-            processData: false,
             contentType: false,
+            processData: false,
             success: function(response) {
-                alert(response)
-                if (response == 1) {
-                    window.location.replace("http://localhost:5000/management_payroll/settlement_data/uploaded");
-                } else {
-                    $('.alert-danger-404-form').show();
-                    $('.alert-danger-form').hide();
-                    $('span#loading-icon').hide();
-                    $('.upload-settlement-data-btn').show();
-                }
-            },
-            error: function() {
-                $('.alert-danger-404-form').show();
-                $('.alert-danger-form').hide();
-                $('span#loading-icon').hide();
-                $('.upload-settlement-data-btn').show();
+                console.log(response);
             }
         });
+    });
+
+    $('.upload-settlement-data-btn').click(function(event) {
+        $('.upload-settlement-data-btn').hide();
+        $('span#loading-icon').show();
     });
 
     $('.update-extra-data-btn').click(function(event) {
