@@ -16,7 +16,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Mes</label>
-                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="month" required>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="month" style="width: 100%;" name="month" required>
                                                 <option value="">- Seleccionar -</option>
                                                 <option value="1">Enero</option>
                                                 <option value="2">Febrero</option>
@@ -36,7 +36,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Año</label>
-                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="year" required>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="year" style="width: 100%;" name="year" required>
                                                 <option value="">- Seleccionar -</option>
                                                 {% for i in range(2023, 2031) %}
                                                     <option value="{{ i }}">{{ i }}</option>
@@ -49,7 +49,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Liquidación</label>
-                                            <input type="file" value="" class="form-control" id="exampleInputEmail1" multiple placeholder="Imagen" name="file" required>
+                                            <input type="file" value="" class="form-control" id="file" multiple placeholder="Imagen" name="file" required>
                                         </div>
                                     </div>
                                 </div>

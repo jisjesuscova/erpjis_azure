@@ -160,7 +160,9 @@
                                         <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
                                     </div>
                                     <div class="col-md-6 text-right">
-                                        <a href="{{ url_for('family_core_data.index', rut=rut) }}" class="btn btn-primary">Ir a Datos de Nucleo Familiar</a>
+                                        {% if empty_field_status_id == 1 %}
+                                            <a href="{{ url_for('family_core_data.index', rut=rut) }}" class="btn btn-primary">Ir a Datos de Nucleo Familiar</a>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>

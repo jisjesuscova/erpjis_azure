@@ -15,6 +15,47 @@ class EmployeeExtraDatum():
         employee_extra_data = EmployeeExtraModel.query.filter_by(rut=rut).all()
 
         return employee_extra_data
+    
+    @staticmethod
+    def empty_fields(rut):
+        employee_extra_datum = EmployeeExtraModel.query.filter_by(rut = rut).first()
+
+        count = 0
+
+        if employee_extra_datum.contract_schedule_id == None or employee_extra_datum.contract_schedule_id == '':
+            count = count + 1
+
+        if employee_extra_datum.extreme_zone_id == None or employee_extra_datum.extreme_zone_id == '':
+            count = count + 1
+
+        if employee_extra_datum.employee_type_id == None or employee_extra_datum.employee_type_id == '':
+            count = count + 1
+
+        if employee_extra_datum.young_job_status_id == None or employee_extra_datum.young_job_status_id == '':
+            count = count + 1
+
+        if employee_extra_datum.be_paid_id == None or employee_extra_datum.be_paid_id == '':
+            count = count + 1
+
+        if employee_extra_datum.suplemental_health_insurance_id == None or employee_extra_datum.suplemental_health_insurance_id == '':
+            count = count + 1
+
+        if employee_extra_datum.disability_id == None or employee_extra_datum.disability_id == '':
+            count = count + 1
+
+        if employee_extra_datum.pensioner_id == None or employee_extra_datum.pensioner_id == '':
+            count = count + 1
+
+        if employee_extra_datum.progressive_vacation_status_id == None or employee_extra_datum.progressive_vacation_status_id == '':
+            count = count + 1
+
+        if employee_extra_datum.progressive_vacation_date == None or employee_extra_datum.progressive_vacation_date == '':
+            count = count + 1
+
+        if  count > 4:
+            return 0
+        else:
+            return 1
 
     @staticmethod
     def delete(id):

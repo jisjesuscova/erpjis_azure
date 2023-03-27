@@ -30,6 +30,8 @@ def show(rut):
       healths = Health.get()
       regime_id = None
 
+      empty_field_status_id = EmployeeExtraDatum.empty_fields(rut)
+
       is_active = 1
    else:
       employee_extra_datum = OldEmployeeExtraDatum.get(rut)
@@ -38,19 +40,20 @@ def show(rut):
       healths = Health.get()
       regime_id = None
 
+      empty_field_status_id = 1
 
       is_active = 0
 
    employee_extra_datum_button_status_id = 1
 
    if current_user.rol_id == 1:
-      return render_template('collaborator/human_resources/extra_data/extra_data_update.html', employee_extra_datum_button_status_id = employee_extra_datum_button_status_id, employee_extra_datum = employee_extra_datum, contract_schedules = contract_schedules, pentions = pentions, rut = rut, healths = healths, is_active = is_active, regime_id = regime_id)
+      return render_template('collaborator/human_resources/extra_data/extra_data_update.html', empty_field_status_id = empty_field_status_id, employee_extra_datum_button_status_id = employee_extra_datum_button_status_id, employee_extra_datum = employee_extra_datum, contract_schedules = contract_schedules, pentions = pentions, rut = rut, healths = healths, is_active = is_active, regime_id = regime_id)
    elif current_user.rol_id == 2:
-      return render_template('incharge/human_resources/extra_data/extra_data_update.html', employee_extra_datum_button_status_id = employee_extra_datum_button_status_id, employee_extra_datum = employee_extra_datum, contract_schedules = contract_schedules, pentions = pentions, rut = rut, healths = healths, is_active = is_active, regime_id = regime_id)
+      return render_template('incharge/human_resources/extra_data/extra_data_update.html', empty_field_status_id = empty_field_status_id, employee_extra_datum_button_status_id = employee_extra_datum_button_status_id, employee_extra_datum = employee_extra_datum, contract_schedules = contract_schedules, pentions = pentions, rut = rut, healths = healths, is_active = is_active, regime_id = regime_id)
    elif current_user.rol_id == 3:
-      return render_template('supervisor/human_resources/extra_data/extra_data_update.html', employee_extra_datum_button_status_id = employee_extra_datum_button_status_id, employee_extra_datum = employee_extra_datum, contract_schedules = contract_schedules, pentions = pentions, rut = rut, healths = healths, is_active = is_active, regime_id = regime_id)
+      return render_template('supervisor/human_resources/extra_data/extra_data_update.html', empty_field_status_id = empty_field_status_id, employee_extra_datum_button_status_id = employee_extra_datum_button_status_id, employee_extra_datum = employee_extra_datum, contract_schedules = contract_schedules, pentions = pentions, rut = rut, healths = healths, is_active = is_active, regime_id = regime_id)
    elif current_user.rol_id == 4:
-      return render_template('administrator/human_resources/extra_data/extra_data_update.html', employee_extra_datum_button_status_id = employee_extra_datum_button_status_id, employee_extra_datum = employee_extra_datum, contract_schedules = contract_schedules, pentions = pentions, rut = rut, healths = healths, is_active = is_active, regime_id = regime_id)
+      return render_template('administrator/human_resources/extra_data/extra_data_update.html', empty_field_status_id = empty_field_status_id, employee_extra_datum_button_status_id = employee_extra_datum_button_status_id, employee_extra_datum = employee_extra_datum, contract_schedules = contract_schedules, pentions = pentions, rut = rut, healths = healths, is_active = is_active, regime_id = regime_id)
 
 @employee_extra_datum.route("/human_resources/employee_extra_data/<int:rut>", methods=['POST'])
 @employee_extra_datum.route("/human_resources/employee_extra_data", methods=['POST'])

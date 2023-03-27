@@ -1081,8 +1081,26 @@ $(document).ready(function () {
     });
 
     $('.upload-settlement-data-btn').click(function(event) {
-        $('.upload-settlement-data-btn').hide();
-        $('span#loading-icon').show();
+        // Verificar si hay campos vacíos o indefinidos
+        var requiredFields = ['month', 'year', 'file'];
+        var hasEmptyField = false;
+        for (var i = 0; i < requiredFields.length; i++) {
+            var field = $('#' + requiredFields[i]);
+            if (field.val() === '' || typeof field.val() === 'undefined') {
+                hasEmptyField = true;
+                break;
+            }
+        }
+
+        if (hasEmptyField) {
+            $('.upload-settlement-data-btn').show();
+            $('span#loading-icon').hide();
+        } else {
+            $('.upload-settlement-data-btn').hide();
+            $('span#loading-icon').show();
+        }
+
+        
     });
 
     $('.update-extra-data-btn').click(function(event) {
