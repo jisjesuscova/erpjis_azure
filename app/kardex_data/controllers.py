@@ -87,4 +87,10 @@ def download(id, rut):
 
 @kardex_datum.route("/human_resources/kardex_datum/store", methods=['POST'])
 def store():
-      return '1'
+   document_type = DocumentType.get(request.form['document_type_id'])
+
+   file_name = "_" + document_type.document_type + "_kardex"
+
+   flash('El documento se ha guardado con éxito', 'success')
+
+   return '1'
