@@ -1,4 +1,3 @@
-from datetime import datetime
 from app.models.models import ProgressiveVacationModel, VacationModel, DocumentEmployeeModel, EmployeeModel, OldVacationModel, OldDocumentEmployeeModel
 from app.hr_final_day_months.hr_final_day_month import HrFinalDayMonth
 import time
@@ -10,6 +9,7 @@ import calendar
 import re
 import random
 import pandas as pd
+import numpy as np
 
 class Helper:
     @staticmethod
@@ -179,10 +179,20 @@ class Helper:
         return nickname
     
     @staticmethod
-    def days(since, until, no_valid_entered_days):
-        dias_laborables = pd.bdate_range(since, until).size
-        dias_laborables = int(dias_laborables) - int(no_valid_entered_days)
-        return dias_laborables
+    def days(since, until, no_valid_entered_days = 0):
+        # Definir las fechas de inicio y finalización
+        start_date = datetime.strptime(since, "%Y-%m-%d")
+        end_date = datetime.strptime(until, "%Y-%m-%d")
+
+        # Calcular la cantidad de días hábiles entre las dos fechas
+        num_business_days = 0
+        current_date = start_date
+        while current_date <= end_date:
+            if current_date.weekday() < 5:
+                num_business_days += 1
+            current_date += timedelta(days=1)
+
+        return int(num_business_days)
     
     @staticmethod
     def months(since, until):
