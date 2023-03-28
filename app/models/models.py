@@ -91,6 +91,14 @@ class BankModel(db.Model):
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
+class HonoraryReasonModel(db.Model):
+    __tablename__ = 'honorary_reasons'
+
+    id = db.Column(db.Integer, primary_key=True)
+    reason = db.Column(db.String(255))
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
 class HonoraryModel(db.Model):
     __tablename__ = 'honoraries'
 
@@ -111,7 +119,6 @@ class HonoraryModel(db.Model):
     account_number = db.Column(db.String(255))
     start_date = db.Column(db.Date())
     end_date = db.Column(db.Date())
-    days = db.Column(db.Integer)
     amount = db.Column(db.Integer)
     observation = db.Column(db.String(255))
     added_date = db.Column(db.DateTime())
