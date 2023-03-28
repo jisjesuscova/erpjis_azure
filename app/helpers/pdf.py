@@ -15,8 +15,25 @@ class Pdf:
 
         rendered = render_template(template_path, data = data, root = 'http://localhost:5000/')
 
-        pdf = pdfkit.from_string(rendered, options={"enable-local-file-access": ""}, configuration = config)
-
+        pdf = pdfkit.from_string(rendered, options={
+                                                    "enable-local-file-access": "",
+                                                    "quiet": "",
+                                                    "encoding": "UTF-8",
+                                                    "margin-top": "0.25in",
+                                                    "margin-right": "0.25in",
+                                                    "margin-bottom": "0.25in",
+                                                    "margin-left": "0.25in",
+                                                    "no-outline": None,
+                                                    "print-media-type": None,
+                                                    "header-html": None,
+                                                    "footer-html": None,
+                                                    "disable-smart-shrinking": None,
+                                                    "dpi": 300,
+                                                    "page-size": "A4",
+                                                    "font-name": "Arial",
+                                                    "font-size": "12",
+                                                    "color-mode": "color",
+                                                }, configuration=config)
         return pdf
 
     @staticmethod
