@@ -480,7 +480,7 @@ $(document).ready(function () {
         event.preventDefault();
 
         // Verificar si hay campos vacíos o indefinidos
-        var requiredFields = ['folio', 'medical_license_type_id', 'patology_type_id', 'since', 'until'];
+        var requiredFields = ['folio', 'medical_license_type_id', 'patology_type_id', 'since', 'until', 'file'];
         var hasEmptyField = false;
         for (var i = 0; i < requiredFields.length; i++) {
             var field = $('#' + requiredFields[i]);
@@ -512,6 +512,7 @@ $(document).ready(function () {
         formData.append('patology_type_id', $('#patology_type_id').val());
         formData.append('since', $('#since').val());
         formData.append('until', $('#until').val());
+        formData.append('file', $('input[name="file"]')[0].files[0]);
 
         $.ajax({
             url: "/human_resources/medical_license/store/" + $('#rut').val(),
@@ -784,6 +785,8 @@ $(document).ready(function () {
         formData.append('entrance_pention', $('#entrance_pention').val());
         formData.append('health_payment_id', $('#health_payment_id').val());
         formData.append('extra_health_amount', $('#extra_health_amount').val());
+        formData.append('apv_payment_type_id', $('#apv_payment_type_id').val());
+        formData.append('apv_amount', $('#apv_amount').val());
 
         $.ajax({
             url: "/human_resources/contract_data/" + rut,
@@ -1107,7 +1110,7 @@ $(document).ready(function () {
         event.preventDefault();
 
         // Verificar si hay campos vacíos o indefinidos
-        var requiredFields = ['contract_schedule_id', 'extreme_zone_id', 'employee_type_id', 'young_job_status_id', 'be_paid_id', 'disability_id', 'pensioner_id'];
+        var requiredFields = ['extreme_zone_id', 'employee_type_id', 'young_job_status_id', 'be_paid_id', 'disability_id', 'pensioner_id'];
         var hasEmptyField = false;
         for (var i = 0; i < requiredFields.length; i++) {
             var field = $('#' + requiredFields[i]);
@@ -1129,7 +1132,6 @@ $(document).ready(function () {
         var rut =  $('#rut').val()
         
         formData.append('rut', $('#rut').val());
-        formData.append('contract_schedule_id', $('#contract_schedule_id').val());
         formData.append('extreme_zone_id', $('#extreme_zone_id').val());
         formData.append('employee_type_id', $('#employee_type_id').val());
         formData.append('young_job_status_id', $('#young_job_status_id').val()); 

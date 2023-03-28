@@ -37,6 +37,7 @@
                                     <th>Desde</th>
                                     <th>Hasta</th>
                                     <th>Tipo</th>
+                                    <th>Días</th>
                                     <th>Fecha</th>
                                     <th></th>
                                 </tr>
@@ -48,8 +49,9 @@
                                         <td>{{ medical_license['folio'] }}</td>
                                         <td>{{ medical_license['since'] }}</td>
                                         <td>{{ medical_license['until'] }}</td>
-                                        <td>{{ medical_license['medical_license_type'] }}</td>
-                                        <td>{{ medical_license['added_date'] }}</td>
+                                        <td>{{ medical_license['patology_type'] }}</td>
+                                        <td>{{ medical_license['days'] }}</td>
+                                        <td>{{ medical_license['added_date']|datetime("dd-MM-yyyy") }}</td>
                                         <td>
                                             {% if medical_license['status_id'] == 3  %}
                                                 <a href="{{ url_for('medical_licenses.upload', id=medical_license['document_employee_id'], rut=medical_license['rut']) }}" class="btn btn-success">

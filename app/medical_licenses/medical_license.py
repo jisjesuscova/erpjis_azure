@@ -1,4 +1,4 @@
-from app.models.models import MedicalLicenseModel, MedicalLicenseTypeModel, OldMedicalLicenseModel, DocumentEmployeeModel
+from app.models.models import MedicalLicenseModel, MedicalLicenseTypeModel, OldMedicalLicenseModel, DocumentEmployeeModel, PatologyTypeModel
 from app.helpers.helper import Helper
 from sqlalchemy.sql import text
 from app import db
@@ -11,7 +11,8 @@ class MedicalLicense():
             medical_licenses = MedicalLicenseModel.query\
                 .join(MedicalLicenseTypeModel, MedicalLicenseTypeModel.id == MedicalLicenseModel.medical_license_type_id)\
                 .join(DocumentEmployeeModel, DocumentEmployeeModel.id == MedicalLicenseModel.document_employee_id)\
-                .add_columns(DocumentEmployeeModel.status_id, MedicalLicenseModel.document_employee_id, MedicalLicenseTypeModel.medical_license_type, MedicalLicenseModel.id, MedicalLicenseModel.folio,  MedicalLicenseModel.rut, MedicalLicenseModel.since, MedicalLicenseModel.until, MedicalLicenseModel.added_date, MedicalLicenseModel.days)\
+                .join(PatologyTypeModel, PatologyTypeModel.id == MedicalLicenseModel.patology_type_id)\
+                .add_columns(PatologyTypeModel.patology_type, DocumentEmployeeModel.status_id, MedicalLicenseModel.document_employee_id, MedicalLicenseTypeModel.medical_license_type, MedicalLicenseModel.id, MedicalLicenseModel.folio,  MedicalLicenseModel.rut, MedicalLicenseModel.since, MedicalLicenseModel.until, MedicalLicenseModel.added_date, MedicalLicenseModel.days)\
                 .filter(MedicalLicenseModel.rut==rut)\
                 .all()
             
@@ -19,8 +20,9 @@ class MedicalLicense():
         else:
             medical_licenses = MedicalLicenseModel.query\
                 .join(MedicalLicenseTypeModel, MedicalLicenseTypeModel.id == MedicalLicenseModel.medical_license_type_id)\
+                .join(PatologyTypeModel, PatologyTypeModel.id == MedicalLicenseModel.patology_type_id)\
                 .join(DocumentEmployeeModel, DocumentEmployeeModel.id == MedicalLicenseModel.document_employee_id)\
-                .add_columns(DocumentEmployeeModel.status_id, MedicalLicenseModel.document_employee_id, MedicalLicenseTypeModel.medical_license_type, MedicalLicenseModel.id, MedicalLicenseModel.folio,  MedicalLicenseModel.rut, MedicalLicenseModel.since, MedicalLicenseModel.until, MedicalLicenseModel.added_date, MedicalLicenseModel.days)\
+                .add_columns(PatologyTypeModel.patology_type, DocumentEmployeeModel.status_id, MedicalLicenseModel.document_employee_id, MedicalLicenseTypeModel.medical_license_type, MedicalLicenseModel.id, MedicalLicenseModel.folio,  MedicalLicenseModel.rut, MedicalLicenseModel.since, MedicalLicenseModel.until, MedicalLicenseModel.added_date, MedicalLicenseModel.days)\
                 .filter(MedicalLicenseModel.rut==rut)\
                 .group_by(text(fields))\
                 .first()
@@ -31,7 +33,8 @@ class MedicalLicense():
     def get_by_rut(rut):
         medical_licenses = MedicalLicenseModel.query\
                 .join(MedicalLicenseTypeModel, MedicalLicenseTypeModel.id == MedicalLicenseModel.medical_license_type_id)\
-                .add_columns(MedicalLicenseModel.document_employee_id, MedicalLicenseModel.updated_date, MedicalLicenseModel.period, MedicalLicenseModel.patology_type_id, MedicalLicenseTypeModel.medical_license_type, MedicalLicenseModel.medical_license_type_id, MedicalLicenseModel.id, MedicalLicenseModel.folio,  MedicalLicenseModel.rut, MedicalLicenseModel.since, MedicalLicenseModel.until, MedicalLicenseModel.added_date, MedicalLicenseModel.days)\
+                .join(PatologyTypeModel, PatologyTypeModel.id == MedicalLicenseModel.patology_type_id)\
+                .add_columns(PatologyTypeModel.patology_type, MedicalLicenseModel.document_employee_id, MedicalLicenseModel.updated_date, MedicalLicenseModel.period, MedicalLicenseModel.patology_type_id, MedicalLicenseTypeModel.medical_license_type, MedicalLicenseModel.medical_license_type_id, MedicalLicenseModel.id, MedicalLicenseModel.folio,  MedicalLicenseModel.rut, MedicalLicenseModel.since, MedicalLicenseModel.until, MedicalLicenseModel.added_date, MedicalLicenseModel.days)\
                 .filter(MedicalLicenseModel.rut==rut)\
                 .all()
             

@@ -95,6 +95,8 @@ class EmployeeLaborDatum():
                 old_employee_labor_datum.locomotion,
                 old_employee_labor_datum.company_email,
                 old_employee_labor_datum.extra_health_amount,
+                old_employee_labor_datum.apv_payment_type_id,
+                old_employee_labor_datum.apv_amount,
                 old_employee_labor_datum.added_date,
                 old_employee_labor_datum.updated_date
             ]
@@ -132,8 +134,10 @@ class EmployeeLaborDatum():
         employee_labor_data.locomotion = data[21]
         employee_labor_data.company_email = data[22]
         employee_labor_data.extra_health_amount = data[23]
-        employee_labor_data.added_date = data[24]
-        employee_labor_data.updated_date = data[25]
+        employee_labor_data.apv_payment_type_id = data[24]
+        employee_labor_data.apv_amount = data[25]
+        employee_labor_data.added_date = data[26]
+        employee_labor_data.updated_date = data[27]
 
         db.session.add(employee_labor_data)
         db.session.commit()

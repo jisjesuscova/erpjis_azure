@@ -22,9 +22,6 @@ class EmployeeExtraDatum():
 
         count = 0
 
-        if employee_extra_datum.contract_schedule_id == None or employee_extra_datum.contract_schedule_id == '':
-            count = count + 1
-
         if employee_extra_datum.extreme_zone_id == None or employee_extra_datum.extreme_zone_id == '':
             count = count + 1
 
@@ -89,7 +86,6 @@ class EmployeeExtraDatum():
     @staticmethod
     def update(data, rut):
         employee_extra_datum = EmployeeExtraModel.query.filter_by(rut=rut).first()
-        employee_extra_datum.contract_schedule_id = data['contract_schedule_id']
         employee_extra_datum.extreme_zone_id = data['extreme_zone_id']
         employee_extra_datum.employee_type_id = data['employee_type_id']
         employee_extra_datum.young_job_status_id = data['young_job_status_id']
@@ -127,7 +123,6 @@ class EmployeeExtraDatum():
             data = [
                 old_employee_extra_datum.rut,
                 old_employee_extra_datum.visual_rut,
-                old_employee_extra_datum.contract_schedule_id,
                 old_employee_extra_datum.extreme_zone_id,
                 old_employee_extra_datum.employee_type_id,
                 old_employee_extra_datum.young_job_status_id,
@@ -155,21 +150,20 @@ class EmployeeExtraDatum():
         employee_extra_datum = EmployeeExtraModel()
         employee_extra_datum.rut = data[0]
         employee_extra_datum.visual_rut = data[1]
-        employee_extra_datum.contract_schedule_id = data[2]
-        employee_extra_datum.extreme_zone_id = data[3]
-        employee_extra_datum.employee_type_id = data[4]
-        employee_extra_datum.young_job_status_id = data[5]
-        employee_extra_datum.be_paid_id = data[6]
-        employee_extra_datum.suplemental_health_insurance_id = data[7]
-        employee_extra_datum.pention_id = data[8]
-        employee_extra_datum.entrance_pention = data[9]
-        employee_extra_datum.disability_id = data[10]
-        employee_extra_datum.progressive_vacation_status_id = data[11]
-        employee_extra_datum.pensioner_id = data[12]
-        employee_extra_datum.health_id = data[13]
-        employee_extra_datum.entrance_health = data[14]
-        employee_extra_datum.added_date = data[15]
-        employee_extra_datum.updated_date = data[16]
+        employee_extra_datum.extreme_zone_id = data[2]
+        employee_extra_datum.employee_type_id = data[3]
+        employee_extra_datum.young_job_status_id = data[4]
+        employee_extra_datum.be_paid_id = data[5]
+        employee_extra_datum.suplemental_health_insurance_id = data[6]
+        employee_extra_datum.pention_id = data[7]
+        employee_extra_datum.entrance_pention = data[8]
+        employee_extra_datum.disability_id = data[9]
+        employee_extra_datum.progressive_vacation_status_id = data[10]
+        employee_extra_datum.pensioner_id = data[11]
+        employee_extra_datum.health_id = data[12]
+        employee_extra_datum.entrance_health = data[13]
+        employee_extra_datum.added_date = data[14]
+        employee_extra_datum.updated_date = data[15]
 
         db.session.add(employee_extra_datum)
         db.session.commit()

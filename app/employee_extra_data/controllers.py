@@ -58,7 +58,7 @@ def show(rut):
 @employee_extra_datum.route("/human_resources/employee_extra_data/<int:rut>", methods=['POST'])
 @employee_extra_datum.route("/human_resources/employee_extra_data", methods=['POST'])
 def update(rut):
-   status_id = EmployeeExtraModel.update(request.form, rut)
+   status_id = EmployeeExtraDatum.update(request.form, rut)
 
    flash('Se ha actualizado los datos extras con éxito', 'success')
 

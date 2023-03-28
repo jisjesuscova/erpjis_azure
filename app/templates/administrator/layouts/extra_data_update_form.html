@@ -60,9 +60,8 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Subsidio Empleo Jovén</label>
                                         <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="young_job_status_id" name="young_job_status_id">
-                                            <option value="">- Seleccionar -</option>
+                                            <option {% if 2 == employee_extra_datum.young_job_status_id or employee_extra_datum.young_job_status_id == None %} selected {% endif %} value="2">No</option>
                                             <option {% if 1 == employee_extra_datum.young_job_status_id %} selected {% endif %} value="1">Si</option>
-                                            <option {% if 2 == employee_extra_datum.young_job_status_id %} selected {% endif %} value="2">No</option>
                                         </select>
                                     </div>
                                 </div>
@@ -106,7 +105,7 @@
                                 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">¿Tiene seguro complementario?</label>
+                                        <label for="exampleInputEmail1">¿Tiene seguro complementario? <font class="example_input_form">Ejemplo: Metlife.</font></label>
                                         <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="suplemental_health_insurance_id" name="suplemental_health_insurance_id">
                                             <option value="">- Seleccionar -</option>
                                             <option {% if 1 == employee_extra_datum.suplemental_health_insurance_id %} selected {% endif %} value="1">Si</option>
@@ -116,7 +115,13 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Vacaciones Progresivas</label>
+                                        <label for="exampleInputEmail1">
+                                            Vacaciones Progresivas
+                                            &nbsp;
+                                            <button type="button" class="btn btn-warning help-button" data-toggle="tooltip" data-placement="top" title="Ingrese SI siempre y cuando exista certificado de vacaciones progresivas">
+                                                <i class="fa-solid fa-question"></i>
+                                            </button>
+                                        </label>
                                         <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="progressive_vacation_status_id" id="progressive_vacation_status_id">
                                             <option value="">- Seleccionar -</option>
                                             <option {% if 1 == employee_extra_datum.progressive_vacation_status_id %} selected {% endif %} value="1">Si</option>

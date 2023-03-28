@@ -372,6 +372,8 @@ class EmployeeLaborDatumModel(db.Model):
     locomotion = db.Column(db.Integer)
     company_email = db.Column(db.String(255))
     extra_health_amount = db.Column(db.String(255))
+    apv_payment_type_id = db.Column(db.Integer)
+    apv_amount = db.Column(db.String(255))
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
@@ -405,6 +407,8 @@ class OldEmployeeLaborDatumModel(db.Model):
     extra_health_amount = db.Column(db.String(255))
     locomotion = db.Column(db.Integer)
     company_email = db.Column(db.String(255))
+    apv_payment_type_id = db.Column(db.Integer)
+    apv_amount = db.Column(db.String(255))
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
@@ -933,7 +937,6 @@ class EmployeeExtraModel(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     rut = db.Column(db.Integer)
     visual_rut = db.Column(db.String(20))
-    contract_schedule_id = db.Column(db.Integer)
     extreme_zone_id = db.Column(db.Integer)
     employee_type_id = db.Column(db.Integer)
     young_job_status_id = db.Column(db.Integer)
@@ -953,7 +956,6 @@ class OldEmployeeExtraModel(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     rut = db.Column(db.Integer)
     visual_rut = db.Column(db.String(20))
-    contract_schedule_id = db.Column(db.Integer)
     extreme_zone_id = db.Column(db.Integer)
     employee_type_id = db.Column(db.Integer)
     young_job_status_id = db.Column(db.Integer)

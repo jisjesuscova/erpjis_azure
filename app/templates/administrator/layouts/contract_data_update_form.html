@@ -202,6 +202,22 @@
                                         <input type="date" value="{{ contract_datum.entrance_pention }}" value="00-00-0000" class="form-control" id="entrance_pention" placeholder="Fecha Entrada AFP" name="entrance_pention">
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Tipo de Pago APV</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="apv_payment_type_id" name="apv_payment_type_id">
+                                            <option {% if 3 == contract_datum.apv_payment_type_id %} selected {% endif %} value="3">Ninguno</option>
+                                            <option {% if 1 == contract_datum.apv_payment_type_id %} selected {% endif %} value="1">$</option>
+                                            <option {% if 2 == contract_datum.apv_payment_type_id %} selected {% endif %} value="2">UF</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Monto de la APV</label>
+                                        <input type="text" value="{{ contract_datum.apv_amount }}" class="form-control" id="apv_amount" placeholder="Monto de la APV" name="apv_amount">
+                                    </div>
+                                </div>
                             </div>
                             <div class="row" id="health_company">
                                 <div class="col-md-12">

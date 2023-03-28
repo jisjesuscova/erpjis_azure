@@ -54,7 +54,10 @@ class OldEmployeeLaborDatum():
                 employee_labor_datum.added_date,
                 employee_labor_datum.updated_date,
                 employee_labor_datum.health_payment_id,
-                employee_labor_datum.extra_health_amount
+                employee_labor_datum.extra_health_amount,
+                employee_labor_datum.apv_payment_type_id,
+                employee_labor_datum.apv_amount
+
             ]
 
             OldEmployeeLaborDatum.store(data)
@@ -93,6 +96,8 @@ class OldEmployeeLaborDatum():
         old_employee_labor_data.updated_date = data[24]
         old_employee_labor_data.health_payment_id = data[25]
         old_employee_labor_data.extra_health_amount = data[26]
+        old_employee_labor_data.apv_payment_type_id = data[27]
+        old_employee_labor_data.apv_amount = data[28]
 
         db.session.add(old_employee_labor_data)
         db.session.commit()

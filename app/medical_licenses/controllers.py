@@ -89,6 +89,9 @@ def store(rut):
 
    status_id = MedicalLicense.store(id, request.form)
 
+   support = Dropbox.upload(rut, '_licecia_medica', request.files, "/medical_licenses/", "app/static/dist/files/medical_license_data/")
+   status_id = MedicalLicense.upload(id, support)
+
    flash('La licencia médica ha sido cargada con éxito.', 'success')
 
    if status_id == 1:
