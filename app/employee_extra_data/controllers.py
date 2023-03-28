@@ -62,7 +62,7 @@ def update(rut):
 
    flash('Se ha actualizado los datos extras con éxito', 'success')
 
-   if status_id == '1':
+   if status_id == 1:
       return '1'
    else:
-      return str(rut)
+      return '0'

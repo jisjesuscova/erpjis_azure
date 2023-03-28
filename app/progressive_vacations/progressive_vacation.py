@@ -70,6 +70,8 @@ class ProgressiveVacation():
         employee_extra_data = EmployeeExtraDatum.get(rut)
 
         if employee_extra_data != None:
+            print(employee_extra_data.progressive_vacation_date)
+            print(date.today())
             months = Helper.months(employee_extra_data.progressive_vacation_date, date.today())
             progressive_vacation_days = Helper.progressive_vacation_days(months)
 
