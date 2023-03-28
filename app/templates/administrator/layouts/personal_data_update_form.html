@@ -23,11 +23,6 @@
                                 {% endfor %}
                             {% endif %}
                         {% endwith %}
-                        {% if empty_field_status_id == 0 %}
-                            <div class="alert alert-danger alert-danger-404-form" role="alert">
-                                Debe rellenar los campos del formulario. Tiene más de (4) cuatro campos vacios.
-                            </div>
-                        {% endif %}
                         <div class="alert alert-danger alert-danger-form" style="display:none;" role="alert">
                             Todos los campos del formulario son <strong>obligatorios</strong>.
                         </div>
@@ -149,9 +144,7 @@
                                         <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
                                     </div>
                                     <div class="col-md-6 text-right">
-                                        {% if empty_field_status_id == 1 %}
-                                            <a href="{{ url_for('contract_data.show', rut=rut) }}" class="btn btn-primary">Ir a Datos de Contrato</a>
-                                        {% endif %}
+                                        <a href="{{ url_for('contract_data.show', rut=rut) }}" class="btn btn-primary">Ir a Datos de Contrato</a>
                                     </div>
                                 </div>
                             </div>
