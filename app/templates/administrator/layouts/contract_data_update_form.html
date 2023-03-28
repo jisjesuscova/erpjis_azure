@@ -98,8 +98,13 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Fecha de Entrada a la Salud</label>
-                                        <input type="date" value="{{ contract_datum.entrance_health }}" class="form-control" id="entrance_health" placeholder="Entrada a la Salud" name="entrance_health">
+                                        <label for="exampleInputEmail1">Tipo de Jornada</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="employee_type_id" name="employee_type_id">
+                                             <option value="">- Seleccionar -</option>
+                                            {% for employee_type in employee_types %}
+                                                <option {% if employee_type.id == contract_datum.employee_type_id %} selected {% endif %} value="{{ employee_type.id }}">{{ employee_type.employee_type }}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -138,7 +143,7 @@
                                         <label for="exampleInputEmail1">Colación</label>
                                         <input type="text" value="{{ contract_datum.collation }}" class="form-control money_value" id="collation" placeholder="Colación" name="collation">
                                     </div>
-                                    </div>
+                                </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Movilización</label>
@@ -147,17 +152,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Tipo de Jornada</label>
-                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="employee_type_id" name="employee_type_id">
-                                             <option value="">- Seleccionar -</option>
-                                            {% for employee_type in employee_types %}
-                                                <option {% if employee_type.id == contract_datum.employee_type_id %} selected {% endif %} value="{{ employee_type.id }}">{{ employee_type.employee_type }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
+                                
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Regimen Previsional</label>
@@ -180,6 +175,7 @@
                                         </select>
                                     </div>
                                 </div>
+                                
                             </div>
                             <div class="row" id="regime_afp">
                                 <div class="col-md-12">
@@ -223,7 +219,13 @@
                                 <div class="col-md-12">
                                     <hr>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Fecha de Entrada a la Salud</label>
+                                        <input type="date" value="{{ contract_datum.entrance_health }}" class="form-control" id="entrance_health" placeholder="Entrada a la Salud" name="entrance_health">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Tipo de Pago de Salud</label>
                                         <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="health_payment_id" name="health_payment_id">
@@ -234,7 +236,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Monto Extra Salud</label>
                                         <input type="text" value="{{ contract_datum.extra_health_amount }}" class="form-control" id="extra_health_amount" placeholder="Monto Extra Salud" name="extra_health_amount">

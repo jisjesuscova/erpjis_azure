@@ -127,6 +127,8 @@ class ContractDatum():
         employee_labor_data.locomotion = Helper.remove_from_string('.', data['locomotion'])
         employee_labor_data.health_payment_id = data['health_payment_id']
         employee_labor_data.extra_health_amount = data['extra_health_amount']
+        employee_labor_data.apv_payment_type_id = data['apv_payment_type_id']
+        employee_labor_data.apv_amount = data['apv_amount']
         employee_labor_data.updated_date = datetime.now()
 
         db.session.add(employee_labor_data)
