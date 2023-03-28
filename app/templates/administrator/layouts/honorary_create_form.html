@@ -23,10 +23,9 @@
                                         <label for="exampleInputEmail1">Motivo</label>
                                         <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="reason_id" style="width: 100%;" name="reason_id">
                                             <option value="">- Seleccionar -</option>
-                                            <option value="1">Apoyo</option>
-                                            <option value="2">Licencia</option>
-                                            <option value="3">Reemplazo</option>
-                                            <option value="4">Vacaciones</option>
+                                            {% for honorary_reason in honorary_reasons %}
+                                                <option  value="{{ honorary_reason.id }}">{{ honorary_reason.reason }}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
                                 </div>
