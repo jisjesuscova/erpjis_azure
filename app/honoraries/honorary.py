@@ -17,58 +17,10 @@ class Honorary():
         
         return honoraries
 
-    @staticmethod
-    def get_by_major(rut = '', id = '', status_id = '', limit = ''):
-        if limit == '':
-            if rut != '':
-                vacations = VacationModel.query\
-                        .join(DocumentEmployeeModel, DocumentEmployeeModel.id == VacationModel.document_employee_id)\
-                        .add_columns(VacationModel.no_valid_days, VacationModel.document_employee_id, VacationModel.id, VacationModel.rut, VacationModel.since, VacationModel.until, VacationModel.days, DocumentEmployeeModel.status_id, VacationModel.document_employee_id).filter(DocumentEmployeeModel.rut==rut, DocumentEmployeeModel.document_type_id==6, DocumentEmployeeModel.status_id > status_id).order_by(db.desc(DocumentEmployeeModel.added_date))
-
-                return vacations
-            else:
-                vacation = VacationModel.query.filter_by(id=id).first()
-
-                return vacation
-        else:
-            vacations = VacationModel.query\
-                        .join(DocumentEmployeeModel, DocumentEmployeeModel.id == VacationModel.document_employee_id)\
-                        .add_columns(VacationModel.no_valid_days, VacationModel.document_employee_id, VacationModel.id, VacationModel.rut, VacationModel.since, VacationModel.until, VacationModel.days, DocumentEmployeeModel.status_id, VacationModel.document_employee_id).filter(DocumentEmployeeModel.rut==rut, DocumentEmployeeModel.document_type_id==6, DocumentEmployeeModel.status_id > status_id).order_by(db.desc(DocumentEmployeeModel.added_date)).limit(limit)
-
-            return vacations
-
-    @staticmethod
-    def get_total(rut = '', status_id = ''):
-        vacation_count = VacationModel.query\
-                        .join(DocumentEmployeeModel, DocumentEmployeeModel.id == VacationModel.document_employee_id)\
-                        .add_columns(VacationModel.document_employee_id, VacationModel.id, VacationModel.rut, VacationModel.since, VacationModel.until, VacationModel.days, DocumentEmployeeModel.status_id, VacationModel.document_employee_id).filter(DocumentEmployeeModel.rut==rut, DocumentEmployeeModel.document_type_id==6, DocumentEmployeeModel.status_id > status_id).order_by(db.desc(DocumentEmployeeModel.added_date))
-
-        count = vacation_count.count()
-
-        if count >= 1:
-            vacations = VacationModel.query\
-                    .join(DocumentEmployeeModel, DocumentEmployeeModel.id == VacationModel.document_employee_id)\
-                    .add_columns(VacationModel.rut, func.sum(VacationModel.days).label('total_days'))\
-                    .filter(DocumentEmployeeModel.rut==rut, DocumentEmployeeModel.document_type_id==6, DocumentEmployeeModel.status_id > status_id)\
-                    .group_by(VacationModel.rut)\
-                    .order_by(db.desc(DocumentEmployeeModel.added_date)).limit(1)
-
-            return vacations
-        else:
-            return vacations
-
-    @staticmethod
-    def get_by_document(id):
-
-        vacation = VacationModel.query.filter_by(document_employee_id=id).first()
-
-        return vacation
         
     @staticmethod
     def store(data, document_employee_id):
-        days = Helper.days(data['since'], data['until'], data['no_valid_days'])
-
-        vacation = VacationModel()
+        honorary = HonoraryModel()
         vacation.document_employee_id = document_employee_id
         vacation.rut = data['rut']
         vacation.since = data['since']

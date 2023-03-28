@@ -37,3 +37,14 @@ def create():
    module_name = "Recursos Humanos"
 
    return render_template('administrator/human_resources/honoraries/honoraries_create.html', title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
+
+
+@honorary.route("/human_resources/honorary/store", methods=['POST'])
+def store():
+   status_id = Honorary.store(request.form)
+
+   if status_id == 1:
+      return '1'
+   else:
+      return '0'
+

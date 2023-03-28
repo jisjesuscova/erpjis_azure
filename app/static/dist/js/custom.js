@@ -250,6 +250,85 @@ $(document).ready(function () {
         });
     });
 
+    $('.create-honorary-btn').click(function(event) {
+        event.preventDefault();
+
+        // Verificar si hay campos vacíos o indefinidos
+        var requiredFields = ['reason_id', 'branch_office_id', 'start_date', 'end_date', 'rut', 'full_name', 'email', 'region_id', 'commune_id', 'address', 'foreigner_id', 'bank_id', 'account_number', 'schedule_id', 'observation'];
+        var hasEmptyField = false;
+        for (var i = 0; i < requiredFields.length; i++) {
+            var field = $('#' + requiredFields[i]);
+            if (field.val() === '' || typeof field.val() === 'undefined') {
+                hasEmptyField = true;
+                break;
+            }
+        }
+
+        if (hasEmptyField) {
+            $('.alert-danger-form').show();
+            return;
+        }
+
+        $('span#loading-icon').show();
+        $('.create-honorary-btn').hide();
+        
+        var formData = new FormData();
+        var rut =  $('#rut').val()
+
+        rut = rut.split('-')
+        rut = rut[0]
+        
+        formData.append('reason_id', $('#reason_id').val());
+        formData.append('branch_office_id', $('#branch_office_id').val());
+        formData.append('employee_to_replace', $('#employee_to_replace').val());
+        formData.append('start_date', $('#start_date').val());
+        formData.append('end_date', $('#end_date').val()); 
+        formData.append('rut', $('#rut').val());
+        formData.append('full_name', $('#full_name').val());
+        formData.append('email', $('#email').val());
+        formData.append('region_id', $('#region_id').val());
+        formData.append('commune_id', $('#commune_id').val());
+        formData.append('address', $('#address').val());
+        formData.append('foreigner_id', $('#foreigner_id').val());
+        formData.append('bank_id', $('#bank_id').val());
+        formData.append('account_number', $('#account_number').val());
+        formData.append('schedule_id', $('#schedule_id').val());
+        formData.append('observation', $('#observation').val());
+
+        $.ajax({
+            url: "/human_resources/honorary/store",
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response == 1) {
+                    window.location.replace("https://jiserp.com/human_resources/honorary");
+                } else {
+                    $('.alert-danger-404-form').show();
+                    $('.alert-danger-cellphone-form').hide();
+                    $('.alert-danger-form').hide();
+                    $('.alert-danger-rut-exist-form').hide();
+                    $('.alert-danger-cellphone-exist-form').hide();
+                    $('span#loading-icon').hide();
+                    $('.create-honorary-btn').show();
+                }
+            },
+            error: function() {
+                $('.alert-danger-404-form').show();
+                $('.alert-danger-cellphone-form').hide();
+                $('.alert-danger-form').hide();
+                $('.alert-danger-rut-exist-form').hide();
+                $('.alert-danger-cellphone-exist-form').hide();
+                $('span#loading-icon').hide();
+                $('.create-honorary-btn').show();
+            }
+        });
+    });
+
     $('.update-user-btn').click(function(event) {
         event.preventDefault();
 
