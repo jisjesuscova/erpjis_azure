@@ -8,6 +8,10 @@
                             Nucleo Familiar
                             <a href="{{ url_for('family_core_data.create', rut=rut) }}" class="btn btn-success">Agregar</a>
                         </h3>
+
+                        <div class="text-right">
+                            <a href="{{ url_for('kardex_data.index', rut=rut) }}" class="btn btn-primary">Ir a Kardex</a> 
+                        </div>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
