@@ -95,8 +95,6 @@ class EmployeeExtraDatum():
         employee_extra_datum.progressive_vacation_status_id = data['progressive_vacation_status_id']
         employee_extra_datum.progressive_vacation_date = data['progressive_vacation_date']
         employee_extra_datum.pensioner_id = data['pensioner_id']
-        db.session.add(employee_extra_datum)
-        db.session.commit()
 
         db.session.add(employee_extra_datum)
         
