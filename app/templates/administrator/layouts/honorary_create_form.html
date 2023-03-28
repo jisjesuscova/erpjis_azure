@@ -15,7 +15,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Motivo</label>
-                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="reason" style="width: 100%;" name="reason">
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="reason_id" style="width: 100%;" name="reason_id">
                                             <option value="">- Seleccionar -</option>
                                             <option value="1">Apoyo</option>
                                             <option value="2">Licencia</option>
@@ -37,18 +37,12 @@
                                 </div>
                             </div>
                             <div class="row" id="replacement_honorary">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Colaborador a Sustituir</label>
                                         <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="reason" style="width: 100%;" name="reason">
                                             <option value="">- Seleccionar -</option>
                                         </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Inicio</label>
-                                        <input type="date" class="form-control" id="start_date" name="start_date">
                                     </div>
                                 </div>
                             </div>
@@ -77,7 +71,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Nombre Completo</label>
-                                        <input type="text" value="" id="full_name" class="form-control rut" placeholder="Nombre Completo" name="full_name">
+                                        <input type="text" value="" id="full_name" class="form-control" placeholder="Nombre Completo" name="full_name">
                                     </div>
                                 </div>
                             </div>
@@ -90,8 +84,81 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Nombre Completo</label>
-                                        <input type="text" value="" id="full_name" class="form-control rut" placeholder="Nombre Completo" name="full_name">
+                                        <label for="exampleInputEmail1">Region</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="region_id" name="region_id">
+                                            <option value="">- Seleccionar -</option>
+                                            {% for region in regions %}
+                                                <option value="{{ region.id }}">{{ region.region }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Comuna</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="commune_id" name="commune_id">
+                                            <option value="">- Seleccionar -</option>
+                                            {% for commune in communes %}
+                                                <option value="{{ commune.id }}">{{ commune.commune }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Dirección</label>
+                                        <input type="text" value="" id="address" class="form-control" placeholder="Dirección" name="address">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">¿Tiene RUT el trabajador?</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="foreigner_id" name="foreigner_id">
+                                            <option value="">- Seleccionar -</option>
+                                            <option value="1">Si</option>
+                                            <option value="2">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Bancos</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="commune_id" name="commune_id">
+                                            <option value="">- Seleccionar -</option>
+                                            {% for bank in banks %}
+                                                <option value="{{ bank.id }}">{{ bank.bank }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">N° de Cuenta</label>
+                                        <input type="text" value="" id="address" class="form-control" placeholder="N° de Cuenta" name="address">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Tipo de Honorario</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="foreigner_id" name="foreigner_id">
+                                            <option value="">- Seleccionar -</option>
+                                            <option value="1">Full-Time</option>
+                                            <option value="2">Part-Time</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Observación</label>
+                                        <input type="text" value="" id="address" class="form-control" placeholder="Observación" name="address">
                                     </div>
                                 </div>
                             </div>

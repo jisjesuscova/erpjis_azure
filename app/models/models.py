@@ -95,6 +95,7 @@ class HonoraryModel(db.Model):
     __tablename__ = 'honoraries'
 
     id = db.Column(db.Integer, primary_key=True)
+    reason_id = db.Column(db.Integer)
     branch_office_id = db.Column(db.Integer)
     foreigner_id = db.Column(db.Integer)
     bank_id = db.Column(db.Integer)
@@ -104,7 +105,6 @@ class HonoraryModel(db.Model):
     requested_by = db.Column(db.Integer)
     employee_to_replace = db.Column(db.Integer)
     rut = db.Column(db.Integer)
-    reason = db.Column(db.String(255))
     full_name = db.Column(db.String(255))
     email = db.Column(db.String(255))
     address = db.Column(db.String(255))
@@ -114,7 +114,6 @@ class HonoraryModel(db.Model):
     days = db.Column(db.Integer)
     amount = db.Column(db.Integer)
     observation = db.Column(db.String(255))
-    period = db.Column(db.String(255))
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 

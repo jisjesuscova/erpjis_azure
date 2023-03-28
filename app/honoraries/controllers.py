@@ -4,6 +4,8 @@ from app import app, regular_employee_rol_need
 from app.employees.employee import Employee
 from app.branch_offices.branch_office import BranchOffice
 from app.honoraries.honorary import Honorary
+from app.region.region import Region
+from app.banks.bank import Bank
 
 honorary = Blueprint("honoraries", __name__)
 
@@ -26,6 +28,12 @@ def index(page=1):
 
 @honorary.route("/human_resources/honorary/create", methods=['GET'])
 def create():
+   regions = Region.get()
+   banks = Bank.get()
    branch_offices = BranchOffice.get()
 
-   return render_template('administrator/human_resources/honoraries/honoraries_create.html', branch_offices = branch_offices)
+   title = "Crear Honorario"
+
+   module_name = "Recursos Humanos"
+
+   return render_template('administrator/human_resources/honoraries/honoraries_create.html', title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
