@@ -87,18 +87,4 @@ def download(id, rut):
 
 @kardex_datum.route("/human_resources/kardex_datum/store", methods=['POST'])
 def store():
-   document_type = DocumentType.get(request.form['document_type_id'])
-
-   file_name = "_" + document_type.document_type + "_kardex"
-
-   support = Dropbox.upload(request.form['rut'], file_name, request.files, "/employee_documents/", "app/static/dist/files/kardex_data/", 0)
-   
-   if support != 0:
-      status_id = KardexDatum.store(request.form, support)
-
-   flash('El documento se ha guardado con éxito', 'success')
-
-   if status_id == 1:
       return '1'
-   else:
-      return '0'

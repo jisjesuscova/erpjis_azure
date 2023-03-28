@@ -120,7 +120,13 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Fecha de Entrada</label>
+                                        <label for="exampleInputEmail1">
+                                            Fecha de Contrato
+                                            &nbsp;
+                                            <button type="button" class="btn btn-warning help-button" data-toggle="tooltip" data-placement="top" title="Fecha de inicio del contrato de trabajo">
+                                                <i class="fa-solid fa-question"></i>
+                                            </button>
+                                        </label>
                                         <input type="date" value="{{ contract_datum.entrance_company }}" class="form-control" id="entrance_company" placeholder="Fecha de Entrada" name="entrance_company">
                                     </div>
                                 </div>
@@ -148,7 +154,7 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Tipo de Empleado</label>
+                                        <label for="exampleInputEmail1">Tipo de Jornada</label>
                                         <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="employee_type_id" name="employee_type_id">
                                              <option value="">- Seleccionar -</option>
                                             {% for employee_type in employee_types %}

@@ -41,17 +41,6 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Tipo de Contrato</label>
-                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="contract_schedule_id" style="width: 100%;" name="contract_schedule_id">
-                                            <option value="">- Seleccionar -</option>
-                                            {% for contract_schedule in contract_schedules %}
-                                                <option {% if contract_schedule.id == employee_extra_datum.contract_schedule_id %} selected {% endif %} value="{{ contract_schedule.id }}">{{ contract_schedule.contract_schedule }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
                                         <label for="exampleInputEmail1">Zona Extrema</label>
                                         <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="extreme_zone_id" name="extreme_zone_id">
                                             <option value="">- Seleccionar -</option>
@@ -72,9 +61,6 @@
                                         </select>
                                     </div>
                                 </div>
-                                    
-                            </div>
-                            <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Subsidio Empleo Jovén</label>
@@ -85,6 +71,9 @@
                                         </select>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
+                                
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Goce de Sueldo</label>
@@ -107,8 +96,6 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Aporte SIS (mayor de 65 años o pensionado total)</label>
@@ -119,6 +106,9 @@
                                         </select>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
+                                
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">¿Tiene seguro complementario?</label>
@@ -139,9 +129,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row" id="progressive_vacation_date">
-                                <div class="col-md-4">
+                                <div class="col-md-4" id="progressive_vacation_date">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Fecha de Vacaciones Progresivas</label>
                                         <input type="date" value="{{ employee_extra_datum.progressive_vacation_date }}" class="form-control" id="progressive_vacation_date_value" placeholder="Fecha de Vacaciones Progresivas" name="progressive_vacation_date">

@@ -181,7 +181,7 @@ class Helper:
     @staticmethod
     def days(since, until, no_valid_entered_days):
         dias_laborables = pd.bdate_range(since, until).size
-        dias_laborables = int(dias_laborables) - int(no_valid_entered_days) + 1
+        dias_laborables = int(dias_laborables) - int(no_valid_entered_days)
         return dias_laborables
     
     @staticmethod

@@ -81,6 +81,43 @@ class PreEmployeeTurnModel(db.Model):
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
+
+class BankModel(db.Model):
+    __tablename__ = 'banks'
+
+    id = db.Column(db.Integer, primary_key=True)
+    visibility_id = db.Column(db.Integer)
+    bank = db.Column(db.String(255))
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
+class HonoraryModel(db.Model):
+    __tablename__ = 'honoraries'
+
+    id = db.Column(db.Integer, primary_key=True)
+    branch_office_id = db.Column(db.Integer)
+    foreigner_id = db.Column(db.Integer)
+    bank_id = db.Column(db.Integer)
+    schedule_id = db.Column(db.Integer)
+    region_id = db.Column(db.Integer)
+    commune_id = db.Column(db.Integer)
+    requested_by = db.Column(db.Integer)
+    employee_to_replace = db.Column(db.Integer)
+    rut = db.Column(db.Integer)
+    reason = db.Column(db.String(255))
+    full_name = db.Column(db.String(255))
+    email = db.Column(db.String(255))
+    address = db.Column(db.String(255))
+    account_number = db.Column(db.String(255))
+    start_date = db.Column(db.Date())
+    end_date = db.Column(db.Date())
+    days = db.Column(db.Integer)
+    amount = db.Column(db.Integer)
+    observation = db.Column(db.String(255))
+    period = db.Column(db.String(255))
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
 class MeshDatumModel(db.Model):
     __tablename__ = 'mesh_data'
 

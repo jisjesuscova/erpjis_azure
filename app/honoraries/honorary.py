@@ -1,4 +1,4 @@
-from app.models.models import VacationModel, EmployeeLaborDatumModel, DocumentEmployeeModel, OldVacationModel, OldDocumentEmployeeModel
+from app.models.models import HonoraryModel, BankModel, BranchOfficeModel, RegionModel, CommunesModel, EmployeeModel
 from app.helpers.helper import Helper
 from app import db
 from datetime import datetime, date
@@ -6,22 +6,16 @@ from sqlalchemy import func
 
 class Honorary():
     @staticmethod
-    def get(rut = '', id = '', status_id = []):
-        if rut != '':
-            if len(status_id) > 0:
-                vacations = VacationModel.query\
-                    .join(DocumentEmployeeModel, DocumentEmployeeModel.id == VacationModel.document_employee_id)\
-                    .add_columns(VacationModel.no_valid_days, VacationModel.document_employee_id, VacationModel.id, VacationModel.rut, VacationModel.since, VacationModel.until, VacationModel.days, DocumentEmployeeModel.status_id, VacationModel.document_employee_id).filter(DocumentEmployeeModel.rut==rut, DocumentEmployeeModel.document_type_id==6, DocumentEmployeeModel.status_id.in_(status_id)).order_by(db.desc(DocumentEmployeeModel.added_date))
-            else:
-                vacations = VacationModel.query\
-                    .join(DocumentEmployeeModel, DocumentEmployeeModel.id == VacationModel.document_employee_id)\
-                    .add_columns(VacationModel.no_valid_days, VacationModel.document_employee_id, VacationModel.id, VacationModel.rut, VacationModel.since, VacationModel.until, VacationModel.days, VacationModel.no_valid_days, VacationModel.added_date, VacationModel.updated_date, VacationModel.support, DocumentEmployeeModel.status_id).filter(DocumentEmployeeModel.rut==rut, DocumentEmployeeModel.document_type_id==6).order_by(db.desc(DocumentEmployeeModel.added_date))
-
-            return vacations
-        else:
-            vacation = VacationModel.query.filter_by(id=id).first()
-
-            return vacation
+    def get(page):
+        honoraries = HonoraryModel.query\
+                    .join(BankModel, BankModel.id == HonoraryModel.bank_id)\
+                    .join(BranchOfficeModel, BranchOfficeModel.id == HonoraryModel.branch_office_id)\
+                    .join(RegionModel, RegionModel.id == HonoraryModel.region_id)\
+                    .join(CommunesModel, CommunesModel.id == HonoraryModel.commune_id)\
+                    .join(EmployeeModel, EmployeeModel.rut == HonoraryModel.requested_by)\
+                    .add_columns(HonoraryModel.rut, HonoraryModel.full_name, EmployeeModel.nickname, HonoraryModel.reason, HonoraryModel.added_date).paginate(page=page, per_page=10, error_out=False)
+        
+        return honoraries
 
     @staticmethod
     def get_by_major(rut = '', id = '', status_id = '', limit = ''):
