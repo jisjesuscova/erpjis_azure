@@ -91,6 +91,14 @@ def store():
 
    file_name = "_" + document_type.document_type + "_kardex"
 
+   support = Dropbox.upload(request.form['rut'], file_name, request.files, "/employee_documents/", "app/static/dist/files/kardex_data/", 0)
+   
+   if support != 0:
+      status_id = KardexDatum.store(request.form, support)
+
    flash('El documento se ha guardado con éxito', 'success')
 
-   return '1'
+   if status_id == 1:
+      return '1'
+   else:
+      return '0'
