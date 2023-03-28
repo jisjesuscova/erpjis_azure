@@ -101,9 +101,9 @@ class EmployeeExtraDatum():
         try:
             db.session.commit()
 
-            return employee_extra_datum
+            return 1
         except Exception as e:
-            return employee_extra_datum
+            return 0
 
     @staticmethod
     def old_data_get_by_rut(rut = '', order_id = ''):

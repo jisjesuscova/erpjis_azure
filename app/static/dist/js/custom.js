@@ -1152,7 +1152,7 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             success: function(response) {
-                alert(response)
+                console.log(response)
                 if (response == 1) {
                     window.location.replace("https://jiserp.com/human_resources/employee_extra_data/"+rut);
                 } else {
