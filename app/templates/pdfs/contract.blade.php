@@ -14,14 +14,14 @@
 
     </head>
     <body style="width:100%; font-size: 12px;">
-        <table class="table table-bordered" style="width:100%;">
+        <table class="table table-bordered" style="width:100%; font-family: Arial, Helvetica, sans-serif;">
             <thead>
                 <tr>
                     <img style="width: 80px;" src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('backend/img/logo.png'))) }}"> 
                 </tr>
             </thead>
         </table>
-        <table class="table table-bordered" style="width:100%;">
+        <table class="table table-bordered" style="width:100%; font-family: Arial, Helvetica, sans-serif;">
             <thead>
                 <tr>
                     <td><h3><center> CONTRATO INDIVIDUAL DE TRABAJO</center></h3></td>   
@@ -32,7 +32,7 @@
         <table class="table" style="width:100%;">
             <tbody>
                 <tr>
-                    <td style="text-align: justify;">
+                    <td style="text-align: justify; font-family: Arial, Helvetica, sans-serif;">
                         En Estación Central, Santiago, <strong>{{ $entrance_company }}</strong>, entre <strong>JIS Parking SPA.</strong>, sociedad del giro 
                         administración de estacionamientos y parquímetros, Rol Único Tributario <strong>76063822-6</strong>, representada por don 
                         <strong>MARCELO ALEJANDRO INZUNZA GONZÁLEZ</strong> cédula de identidad número  <strong>10.033.741-K</strong>, en adelante “EMPLEADOR”, 

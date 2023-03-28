@@ -72,8 +72,7 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Goce de Sueldo</label>
                                         <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="be_paid_id" name="be_paid_id">
-                                            <option value="">- Seleccionar -</option>
-                                            <option {% if 1 == employee_extra_datum.be_paid_id %} selected {% endif %} value="1">Si</option>
+                                            <option {% if 1 == employee_extra_datum.be_paid_id or employee_extra_datum.be_paid_id == None %} selected {% endif %} value="1">Si</option>
                                             <option {% if 2 == employee_extra_datum.be_paid_id %} selected {% endif %} value="2">No</option>
                                         </select>
                                     </div>
