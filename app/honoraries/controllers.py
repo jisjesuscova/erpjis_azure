@@ -6,6 +6,8 @@ from app.branch_offices.branch_office import BranchOffice
 from app.honoraries.honorary import Honorary
 from app.region.region import Region
 from app.banks.bank import Bank
+from app.communes.commune import Commune
+from app.honorary_reasons.honorary_reason import HonoraryReason
 
 honorary = Blueprint("honoraries", __name__)
 
@@ -18,7 +20,7 @@ def constructor():
 @honorary.route("/human_resources/honoraries/<int:page>", methods=['GET'])
 @honorary.route("/human_resources/honoraries", methods=['GET'])
 def index(page=1):
-   honoraries = Honorary.get(page)
+   honoraries = Honorary.get('', page)
 
    title = "Honorarios"
 
@@ -31,12 +33,13 @@ def create():
    regions = Region.get()
    banks = Bank.get()
    branch_offices = BranchOffice.get()
+   honorary_reasons = HonoraryReason.get()
 
    title = "Crear Honorario"
 
    module_name = "Recursos Humanos"
 
-   return render_template('administrator/human_resources/honoraries/honoraries_create.html', title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
+   return render_template('administrator/human_resources/honoraries/honoraries_create.html', honorary_reasons = honorary_reasons, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
 
 
 @honorary.route("/human_resources/honorary/store", methods=['POST'])
@@ -48,17 +51,24 @@ def store():
    else:
       return '0'
 
-@honorary.route("/human_resources/honorary/show/<int:id>", methods=['GET'])
-def show(id):
-   honorary = Honorary.get(id)
+@honorary.route("/human_resources/honorary/edit/<int:id>", methods=['GET'])
+def edit(id):
+   honorary = Honorary.get(id, '')
    regions = Region.get()
    banks = Bank.get()
+   communes = Commune.get()
    branch_offices = BranchOffice.get()
+   honorary_reasons = HonoraryReason.get()
 
    title = "Revisar Honorario"
 
    module_name = "Recursos Humanos"
 
-   return render_template('administrator/human_resources/honoraries/honoraries_update.html', honorary = honorary, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
+   return render_template('administrator/human_resources/honoraries/honoraries_update.html', honorary_reasons = honorary_reasons, communes = communes, honorary = honorary, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
 
+@honorary.route("/human_resources/honorary/delete/<int:id>", methods=['GET'])
+def delete(id):
+   Honorary.delete(id)
+   flash('Se ha borrado el honorario con éxito.', 'success')
 
+   return redirect(url_for('honoraries.index'))

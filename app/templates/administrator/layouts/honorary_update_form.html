@@ -24,7 +24,7 @@
                                         <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="reason_id" style="width: 100%;" name="reason_id">
                                             <option value="">- Seleccionar -</option>
                                             {% for honorary_reason in honorary_reasons %}
-                                                <option  value="{{ honorary_reason.id }}">{{ honorary_reason.reason }}</option>
+                                                <option {% if honorary.reason_id == honorary_reason.id %} selected {% endif %}  value="{{ honorary_reason.id }}">{{ honorary_reason.reason }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -35,13 +35,13 @@
                                         <select class="form-control select2 select2-danger" id="branch_office_id" data-dropdown-css-class="select2-danger" style="width: 100%;" name="branch_office_id">
                                             <option value="">- Seleccionar -</option>
                                             {% for branch_office in branch_offices %}
-                                                <option  value="{{ branch_office.id }}">{{ branch_office.branch_office }}</option>
+                                                <option {% if honorary.branch_office_id == branch_office.id %} selected {% endif %}  value="{{ branch_office.id }}">{{ branch_office.branch_office }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" id="replacement_honorary">
+                            <div class="row replacement_honorary">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Colaborador a Sustituir</label>
@@ -55,13 +55,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Inicio</label>
-                                        <input type="date" class="form-control" id="start_date" name="start_date">
+                                        <input type="date" value="{{ honorary.start_date }}" class="form-control" id="start_date" name="start_date">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Fin</label>
-                                        <input type="date" class="form-control" id="end_date" name="end_date">
+                                        <input type="date" value="{{ honorary.end_date }}" class="form-control" id="end_date" name="end_date">
                                     </div>
                                 </div>
                             </div>
@@ -70,13 +70,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">RUT</label>
-                                        <input type="text" value="" id="rut" class="form-control rut" placeholder="RUT" name="rut">
+                                        <input type="text" value="{{ honorary.rut }}" id="rut" class="form-control rut" placeholder="RUT" name="rut">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Nombre Completo</label>
-                                        <input type="text" value="" id="full_name" class="form-control" placeholder="Nombre Completo" name="full_name">
+                                        <input type="text" value="{{ honorary.full_name }}" id="full_name" class="form-control" placeholder="Nombre Completo" name="full_name">
                                     </div>
                                 </div>
                             </div>
@@ -84,7 +84,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Correo</label>
-                                        <input type="text" value="" id="email" class="form-control" placeholder="Correo" name="email">
+                                        <input type="text" value="{{ honorary.email }}" id="email" class="form-control" placeholder="Correo" name="email">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -93,7 +93,7 @@
                                         <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="region_id" name="region_id">
                                             <option value="">- Seleccionar -</option>
                                             {% for region in regions %}
-                                                <option value="{{ region.id }}">{{ region.region }}</option>
+                                                <option {% if honorary.region_id == region.id %} selected {% endif %} value="{{ region.id }}">{{ region.region }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -106,7 +106,7 @@
                                         <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="commune_id" name="commune_id">
                                             <option value="">- Seleccionar -</option>
                                             {% for commune in communes %}
-                                                <option value="{{ commune.id }}">{{ commune.commune }}</option>
+                                                <option {% if honorary.commune_id == commune.id %} selected {% endif %} value="{{ commune.id }}">{{ commune.commune }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -114,7 +114,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Dirección</label>
-                                        <input type="text" value="" id="address" class="form-control" placeholder="Dirección" name="address">
+                                        <input type="text" value="{{ honorary.address }}" id="address" class="form-control" placeholder="Dirección" name="address">
                                     </div>
                                 </div>
                             </div>
@@ -124,8 +124,8 @@
                                         <label for="exampleInputEmail1">¿Tiene RUT el trabajador?</label>
                                         <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="foreigner_id" name="foreigner_id">
                                             <option value="">- Seleccionar -</option>
-                                            <option value="1">Si</option>
-                                            <option value="2">No</option>
+                                            <option {% if honorary.foreigner_id == 1 %} selected {% endif %} value="1">Si</option>
+                                            <option {% if honorary.foreigner_id == 2 %} selected {% endif %} value="2">No</option>
                                         </select>
                                     </div>
                                 </div>
@@ -135,7 +135,7 @@
                                         <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="bank_id" name="bank_id">
                                             <option value="">- Seleccionar -</option>
                                             {% for bank in banks %}
-                                                <option value="{{ bank.id }}">{{ bank.bank }}</option>
+                                                <option {% if honorary.bank_id == bank.id %} selected {% endif %}  value="{{ bank.id }}">{{ bank.bank }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -145,7 +145,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">N° de Cuenta</label>
-                                        <input type="text" value="" id="account_number" class="form-control" placeholder="N° de Cuenta" name="account_number">
+                                        <input type="text" value="{{ honorary.account_number }}" id="account_number" class="form-control" placeholder="N° de Cuenta" name="account_number">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -153,8 +153,8 @@
                                         <label for="exampleInputEmail1">Tipo de Honorario</label>
                                         <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="schedule_id" name="schedule_id">
                                             <option value="">- Seleccionar -</option>
-                                            <option value="1">Full-Time</option>
-                                            <option value="2">Part-Time</option>
+                                            <option {% if honorary.schedule_id == 1 %} selected {% endif %}  value="1">Full-Time</option>
+                                            <option {% if honorary.schedule_id == 2 %} selected {% endif %}  value="2">Part-Time</option>
                                         </select>
                                     </div>
                                 </div>
@@ -163,7 +163,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Observación</label>
-                                        <input type="text" value="" id="observation" class="form-control" placeholder="Observación" name="observation">
+                                        <input type="text" value="{{ honorary.observation }}" id="observation" class="form-control" placeholder="Observación" name="observation">
                                     </div>
                                 </div>
                             </div>
@@ -175,7 +175,7 @@
                         <div class="card-footer">
                             <span class="loading-icon" id="loading-icon" style="display:none;">Cargando...</span>
 
-                            <button type="button" class="btn btn-success create-honorary-btn">Guardar</button>
+                            <button type="button" class="btn btn-success create-honorary-btn">Generar</button>
 
                             <a href="{{ url_for('honoraries.index') }}" class="btn btn-secondary">Cancelar</a>
                         </div>

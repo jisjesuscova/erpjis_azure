@@ -30,10 +30,10 @@
                                     <td>{{ honorary['reason'] }}</td>
                                     <td>{{ honorary['added_date'] }}</td>
                                     <td>
-                                        <a title="Revisar Honorario" href="" class="btn btn-primary">
+                                        <a title="Revisar Honorario" href="{{ url_for('honoraries.edit', id = honorary['id']) }}" class="btn btn-primary">
                                             <i class="fa fa-eye"></i>
                                         </a>
-                                        <a title="Borrar Honorario" href="" class="btn btn-danger">
+                                        <a href="{{ url_for('honoraries.delete', id = honorary['id']) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar el registro?')">
                                             <i class="fa fa-times"></i>
                                         </a>
                                     </td>
