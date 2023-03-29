@@ -15,6 +15,28 @@ class Pdf:
 
         rendered = render_template(template_path, data = data, root = 'http://localhost:5000/')
 
+        pdf = pdfkit.from_string(rendered, options={
+                                                    "enable-local-file-access": "",
+                                                    'page-size': 'letter',
+                                                    'margin-top': '0.5in',
+                                                    'margin-right': '1in',
+                                                    'margin-bottom': '0.5in',
+                                                    'margin-left': '1in',
+                                                    'footer-font-size':'7',
+                                                    'footer-right': '[page] de [topage]'
+                                                    }, configuration = config)
+
+        return pdf
+    
+    @staticmethod
+    def create_pdf2(file_name, data):
+        path_wkhtmltopdf = '/usr/bin/wkhtmltopdf'
+        config = pdfkit.configuration(wkhtmltopdf = path_wkhtmltopdf)
+
+        template_path = 'pdfs/' + str(file_name) + '.html'
+
+        rendered = render_template(template_path, data = data, root = 'http://localhost:5000/')
+
         pdf = pdfkit.from_string(rendered, options={"enable-local-file-access": ""}, configuration = config)
 
         return pdf

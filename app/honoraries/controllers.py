@@ -48,3 +48,17 @@ def store():
    else:
       return '0'
 
+@honorary.route("/human_resources/honorary/show/<int:id>", methods=['GET'])
+def show(id):
+   honorary = Honorary.get(id)
+   regions = Region.get()
+   banks = Bank.get()
+   branch_offices = BranchOffice.get()
+
+   title = "Revisar Honorario"
+
+   module_name = "Recursos Humanos"
+
+   return render_template('administrator/human_resources/honoraries/honoraries_update.html', honorary = honorary, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
+
+

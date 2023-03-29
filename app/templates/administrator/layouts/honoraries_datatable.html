@@ -24,13 +24,16 @@
                         {% for honorary in honoraries.items %}
                             <tbody>
                                 <tr>
-                                    <td>{{ honoraries['visual_rut'] }}</td>
-                                    <td>{{ honoraries['requested_by'] }}</td>
-                                    <td>{{ honoraries['assigned_to'] }}</td>
-                                    <td>{{ honoraries['reason'] }}</td>
-                                    <td>{{ honoraries['added_date'] }}</td>
+                                    <td>{{ honorary['rut'] }}</td>
+                                    <td>{{ honorary['full_name'] }}</td>
+                                    <td>{{ honorary['nickname'] }}</td>
+                                    <td>{{ honorary['reason'] }}</td>
+                                    <td>{{ honorary['added_date'] }}</td>
                                     <td>
-                                        <a title="Borrar Honorario" href="" class="btn btn-warning">
+                                        <a title="Revisar Honorario" href="" class="btn btn-primary">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <a title="Borrar Honorario" href="" class="btn btn-danger">
                                             <i class="fa fa-times"></i>
                                         </a>
                                     </td>
