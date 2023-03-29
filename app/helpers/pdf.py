@@ -8,7 +8,7 @@ import os
 class Pdf:
     @staticmethod
     def create_pdf(file_name, data):
-        path_wkhtmltopdf = '/usr/bin/wkhtmltopdf'
+        path_wkhtmltopdf = 'C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe'
         config = pdfkit.configuration(wkhtmltopdf = path_wkhtmltopdf)
 
         template_path = 'pdfs/' + str(file_name) + '.html'
@@ -20,10 +20,8 @@ class Pdf:
                                                     'page-size': 'letter',
                                                     'margin-top': '0.7in',
                                                     'margin-right': '0.5in',
-                                                    'margin-bottom': '1in',
-                                                    'margin-left': '0.5in',
-                                                    'footer-font-size':'7',
-                                                    'footer-right': '[page] de [topage]'
+                                                    'margin-bottom': '0.5in',
+                                                    'margin-left': '0.5in'
                                                     }, configuration = config)
 
         return pdf
