@@ -3,31 +3,6 @@ $(document).ready(function () {
     $('.replacement_honorary').hide();
     $('[data-toggle="tooltip"]').tooltip()
 
-    $("#branch_office_id").change(function(){
-        var formData = new FormData();
-        
-        formData.append('branch_office_id', $('#branch_office_id').val());
-
-        $.ajax({
-            url: "/human_resources/employee/branch_office",
-            method: 'POST',
-            headers: {
-                "X-CSRFToken": $('input[name="csrf_token"]').val()
-            },
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-
-
-                return;
-            },
-            error: function() {
-
-            }
-        });
-    });
-
     $("#reason_id").change(function(){
         if ($("#reason_id").val() == 1) {
             $('.replacement_honorary').show();
@@ -314,7 +289,7 @@ $(document).ready(function () {
         
         formData.append('reason_id', $('#reason_id').val());
         formData.append('branch_office_id', $('#branch_office_id').val());
-        formData.append('employee_to_replace', $('#employee_to_replace').val());
+        formData.append('employee_to_replace', $('#employee_id').val());
         formData.append('start_date', $('#start_date').val());
         formData.append('end_date', $('#end_date').val()); 
         formData.append('rut', $('#rut').val());
@@ -1594,7 +1569,7 @@ $(document).ready(function () {
 
     $('#branch_office_id').change(function() {
         $.ajax({
-            url: 'branch_offices/employees/' + $(this).val(),
+            url: '/branch_offices/employees/' + $(this).val(),
             type: 'GET',
             success: function(data) {
                 $('#employee_id').empty();
