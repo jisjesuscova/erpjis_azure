@@ -18,10 +18,10 @@ class Pdf:
         pdf = pdfkit.from_string(rendered, options={
                                                     "enable-local-file-access": "",
                                                     'page-size': 'letter',
-                                                    'margin-top': '0.5in',
-                                                    'margin-right': '1in',
+                                                    'margin-top': '0.2in',
+                                                    'margin-right': '0.5in',
                                                     'margin-bottom': '0.5in',
-                                                    'margin-left': '1in',
+                                                    'margin-left': '0.5in',
                                                     'footer-font-size':'7',
                                                     'footer-right': '[page] de [topage]'
                                                     }, configuration = config)
