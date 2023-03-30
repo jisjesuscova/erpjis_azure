@@ -114,6 +114,11 @@ class Honorary():
         
     @staticmethod
     def update(data, id):
+        if data['employee_to_replace'] == '':
+            employee_to_replace = 0
+        else:
+            employee_to_replace = data['employee_to_replace']
+
         honorary = HonoraryModel.query.filter_by(id=id).first()
         honorary.reason_id = data['reason_id']
         honorary.branch_office_id = data['branch_office_id']
@@ -124,7 +129,7 @@ class Honorary():
         honorary.commune_id = data['commune_id']
         honorary.status_id = 2
         honorary.requested_by = current_user.rut
-        honorary.employee_to_replace = data['employee_to_replace']
+        honorary.employee_to_replace = employee_to_replace
         honorary.rut = data['rut']
         honorary.full_name = data['full_name']
         honorary.email = data['email']
@@ -133,6 +138,7 @@ class Honorary():
         honorary.start_date = data['start_date']
         honorary.end_date = data['end_date']
         honorary.account_number = data['account_number']
+        honorary.observation = data['observation']
         honorary.amount = Helper.remove_from_string('.', data['amount'])
         honorary.updated_date = datetime.now()
 

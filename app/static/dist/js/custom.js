@@ -6,7 +6,7 @@ $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip()
 
     $("#reason_id").change(function(){
-        if ($("#reason_id").val() == 1) {
+        if ($("#reason_id").val() == 3) {
             $('.replacement_honorary').show();
             $('.displayed_replacement_honorary').show();
         } else {
@@ -286,7 +286,6 @@ $(document).ready(function () {
         $('.update-honorary-btn').hide();
         
         var formData = new FormData();
-        
         formData.append('id', $('#id').val());
         formData.append('reason_id', $('#reason_id').val());
         formData.append('branch_office_id', $('#branch_office_id').val());
@@ -317,7 +316,7 @@ $(document).ready(function () {
             contentType: false,
             success: function(response) {
                 if (response == 1) {
-                    window.location.replace("https://jiserp.com/human_resources/honoraries");
+                    window.location.replace("http://localhost:5000/human_resources/honoraries");
                 } else {
                     $('.alert-danger-404-form').show();
                     $('.alert-danger-cellphone-form').hide();
