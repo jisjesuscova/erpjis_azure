@@ -200,11 +200,11 @@ class Helper:
     
     @staticmethod
     def months(since, until):
-        since = Helper.split(str(since), "-")
-        until = Helper.split(str(until), "-")
+        since_array = Helper.split(str(since), "-")
+        until_array = Helper.split(str(until), "-")
 
         if since != None and until != None:
-            return (int(until[0]) - int(since[0])) * 12 + int(until[1]) - int(since[1])
+            return (int(until_array[0]) - int(since_array[0])) * 12 + int(until_array[1]) - int(since_array[1])
         else:
             return 0
 
