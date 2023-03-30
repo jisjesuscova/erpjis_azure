@@ -6,11 +6,9 @@ from datetime import datetime
 class Uniform():
     @staticmethod
     def get(rut):
-        uniforms = UniformModel.query.filter_by(rut=rut).all()
-
         uniforms = UniformModel.query\
                             .join(UniformTypeModel, UniformTypeModel.id == UniformModel.uniform_type_id)\
-                            .add_columns(UniformModel.delivered_date, UniformModel.id, UniformTypeModel.uniform_type).all()
+                            .add_columns(UniformModel.delivered_date, UniformModel.id, UniformTypeModel.uniform_type).filter(UniformModel.rut==rut).all()
 
         return uniforms
 
