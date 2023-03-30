@@ -499,14 +499,33 @@ class Helper:
         splited_until = until.split("-")
 
         if days < 30:
-            first_since = since
-            first_until = until
-            d1 = datetime.strptime(first_since, "%Y-%m-%d")
-            d2 = datetime.strptime(first_until, "%Y-%m-%d")
-            first_days = abs((d2 - d1).days)
-            first_days = first_days + 1
+            if splited_since[1] == splited_until[1]:
+                first_since = since
+                first_until = until
+                d1 = datetime.strptime(first_since, "%Y-%m-%d")
+                d2 = datetime.strptime(first_until, "%Y-%m-%d")
+                first_days = abs((d2 - d1).days)
+                first_days = first_days + 1
 
-            data = [[first_since, first_until, first_days]]
+                data = [[first_since, first_until, first_days]]
+            else:
+                final_day = HrFinalDayMonth.get(splited_since[1])
+                final_day = final_day.end_day
+                first_since = since
+                first_until = splited_since[0] +'-'+ splited_since[1] + '-' + str(final_day)
+                d1 = datetime.strptime(first_since, "%Y-%m-%d")
+                d2 = datetime.strptime(first_until, "%Y-%m-%d")
+                first_days = abs((d2 - d1).days)
+                first_days = first_days + 1
+
+                second_since = splited_until[0] +'-'+ splited_until[1] + '-01'
+                second_until = until
+                d1 = datetime.strptime(second_since, "%Y-%m-%d")
+                d2 = datetime.strptime(second_until, "%Y-%m-%d")
+                second_days = abs((d2 - d1).days)
+                second_days = second_days + 1
+
+                data = [[first_since, first_until, first_days], [second_since, second_until, second_days]]
         else:
             if days < 60:
                 final_day = HrFinalDayMonth.get(splited_since[1])

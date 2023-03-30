@@ -11,11 +11,11 @@ class Vacation():
             if len(status_id) > 0:
                 vacations = VacationModel.query\
                     .join(DocumentEmployeeModel, DocumentEmployeeModel.id == VacationModel.document_employee_id)\
-                    .add_columns(VacationModel.no_valid_days, VacationModel.document_employee_id, VacationModel.id, VacationModel.rut, VacationModel.since, VacationModel.until, VacationModel.days, DocumentEmployeeModel.status_id, VacationModel.document_employee_id).filter(DocumentEmployeeModel.rut==rut, DocumentEmployeeModel.document_type_id==6, DocumentEmployeeModel.status_id.in_(status_id)).order_by(db.desc(DocumentEmployeeModel.added_date))
+                    .add_columns(VacationModel.no_valid_days, VacationModel.document_employee_id, VacationModel.id, VacationModel.rut, VacationModel.since, VacationModel.until, VacationModel.days, DocumentEmployeeModel.status_id, VacationModel.document_employee_id).filter(DocumentEmployeeModel.rut==rut, DocumentEmployeeModel.document_type_id==6, DocumentEmployeeModel.status_id.in_(status_id)).order_by(db.desc(VacationModel.since))
             else:
                 vacations = VacationModel.query\
                     .join(DocumentEmployeeModel, DocumentEmployeeModel.id == VacationModel.document_employee_id)\
-                    .add_columns(VacationModel.no_valid_days, VacationModel.document_employee_id, VacationModel.id, VacationModel.rut, VacationModel.since, VacationModel.until, VacationModel.days, VacationModel.no_valid_days, VacationModel.added_date, VacationModel.updated_date, VacationModel.support, DocumentEmployeeModel.status_id).filter(DocumentEmployeeModel.rut==rut, DocumentEmployeeModel.document_type_id==6).order_by(db.desc(DocumentEmployeeModel.added_date))
+                    .add_columns(VacationModel.no_valid_days, VacationModel.document_employee_id, VacationModel.id, VacationModel.rut, VacationModel.since, VacationModel.until, VacationModel.days, VacationModel.no_valid_days, VacationModel.added_date, VacationModel.updated_date, VacationModel.support, DocumentEmployeeModel.status_id).filter(DocumentEmployeeModel.rut==rut, DocumentEmployeeModel.document_type_id==6).order_by(db.desc(VacationModel.since))
 
             return vacations
         else:
