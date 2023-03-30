@@ -316,7 +316,7 @@ $(document).ready(function () {
             contentType: false,
             success: function(response) {
                 if (response == 1) {
-                    window.location.replace("http://localhost:5000/human_resources/honoraries");
+                    window.location.replace("https://jiserp.com/human_resources/honoraries");
                 } else {
                     $('.alert-danger-404-form').show();
                     $('.alert-danger-cellphone-form').hide();
