@@ -70,7 +70,14 @@ class Honorary():
         url = "https://apigateway.cl/api/v1/sii/bte/emitidas/emitir"
 
         payload = json.dumps({
+                                "auth": {
+                                    "pass": {
+                                    "rut": "76063822-6",
+                                    "clave": "JYM1"
+                                    }
+                                },
                                 "boleta": {
+                                    
                                     "Encabezado": {
                                         "IdDoc": {
                                             "FchEmis": current_date
