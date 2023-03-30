@@ -41,16 +41,32 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row replacement_honorary">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Colaborador a Sustituir</label>
-                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="employee_to_replace" style="width: 100%;" name="employee_to_replace">
-                                            <option value="">- Seleccionar -</option>
-                                        </select>
+                            {% if honorary.reason_id == 1 %}
+                                <div class="row displayed_replacement_honorary">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Colaborador a Sustituir</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="employee_id" style="width: 100%;" name="employee_to_replace">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for employee in employees %}
+                                                    <option {% if honorary.employee_to_replace == employee.rut %} selected {% endif %}  value="{{ employee.rut }}">{{ employee.nickname }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            {% else %}
+                                <div class="row replacement_honorary">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Colaborador a Sustituir</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="employee_id" style="width: 100%;" name="employee_to_replace">
+                                                <option value="">- Seleccionar -</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
                             <div class="row" id="no_replacement_honorary">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -160,7 +176,13 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Monto</label>
+                                        <input type="text" value="{{ honorary.amount }}" id="amount" class="form-control money_value" placeholder="Monto" name="amount">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Observación</label>
                                         <input type="text" value="{{ honorary.observation }}" id="observation" class="form-control" placeholder="Observación" name="observation">
@@ -175,9 +197,11 @@
                         <div class="card-footer">
                             <span class="loading-icon" id="loading-icon" style="display:none;">Cargando...</span>
 
-                            <button type="button" class="btn btn-success create-honorary-btn">Generar</button>
+                            <button type="button" class="btn btn-success update-honorary-btn">Generar</button>
 
                             <a href="{{ url_for('honoraries.index') }}" class="btn btn-secondary">Cancelar</a>
+
+                            <input type="hidden" value="{{ honorary.id }}" id="id" class="form-control" placeholder="" name="id">
                         </div>
                         <!-- form end -->
                     </div>

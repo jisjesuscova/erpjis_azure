@@ -51,6 +51,16 @@ def store():
    else:
       return '0'
 
+@honorary.route("/human_resources/honorary/update/<int:id>", methods=['POST'])
+def update(id):
+   status_id = Honorary.update(request.form, id)
+
+   if status_id == 1:
+      return '1'
+   else:
+      return '0'
+
+
 @honorary.route("/human_resources/honorary/edit/<int:id>", methods=['GET'])
 def edit(id):
    honorary = Honorary.get(id, '')
@@ -59,12 +69,13 @@ def edit(id):
    communes = Commune.get()
    branch_offices = BranchOffice.get()
    honorary_reasons = HonoraryReason.get()
+   employees = Employee.get_all()
 
    title = "Revisar Honorario"
 
    module_name = "Recursos Humanos"
 
-   return render_template('administrator/human_resources/honoraries/honoraries_update.html', honorary_reasons = honorary_reasons, communes = communes, honorary = honorary, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
+   return render_template('administrator/human_resources/honoraries/honoraries_update.html', employees = employees, honorary_reasons = honorary_reasons, communes = communes, honorary = honorary, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
 
 @honorary.route("/human_resources/honorary/delete/<int:id>", methods=['GET'])
 def delete(id):

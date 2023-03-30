@@ -179,6 +179,10 @@ class Helper:
         return nickname
     
     @staticmethod
+    def get_time_Y_m_d():
+        return datetime.now().strftime('%Y-%m-%d')
+    
+    @staticmethod
     def days(since, until, no_valid_entered_days = 0):
         # Definir las fechas de inicio y finalización
         start_date = datetime.strptime(since, "%Y-%m-%d")

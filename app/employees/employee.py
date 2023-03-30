@@ -22,6 +22,12 @@ class Employee():
                 return employee
     
     @staticmethod
+    def get_all():
+        employees = EmployeeModel.query.order_by('nickname').all()
+
+        return employees
+            
+    @staticmethod
     def empty_fields(rut):
         employee = EmployeeModel.query.filter_by(rut=rut).first()
 

@@ -111,6 +111,7 @@ class HonoraryModel(db.Model):
     region_id = db.Column(db.Integer)
     commune_id = db.Column(db.Integer)
     requested_by = db.Column(db.Integer)
+    status_id = db.Column(db.Integer)
     employee_to_replace = db.Column(db.Integer)
     rut = db.Column(db.Integer)
     full_name = db.Column(db.String(255))
