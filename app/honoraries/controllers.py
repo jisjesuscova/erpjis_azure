@@ -56,9 +56,9 @@ def update(id):
    status_id = Honorary.update(request.form, id)
 
    if status_id == 1:
-      return '1'
+      return status_id
    else:
-      return '0'
+      return status_id
 
 
 @honorary.route("/human_resources/honorary/edit/<int:id>", methods=['GET'])

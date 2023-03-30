@@ -11,7 +11,7 @@ class BranchOffice():
 
             return branch_offices
         else:
-            branch_office = BranchOfficeModel.query.get(id)
+            branch_office = BranchOfficeModel.query.filter_by(id=id).first()
 
             return branch_office
 

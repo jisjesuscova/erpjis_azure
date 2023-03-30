@@ -6,8 +6,8 @@ from datetime import datetime, date
 from sqlalchemy import func
 import requests
 import json
-import app.branch_offices.branch_office as BranchOffice
-import app.communes.commune as Commune
+from app.region.region import Region
+from app.communes.commune import Commune
 
 class Honorary():
     @staticmethod
@@ -63,8 +63,7 @@ class Honorary():
     
     @staticmethod
     def send(data):
-        branch_office = BranchOffice.get(data['branch_office_id'])
-        commune = Commune.get(branch_office['commune_id'])
+        commune = Commune.get(data['commune_id'])
         current_date = Helper.get_time_Y_m_d()
 
         url = "https://apigateway.cl/api/v1/sii/bte/emitidas/emitir"
@@ -89,7 +88,7 @@ class Honorary():
                                             "RUTRecep": data['rut'],
                                             "RznSocRecep": data['full_name'],
                                             "DirRecep": data['address'],
-                                            "CmnaRecep": commune['commune']
+                                            "CmnaRecep": commune.commune
                                         }
                                     },
                                     "Detalle": [
@@ -118,6 +117,9 @@ class Honorary():
             employee_to_replace = 0
         else:
             employee_to_replace = data['employee_to_replace']
+
+        if data['foreigner_id'] == '1':
+            Honorary.send(data)
 
         honorary = HonoraryModel.query.filter_by(id=id).first()
         honorary.reason_id = data['reason_id']
