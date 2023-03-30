@@ -35,16 +35,6 @@ $(document).ready(function () {
             return S?S-1:'k';
         }
     }
-    
-    $("#rut").focusout(function() {
-        if (Fn.validaRut( $("#rut").val() )){
-            $('.alert-rut-form').hide();
-            $(".create-user-btn").prop("disabled", false);
-        } else {
-            $('.alert-rut-form').show();
-            $(".create-user-btn").prop("disabled", true);
-        }
-    });
 
     $("#total_answered_questions").text("0");
     if ($('#branch_office_id').val() == '' || $('#added_date').val() == '') {
@@ -70,6 +60,20 @@ $(document).ready(function () {
     });
 
     $("#rut").focusout(function() {
+        var hasRutField = false;
+        if (Fn.validaRut( $("#rut").val() )){
+            hasRutField = false;
+        } else {
+            hasRutField = true;
+        }
+
+        if (hasRutField) {
+            $('.alert-rut-form').show();
+            return;
+        } else {
+            $('.alert-rut-form').hide();
+        }
+
         var formData = new FormData();
         
         formData.append('rut', $('#rut').val());
@@ -92,6 +96,7 @@ $(document).ready(function () {
                     $('span#loading-icon').hide();
                     $('.create-user-btn').show();
                     $(".create-user-btn").prop("disabled", true);
+                    $('.alert-rut-form').hide();
                 } else {
                     $(".create-user-btn").prop("disabled", false);
                     $('span#loading-icon').hide();
@@ -109,11 +114,26 @@ $(document).ready(function () {
                 $('.alert-danger-cellphone-exist-form').hide();
                 $('span#loading-icon').hide();
                 $('.create-user-btn').show();
+                $('.alert-rut-form').hide();
             }
         });
     });
 
     $("#rut").mouseout(function() {
+        var hasRutField = false;
+        if (Fn.validaRut( $("#rut").val() )){
+            hasRutField = false;
+        } else {
+            hasRutField = true;
+        }
+
+        if (hasRutField) {
+            $('.alert-rut-form').show();
+            return;
+        } else {
+            $('.alert-rut-form').hide();
+        }
+
         var formData = new FormData();
         
         formData.append('rut', $('#rut').val());
@@ -136,6 +156,7 @@ $(document).ready(function () {
                     $('span#loading-icon').hide();
                     $('.create-user-btn').show();
                     $(".create-user-btn").prop("disabled", true);
+                    $('.alert-rut-form').hide();
                 } else {
                     $(".create-user-btn").prop("disabled", false);
                     $('span#loading-icon').hide();
@@ -153,6 +174,7 @@ $(document).ready(function () {
                 $('.alert-danger-cellphone-exist-form').hide();
                 $('span#loading-icon').hide();
                 $('.create-user-btn').show();
+                $('.alert-rut-form').hide();
             }
         });
     });
@@ -313,6 +335,20 @@ $(document).ready(function () {
             return;
         }
 
+        var hasRutField = false;
+        if (Fn.validaRut( $("#rut").val() )){
+            hasRutField = false;
+        } else {
+            hasRutField = true;
+        }
+
+        if (hasRutField) {
+            $('.alert-rut-form').show();
+            return;
+        } else {
+            $('.alert-rut-form').hide();
+        }
+
         $('span#loading-icon').show();
         $('.update-honorary-btn').hide();
         
@@ -387,6 +423,20 @@ $(document).ready(function () {
         if (hasEmptyField) {
             $('.alert-danger-form').show();
             return;
+        }
+
+        var hasRutField = false;
+        if (Fn.validaRut( $("#rut").val() )){
+            hasRutField = false;
+        } else {
+            hasRutField = true;
+        }
+
+        if (hasRutField) {
+            $('.alert-rut-form').show();
+            return;
+        } else {
+            $('.alert-rut-form').hide();
         }
 
         $('span#loading-icon').show();
