@@ -36,8 +36,8 @@ $(document).ready(function () {
         }
     }
     
-    $(".rut").focusout(function(){
-        if (Fn.validaRut( $(".rut").val() )){
+    $("#rut").focusout(function() {
+        if (Fn.validaRut( $("#rut").val() )){
             $('.alert-rut-form').hide();
             $(".create-user-btn").prop("disabled", false);
         } else {
