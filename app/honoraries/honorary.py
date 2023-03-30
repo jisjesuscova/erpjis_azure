@@ -31,6 +31,11 @@ class Honorary():
         
     @staticmethod
     def store(data):
+        if data['employee_to_replace'] == '':
+            employee_to_replace = 0
+        else:
+            employee_to_replace = data['employee_to_replace']
+
         honorary = HonoraryModel()
         honorary.reason_id = data['reason_id']
         honorary.branch_office_id = data['branch_office_id']
@@ -41,7 +46,7 @@ class Honorary():
         honorary.commune_id = data['commune_id']
         honorary.status_id = 1
         honorary.requested_by = current_user.rut
-        honorary.employee_to_replace = data['employee_to_replace']
+        honorary.employee_to_replace = employee_to_replace
         honorary.rut = data['rut']
         honorary.full_name = data['full_name']
         honorary.email = data['email']
