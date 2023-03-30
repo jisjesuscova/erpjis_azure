@@ -187,7 +187,13 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Observación</label>
+                                        <label for="exampleInputEmail1">
+                                            Observación
+                                            &nbsp;
+                                            <button type="button" class="btn btn-warning help-button" data-toggle="tooltip" data-placement="top" title="Detalle el pago del honorario. Ejemplo: Trabajador Full-Time, días trabajados, monto ofrecido, etc.">
+                                                <i class="fa-solid fa-question"></i>
+                                            </button>
+                                        </label>
                                         <input type="text" value="{{ honorary.observation }}" id="observation" class="form-control" placeholder="Observación" name="observation">
                                     </div>
                                 </div>

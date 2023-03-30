@@ -204,7 +204,10 @@ class Helper:
         until_array = Helper.split(str(until), "-")
 
         if since != None and until != None:
-            return (int(until_array[0]) - int(since_array[0])) * 12 + int(until_array[1]) - int(since_array[1])
+            if until_array[0] != '' and since_array[0] != '':
+                return (int(until_array[0]) - int(since_array[0])) * 12 + int(until_array[1]) - int(since_array[1])
+            else:
+                return 0
         else:
             return 0
 
