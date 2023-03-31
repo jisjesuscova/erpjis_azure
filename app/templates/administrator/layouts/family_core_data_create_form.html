@@ -14,6 +14,9 @@
                         <div class="alert alert-danger alert-danger-404-form" style="display:none;" role="alert">
                             Error al procesar el formulario. Por favor haga click en Guardar nuevamente.
                         </div>
+                        <div class="alert alert-danger alert-rut-form" style="display:none;" role="alert">
+                            El RUT no es <strong>correcto</strong>.
+                        </div>
                         <!-- form start -->
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                         <div class="card-body">

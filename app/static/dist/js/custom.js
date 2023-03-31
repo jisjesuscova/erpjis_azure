@@ -1194,15 +1194,29 @@ $(document).ready(function () {
             return;
         }
 
+        var hasRutField = false;
+        if (Fn.validaRut( $("#rut").val() )){
+            hasRutField = false;
+        } else {
+            hasRutField = true;
+        }
+
+        if (hasRutField) {
+            $('.alert-rut-form').show();
+            return;
+        } else {
+            $('.alert-rut-form').hide();
+        }
+
         $('span#loading-icon').show();
         $('.update-family-data-btn').hide();
         
         var formData = new FormData();
         var rut =  $('#rut').val()
         
-        formData.append('rut', $('#rut').val());
+        formData.append('rut', $('#user_rut').val());
         formData.append('id', $('#id').val());
-        formData.append('family_rut', $('#family_rut').val());
+        formData.append('family_rut', $('#rut').val());
         formData.append('names', $('#names').val());
         formData.append('father_lastname', $('#father_lastname').val());
         formData.append('mother_lastname', $('#mother_lastname').val()); 
@@ -1258,14 +1272,28 @@ $(document).ready(function () {
             return;
         }
 
+        var hasRutField = false;
+        if (Fn.validaRut( $("#rut").val() )){
+            hasRutField = false;
+        } else {
+            hasRutField = true;
+        }
+
+        if (hasRutField) {
+            $('.alert-rut-form').show();
+            return;
+        } else {
+            $('.alert-rut-form').hide();
+        }
+
         $('span#loading-icon').show();
         $('.create-family-data-btn').hide();
         
         var formData = new FormData();
         var rut =  $('#rut').val()
         
-        formData.append('rut', $('#rut').val());
-        formData.append('family_rut', $('#family_rut').val());
+        formData.append('rut', $('#user_rut').val());
+        formData.append('family_rut', $('#rut').val());
         formData.append('names', $('#names').val());
         formData.append('father_lastname', $('#father_lastname').val());
         formData.append('mother_lastname', $('#mother_lastname').val()); 
