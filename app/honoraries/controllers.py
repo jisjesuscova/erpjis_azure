@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, request, url_for, flash
-from flask_login import login_required
+from flask_login import login_required, current_user
 from app import app, regular_employee_rol_need
 from app.employees.employee import Employee
 from app.branch_offices.branch_office import BranchOffice
@@ -26,7 +26,13 @@ def index(page=1):
 
    module_name = "Recursos Humanos"
 
-   return render_template('administrator/human_resources/honoraries/honoraries.html', honoraries = honoraries, title = title, module_name = module_name)
+   if current_user.rol_id == 3:
+      return render_template('supervisor/human_resources/honoraries/honoraries.html', honoraries = honoraries, title = title, module_name = module_name)
+   elif current_user.rol_id == 4:
+      return render_template('administrator/human_resources/honoraries/honoraries.html', honoraries = honoraries, title = title, module_name = module_name)
+
+
+   
 
 @honorary.route("/human_resources/honorary/create", methods=['GET'])
 def create():
@@ -39,12 +45,17 @@ def create():
 
    module_name = "Recursos Humanos"
 
-   return render_template('administrator/human_resources/honoraries/honoraries_create.html', honorary_reasons = honorary_reasons, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
+   if current_user.rol_id == 3:
+      return render_template('supervisor/human_resources/honoraries/honoraries_create.html', honorary_reasons = honorary_reasons, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
+   elif current_user.rol_id == 4:
+      return render_template('administrator/human_resources/honoraries/honoraries_create.html', honorary_reasons = honorary_reasons, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
 
 
 @honorary.route("/human_resources/honorary/store", methods=['POST'])
 def store():
    status_id = Honorary.store(request.form)
+
+   flash('Se ha creado el honorario con éxito.', 'success')
 
    if status_id == 1:
       return '1'
@@ -56,9 +67,9 @@ def update(id):
    status_id = Honorary.update(request.form, id)
 
    if status_id == 1:
-      return status_id
+      return '1'
    else:
-      return status_id
+      return '0'
 
 
 @honorary.route("/human_resources/honorary/edit/<int:id>", methods=['GET'])

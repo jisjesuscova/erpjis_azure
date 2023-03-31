@@ -21,6 +21,23 @@
               </p>
             </a>
           </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-people-group"></i>
+              <p>
+                Recursos Humanos
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ url_for('honoraries.index') }}" class="nav-link">
+                  <i class="fas fa-rectangle-list nav-icon"></i>
+                  <p>Honorarios</p>
+                </a>
+              </li>
+            </ul>
+          </li>
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview menu-close">

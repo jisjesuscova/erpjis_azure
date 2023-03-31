@@ -1,4 +1,4 @@
-from app.models.models import HonoraryModel, BankModel, BranchOfficeModel, RegionModel, CommunesModel, EmployeeModel, HonoraryReasonModel
+from app.models.models import SupervisorModel, HonoraryModel, BankModel, BranchOfficeModel, RegionModel, CommunesModel, EmployeeModel, HonoraryReasonModel
 from app.helpers.helper import Helper
 from flask_login import current_user
 from app import db
@@ -17,15 +17,27 @@ class Honorary():
         
             return honorary
         else:
-            honoraries = HonoraryModel.query\
+            if current_user.rol_id == 4:
+                honoraries = HonoraryModel.query\
                     .join(BankModel, BankModel.id == HonoraryModel.bank_id)\
                     .join(BranchOfficeModel, BranchOfficeModel.id == HonoraryModel.branch_office_id)\
                     .join(RegionModel, RegionModel.id == HonoraryModel.region_id)\
                     .join(CommunesModel, CommunesModel.id == HonoraryModel.commune_id)\
                     .join(EmployeeModel, EmployeeModel.rut == HonoraryModel.requested_by)\
                     .join(HonoraryReasonModel, HonoraryReasonModel.id == HonoraryModel.reason_id)\
-                    .add_columns(HonoraryModel.id, HonoraryModel.rut, HonoraryModel.full_name, EmployeeModel.nickname, HonoraryReasonModel.reason, HonoraryModel.added_date).paginate(page=page, per_page=10, error_out=False)
-        
+                    .add_columns(HonoraryModel.status_id, HonoraryModel.id, HonoraryModel.rut, HonoraryModel.full_name, EmployeeModel.nickname, HonoraryReasonModel.reason, HonoraryModel.added_date).order_by(HonoraryModel.added_date.desc()).paginate(page=page, per_page=10, error_out=False)
+            else:
+                honoraries = HonoraryModel.query\
+                    .join(BankModel, BankModel.id == HonoraryModel.bank_id)\
+                    .join(BranchOfficeModel, BranchOfficeModel.id == HonoraryModel.branch_office_id)\
+                    .join(RegionModel, RegionModel.id == HonoraryModel.region_id)\
+                    .join(CommunesModel, CommunesModel.id == HonoraryModel.commune_id)\
+                    .join(EmployeeModel, EmployeeModel.rut == HonoraryModel.requested_by)\
+                    .join(HonoraryReasonModel, HonoraryReasonModel.id == HonoraryModel.reason_id)\
+                    .join(SupervisorModel, SupervisorModel.branch_office_id == BranchOfficeModel.id)\
+                    .filter(SupervisorModel.rut == current_user.rut)\
+                    .add_columns(HonoraryModel.status_id, HonoraryModel.id, HonoraryModel.rut, HonoraryModel.full_name, EmployeeModel.nickname, HonoraryReasonModel.reason, HonoraryModel.added_date).order_by(HonoraryModel.added_date.desc()).paginate(page=page, per_page=10, error_out=False)
+            
             return honoraries
 
         
@@ -55,6 +67,7 @@ class Honorary():
         honorary.start_date = data['start_date']
         honorary.end_date = data['end_date']
         honorary.account_number = data['account_number']
+        honorary.observation = data['observation']
         honorary.added_date = datetime.now()
         honorary.updated_date = datetime.now()
 

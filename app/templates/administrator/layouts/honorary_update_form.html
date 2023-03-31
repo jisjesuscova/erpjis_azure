@@ -44,7 +44,7 @@
                                     </div>
                                 </div>
                             </div>
-                            {% if honorary.reason_id == 3 %}
+                            {% if honorary.reason_id == 2 or honorary.reason_id == 3 or honorary.reason_id == 4 %}
                                 <div class="row displayed_replacement_honorary">
                                     <div class="col-md-12">
                                         <div class="form-group">
@@ -190,7 +190,7 @@
                                         <label for="exampleInputEmail1">
                                             Observación
                                             &nbsp;
-                                            <button type="button" class="btn btn-warning help-button" data-toggle="tooltip" data-placement="top" title="Detalle el pago del honorario. Ejemplo: Trabajador Full-Time, apoyo vacaciones o licencia médica, días trabajados, monto ofrecido, etc.">
+                                            <button type="button" class="btn btn-warning help-button" data-toggle="tooltip" data-placement="top" title="Detalle el pago del honorario. Ejemplo: trabajador Full-Time, apoyo vacaciones o licencia médica, días trabajados, monto ofrecido, etc.">
                                                 <i class="fa-solid fa-question"></i>
                                             </button>
                                         </label>

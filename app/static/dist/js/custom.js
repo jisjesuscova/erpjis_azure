@@ -6,7 +6,7 @@ $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip()
 
     $("#reason_id").change(function(){
-        if ($("#reason_id").val() == 3) {
+        if ($("#reason_id").val() == 2 || $("#reason_id").val() == 3 || $("#reason_id").val() == 4) {
             $('.replacement_honorary').show();
             $('.displayed_replacement_honorary').show();
         } else {
