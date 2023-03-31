@@ -87,7 +87,7 @@ class Honorary():
         current_date = Helper.get_time_Y_m_d()
         
         amount = Helper.remove_from_string('.', data['amount'])
-        tax = (int(amount) * int(hr_settings))/100
+        tax = (int(amount) * int(hr_settings.percentage_honorary_bill))/100
         amount = int(data['amount']) + tax
 
         url = "https://apigateway.cl/api/v1/sii/bte/emitidas/emitir"

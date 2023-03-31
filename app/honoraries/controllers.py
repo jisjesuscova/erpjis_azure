@@ -31,9 +31,6 @@ def index(page=1):
    elif current_user.rol_id == 4:
       return render_template('administrator/human_resources/honoraries/honoraries.html', honoraries = honoraries, title = title, module_name = module_name)
 
-
-   
-
 @honorary.route("/human_resources/honorary/create", methods=['GET'])
 def create():
    regions = Region.get()
@@ -49,7 +46,6 @@ def create():
       return render_template('supervisor/human_resources/honoraries/honoraries_create.html', honorary_reasons = honorary_reasons, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
    elif current_user.rol_id == 4:
       return render_template('administrator/human_resources/honoraries/honoraries_create.html', honorary_reasons = honorary_reasons, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
-
 
 @honorary.route("/human_resources/honorary/store", methods=['POST'])
 def store():
@@ -91,6 +87,7 @@ def edit(id):
 @honorary.route("/human_resources/honorary/delete/<int:id>", methods=['GET'])
 def delete(id):
    Honorary.delete(id)
+   
    flash('Se ha borrado el honorario con éxito.', 'success')
 
    return redirect(url_for('honoraries.index'))
