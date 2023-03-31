@@ -58,9 +58,14 @@ class EndDocument():
 
     @staticmethod
     def substitute_compensation(rut):
+        hr_settings = HrSetting.get()
+
         employee_labor_datum = EmployeeLaborDatum.get(rut)
 
         gratification = Helper.gratification(employee_labor_datum.salary)
+
+        if gratification > hr_settings.top_gratification:
+            gratification = hr_settings.top_gratification
 
         result = int(employee_labor_datum.salary) + int(employee_labor_datum.collation) + int(employee_labor_datum.locomotion) + int(gratification)
 
@@ -89,9 +94,9 @@ class EndDocument():
         taken_days = Vacation.taken_days(rut)
         balance = Vacation.balance(legal, taken_days)
         start_date = exit_company
-        end_date = Helper.calculate_end_document_end_date(start_date, balance)
+        end_date = Helper.add_business_days(start_date, balance)
         end_date_split = Helper.split(str(end_date), " ")
-        weekends_between_dates = Helper.weekends_between_dates(start_date, end_date_split[0])
+        weekends_between_dates = Helper.count_weekends(start_date, end_date_split[0])
         total = int(balance) + int(weekends_between_dates) - int(number_holidays)
         vacation_day_value = Helper.vacation_day_value(employee_labor_datum.salary)
 

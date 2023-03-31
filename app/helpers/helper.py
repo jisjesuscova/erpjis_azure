@@ -222,6 +222,32 @@ class Helper:
         end_date = start_date + timedelta(days=balance)
 
         return end_date
+    
+    def count_weekends(start_date, end_date):
+        start_date = datetime.strptime(start_date, "%Y-%m-%d")
+        end_date = datetime.strptime(end_date, '%Y-%m-%d')
+        weekend_count = 0
+        delta = timedelta(days=1)
+        current_date = start_date
+        while current_date <= end_date:
+            if current_date.weekday() >= 5:
+                weekend_count += 1
+            current_date += delta
+        
+        return weekend_count
+    
+    def add_business_days(start_date, num_days):
+        start_date = datetime.strptime(start_date, "%Y-%m-%d")
+        current_date = start_date
+        added_days = 0
+        while added_days < num_days:
+            # sumamos un día a la fecha actual
+            current_date += timedelta(days=1)
+            # verificamos si la fecha actual es hábil/laboral
+            if calendar.weekday(current_date.year, current_date.month, current_date.day) < 5:
+                added_days += 1
+
+        return current_date
 
     @staticmethod
     def weekends_between_dates(start_date, end_date):
