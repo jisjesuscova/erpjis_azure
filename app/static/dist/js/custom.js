@@ -2,6 +2,7 @@ $(document).ready(function () {
     $('.answered_row').hide();
     $('.replacement_honorary').hide();
     $('.displayed_replacement_honorary').show();
+    $(".update-honorary-btn").prop("disabled", true);
     
     $('[data-toggle="tooltip"]').tooltip()
 
@@ -12,6 +13,14 @@ $(document).ready(function () {
         } else {
             $('.replacement_honorary').hide();
             $('.displayed_replacement_honorary').hide();
+        }
+    });
+
+    $("#are_you_sure").change(function(){
+        if ($("#are_you_sure").val() == 1) {
+            $(".update-honorary-btn").prop("disabled", false);
+        } else {
+            $(".update-honorary-btn").prop("disabled", true);
         }
     });
 
