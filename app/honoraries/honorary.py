@@ -6,8 +6,8 @@ from datetime import datetime, date
 from sqlalchemy import func
 import requests
 import json
-from app.region.region import Region
 from app.communes.commune import Commune
+from app.hr_settings.hr_setting import HrSetting
 
 class Honorary():
     @staticmethod
@@ -81,8 +81,14 @@ class Honorary():
     
     @staticmethod
     def send(data):
+        hr_settings = HrSetting.get()
+
         commune = Commune.get(data['commune_id'])
         current_date = Helper.get_time_Y_m_d()
+        
+        amount = Helper.remove_from_string('.', data['amount'])
+        tax = (int(amount) * int(hr_settings))/100
+        amount = int(data['amount']) + tax
 
         url = "https://apigateway.cl/api/v1/sii/bte/emitidas/emitir"
 
@@ -112,7 +118,7 @@ class Honorary():
                                     "Detalle": [
                                         {
                                             "NmbItem": 'Boleta de Honorarios para ' + data['full_name'],
-                                            "MontoItem": Helper.remove_from_string('.', data['amount'])
+                                            "MontoItem": amount
                                         }
                                     ]
                                 }

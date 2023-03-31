@@ -582,6 +582,16 @@ class SettingModel(db.Model):
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
+class HrSettingsModel(db.Model):
+    __tablename__ = 'hr_settings'
+
+    id = db.Column(db.Integer, primary_key=True)
+    minimal_income = db.Column(db.Integer)
+    top_gratification = db.Column(db.Integer)
+    percentage_honorary_bill = db.Column(db.String(255))
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
 class StatusesModel(db.Model):
     __tablename__ = 'statuses'
 
