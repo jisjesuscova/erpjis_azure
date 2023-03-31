@@ -5,6 +5,7 @@ from app.helpers.helper import Helper
 from app.vacations.vacation import Vacation
 from app import db
 from datetime import datetime
+from app.hr_settings.hr_setting import HrSetting
 
 class EndDocument():
     @staticmethod
@@ -67,9 +68,15 @@ class EndDocument():
 
     @staticmethod
     def indemnity_years_service(rut, exit_company):
+        hr_settings = HrSetting.get()
+
         employee_labor_datum = EmployeeLaborDatum.get(rut)
 
         gratification = Helper.gratification(employee_labor_datum.salary)
+
+        if gratification > hr_settings.top_gratification:
+            gratification = hr_settings.top_gratification
+
         years = Helper.get_end_document_total_years(employee_labor_datum.entrance_company, exit_company)
         result = (int(employee_labor_datum.salary) + int(employee_labor_datum.collation) + int(employee_labor_datum.locomotion) + int(gratification)) * int(years)
 
