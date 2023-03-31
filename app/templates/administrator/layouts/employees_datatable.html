@@ -39,6 +39,9 @@
                                         <a title="Kardex" href="{{ url_for('kardex_data.index', rut=employee['rut'] ) }}" class="btn btn-secondary">
                                             <i class="fa fa-file"></i>
                                         </a>
+                                        <a title="Uniforme" href="{{ url_for('uniforms.index', rut = employee['rut']) }}" class="btn btn-warning">
+                                            <i class="fa-solid fa-shirt"></i>
+                                        </a>
                                         <a title="Vacaciones" href="{{ url_for('vacations.index') }}/{{ employee['rut'] }}" class="btn btn-dark">
                                             <i class="fa fa-plane"></i>
                                         </a>

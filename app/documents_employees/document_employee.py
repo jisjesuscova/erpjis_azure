@@ -17,7 +17,7 @@ class DocumentEmployee():
             else:
                 documents_employees = DocumentEmployeeModel.query\
                     .join(DocumentTypeModel, DocumentTypeModel.id == DocumentEmployeeModel.document_type_id)\
-                    .add_columns(DocumentEmployeeModel.rut, DocumentEmployeeModel.id, DocumentTypeModel.document_type, DocumentEmployeeModel.added_date, DocumentEmployeeModel.status_id).filter(DocumentEmployeeModel.rut==rut, DocumentTypeModel.document_group_id==group)
+                    .add_columns(DocumentEmployeeModel.rut, DocumentEmployeeModel.id, DocumentTypeModel.document_type, DocumentEmployeeModel.added_date, DocumentEmployeeModel.status_id).order_by(DocumentTypeModel.order.asc()).filter(DocumentEmployeeModel.rut==rut, DocumentTypeModel.document_group_id==group)
         elif type != '':
             documents_employees = DocumentEmployeeModel.query.filter_by(rut=rut, document_type_id=type).order_by(db.desc(DocumentEmployeeModel.added_date)).paginate(page=page, per_page=10, error_out=False)
         else:

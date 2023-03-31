@@ -597,6 +597,7 @@ class DocumentTypeModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     document_type = db.Column(db.String(255))
     document_group_id = db.Column(db.Integer) 
+    order = db.Column(db.Integer) 
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 

@@ -14,6 +14,7 @@ class KardexDatum():
         .add_columns(DocumentEmployeeModel.id, DocumentTypeModel.document_type, DocumentEmployeeModel.added_date)\
         .filter(DocumentEmployeeModel.rut==rut)\
         .filter(DocumentGroupModel.id==1)\
+        .order_by(DocumentTypeModel.order.asc())\
         .all()
 
         return documents_employees

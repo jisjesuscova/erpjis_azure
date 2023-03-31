@@ -1,8 +1,10 @@
-from app.models.models import VacationModel, EmployeeLaborDatumModel, DocumentEmployeeModel, OldVacationModel, OldDocumentEmployeeModel
+from app.models.models import VacationModel, EmployeeExtraModel, EmployeeLaborDatumModel, DocumentEmployeeModel, OldVacationModel, OldDocumentEmployeeModel
 from app.helpers.helper import Helper
 from app import db
 from datetime import datetime, date
 from sqlalchemy import func
+from app.employee_extra_data.employee_extra_datum import EmployeeExtraDatum
+from app.employee_labor_data.employee_labor_datum import EmployeeLaborDatum
 
 class Vacation():
     @staticmethod
@@ -169,9 +171,10 @@ class Vacation():
     
     @staticmethod
     def legal(rut):
-        employee_labor_data = EmployeeLaborDatumModel.query.filter_by(rut=rut).first()
+        employee_labor_data = EmployeeLaborDatum.get(rut)
+        employee_extra_data = EmployeeExtraDatum.get(rut)
         months = Helper.months(employee_labor_data.entrance_company, date.today())
-        vacation_days = Helper.vacation_days(months, employee_labor_data.extreme_zone_id)
+        vacation_days = Helper.vacation_days(months, employee_extra_data.extreme_zone_id)
 
         return vacation_days
     

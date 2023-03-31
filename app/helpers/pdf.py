@@ -50,7 +50,14 @@ class Pdf:
 
         rendered = render_template(template_path, data = data, root = 'https://127.0.0.1:5000/', multiple_data = multiple_data, total_data = total_data, logo = logo)
 
-        pdf = pdfkit.from_string(rendered, False, configuration = config)
+        pdf = pdfkit.from_string(rendered, options={
+                                                    "enable-local-file-access": "",
+                                                    'page-size': 'letter',
+                                                    'margin-top': '0.7in',
+                                                    'margin-right': '0.5in',
+                                                    'margin-bottom': '0.5in',
+                                                    'margin-left': '0.5in'
+                                                    }, configuration = config)
         
         return pdf
 
