@@ -1283,7 +1283,7 @@ $(document).ready(function () {
         event.preventDefault();
 
         // Verificar si hay campos vacíos o indefinidos
-        var requiredFields = ['family_rut', 'names', 'father_lastname', 'mother_lastname', 'born_date', 'gender_id', 'family_type_id', 'file'];
+        var requiredFields = ['rut', 'names', 'father_lastname', 'mother_lastname', 'born_date', 'gender_id', 'family_type_id', 'file'];
         var hasEmptyField = false;
         for (var i = 0; i < requiredFields.length; i++) {
             var field = $('#' + requiredFields[i]);
