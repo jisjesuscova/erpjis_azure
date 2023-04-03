@@ -156,8 +156,6 @@ def document(rut, id):
       pdf = Pdf.create_pdf('multifunctional_employee_contract', data)
    elif employee_labor_datum.job_position_id == 15:
       pdf = Pdf.create_pdf('hr_manager_contract', data)
-   else:
-      pdf = Pdf.create_pdf('contract', data)
   
    response = make_response(pdf)
    response.headers['Content-Type'] = 'application/pdf'
