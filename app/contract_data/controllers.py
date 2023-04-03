@@ -152,7 +152,9 @@ def document(rut, id):
    
    data = [entrance_company_date, full_name, employee.visual_rut, employee_labor_datum.address, commune.commune, civil_state.civil_state, job_position.job_position, branch_office.branch_office, branch_office.address, job_position.functions, employee_labor_datum.contract_type_id, salary, first_extention_contract_last_day, second_extention_contract_last_day, pention, health.health, employee_labor_datum.company_email]
 
-   if employee_labor_datum.job_position_id == 15:
+   if employee_labor_datum.job_position_id == 10:
+      pdf = Pdf.create_pdf('multifunctional_employee_contract', data)
+   elif employee_labor_datum.job_position_id == 15:
       pdf = Pdf.create_pdf('hr_manager_contract', data)
    else:
       pdf = Pdf.create_pdf('contract', data)
