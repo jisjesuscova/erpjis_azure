@@ -178,7 +178,7 @@ class DocumentEmployee():
                     .join(EmployeeLaborDatumModel, EmployeeLaborDatumModel.rut == EmployeeModel.rut)\
                     .join(BranchOfficeModel, BranchOfficeModel.id == EmployeeLaborDatumModel.branch_office_id)\
                     .join(DocumentTypeModel, DocumentTypeModel.id == DocumentEmployeeModel.document_type_id)\
-                    .add_columns(DocumentEmployeeModel.id, EmployeeModel.rut, EmployeeModel.visual_rut, EmployeeModel.nickname, DocumentTypeModel.document_type, DocumentEmployeeModel.added_date, DocumentEmployeeModel.status_id).filter(SupervisorModel.rut==rut, DocumentTypeModel.document_group_id==2)
+                    .add_columns(DocumentEmployeeModel.id, EmployeeModel.rut, EmployeeModel.visual_rut, EmployeeModel.nickname, DocumentTypeModel.document_type, DocumentEmployeeModel.added_date, DocumentEmployeeModel.status_id).filter(DocumentTypeModel.document_group_id==2)
 
         if len(data) > 0:
             if search_rut:
