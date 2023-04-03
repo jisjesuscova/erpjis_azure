@@ -1226,7 +1226,7 @@ $(document).ready(function () {
         var formData = new FormData();
         var rut =  $('#rut').val()
         
-        formData.append('rut', $('#user_rut').val());
+        formData.append('rut', $('#rut').val());
         formData.append('id', $('#id').val());
         formData.append('file', $('input[name="file"]')[0].files[0]);
 

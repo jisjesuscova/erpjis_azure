@@ -169,7 +169,7 @@ def upload_vacation():
 
    file_name = "_" + document_type.document_type + "_" + str(datetime.now())
 
-   support = Dropbox.upload(request.form['rut'], 'papeleta_vacaciones', request.files, "/employee_documents/", "app/static/dist/files/document_data/", 0)
+   support = Dropbox.upload(request.form['rut'], 'papeleta_vacaciones', request.files, "/employee_documents/", "app/static/dist/files/vacation_data/", 0)
    status_id = DocumentEmployee.sign_vacation(request.form['id'], request.form['rut'], support)
    
    flash('El documento ha sido subido con éxito', 'success')
