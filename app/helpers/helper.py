@@ -261,7 +261,7 @@ class Helper:
     @staticmethod
     def vacation_days(months, extreme_zone_status_id):
         if extreme_zone_status_id == 1:
-            total = round(months*1.65)
+            total = round(months*1.66)
         else:
             total = round(months*1.25)
 
