@@ -3,6 +3,9 @@ $(document).ready(function () {
     $('.replacement_honorary').hide();
     $('.displayed_replacement_honorary').show();
     $(".update-honorary-btn").prop("disabled", true);
+    $("#calculate_fertility_proportional").prop("disabled", true);
+    $("#calculate_substitute_compensation").prop("disabled", true);
+    $("#calculate_indemnity_years_service").prop("disabled", true);
     
     $('[data-toggle="tooltip"]').tooltip()
 
@@ -13,6 +16,14 @@ $(document).ready(function () {
         } else {
             $('.replacement_honorary').hide();
             $('.displayed_replacement_honorary').hide();
+        }
+    });
+
+    $("#exit_company").change(function(){
+        if($(this).val() != '' && $(this).val() != null) {
+            $("#calculate_fertility_proportional").prop("disabled", false);
+            $("#calculate_substitute_compensation").prop("disabled", false);
+            $("#calculate_indemnity_years_service").prop("disabled", false);
         }
     });
 
@@ -1706,11 +1717,14 @@ $(document).ready(function () {
     $("#voluntary_indemnity").change(function() {
         var total
 
-        var voluntary_indemnity = $(this).val();
+        var voluntary_indemnity = $(this).val().replace(/\./g, '');
+        var indemnity_years_service = $("#indemnity_years_service").val().replace(/\./g, '');
+        var substitute_compensation = $("#substitute_compensation").val().replace(/\./g, '');
+        var fertility_proportional = $("#fertility_proportional").val().replace(/\./g, '');
 
-        $(".voluntary_indemnity").val(voluntary_indemnity) 
+        $("#voluntary_indemnity").val(voluntary_indemnity) 
 
-        total = parseInt($("#voluntary_indemnity").val()) + parseInt($("#indemnity_years_service").val()) + parseInt($("#substitute_compensation").val()) + parseInt($("#fertility_proportional").val())
+        total = parseInt(voluntary_indemnity) + parseInt(indemnity_years_service) + parseInt(substitute_compensation) + parseInt(fertility_proportional)
 
         $("#total").val(total)
     });
@@ -1718,7 +1732,14 @@ $(document).ready(function () {
     $("#indemnity_years_service").change(function() {
         var total
 
-        total = parseInt($("#voluntary_indemnity").val()) + parseInt($("#indemnity_years_service").val()) + parseInt($("#substitute_compensation").val()) + parseInt($("#fertility_proportional").val())
+        var voluntary_indemnity = $("#voluntary_indemnity").val().replace(/\./g, '');
+        var indemnity_years_service = $(this).val().replace(/\./g, '');
+        var substitute_compensation = $("#substitute_compensation").val().replace(/\./g, '');
+        var fertility_proportional = $("#fertility_proportional").val().replace(/\./g, '');
+
+        $("#indemnity_years_service").val(indemnity_years_service) 
+
+        total = parseInt(voluntary_indemnity) + parseInt(indemnity_years_service) + parseInt(substitute_compensation) + parseInt(fertility_proportional)
 
         $("#total").val(total)
     });
@@ -1726,7 +1747,14 @@ $(document).ready(function () {
     $("#substitute_compensation").change(function() {
         var total
 
-        total = parseInt($("#voluntary_indemnity").val()) + parseInt($("#indemnity_years_service").val()) + parseInt($("#substitute_compensation").val()) + parseInt($("#fertility_proportional").val())
+        var voluntary_indemnity = $("#voluntary_indemnity").val().replace(/\./g, '');
+        var indemnity_years_service = $("#indemnity_years_service").val().replace(/\./g, '');
+        var substitute_compensation = $(this).val().replace(/\./g, '');
+        var fertility_proportional = $("#fertility_proportional").val().replace(/\./g, '');
+
+        $("#substitute_compensation").val(substitute_compensation) 
+
+        total = parseInt(voluntary_indemnity) + parseInt(indemnity_years_service) + parseInt(substitute_compensation) + parseInt(fertility_proportional)
 
         $("#total").val(total)
     });
@@ -1734,7 +1762,14 @@ $(document).ready(function () {
     $("#fertility_proportional").change(function() {
         var total
 
-        total = parseInt($("#voluntary_indemnity").val()) + parseInt($("#indemnity_years_service").val()) + parseInt($("#substitute_compensation").val()) + parseInt($("#fertility_proportional").val())
+        var voluntary_indemnity = $("#voluntary_indemnity").val().replace(/\./g, '');
+        var indemnity_years_service = $("#indemnity_years_service").val().replace(/\./g, '');
+        var substitute_compensation = $("#substitute_compensation").val().replace(/\./g, '');
+        var fertility_proportional = $(this).val().replace(/\./g, '');
+
+        $("#fertility_proportional").val(fertility_proportional) 
+
+        total = parseInt(voluntary_indemnity) + parseInt(indemnity_years_service) + parseInt(substitute_compensation) + parseInt(fertility_proportional)
 
         $("#total").val(total)
     });

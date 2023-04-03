@@ -11,6 +11,9 @@
                         <div class="alert alert-danger alert-danger-form" style="display:none;" role="alert">
                             Todos los campos del formulario son <strong>obligatorios</strong>.
                         </div>
+                        <div class="alert alert-danger alert-danger-form" style="display:none;" role="alert">
+                            La fecha del finiquito es <strong>obligatoria</strong>.
+                        </div>
                         <!-- form start -->
                         <form role="form" action="{{ url_for('end_documents.store') }}" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
@@ -113,7 +116,7 @@
                             
 
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Calcular</button>
+                                <button type="submit" class="btn btn-primary" id="calculate_indemnity_years_service">Calcular</button>
                             </div>
                         </form>
                         <!-- form end -->
@@ -152,7 +155,7 @@
                             <input type="hidden" value="{{ rut }}" class="form-control" id="rut" name="rut">
                             
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Calcular</button>
+                                <button type="submit" class="btn btn-primary" id="calculate_substitute_compensation">Calcular</button>
                             </div>
                         </form>
                         <!-- form end -->
@@ -192,7 +195,7 @@
                             <input type="hidden" value="{{ rut }}" class="form-control" id="exampleInputEmail1" name="rut">
                             
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary ">Calcular</button>
+                                <button type="submit" class="btn btn-primary" id="calculate_fertility_proportional">Calcular</button>
                             </div>
                         </form>
                         <!-- form end -->
