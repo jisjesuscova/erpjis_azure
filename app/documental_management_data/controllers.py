@@ -124,6 +124,19 @@ def signed(rut, id):
    elif current_user.rol_id == 4:
       return render_template('administrator/human_resources/documental_management_data/upload_signed_document.html', id = id, rut = rut)
 
+@documental_management_datum.route("/human_resources/documental_management_data/signed_vacation/<int:rut>/<int:id>", methods=['GET'])
+def signed_vacation(rut, id):
+   print(current_user.rol_id )
+   if current_user.rol_id == 1:
+      return render_template('collaborator/human_resources/documental_management_data/upload_signed_vacation_document.html', id = id, rut = rut)
+   elif current_user.rol_id == 2:
+      return render_template('incharge/human_resources/documental_management_data/upload_signed_vacation_document.html', id = id, rut = rut)
+   elif current_user.rol_id == 3:
+      return render_template('supervisor/human_resources/documental_management_data/upload_signed_vacation_document.html', id = id, rut = rut)
+   elif current_user.rol_id == 4:
+      return render_template('administrator/human_resources/documental_management_data/upload_signed_vacation_document.html', id = id, rut = rut)
+
+
 @documental_management_datum.route("/human_resources/documental_management_data/upload", methods=['POST'])
 def upload():
    document_employee = DocumentEmployee.get_by_id(request.form['id'])
@@ -148,7 +161,24 @@ def upload():
          return redirect(url_for('vacations.index', rut=document_employee.rut))
       else:
          return redirect(url_for('documental_management_data.review', page=1))
- 
+
+@documental_management_datum.route("/human_resources/documental_management_data/upload_vacation", methods=['POST'])
+def upload_vacation():
+   document_employee = DocumentEmployee.get_by_id(request.form['id'])
+   document_type = DocumentType.get(document_employee.document_type_id)
+
+   file_name = "_" + document_type.document_type + "_" + str(datetime.now())
+
+   support = Dropbox.upload(request.form['rut'], 'papeleta_vacaciones', request.files, "/employee_documents/", "app/static/dist/files/document_data/", 0)
+   status_id = DocumentEmployee.sign_vacation(request.form['id'], request.form['rut'], support)
+   
+   flash('El documento ha sido subido con éxito', 'success')
+
+   if status_id == 1:
+      return '1'
+   else:
+      return '0'
+      
 @documental_management_datum.route("/human_resources/documental_management_data/download/<int:id>", methods=['GET'])
 def download(id):
    document_employee = DocumentEmployee.get_by_id(id)

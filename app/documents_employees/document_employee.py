@@ -257,6 +257,22 @@ class DocumentEmployee():
         return document_employee.id
 
     @staticmethod
+    def sign_vacation(id, rut, support):
+        document_employee = DocumentEmployeeModel.query.filter_by(id=id).first()
+        document_employee.status_id = 4
+        document_employee.support = support
+        document_employee.updated_date = datetime.now()
+
+        db.session.add(document_employee)
+
+        try:
+            db.session.commit()
+
+            return 1
+        except Exception as e:
+            return 0
+    
+    @staticmethod
     def delete(id):
         document_employee = DocumentEmployeeModel.query.filter_by(id=id).first()
 

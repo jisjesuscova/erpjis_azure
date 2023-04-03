@@ -1,0 +1,39 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Agregar Documento Firmado de Vacaciones</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- form start -->
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Documento</label>
+                                        <input type="file" value="" class="form-control" id="file" placeholder="Imagen" name="file" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+
+                        <input type="hidden" value="{{ rut }}" class="form-control" id="rut" name="rut">
+                        <input type="hidden" value="{{ id }}" class="form-control" id="id" name="id">
+                            
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-primary">Guardar</button>
+
+                            <a href="{{ url_for('vacations.index', rut=rut) }}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

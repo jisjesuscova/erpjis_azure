@@ -86,7 +86,7 @@
                                                 </a>
                                             {% endif %}
                                             {% if vacation['status_id'] == 3  %}
-                                                <a href="{{ url_for('documental_management_data.signed', rut=vacation['rut'], id=vacation['document_employee_id']) }}" class="btn btn-success">
+                                                <a href="{{ url_for('documental_management_data.signed_vacation', rut=vacation['rut'], id=vacation['document_employee_id']) }}" class="btn btn-success">
                                                     <i class="fa fa-arrow-up"></i>
                                                 </a>
                                                 <a href="{{ url_for('document_requests.download', id=vacation['document_employee_id']) }}" class="btn btn-warning">
@@ -176,7 +176,7 @@
                                                     </a>
                                                 {% endif %}
                                                 {% if progressive_vacation['status_id'] == 3  %}
-                                                    <a href="{{ url_for('documental_management_data.signed', rut=progressive_vacation['rut'], id=progressive_vacation['document_employee_id']) }}" class="btn btn-success">
+                                                    <a href="{{ url_for('documental_management_data.signed_vacation', rut=progressive_vacation['rut'], id=progressive_vacation['document_employee_id']) }}" class="btn btn-success">
                                                         <i class="fa fa-arrow-up"></i>
                                                     </a>
                                                     <a href="{{ url_for('document_requests.download', id=progressive_vacation['document_employee_id']) }}" class="btn btn-warning">

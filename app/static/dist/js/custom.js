@@ -1201,6 +1201,63 @@ $(document).ready(function () {
         });
     });
 
+    $('.upload-vacation-data-btn').click(function(event) {
+        event.preventDefault();
+
+        // Verificar si hay campos vacíos o indefinidos
+        var requiredFields = ['file'];
+        var hasEmptyField = false;
+        for (var i = 0; i < requiredFields.length; i++) {
+            var field = $('#' + requiredFields[i]);
+            if (field.val() === '' || typeof field.val() === 'undefined') {
+                hasEmptyField = true;
+                break;
+            }
+        }
+
+        if (hasEmptyField) {
+            $('.alert-danger-form').show();
+            return;
+        }
+
+        $('span#loading-icon').show();
+        $('.upload-vacation-data-btn').hide();
+        
+        var formData = new FormData();
+        var rut =  $('#rut').val()
+        
+        formData.append('rut', $('#user_rut').val());
+        formData.append('id', $('#id').val());
+        formData.append('file', $('input[name="file"]')[0].files[0]);
+
+        $.ajax({
+            url: "/human_resources/documental_management_data/upload_vacation",
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response == 1) {
+                    window.location.replace("https://jiserp.com/human_resources/vacations/"+rut);
+                } else {
+                    $('.alert-danger-404-form').show();
+                    $('.alert-danger-form').hide();
+                    $('span#loading-icon').hide();
+                    $('.upload-vacation-data-btn').show();
+                }
+            },
+            error: function() {
+                $('.alert-danger-404-form').show();
+                $('.alert-danger-form').hide();
+                $('span#loading-icon').hide();
+                $('.upload-vacation-data-btn').show();
+            }
+        });
+    });
+
     $('.update-family-data-btn').click(function(event) {
         event.preventDefault();
 
