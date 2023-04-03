@@ -13,11 +13,11 @@ class Dropbox():
         settings = Setting.get()
         f = data['file']
 
-        extesion = f.filename.split('.')
+        extesion = os.path.splitext(f.filename)[1]
         dropbox_file_name = Helper.file_name(str(name), str(description))
 
-        dropbox_path = dropbox_path + dropbox_file_name + "." + extesion[1]
-        computer_path = computer_path + dropbox_file_name + "." + extesion[1]
+        dropbox_path = dropbox_path + dropbox_file_name + extesion
+        computer_path = computer_path + dropbox_file_name + extesion
 
         if resize  == 1:
             image = Image.open(f)
@@ -28,7 +28,7 @@ class Dropbox():
 
         dbx = dropbox.Dropbox(settings.dropbox_token)
         if dbx.files_upload(open(os.path.join(computer_path), "rb").read(), dropbox_path):
-            return dropbox_file_name + "." + extesion[1]
+            return dropbox_file_name + extesion
         else:
             return 0
 
@@ -37,8 +37,8 @@ class Dropbox():
 
         f = data['file']
 
-        extesion = f.filename.split('.')
-        dropbox_file_name = str(name) + str(description) + "_" + str(datetime.now().date()) + "." + extesion[1]
+        extesion = os.path.splitext(f.filename)[1]
+        dropbox_file_name = str(name) + str(description) + "_" + str(datetime.now().date()) + extesion
 
         if resize  == 1:
             image = Image.open(f)
@@ -61,11 +61,11 @@ class Dropbox():
         settings = Setting.get()
 
         f = data['file']
-        extesion = f.filename.split('.')
+        extesion = os.path.splitext(f.filename)[1]
         dropbox_file_name = Helper.file_name(str(name), str(description))
 
-        dropbox_path = dropbox_path + dropbox_file_name + "." + extesion[1]
-        computer_path = computer_path + dropbox_file_name + "." + extesion[1]
+        dropbox_path = dropbox_path + dropbox_file_name + extesion
+        computer_path = computer_path + dropbox_file_name + extesion
 
         f.save(os.path.join(computer_path))
 
@@ -81,17 +81,17 @@ class Dropbox():
 
         f = data['file']
         
-        extesion = f.filename.split('.')
+        extesion = os.path.splitext(f.filename)[1]
         dropbox_file_name = Helper.file_name(str(name), str(description))
 
-        dropbox_path = dropbox_path + dropbox_file_name + "." + extesion[1]
-        computer_path = computer_path + dropbox_file_name + "." + extesion[1]
+        dropbox_path = dropbox_path + dropbox_file_name + extesion
+        computer_path = computer_path + dropbox_file_name + extesion
 
         f.save(os.path.join(computer_path))
 
         dbx = dropbox.Dropbox(settings.dropbox_token)
         if dbx.files_upload(open(os.path.join(computer_path), "rb").read(), dropbox_path,  mode=dropbox.files.WriteMode('overwrite')):
-            return dropbox_file_name + "." + extesion[1]
+            return dropbox_file_name + extesion
         else:
             return 0
 
