@@ -114,7 +114,7 @@ class Helper:
 
         random_float = random.randint(1, 9999999999999999)
 
-        file_name = str(random_float) + "_" + str(rut) + str(description) + "_" + str(current_day) + "_" + str(current_month) + "_" + str(current_year)
+        file_name = str(random_float) + "_" + str(rut) + "_" + str(description) + "_" + str(current_day) + "_" + str(current_month) + "_" + str(current_year)
 
         return file_name
 

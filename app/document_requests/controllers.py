@@ -194,7 +194,7 @@ def download(id):
 
       response = make_response(pdf)
       response.headers['Content-Type'] = 'application/pdf'
-      response.headers['Content-Disposition'] = 'attachment; filename=document.pdf'
+      response.headers['Content-Disposition'] = 'attachment; filename=vacations.pdf'
 
    elif document_employee.document_type_id == 36:
       employee = Employee.get(document_employee.rut)
