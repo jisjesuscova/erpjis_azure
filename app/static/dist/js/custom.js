@@ -1316,7 +1316,7 @@ $(document).ready(function () {
         $('.create-family-data-btn').hide();
         
         var formData = new FormData();
-        var rut =  $('#rut').val()
+        var rut =  $('#user_rut').val()
         
         formData.append('rut', $('#user_rut').val());
         formData.append('family_rut', $('#rut').val());
