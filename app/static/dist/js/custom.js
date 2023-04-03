@@ -3,9 +3,15 @@ $(document).ready(function () {
     $('.replacement_honorary').hide();
     $('.displayed_replacement_honorary').show();
     $(".update-honorary-btn").prop("disabled", true);
-    $("#calculate_fertility_proportional").prop("disabled", true);
-    $("#calculate_substitute_compensation").prop("disabled", true);
-    $("#calculate_indemnity_years_service").prop("disabled", true);
+    if ($("#exit_company").val() != null && $("#exit_company").val() != '') {
+        $("#calculate_fertility_proportional").prop("disabled", false);
+        $("#calculate_substitute_compensation").prop("disabled", false);
+        $("#calculate_indemnity_years_service").prop("disabled", false);
+    } else {
+        $("#calculate_fertility_proportional").prop("disabled", true);
+        $("#calculate_substitute_compensation").prop("disabled", true);
+        $("#calculate_indemnity_years_service").prop("disabled", true);
+    }
     
     $('[data-toggle="tooltip"]').tooltip()
 
