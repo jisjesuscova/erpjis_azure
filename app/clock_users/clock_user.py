@@ -32,7 +32,7 @@ class ClockUser():
 
     @staticmethod
     def verifiy(rut = ''):
-        clock_user_qty = ClockUserModel.query.get(rut=rut).count()
+        clock_user_qty = ClockUserModel.query.filter_by(rut=rut).count()
 
         if clock_user_qty > 0:
             return 1
