@@ -56,7 +56,7 @@ class OldVacation():
 
             OldVacation.store(data)
 
-            Vacation.delete(vacation.id)
+            Vacation.delete(vacation.document_employee_id)
 
         return 1
 
