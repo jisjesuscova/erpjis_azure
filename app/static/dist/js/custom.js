@@ -33,6 +33,14 @@ $(document).ready(function () {
         }
     });
 
+    $("#job_position_id").change(function(){
+        if($(this).val() != 10 && $(this).val() != 9 &&  $(this).val() != 8 &&  $(this).val() != 7 && $(this).val() != 6) {
+            $("#create-contract").prop("disabled", true);
+        } else {
+            $("#create-contract").prop("disabled", false);
+        }
+    });
+
     $("#are_you_sure").change(function(){
         if ($("#are_you_sure").val() == 1) {
             $(".update-honorary-btn").prop("disabled", false);

@@ -270,9 +270,9 @@
                         <h3 class="card-title">
                             <form role="form" action="{{ url_for('contract_data.generate') }}" method="POST">
                                 Contratos
-                                {% if is_active == 1 %}
+                                {% if is_active == 1 and (contract_datum.job_position_id == 10 or contract_datum.job_position_id == 9 or contract_datum.job_position_id == 8 or contract_datum.job_position_id == 7 or contract_datum.job_position_id == 6) %}
                                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-                                    <button type="submit" class="btn btn-success">Crear</button>
+                                    <button type="submit" id="create-contract" class="btn btn-success">Crear</button>
                                     <input type="hidden" name="rut" value="{{ rut }}">
                                     <input type="hidden" name="document_type_id" value="21">
                                     <input type="hidden" name="status_id" value="3">
