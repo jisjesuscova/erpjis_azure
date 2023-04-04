@@ -189,7 +189,7 @@ def document(rut, id):
    end_document = EndDocument.get_by_rut(old_employee.rut)
    causal = Causal.get(end_document.causal_id)
    total = Helper.fix_thousands(end_document.total)
-   entrance_company = Helper.fix_date(str(old_employee_labor_datum.entrance_company))
+   entrance_company = Helper.document_date(str(old_employee_labor_datum.entrance_company))
    fertility_proportional = Helper.fix_thousands(end_document.fertility_proportional)
    voluntary_indemnity = Helper.fix_thousands(end_document.voluntary_indemnity)
    substitute_compensation = Helper.fix_thousands(end_document.substitute_compensation)
