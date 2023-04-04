@@ -226,17 +226,19 @@ class Helper:
     def count_weekends(start_date, end_date):
         start_date = datetime.strptime(start_date, "%Y-%m-%d")
         end_date = datetime.strptime(end_date, '%Y-%m-%d')
+        if end_date.weekday() == 4:  # Si es viernes (0=Lunes, 6=Domingo)
+            end_date += timedelta(days=2)  # Suma 2 dias
         weekend_count = 0
         delta = timedelta(days=1)
         current_date = start_date
         while current_date <= end_date:
-            if current_date.weekday() >= 5:
+            if current_date.weekday() >= 5:  # Si es sábado o domingo
                 weekend_count += 1
             current_date += delta
-        
+            
         return weekend_count
     
-    def add_business_days(start_date, num_days):
+    def add_business_days(start_date, num_days, holidays):
         start_date = datetime.strptime(start_date, "%Y-%m-%d")
         current_date = start_date
         added_days = 0
@@ -246,6 +248,10 @@ class Helper:
             # verificamos si la fecha actual es hábil/laboral
             if calendar.weekday(current_date.year, current_date.month, current_date.day) < 5:
                 added_days += 1
+
+        # sumamos los días feriados al resultado si la lista no está vacía
+        if len(holidays) > 0:
+            current_date += timedelta(days=len(holidays))
 
         return current_date
 

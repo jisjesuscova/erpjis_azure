@@ -94,10 +94,10 @@ class EndDocument():
         taken_days = Vacation.taken_days(rut)
         balance = Vacation.balance(legal, taken_days)
         start_date = exit_company
-        end_date = Helper.add_business_days(start_date, balance)
+        end_date = Helper.add_business_days(start_date, balance, number_holidays)
         end_date_split = Helper.split(str(end_date), " ")
         weekends_between_dates = Helper.count_weekends(start_date, end_date_split[0])
-        total = int(balance) + int(weekends_between_dates) - int(number_holidays)
+        total = int(balance) + int(weekends_between_dates) + int(number_holidays)
         vacation_day_value = Helper.vacation_day_value(employee_labor_datum.salary)
 
         result = int(vacation_day_value) * int(total)
@@ -105,7 +105,7 @@ class EndDocument():
         if result < 0:
             result = 0
             
-        return result
+        return vacation_day_value
 
     @staticmethod
     def store(id, data):
