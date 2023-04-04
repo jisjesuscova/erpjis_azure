@@ -13,7 +13,7 @@ class MedicalLicense():
                 .join(DocumentEmployeeModel, DocumentEmployeeModel.id == MedicalLicenseModel.document_employee_id)\
                 .join(PatologyTypeModel, PatologyTypeModel.id == MedicalLicenseModel.patology_type_id)\
                 .add_columns(PatologyTypeModel.patology_type, DocumentEmployeeModel.status_id, MedicalLicenseModel.document_employee_id, MedicalLicenseTypeModel.medical_license_type, MedicalLicenseModel.id, MedicalLicenseModel.folio,  MedicalLicenseModel.rut, MedicalLicenseModel.since, MedicalLicenseModel.until, MedicalLicenseModel.added_date, MedicalLicenseModel.days)\
-                .order_by(MedicalLicenseModel.since.asc())\
+                .order_by(MedicalLicenseModel.id.asc())\
                 .filter(MedicalLicenseModel.rut==rut)\
                 .all()
             
@@ -25,7 +25,7 @@ class MedicalLicense():
                 .join(DocumentEmployeeModel, DocumentEmployeeModel.id == MedicalLicenseModel.document_employee_id)\
                 .add_columns(PatologyTypeModel.patology_type, DocumentEmployeeModel.status_id, MedicalLicenseModel.document_employee_id, MedicalLicenseTypeModel.medical_license_type, MedicalLicenseModel.id, MedicalLicenseModel.folio,  MedicalLicenseModel.rut, MedicalLicenseModel.since, MedicalLicenseModel.until, MedicalLicenseModel.added_date, MedicalLicenseModel.days)\
                 .filter(MedicalLicenseModel.rut==rut)\
-                .order_by(MedicalLicenseModel.since.asc())\
+                .order_by(MedicalLicenseModel.id.asc())\
                 .group_by(text(fields))\
                 .first()
             
