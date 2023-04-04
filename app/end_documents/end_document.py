@@ -105,7 +105,7 @@ class EndDocument():
         if result < 0:
             result = 0
             
-        return vacation_day_value
+        return result
 
     @staticmethod
     def store(id, data):
