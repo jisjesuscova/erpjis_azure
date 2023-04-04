@@ -104,10 +104,13 @@ class OldVacation():
     
     @staticmethod
     def update(old_id, new_id):
-        old_vacation = OldVacationModel.query.filter_by(document_employee_id=old_id).first()
-        old_vacation.document_employee_id = new_id
+        old_vacation_qty = OldVacationModel.query.filter_by(document_employee_id=old_id).count()
 
-        db.session.add(old_vacation)
-        db.session.commit()
-        
-        return old_vacation.id
+        if old_vacation_qty > 0:
+            old_vacation = OldVacationModel.query.filter_by(document_employee_id=old_id).first()
+            old_vacation.document_employee_id = new_id
+
+            db.session.add(old_vacation)
+            db.session.commit()
+            
+            return old_vacation.id

@@ -31,6 +31,15 @@ class ClockUser():
             return clock_users
 
     @staticmethod
+    def verifiy(rut = ''):
+        clock_user_qty = ClockUserModel.query.get(rut=rut).count()
+
+        if clock_user_qty > 0:
+            return 1
+        else:
+            return 0
+        
+    @staticmethod
     def get_last_uid():
         clock_user = ClockUserModel.query.order_by(ClockUserModel.uid.desc()).first()
         result = clock_user.uid + 1
@@ -44,24 +53,34 @@ class ClockUser():
         return quantity
 
     def store(data):
-        clock_user = ClockUserModel()
-        clock_user.uid = data['uid']
         rut = Helper.numeric_rut(data['rut'])
-        clock_user.rut = rut
-        upper_string = data['names'] + " " + data['father_lastname'] + " " + data['mother_lastname']
-        upper_string = Helper.upper_string(upper_string)
-        clock_user.full_name = upper_string
-        clock_user.privilege = data['privilege']
-        clock_user.added_date = datetime.now()
-        clock_user.updated_date = datetime.now()
 
-        db.session.add(clock_user)
-        try:
-            db.session.commit()
+        status_id = ClockUser.verifiy(rut)
+
+        if status_id == 0:
+            clock_user = ClockUserModel()
+            clock_user.uid = data['uid']
+            
+            clock_user.rut = rut
+            upper_string = data['names'] + " " + data['father_lastname'] + " " + data['mother_lastname']
+            upper_string = Helper.upper_string(upper_string)
+            clock_user.full_name = upper_string
+            clock_user.privilege = data['privilege']
+            clock_user.added_date = datetime.now()
+            clock_user.updated_date = datetime.now()
+
+            db.session.add(clock_user)
+            try:
+                db.session.commit()
+
+                return str(data['uid']) + "_" + str(data['rut']) + "_" + upper_string + "_" + str(data['privilege'])
+            except Exception as e:
+                return 0
+        else:
+            upper_string = data['names'] + " " + data['father_lastname'] + " " + data['mother_lastname']
+            upper_string = Helper.upper_string(upper_string)
 
             return str(data['uid']) + "_" + str(data['rut']) + "_" + upper_string + "_" + str(data['privilege'])
-        except Exception as e:
-            return 0
         
         
  
