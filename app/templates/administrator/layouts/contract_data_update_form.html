@@ -248,21 +248,19 @@
                         <input type="hidden" value="{{ contract_datum.rut }}" class="form-control" id="rut" name="rut">
                             
                         <!-- /.card-body -->
-                        {% if is_active == 1 %}
-                            <div class="card-footer">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <span class="loading-icon" id="loading-icon" style="display:none;">Cargando...</span>
-                                        <button type="submit" class="btn btn-success update-contract-btn">Actualizar</button>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <span class="loading-icon" id="loading-icon" style="display:none;">Cargando...</span>
+                                    <button type="submit" class="btn btn-success update-contract-btn">Actualizar</button>
 
-                                        <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
-                                    </div>
-                                    <div class="col-md-6 text-right">
-                                        <a href="{{ url_for('employee_extra_data.show', rut=rut) }}" class="btn btn-primary">Ir a Datos de Extras</a> 
-                                    </div>
+                                    <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <a href="{{ url_for('employee_extra_data.show', rut=rut) }}" class="btn btn-primary">Ir a Datos de Extras</a> 
                                 </div>
                             </div>
-                        {% endif %}
+                        </div>
                     </div>
                 </div>
                 <div class="card">
