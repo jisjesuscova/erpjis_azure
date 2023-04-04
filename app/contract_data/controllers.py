@@ -136,8 +136,7 @@ def document(rut, id):
    civil_state = CivilState.get(employee_labor_datum.civil_state_id)
    full_name = employee.names + " " + employee.father_lastname + " " + employee.mother_lastname
    job_position = JobPosition.get(employee_labor_datum.job_position_id)
-   entrance_company_date = Helper.fix_date(str(employee_labor_datum.entrance_company))
-   entrance_company_date = Helper.document_date(str(entrance_company_date))
+   entrance_company_date = Helper.document_date(str(employee_labor_datum.entrance_company))
    first_extention_contract = Helper.extention_contract(employee_labor_datum.entrance_company)
    first_extention_contract_last_day = Helper.get_last_day(first_extention_contract)
    second_extention_contract = Helper.extention_contract(first_extention_contract)
