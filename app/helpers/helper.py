@@ -150,6 +150,12 @@ class Helper:
         value = value.split("-")
 
         return value[2] + "-" + value[1] + "-" + value[0]
+    
+    @staticmethod
+    def american_date(value):
+        value = value.split("-")
+
+        return value[2] + "-" + value[1] + "-" + value[0]
 
     @staticmethod
     def convert_to_thousands(value):
