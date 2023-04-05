@@ -35,9 +35,9 @@ $(document).ready(function () {
 
     $("#job_position_id").change(function(){
         if($(this).val() != 10 && $(this).val() != 9 &&  $(this).val() != 8 &&  $(this).val() != 7 && $(this).val() != 6) {
-            $("#create-contract").prop("disabled", true);
+            $("#create-contract").hide();
         } else {
-            $("#create-contract").prop("disabled", false);
+            $("#create-contract").show();
         }
     });
 
