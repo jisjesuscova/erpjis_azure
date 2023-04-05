@@ -4,7 +4,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Datos de Contrato</h3>
+                        <h3 class="card-title">Revisar Datos de Contrato</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -247,112 +247,25 @@
 
                         <input type="hidden" value="{{ contract_datum.rut }}" class="form-control" id="rut" name="rut">
                             
-                        <!-- /.card-body -->
-                        {% if is_active == 1 %}
-                            <div class="card-footer">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <span class="loading-icon" id="loading-icon" style="display:none;">Cargando...</span>
-                                        <button type="submit" class="btn btn-success update-contract-btn">Actualizar</button>
 
-                                        <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
-                                    </div>
-                                    <div class="col-md-6 text-right">
-                                        <a href="{{ url_for('employee_extra_data.show', rut=rut) }}" class="btn btn-primary">Ir a Datos de Extras</a> 
-                                    </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <form role="form" action="{{ url_for('contract_data.generate') }}" method="POST">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                                        <button type="submit" id="create-contract" class="btn btn-success">Generar</button>
+                                        <input type="hidden" name="rut" value="{{ rut }}">
+                                        <input type="hidden" name="document_type_id" value="21">
+                                        <input type="hidden" name="status_id" value="3">
+                                        <a href="{{ url_for('contract_data.show', rut=rut) }}" class="btn btn-danger">
+                                            Regresar
+                                        </a> 
+                                    </form>
+                                     
                                 </div>
                             </div>
-                        {% endif %}
+                        </div>
                     </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            Contrato
-                            {% if is_active == 1 %}
-                                <a id="create-contract" href="{{ url_for('contract_data.review', rut=rut) }}" class="btn btn-success">Crear</a>
-                            {% endif %}
-                        </h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <table id="example2" class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Fecha</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            {% for contract_datum in contract_data %}
-                                <tbody>
-                                    <tr>
-                                        <td>{{ contract_datum['added_date']|datetime("dd-MM-yyyy") }}</td>
-                                        <td>
-                                            {% if contract_datum['support'] is not none %}
-                                                <a href="{{ url_for('contract_data.download', id=contract_datum['id']) }}" class="btn btn-success">
-                                                    <i class="fa fa-arrow-down"></i>
-                                                </a>
-                                            {% else %}
-                                                <a href="{{ url_for('contract_data.upload') }}/{{ contract_datum['id'] }}/{{ rut }}" class="btn btn-success">
-                                                    <i class="fa fa-arrow-up"></i>
-                                                </a>
-                                            {% endif %}
-                                            <a href="{{ url_for('contract_data.document', rut=rut, id=contract_datum['id']) }}" class="btn btn-primary">
-                                                <i class="fa fa-file"></i>
-                                            </a>
-                                            <a href="{{ url_for('contract_data.delete', rut=rut, id=contract_datum['id']) }}" class="btn btn-danger">
-                                                <i class="fa fa-times"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            {% endfor %}
-                        </table>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            Finiquito
-                            {% if not end_documents %}
-                                <a href="{{ url_for('end_documents.create', rut=rut) }}" class="btn btn-success">Crear</a>
-                            {% endif %}
-                        </h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                    <table id="example2" class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th></th>
-                            </tr>
-                            {% for end_document in end_documents %}
-                                <tr>
-                                    <td>{{ end_document['added_date']|datetime("dd-MM-yyyy") }}</td>
-                                    <td>
-                                        {% if end_document['status_id'] == 3  %}
-                                            <a href="{{ url_for('end_documents.upload', id=end_document['document_employee_id'], rut=rut) }}" class="btn btn-success">
-                                                <i class="fa fa-arrow-up"></i>
-                                            </a>
-                                        {% else  %}
-                                            <a href="{{ url_for('end_documents.download', id=end_document['document_employee_id'], rut=rut) }}" class="btn btn-primary">
-                                                <i class="fa fa-arrow-down"></i>
-                                            </a>
-                                        {% endif %}
-
-                                        <a href="{{ url_for('end_documents.document', id=end_document['id'], rut=rut) }}" class="btn btn-warning">
-                                            <i class="fa fa-file"></i>
-                                        </a>
-
-                                        <a href="{{ url_for('end_documents.delete', end_document_id=end_document['id'], document_employee_id=end_document['document_employee_id'], rut=rut) }}" class="btn btn-danger">
-                                            <i class="fa fa-times"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </thead>
-                    </table>
                 </div>
             </div>
         </div>

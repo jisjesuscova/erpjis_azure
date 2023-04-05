@@ -81,6 +81,50 @@ def show(rut):
    elif current_user.rol_id == 4:
       return render_template('administrator/human_resources/contract_data/contract_data_update.html', empty_field_status_id = empty_field_status_id, employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, contract_data = contract_data, end_documents = end_documents, is_active = is_active)
 
+@contract_datum.route("/human_resources/contract_data/review/<int:rut>", methods=['GET'])
+def review(rut):
+   status_id = Helper.is_active(rut)
+
+   if status_id == 1:
+      contract_datum = ContractDatum.get(rut)
+      contract_types = ContractType.get()
+      branch_offices = BranchOffice.get()
+      regions = Region.get()
+      communes = Commune.get()
+      civil_states = CivilState.get()
+      healths = Health.get()
+      pentions = Pention.get()
+      job_positions = JobPosition.get()
+      employee_types = EmployeeType.get()
+      end_documents = EndDocument.get(rut)
+      contract_data = DocumentEmployee.get_by_type(rut, 21)
+
+      empty_field_status_id = ContractDatum.empty_fields(rut)
+
+      is_active = 1
+   else:
+      contract_datum = OldContractDatum.get(rut)
+      contract_types = ContractType.get()
+      branch_offices = BranchOffice.get()
+      regions = Region.get()
+      communes = Commune.get()
+      civil_states = CivilState.get()
+      healths = Health.get()
+      pentions = Pention.get()
+      job_positions = JobPosition.get()
+      employee_types = EmployeeType.get()
+      end_documents = EndDocument.get(rut)
+      contract_data = OldDocumentEmployee.get_by_type(rut, 21)
+
+      empty_field_status_id = 1
+
+      is_active = 0
+
+   employee_contract_datum_button_status_id = 1
+
+   return render_template('administrator/human_resources/contract_data/contract_data_review.html', empty_field_status_id = empty_field_status_id, employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, contract_data = contract_data, end_documents = end_documents, is_active = is_active)
+                             
+
 @contract_datum.route("/human_resources/contract_data/<int:rut>", methods=['POST'])
 @contract_datum.route("/human_resources/contract_data", methods=['POST'])
 def update(rut):
