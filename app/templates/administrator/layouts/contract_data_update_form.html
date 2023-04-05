@@ -270,7 +270,9 @@
                         <h3 class="card-title">
                             Contrato
                             {% if is_active == 1 %}
-                                <a id="create-contract" href="{{ url_for('contract_data.review', rut=rut) }}" class="btn btn-success">Crear</a>
+                                {% if contract_datum.job_position_id == 10 || contract_datum.job_position_id == 9 || contract_datum.job_position_id == 8 || contract_datum.job_position_id == 7 || contract_datum.job_position_id == 6 %}
+                                    <a id="create-contract" href="{{ url_for('contract_data.review', rut=rut) }}" class="btn btn-success">Crear</a>
+                                {% endif %}
                             {% endif %}
                         </h3>
                     </div>
