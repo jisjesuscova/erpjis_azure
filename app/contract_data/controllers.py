@@ -201,7 +201,11 @@ def document(rut, id):
    data = [entrance_company_date, full_name, employee.visual_rut, employee_labor_datum.address, commune.commune, civil_state.civil_state, job_position.job_position, branch_office.branch_office, branch_office.address, job_position.functions, employee_labor_datum.employee_type_id, salary, first_extention_contract_last_day, second_extention_contract_last_day, pention, health.health, employee.personal_email]
    
    if employee_labor_datum.job_position_id == 10 or employee_labor_datum.job_position_id == 9 or employee_labor_datum.job_position_id == 8 or employee_labor_datum.job_position_id == 7 or employee_labor_datum.job_position_id == 6:
-      pdf = Pdf.create_pdf('multifunctional_employee_contract', data)
+      if employee_labor_datum.employee_type_id == 1:
+         pdf = Pdf.create_pdf('multifunctional_employee_contract', data)
+      else:
+         pdf = Pdf.create_pdf('part_time_multifunctional_employee_contract', data)
+
    elif employee_labor_datum.job_position_id == 15:
       pdf = Pdf.create_pdf('hr_manager_contract', data)
   
