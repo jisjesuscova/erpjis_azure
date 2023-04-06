@@ -316,7 +316,7 @@
                     <div class="card-header">
                         <h3 class="card-title">
                             Finiquito
-                            {% if not end_documents %}
+                            {% if is_active == 1 %}
                                 <a href="{{ url_for('end_documents.create', rut=rut) }}" class="btn btn-success">Crear</a>
                             {% endif %}
                         </h3>
