@@ -1821,7 +1821,7 @@ $(document).ready(function () {
         var substitute_compensation = $("#substitute_compensation").val().replace(/\./g, '');
         var fertility_proportional = $("#fertility_proportional").val().replace(/\./g, '');
 
-        $("#voluntary_indemnity").val(voluntary_indemnity) 
+        $(".voluntary_indemnity").val(voluntary_indemnity)
 
         total = parseInt(voluntary_indemnity) + parseInt(indemnity_years_service) + parseInt(substitute_compensation) + parseInt(fertility_proportional)
 
