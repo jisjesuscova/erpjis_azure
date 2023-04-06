@@ -112,9 +112,34 @@
                                         <label for="exampleInputEmail1">Cargo</label>
                                         <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="job_position_id" style="width: 100%;" name="job_position_id">
                                             <option value="">- Seleccionar -</option>
-                                            {% for job_position in job_positions %}
-                                                <option {% if job_position.id == contract_datum.job_position_id %} selected {% endif %} value="{{ job_position.id }}">{{ job_position.job_position }}</option>
-                                            {% endfor %}
+                                            <option {% if contract_datum.job_position_id == 1 %} selected {% endif %} class="full_time" value="1">Asistente Administrativo</option>
+                                            <option {% if contract_datum.job_position_id == 2 %} selected {% endif %} class="full_time" value="2">Supervisor</option>
+                                            <option {% if contract_datum.job_position_id == 3 %} selected {% endif %} class="full_time" value="3">Gerente General</option>
+                                            <option {% if contract_datum.job_position_id == 4 %} selected {% endif %} class="full_time" value="4">Gerente de Operaciones</option>
+                                            <option {% if contract_datum.job_position_id == 5 %} selected {% endif %} class="full_time" value="5">Personal de Aseo</option>
+                                            <option {% if contract_datum.job_position_id == 6 %} selected {% endif %} class="part_time" value="6">Trabajador Multifuncional Parcial 10 hrs</option>
+                                            <option {% if contract_datum.job_position_id == 7 %} selected {% endif %} class="part_time" value="7">Trabajador Multifuncional Parcial 20 hrs</option>
+                                            <option {% if contract_datum.job_position_id == 8 %} selected {% endif %} class="part_time" value="8">Trabajador Multifuncional Parcial 25 hrs</option>
+                                            <option {% if contract_datum.job_position_id == 9 %} selected {% endif %} class="part_time" value="9">Trabajador Multifuncional Parcial 30 hrs</option>
+                                            <option {% if contract_datum.job_position_id == 10 %} selected {% endif %} class="full_time" value="10">Trabajador Multifuncional</option>
+                                            <option {% if contract_datum.job_position_id == 11 %} selected {% endif %} class="full_time" value="11">Analista Contable</option>
+                                            <option {% if contract_datum.job_position_id == 12 %} selected {% endif %} class="full_time" value="12">Encargado de Sucursal</option>
+                                            <option {% if contract_datum.job_position_id == 13 %} selected {% endif %} class="full_time" value="13">Gerente de Planificación y Control de Gestión</option>
+                                            <option {% if contract_datum.job_position_id == 14 %} selected {% endif %} class="full_time" value="14">Analista Senior de Planificación y Control de Gestión</option>
+                                            <option {% if contract_datum.job_position_id == 15 %} selected {% endif %} class="full_time" value="15">Gerente de Recursos Humanos</option>
+                                            <option {% if contract_datum.job_position_id == 16 %} selected {% endif %} class="full_time" value="16">Técnico en Mantención</option>
+                                            <option {% if contract_datum.job_position_id == 17 %} selected {% endif %} class="full_time" value="17">Prevencionista de Riesgos</option>
+                                            <option {% if contract_datum.job_position_id == 18 %} selected {% endif %} class="full_time" value="18">Analista Junior</option>
+                                            <option {% if contract_datum.job_position_id == 19 %} selected {% endif %} class="full_time" value="19">Encargada de Personal y Remuneraciones</option>
+                                            <option {% if contract_datum.job_position_id == 20 %} selected {% endif %} class="full_time" value="20">Contador General</option>
+                                            <option {% if contract_datum.job_position_id == 21 %} selected {% endif %} class="full_time" value="21">Gerente de Mantencion</option>
+                                            <option {% if contract_datum.job_position_id == 22 %} selected {% endif %} class="full_time" value="22">Jefe de Operaciones</option>
+                                            <option {% if contract_datum.job_position_id == 23 %} selected {% endif %} class="full_time" value="23">Asistente de Recursos Humanos</option>
+                                            <option {% if contract_datum.job_position_id == 24 %} selected {% endif %} class="full_time" value="24">Ingeniero de Proyectos Web</option>
+                                            <option {% if contract_datum.job_position_id == 25 %} selected {% endif %} class="full_time" value="25">Coordinadora de Comunicaciones</option>
+                                            <option {% if contract_datum.job_position_id == 26 %} selected {% endif %} class="full_time" value="26">Diseñador Gráfico</option>
+                                            <option {% if contract_datum.job_position_id == 27 %} selected {% endif %} class="full_time" value="27">Encargada de Área</option>
+                                            <option {% if contract_datum.job_position_id == 28 %} selected {% endif %} class="full_time" value="28">Encargado de Mantención</option>
                                         </select>
                                     </div>
                                 </div>

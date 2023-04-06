@@ -3,6 +3,8 @@ $(document).ready(function () {
     $('.replacement_honorary').hide();
     $('.displayed_replacement_honorary').show();
     $(".update-honorary-btn").prop("disabled", true);
+    $('.full_time').show();
+    $('.part_time').show();
     if ($("#exit_company").val() != null && $("#exit_company").val() != '') {
         $("#calculate_fertility_proportional").prop("disabled", false);
         $("#calculate_substitute_compensation").prop("disabled", false);
@@ -22,6 +24,17 @@ $(document).ready(function () {
         } else {
             $('.replacement_honorary').hide();
             $('.displayed_replacement_honorary').hide();
+        }
+    });
+
+    $("#employee_type_id").change(function(){
+        $('#job_position_id').prop('selectedIndex', 0);
+        if ($(this).val() == 1) {
+            $('.full_time').show();
+            $('.part_time').hide();
+        } else {
+            $('.full_time').hide();
+            $('.part_time').show();
         }
     });
 

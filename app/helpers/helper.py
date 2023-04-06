@@ -450,7 +450,7 @@ class Helper:
 
         delta = date2 - date1
 
-        years = delta.days / 365.2425
+        years = delta.days / 365
 
         months = Helper.split(end_year, '-')
 
