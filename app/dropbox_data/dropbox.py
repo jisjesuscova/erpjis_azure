@@ -66,12 +66,12 @@ class Dropbox():
 
         dropbox_path = dropbox_path + dropbox_file_name + extesion
         computer_path = computer_path + dropbox_file_name + extesion
-
+        dropbox_file_name = dropbox_file_name + extesion
         f.save(os.path.join(computer_path))
 
         dbx = dropbox.Dropbox(settings.dropbox_token)
         if dbx.files_upload(open(os.path.join(computer_path), "rb").read(), dropbox_path):
-            return dropbox_file_name + "." + extesion[1]
+            return dropbox_file_name
         else:
             return 0
 

@@ -725,7 +725,7 @@ class FamilyCoreDatumModel(db.Model):
     father_lastname = db.Column(db.String(255))
     mother_lastname = db.Column(db.String(255))
     born_date = db.Column(db.DateTime())
-    support = db.Column(db.String(255))
+    support = db.Column(db.Text)
     added_date = db.Column(db.DateTime())
 
 class FamilyTypeModel(db.Model):

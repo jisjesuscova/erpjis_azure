@@ -85,6 +85,7 @@ def delete(rut, id):
 def store():
    if 'file' in request.files:
       support = Dropbox.born_document(request.form['family_rut'], "_born_document", request.files, "/families/", "app/static/dist/files/family_data/", 0)
+      print(support)
       status_id = FamilyCoreDatum.store(request.form, support)
 
    Audit.store(request.form, 'personal_data/store')
