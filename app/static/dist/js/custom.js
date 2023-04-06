@@ -385,7 +385,7 @@ $(document).ready(function () {
         }
 
         var hasRutField = false;
-        if (Fn.validaRut( $("#rut").val() )){
+        if (validateRut($("#rut").val())){
             hasRutField = false;
         } else {
             hasRutField = true;
@@ -475,7 +475,7 @@ $(document).ready(function () {
         }
 
         var hasRutField = false;
-        if (Fn.validaRut( $("#rut").val() )){
+        if (validateRut($("#rut").val())){
             hasRutField = false;
         } else {
             hasRutField = true;
@@ -1301,7 +1301,7 @@ $(document).ready(function () {
         }
 
         var hasRutField = false;
-        if (Fn.validaRut( $("#rut").val() )){
+        if (validateRut($("#rut").val())){
             hasRutField = false;
         } else {
             hasRutField = true;
