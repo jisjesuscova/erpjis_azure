@@ -49,24 +49,39 @@ $(document).ready(function () {
         }
     });
 
-    var Fn = {
-        // Valida el rut con su cadena completa "XXXXXXXX-X"
-        validaRut : function (rutCompleto) {
-            rutCompleto = rutCompleto.replace("‐","-");
-            if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test( rutCompleto ))
-                return false;
-            var tmp 	= rutCompleto.split('-');
-            var digv	= tmp[1]; 
-            var rut 	= tmp[0];
-            if ( digv == 'K' ) digv = 'k' ;
-            
-            return (Fn.dv(rut) == digv );
-        },
-        dv : function(T){
-            var M=0,S=1;
-            for(;T;T=Math.floor(T/10))
-                S=(S+T%10*(9-M++%6))%11;
-            return S?S-1:'k';
+    function validateRut(rut) {
+        // Remove dots and dashes from the RUT (if any)
+        rut = rut.replace(/[.-]/g, "");
+    
+        // Extract the check digit from the RUT
+        var dv = rut.slice(-1);
+    
+        // Extract the digits before the check digit from the RUT
+        var rutWithoutDv = rut.slice(0, -1);
+    
+        // Calculate the expected check digit for the digits before the check digit
+        var sum = 0;
+        var multiplier = 2;
+        for (var i = rutWithoutDv.length - 1; i >= 0; i--) {
+            sum += rutWithoutDv.charAt(i) * multiplier;
+            if (multiplier < 7) {
+                multiplier++;
+            } else {
+                multiplier = 2;
+            }
+        }
+        var expectedDv = 11 - (sum % 11);
+        if (expectedDv == 11) {
+            expectedDv = 0;
+        } else if (expectedDv == 10) {
+            expectedDv = "K";
+        }
+    
+        // Compare the expected check digit with the actual check digit
+        if (dv == expectedDv) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -95,7 +110,7 @@ $(document).ready(function () {
 
     $("#rut").focusout(function() {
         var hasRutField = false;
-        if (Fn.validaRut( $("#rut").val() )){
+        if (validateRut($("#rut").val())){
             hasRutField = false;
         } else {
             hasRutField = true;
@@ -155,7 +170,7 @@ $(document).ready(function () {
 
     $("#rut").mouseout(function() {
         var hasRutField = false;
-        if (Fn.validaRut( $("#rut").val() )){
+        if (validateRut($("#rut").val())){
             hasRutField = false;
         } else {
             hasRutField = true;
@@ -1864,7 +1879,15 @@ $(document).ready(function () {
         location.reload();
     });
 
-    $('.rut').mask('99999999-9');
+    $('.rut').mask('99999999-Z', {
+        translation: {
+            'Z': {
+                pattern: /[0-9kK]/,
+                optional: false
+            }
+        }
+    });
+    
     $('.money_value').mask('000.000.000.000', {reverse: true, autoclear: false});
 
     $('#branch_office_id').change(function() {
