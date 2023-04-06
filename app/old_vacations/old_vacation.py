@@ -11,7 +11,7 @@ class OldVacation():
             if status_id != '':
                 vacations = OldVacationModel.query\
                     .join(OldDocumentEmployeeModel, OldDocumentEmployeeModel.id == OldVacationModel.document_employee_id)\
-                    .add_columns(OldVacationModel.document_employee_id, OldVacationModel.id, OldVacationModel.rut, OldVacationModel.since, OldVacationModel.until, OldVacationModel.days, OldDocumentEmployeeModel.status_id, OldVacationModel.document_employee_id).filter(OldDocumentEmployeeModel.rut==rut, OldDocumentEmployeeModel.document_type_id==6, OldDocumentEmployeeModel.status_id.in_(status_id)).order_by(db.desc(OldDocumentEmployeeModel.added_date))
+                    .add_columns(OldVacationModel.document_employee_id, OldVacationModel.id, OldVacationModel.rut, OldVacationModel.since, OldVacationModel.until, OldVacationModel.days, OldVacationModel.no_valid_days, OldDocumentEmployeeModel.status_id, OldVacationModel.document_employee_id).filter(OldDocumentEmployeeModel.rut==rut, OldDocumentEmployeeModel.document_type_id==6, OldDocumentEmployeeModel.status_id.in_(status_id)).order_by(db.desc(OldDocumentEmployeeModel.added_date))
             else:
                  vacations = OldVacationModel.query\
                     .join(OldDocumentEmployeeModel, OldDocumentEmployeeModel.id == OldVacationModel.document_employee_id)\

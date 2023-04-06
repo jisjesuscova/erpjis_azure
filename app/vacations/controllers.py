@@ -40,6 +40,9 @@ def index(rut):
       balance = OldVacation.balance(legal, taken_days)
       progressive_vacation_legal = 0
       progressive_vacation_taken_days = 0
+      progressive_vacation_balance = 0
+      progressive_vacations = []
+      employee_extra_datum = []
 
    vacation_button_status_id = 1
 
