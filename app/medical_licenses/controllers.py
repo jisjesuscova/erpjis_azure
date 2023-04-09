@@ -75,7 +75,7 @@ def delete(id, rut):
    MedicalLicense.delete(id)
 
    if document_employee.support != None:
-      Dropbox.delete('/medical_licenses/', document_employee.support)
+      Dropbox.delete('/employee_documents/', document_employee.support)
       File.delete('app/static/dist/files/medical_license_data/', document_employee.support)
 
    flash('Se ha borrado la licendia médica con éxito.', 'success')
@@ -89,7 +89,7 @@ def store(rut):
 
    status_id = MedicalLicense.store(id, request.form)
 
-   support = Dropbox.upload(rut, '_licecia_medica', request.files, "/medical_licenses/", "app/static/dist/files/medical_license_data/")
+   support = Dropbox.upload(rut, '_licecia_medica', request.files, "/employee_documents/", "app/static/dist/files/medical_license_data/")
    status_id = MedicalLicense.upload(id, support)
 
    flash('La licencia médica ha sido cargada con éxito.', 'success')
@@ -103,7 +103,7 @@ def store(rut):
 @medical_license.route("/human_resources/medical_license/upload", methods=['GET', 'POST'])
 def upload(id, rut):
    if request.method == 'POST':
-      support = Dropbox.upload(rut, '_licecia_medica', request.files, "/medical_licenses/", "app/static/dist/files/medical_license_data/")
+      support = Dropbox.upload(rut, '_licecia_medica', request.files, "/employee_documents/", "app/static/dist/files/medical_license_data/")
       status_id = MedicalLicense.upload(id, support)
 
       flash('El soporte de la licencia médica ha sido cargado con éxito.', 'success')
@@ -125,6 +125,6 @@ def download(id, rut):
    else:
       medical_license = OldDocumentEmployee.get_by_id(id)
 
-   response = Dropbox.get('/medical_licenses/', medical_license.support)
+   response = Dropbox.get('/employee_documents/', medical_license.support)
 
    return redirect(response)
