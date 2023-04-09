@@ -54,7 +54,7 @@ def edit(rut, id):
 def update(rut, id):
    if 'file' in request.files:
       family_core_data = FamilyCoreDatum.get(id)
-      support = Dropbox.born_document(request.form['family_rut'], "_born_document", request.files, "/families/", "app/static/dist/files/family_data/", 0)
+      support = Dropbox.born_document(request.form['family_rut'], "_born_document", request.files, "/intranet_jisparking_files/", "app/static/dist/files/family_data/", 0)
       File.delete("app/static/dist/files/family_data/", family_core_data.support)
 
       status_id = FamilyCoreDatum.update(id, request.form, support)
@@ -84,7 +84,7 @@ def delete(rut, id):
 @family_core_datum.route("/human_resources/family_core_datum/store", methods=['POST'])
 def store():
    if 'file' in request.files:
-      support = Dropbox.born_document(request.form['family_rut'], "_born_document", request.files, "/families/", "app/static/dist/files/family_data/", 0)
+      support = Dropbox.born_document(request.form['family_rut'], "_born_document", request.files, "/intranet_jisparking_files/", "app/static/dist/files/family_data/", 0)
       print(support)
       status_id = FamilyCoreDatum.store(request.form, support)
 
@@ -100,6 +100,6 @@ def store():
 @family_core_datum.route("/human_resources/family_core_datum/download/<int:id>", methods=['GET'])
 def download(id):
     family_core_datum = FamilyCoreDatum.get(id)
-    response = Dropbox.get('/families/', family_core_datum.support)
+    response = Dropbox.get('/intranet_jisparking_files/', family_core_datum.support)
 
     return redirect(response)
