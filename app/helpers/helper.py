@@ -282,50 +282,50 @@ class Helper:
     @staticmethod
     def progressive_vacation_days(months, extreme_zone_status_id = ''):
         total = 0
-
+        print(months)
+        if months >= 12:
+            total = total + 1
+        
+        if months >= 24:
+            total = total + 1
+        
         if months >= 36:
             total = total + 1
         
         if months >= 48:
-            total = total + 1
+            total = total + 2
         
         if months >= 60:
-            total = total + 1
+            total = total + 2
         
         if months >= 72:
             total = total + 2
         
         if months >= 84:
-            total = total + 2
+            total = total + 3
         
         if months >= 96:
-            total = total + 2
+            total = total + 3
         
         if months >= 108:
             total = total + 3
         
         if months >= 120:
-            total = total + 3
-        
+            total = total + 4
+
         if months >= 132:
-            total = total + 3
-        
+            total = total + 4
+
         if months >= 144:
             total = total + 4
 
-        if months >= 156:
-            total = total + 4
+        if months >= 158:
+            total = total + 5
 
         if months >= 168:
-            total = total + 4
+            total = total + 5
 
         if months >= 180:
-            total = total + 5
-
-        if months >= 192:
-            total = total + 5
-
-        if months >= 204:
             total = total + 5
 
 
