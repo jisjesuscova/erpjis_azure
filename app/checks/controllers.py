@@ -7,6 +7,9 @@ from app.months.month import Month
 from app.years.year import Year
 from app.check_group_questions.check_group_question import CheckGroupQuestion
 from app.check_questions.check_question import CheckQuestion
+from app.models.models import VacationModel, OldDocumentEmployeeModel, DocumentEmployeeModel, EmployeeModel, EmployeeLaborDatumModel, BranchOfficeModel, SupervisorModel, DocumentTypeModel
+from app import db
+from datetime import datetime
 
 check = Blueprint("checks", __name__)
 
@@ -15,6 +18,47 @@ check = Blueprint("checks", __name__)
 @regular_employee_rol_need
 def constructor():
    pass
+
+@check.route("/checks/test", methods=['GET'])
+def test():
+   documents_employees = DocumentEmployeeModel.query.filter(
+      DocumentEmployeeModel.document_type_id == 6,
+      DocumentEmployeeModel.id > 4966
+   ).all()
+
+   i = 1085
+
+   for documents_employee in documents_employees:
+      print(documents_employee.id)
+
+      vacation = VacationModel.query.filter_by(id=i).first()
+      vacation.document_employee_id = documents_employee.id
+      vacation.updated_date = datetime.now()
+
+      db.session.add(vacation)
+
+      db.session.commit()
+
+      i = i + 1
+
+   return '1'
+
+@check.route("/checks/validate", methods=['GET'])
+def validate():
+   documents_employees = DocumentEmployeeModel.query.filter_by(document_type_id=6).all()
+
+   for documents_employee in documents_employees:
+      vacation = VacationModel.query.filter_by(document_employee_id=documents_employee.id).first()
+      
+      if vacation.support == '':
+         d_e_m_u = DocumentEmployeeModel.query.filter_by(id=documents_employee.id).first()
+         d_e_m_u.status_id = 3
+
+         db.session.add(d_e_m_u)
+
+         db.session.commit()
+
+   return '1'
 
 @check.route("/checks", methods=['GET'])
 @check.route("/checks/<int:page>", methods=['GET'])
