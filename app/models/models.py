@@ -748,7 +748,6 @@ class BranchOfficeModel(db.Model):
     segment_id = db.Column(db.Integer)
     zone_id = db.Column(db.Integer)
     principal_id = db.Column(db.Integer)
-    supervisor_id = db.Column(db.Integer)
     status_id = db.Column(db.Integer)
     visibility_id = db.Column(db.Integer)
     opening_date = db.Column(db.Integer)
