@@ -346,40 +346,43 @@
                             {% endif %}
                         </h3>
                     </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                    <table id="example2" class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th></th>
-                            </tr>
-                            {% for end_document in end_documents %}
-                                <tr>
-                                    <td>{{ end_document['added_date']|datetime("dd-MM-yyyy") }}</td>
-                                    <td>
-                                        {% if end_document['status_id'] == 3  %}
-                                            <a href="{{ url_for('end_documents.upload', id=end_document['document_employee_id'], rut=rut) }}" class="btn btn-success">
-                                                <i class="fa fa-arrow-up"></i>
-                                            </a>
-                                        {% else  %}
-                                            <a href="{{ url_for('end_documents.download', id=end_document['document_employee_id'], rut=rut) }}" class="btn btn-primary">
-                                                <i class="fa fa-arrow-down"></i>
-                                            </a>
-                                        {% endif %}
+                    {% if is_active == 0 %}
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th></th>
+                                    </tr>
+                                    {% for end_document in end_documents %}
+                                        <tr>
+                                            <td>{{ end_document['added_date']|datetime("dd-MM-yyyy") }}</td>
+                                            <td>
+                                                {% if end_document['status_id'] == 3  %}
+                                                    <a href="{{ url_for('end_documents.upload', id=end_document['document_employee_id'], rut=rut) }}" class="btn btn-success">
+                                                        <i class="fa fa-arrow-up"></i>
+                                                    </a>
+                                                {% else  %}
+                                                    <a href="{{ url_for('end_documents.download', id=end_document['document_employee_id'], rut=rut) }}" class="btn btn-primary">
+                                                        <i class="fa fa-arrow-down"></i>
+                                                    </a>
+                                                {% endif %}
 
-                                        <a href="{{ url_for('end_documents.document', id=end_document['id'], rut=rut) }}" class="btn btn-warning">
-                                            <i class="fa fa-file"></i>
-                                        </a>
+                                                <a href="{{ url_for('end_documents.document', id=end_document['id'], rut=rut) }}" class="btn btn-warning">
+                                                    <i class="fa fa-file"></i>
+                                                </a>
 
-                                        <a href="{{ url_for('end_documents.delete', end_document_id=end_document['id'], document_employee_id=end_document['document_employee_id'], rut=rut) }}" class="btn btn-danger">
-                                            <i class="fa fa-times"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </thead>
-                    </table>
+                                                <a href="{{ url_for('end_documents.delete', end_document_id=end_document['id'], document_employee_id=end_document['document_employee_id'], rut=rut) }}" class="btn btn-danger">
+                                                    <i class="fa fa-times"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </thead>
+                            </table>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
