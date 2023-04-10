@@ -52,7 +52,7 @@
                                             <a href="{{ url_for('family_core_data.edit') }}/{{ family_core_datum['rut_user']}}/{{ family_core_datum['id']}}" class="btn btn-warning">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            {% if family_core_datum['support'] != '' %}
+                                            {% if family_core_datum['support'] != '' and family_core_datum['support'] != none %}
                                                 <a href="{{ url_for('family_core_data.download', id=family_core_datum['id']) }}" class="btn btn-success">
                                                     <i class="fa fa-arrow-down"></i>
                                                 </a>
