@@ -7,7 +7,7 @@ from app.months.month import Month
 from app.years.year import Year
 from app.check_group_questions.check_group_question import CheckGroupQuestion
 from app.check_questions.check_question import CheckQuestion
-from app.models.models import VacationModel, OldDocumentEmployeeModel, DocumentEmployeeModel, EmployeeModel, EmployeeLaborDatumModel, BranchOfficeModel, SupervisorModel, DocumentTypeModel
+from app.models.models import VacationModel, DocumentEmployeeModel, EndDocumentModel
 from app import db
 from datetime import datetime
 
@@ -22,20 +22,18 @@ def constructor():
 @check.route("/checks/test", methods=['GET'])
 def test():
    documents_employees = DocumentEmployeeModel.query.filter(
-      DocumentEmployeeModel.document_type_id == 6,
-      DocumentEmployeeModel.id > 4966
+      DocumentEmployeeModel.document_type_id == 22,
+      DocumentEmployeeModel.id > 5876
    ).all()
 
-   i = 1085
+   i = 1
 
    for documents_employee in documents_employees:
-      print(documents_employee.id)
+      end_document = EndDocumentModel.query.filter_by(id=i).first()
+      end_document.document_employee_id = documents_employee.id
+      end_document.updated_date = datetime.now()
 
-      vacation = VacationModel.query.filter_by(id=i).first()
-      vacation.document_employee_id = documents_employee.id
-      vacation.updated_date = datetime.now()
-
-      db.session.add(vacation)
+      db.session.add(end_document)
 
       db.session.commit()
 
@@ -45,14 +43,13 @@ def test():
 
 @check.route("/checks/validate", methods=['GET'])
 def validate():
-   documents_employees = DocumentEmployeeModel.query.filter_by(document_type_id=6).all()
+   documents_employees = DocumentEmployeeModel.query.filter_by(document_type_id=22).all()
 
    for documents_employee in documents_employees:
-      vacation = VacationModel.query.filter_by(document_employee_id=documents_employee.id).first()
-      
-      if vacation.support == '':
+
+      if documents_employee.support != None:
          d_e_m_u = DocumentEmployeeModel.query.filter_by(id=documents_employee.id).first()
-         d_e_m_u.status_id = 3
+         d_e_m_u.status_id = 4
 
          db.session.add(d_e_m_u)
 
