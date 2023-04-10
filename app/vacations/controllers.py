@@ -90,7 +90,7 @@ def store():
 @vacation.route("/human_resources/vacation/upload", methods=['GET', 'POST'])
 def upload(rut, id):
    if request.method == 'POST':
-      support = Dropbox.upload(rut, '_vacation', request.files, "/vacations/", "app/static/dist/files/vacation_data/")
+      support = Dropbox.upload(rut, '_vacation', request.files, "/employee_documents/", "app/static/dist/files/vacation_data/")
       Vacation.upload(id, support)
 
       if current_user.rol_id == 1:
