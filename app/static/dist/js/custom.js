@@ -1701,7 +1701,7 @@ $(document).ready(function () {
     $('.sigPad').signaturePad({drawOnly:true});
 
     $("#regime_afp").hide();
-    $("#progressive_vacation_date").hide();
+    $(".progressive_vacation_date").hide();
 
     $('body').on('mousemove', function(event) {
         var regime_id = $("#regime_id").val();
@@ -1714,9 +1714,9 @@ $(document).ready(function () {
         }
 
         if(progressive_vacation_status_id == 1) {
-            $("#progressive_vacation_date").show();
+            $(".progressive_vacation_date").show();
         } else {
-            $("#progressive_vacation_date").hide();
+            $(".progressive_vacation_date").hide();
         }
     });
 
@@ -1762,9 +1762,9 @@ $(document).ready(function () {
     $('#progressive_vacation_status_id').change(function() {
         var id = $(this).val()
         if(id == 1) {
-            $("#progressive_vacation_date").show();
+            $(".progressive_vacation_date").show();
         } else {
-            $("#progressive_vacation_date").hide();
+            $(".progressive_vacation_date").hide();
         }
     });
 
