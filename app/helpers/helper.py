@@ -55,12 +55,17 @@ class Helper:
         rut = rut.split('-')
 
         return rut[0]
+    
 
-    @staticmethod
     def extention_contract(date):
-        result = date + relativedelta(months=+1)
+        # Convertir la fecha a objeto datetime
+        date_dt = datetime.strptime(date, "%Y-%m-%d").date()
 
-        return result
+        # Sumar un mes
+        next_month_date = date_dt + relativedelta(months=1)
+
+        # Retornar la nueva fecha en formato "YYYY-mm-dd"
+        return next_month_date.strftime("%Y-%m-%d")
 
     @staticmethod
     def add_zero(number):
