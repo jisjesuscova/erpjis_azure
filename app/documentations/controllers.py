@@ -11,8 +11,17 @@ documentation = Blueprint("documentations", __name__)
 def constructor():
    pass
 
+@documentation.route("/documentation/<int:page>", methods=['GET'])
 @documentation.route("/documentation", methods=['GET'])
-def index():
-    documentations = Documentation.get()
+def index(page=1):
+    documentations = Documentation.get(page)
 
-    return render_template('administrator/documentations/index.html')
+    return render_template('administrator/documentations/documentations.html', documentations = documentations)
+
+@documentation.route("/documentation/create", methods=['GET'])
+def create():
+    return render_template('administrator/documentations/documentations_create.html')
+
+@documentation.route("/documentation/create", methods=['POST'])
+def store():
+    return '1'

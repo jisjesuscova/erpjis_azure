@@ -631,6 +631,15 @@ class DocumentEmployeeModel(db.Model):
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
+class DocumentationModel(db.Model):
+    __tablename__ = 'documentations'
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.Text)
+    description = db.Column(db.Text)
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
 class OldDocumentEmployeeModel(db.Model):
     __tablename__ = 'old_documents_employees'
 
