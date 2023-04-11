@@ -1,6 +1,80 @@
 {% extends 'administrator/layouts/base.html' %}
 {% block content %}
     <div class="content-wrapper">
+        <section class="content pt-3">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card text-white bg-primary mb-3">
+                        <div class="card-header">
+                            <h4>
+                                Total Empleados Activos
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <strong>{{ active_employee_total }}</strong> Empleados
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-primary mb-3">
+                        <div class="card-header">
+                            <h4>
+                                Distribución de Planta
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    Full-Time: <strong>{{ distribution_totals[0]['total'] }}</strong>
+                                </div>
+                                <div class="col-md-6">
+                                    Part-Time: <strong>{{ distribution_totals[1]['total'] }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-primary mb-3">
+                        <div class="card-header">
+                            <h4>
+                                Saldo de Vacaciones
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <strong>{{ total_vacations }}</strong> Días
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-primary mb-3">
+                        <div class="card-header">
+                            <h4>
+                                Distribución Generos
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    Masculino: <strong>{{ gender_totals[0]['total'] }}</strong>
+                                </div>
+                                <div class="col-md-6">
+                                    Femenino: <strong>{{ gender_totals[1]['total'] }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
         <section class="content">
             <div class="row pt-3">
                 <div class="col-md-12">

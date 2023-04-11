@@ -5,6 +5,8 @@ from app.news.new import New
 from app.employees.employee import Employee
 from datetime import datetime
 from app.helpers.helper import Helper
+from app.employee_labor_data.employee_labor_datum import EmployeeLaborDatum
+from app.vacations.vacation import Vacation
 
 home = Blueprint("home", __name__)
 
@@ -21,6 +23,10 @@ def index():
    birthday_quantities = Employee.get_birthday_quantities()
    current_month = datetime.today().month
    current_month = Helper.month_name(current_month)
+   gender_totals = Employee.gender_totals()
+   distribution_totals = EmployeeLaborDatum.distribution_totals()
+   active_employee_total = Employee.active_employee_total()
+   total_vacations = Vacation.calculate_total_vacation_days()
 
    if current_user.rol_id == 1:
       return render_template('collaborator/home/index.html', current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities)
@@ -29,4 +35,4 @@ def index():
    elif current_user.rol_id == 3:
       return render_template('supervisor/home/index.html', current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities)
    elif current_user.rol_id == 4:
-      return render_template('administrator/home/index.html', current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities)
+      return render_template('administrator/home/index.html', total_vacations = total_vacations, active_employee_total = active_employee_total, distribution_totals = distribution_totals, gender_totals = gender_totals, current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities)

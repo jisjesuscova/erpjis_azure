@@ -1,4 +1,4 @@
-from app.models.models import VacationModel, EmployeeExtraModel, EmployeeLaborDatumModel, DocumentEmployeeModel, OldVacationModel, OldDocumentEmployeeModel
+from app.models.models import VacationModel, TotalVacationDaysModel, EmployeeExtraModel, EmployeeLaborDatumModel, DocumentEmployeeModel, OldVacationModel, OldDocumentEmployeeModel
 from app.helpers.helper import Helper
 from app import db
 from datetime import datetime, date
@@ -168,7 +168,14 @@ class Vacation():
             return 1
         except Exception as e:
             return 0
-    
+
+    def calculate_total_vacation_days():
+        total_vacation_days = TotalVacationDaysModel.query.filter_by(id=1).first()
+
+        total = total_vacation_days.total_employee_vacation_days - (total_vacation_days.total_days - total_vacation_days.total_no_valid_days)
+
+        return total
+
     @staticmethod
     def legal(rut):
         employee_labor_data = EmployeeLaborDatum.get(rut)

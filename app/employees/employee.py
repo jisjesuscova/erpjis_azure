@@ -348,6 +348,25 @@ class Employee():
             return {'msg': 'Data could not be stored'}
 
     @staticmethod
+    def active_employee_total():
+        total = EmployeeLaborDatumModel.query.count()
+    
+        return total
+
+    @staticmethod
+    def gender_totals():
+        # Consulta para obtener el total de hombres y mujeres
+        men_total = EmployeeModel.query.filter_by(gender_id=1).count()
+        women_total = EmployeeModel.query.filter_by(gender_id=2).count()
+
+        totals = [
+            {'gender': 'Men', 'total': men_total},
+            {'gender': 'Women', 'total': women_total}
+        ]
+    
+        return totals
+
+    @staticmethod
     def get_birthdays():
         today = datetime.today()
 

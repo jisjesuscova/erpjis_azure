@@ -737,6 +737,14 @@ class FamilyTypeModel(db.Model):
     added_date = db.Column(db.DateTime())
 
 
+class TotalVacationDaysModel(db.Model):
+    __tablename__ = 'total_vacation_days'
+
+    id = db.Column(db.Integer, primary_key=True)
+    total_days = db.Column(db.Integer)
+    total_no_valid_days = db.Column(db.Integer)
+    total_employee_vacation_days = db.Column(db.Integer)
+
 class BranchOfficeModel(db.Model):
     __tablename__ = 'branch_offices'
 

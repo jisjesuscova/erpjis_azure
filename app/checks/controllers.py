@@ -43,7 +43,7 @@ def test():
 
 @check.route("/checks/validate", methods=['GET'])
 def validate():
-   documents_employees = DocumentEmployeeModel.query.filter_by(document_type_id=22).all()
+   documents_employees = DocumentEmployeeModel.query.filter_by(document_type_id=5).all()
 
    for documents_employee in documents_employees:
 

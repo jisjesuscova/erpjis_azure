@@ -15,6 +15,19 @@ class EmployeeLaborDatum():
         employee_labor_data = EmployeeLaborDatumModel.query.filter_by(rut=rut).all()
 
         return employee_labor_data
+    
+    @staticmethod
+    def distribution_totals():
+        # Consulta para obtener el total de hombres y mujeres
+        full_time_total = EmployeeLaborDatumModel.query.filter_by(employee_type_id=1).count()
+        part_time_total = EmployeeLaborDatumModel.query.filter_by(employee_type_id=2).count()
+
+        totals = [
+            {'schedule': 'Men', 'total': full_time_total},
+            {'schedule': 'Women', 'total': part_time_total}
+        ]
+    
+        return totals
 
     @staticmethod
     def get_by_branch_office_id(id):
