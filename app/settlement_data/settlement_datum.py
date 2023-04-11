@@ -27,7 +27,7 @@ class SettlementDatum():
         settlements = SettlementDatumModel.query.filter_by(rut=rut).all()
 
         return settlements
-
+    
     @staticmethod
     def count(rut, period):
         quantity = SettlementDatumModel.query.filter_by(rut=rut, period=period).count()

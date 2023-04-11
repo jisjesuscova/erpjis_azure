@@ -81,7 +81,7 @@ class DocumentEmployee():
             documents_employees = DocumentEmployeeModel.query.filter_by(rut=rut, document_type_id=type).all()
         
         return documents_employees
-
+    
     @staticmethod
     def get_by_major(rut = '', type = '', page = '', data = [], major_value_status_id = ''):
         if page != '':

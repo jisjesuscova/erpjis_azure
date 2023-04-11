@@ -625,6 +625,7 @@ class DocumentEmployeeModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     status_id = db.Column(db.Integer)
     document_type_id = db.Column(db.Integer)
+    old_document_status_id = db.Column(db.Integer)
     rut = db.Column(db.Integer)
     support = db.Column(db.String(255))
     added_date = db.Column(db.DateTime())

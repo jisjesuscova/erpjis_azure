@@ -83,29 +83,43 @@ def upload_store():
 
 @settlement_datum.route("/management_payroll/settlement_data/uploaded/download/<int:id>", methods=['GET'])
 def uploaded_download(id):
-    settlement_datum = SettlementDatum.download(id)
+    document_employee = DocumentEmployee.get_by_id(id)
 
-    with open(os.path.join('app/static/dist/files/settlement_data/' + settlement_datum), 'rb') as f:
-        data = f.read()
+    if document_employee.old_document_status_id == 1:
+        response = Dropbox.get('/salary_settlements/', document_employee.support)
 
-    response = make_response(data)
-    response.headers['Content-Disposition'] = 'attachment; filename=' + settlement_datum
-    response.headers['Content-Type'] = 'application/pdf'
+        return redirect(response)
+    else:
+        settlement_datum = SettlementDatum.download(id)
 
-    return response
+        with open(os.path.join('app/static/dist/files/settlement_data/' + settlement_datum), 'rb') as f:
+            data = f.read()
+
+        response = make_response(data)
+        response.headers['Content-Disposition'] = 'attachment; filename=' + settlement_datum
+        response.headers['Content-Type'] = 'application/pdf'
+
+        return response
 
 @settlement_datum.route("/management_payroll/settlement_data/uploaded/sign/<int:id>", methods=['GET'])
 def sign(id):
-    settlement_datum = SettlementDatum.download(id)
+    document_employee = DocumentEmployee.get_by_id(id)
 
-    with open(os.path.join('app/static/dist/files/settlement_data/' + settlement_datum), 'rb') as f:
-        data = f.read()
+    if document_employee.old_document_status_id == 1:
+        response = Dropbox.get('/salary_settlements/', document_employee.support)
 
-    response = make_response(data)
-    response.headers['Content-Disposition'] = 'attachment; filename=' + settlement_datum
-    response.headers['Content-Type'] = 'application/pdf'
+        return redirect(response)
+    else:
+        settlement_datum = SettlementDatum.download(id)
 
-    return response
+        with open(os.path.join('app/static/dist/files/settlement_data/' + settlement_datum), 'rb') as f:
+            data = f.read()
+
+        response = make_response(data)
+        response.headers['Content-Disposition'] = 'attachment; filename=' + settlement_datum
+        response.headers['Content-Type'] = 'application/pdf'
+
+        return response
 
 
 @settlement_datum.route("/management_payroll/settlement_data/download/<rut>/<period>", methods=['GET'])
