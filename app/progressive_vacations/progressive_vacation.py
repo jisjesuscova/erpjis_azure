@@ -4,6 +4,7 @@ from datetime import datetime, date
 from app import db
 from sqlalchemy import func
 from app.employee_extra_data.employee_extra_datum import EmployeeExtraDatum
+from app.employee_labor_data.employee_labor_datum import EmployeeLaborDatum
 
 class ProgressiveVacation():
     @staticmethod
@@ -67,11 +68,17 @@ class ProgressiveVacation():
 
     @staticmethod
     def legal(rut):
+        employee_labor_data = EmployeeLaborDatum.get(rut)
         employee_extra_data = EmployeeExtraDatum.get(rut)
 
         if employee_extra_data != None:
-            months = Helper.months(employee_extra_data.progressive_vacation_date, date.today())
-            progressive_vacation_days = Helper.progressive_vacation_days(months)
+            entrance_company_months = Helper.months(employee_labor_data.entrance_company, date.today())
+            progressive_date_months = Helper.months(employee_extra_data.progressive_vacation_date, date.today())
+
+            total_months =  int(entrance_company_months) - int(progressive_date_months)
+            print(total_months)  
+
+            progressive_vacation_days = Helper.progressive_vacation_days(total_months)
 
             return progressive_vacation_days
         else:

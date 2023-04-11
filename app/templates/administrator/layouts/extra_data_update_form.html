@@ -36,11 +36,17 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Zona Extrema</label>
+                                        <label for="exampleInputEmail1">
+                                            Zona Extrema
+                                            &nbsp;
+                                            <button type="button" class="btn btn-warning help-button" data-toggle="tooltip" data-placement="top" title="Si el empleado pertenece a una zona extrema reconocida, seleccionar Si">
+                                                <i class="fa-solid fa-question"></i>
+                                            </button>
+                                        </label>
                                         <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="extreme_zone_id" name="extreme_zone_id">
                                             <option value="">- Seleccionar -</option>
                                             <option {% if 1 == employee_extra_datum.extreme_zone_id %} selected {% endif %} value="1">Si</option>
-                                            <option {% if 2 == employee_extra_datum.extreme_zone_id %} selected {% endif %} value="2">No</option>
+                                            <option {% if 2 == employee_extra_datum.extreme_zone_id or employee_extra_datum.extreme_zone_id == None %} selected {% endif %} value="2">No</option>
                                         </select>
                                     </div>
                                 </div>
@@ -108,7 +114,7 @@
                                         <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="suplemental_health_insurance_id" name="suplemental_health_insurance_id">
                                             <option value="">- Seleccionar -</option>
                                             <option {% if 1 == employee_extra_datum.suplemental_health_insurance_id %} selected {% endif %} value="1">Si</option>
-                                            <option {% if 2 == employee_extra_datum.suplemental_health_insurance_id %} selected {% endif %} value="2">No</option>
+                                            <option {% if 2 == employee_extra_datum.suplemental_health_insurance_id or employee_extra_datum.suplemental_health_insurance_id == None %} selected {% endif %} value="2">No</option>
                                         </select>
                                     </div>
                                 </div>
@@ -132,6 +138,21 @@
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Fecha de Vacaciones Progresivas</label>
                                         <input type="date" value="{{ employee_extra_datum.progressive_vacation_date }}" class="form-control" id="progressive_vacation_date_value" placeholder="Fecha de Vacaciones Progresivas" name="progressive_vacation_date">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="progressive_vacation_date">
+                                
+                                <div class="col-md-4" id="progressive_vacation_date">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">
+                                            Años que se Reconocen
+                                            &nbsp;
+                                            <button type="button" class="btn btn-warning help-button" data-toggle="tooltip" data-placement="top" title="En este campo ingrese los años del certificado de vacaciones progresivas">
+                                                <i class="fa-solid fa-question"></i>
+                                            </button>
+                                        </label>
+                                        <input type="number" value="{{ employee_extra_datum.recognized_years }}" min="1" max="10" class="form-control" id="recognized_years" placeholder="Años que se Reconocen" name="recognized_years">
                                     </div>
                                 </div>
                             </div>

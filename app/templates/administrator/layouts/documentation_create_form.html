@@ -13,10 +13,10 @@
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Apellido Paterno</label>
-                                            <input type="text" value="" class="form-control" id="exampleInputEmail1" placeholder="Apellido Paterno" name="father_lastname">
+                                            <label for="exampleInputEmail1">Contenido</label>
+                                            <textarea class="form-control" id="description" name="description" rows="20"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -26,7 +26,7 @@
                             <input type="hidden" value="{{ rut }}" class="form-control" id="exampleInputEmail1" name="rut">
                             
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                <button type="submit" class="btn btn-primary">Previsualizar</button>
 
                                 <a href="{{ url_for('documentations.index') }}" class="btn btn-secondary">Cancelar</a>
                             </div>

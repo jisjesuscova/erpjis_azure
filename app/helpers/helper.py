@@ -285,9 +285,58 @@ class Helper:
         return total
 
     @staticmethod
+    def progressive_vacation_level(months):
+        if months >= 36:
+            level = 1
+        
+        if months >= 48:
+            level = 2
+        
+        if months >= 60:
+            level = 3
+        
+        if months >= 72:
+            level = 4
+        
+        if months >= 84:
+            level = 5
+        
+        if months >= 96:
+            level = 6
+        
+        if months >= 108:
+            level = 7
+        
+        if months >= 120:
+            level = 8
+        
+        if months >= 132:
+            level = 9
+        
+        if months >= 144:
+            level = 10
+
+        if months >= 156:
+            level = 11
+
+        if months >= 168:
+            level = 12
+
+        if months >= 180:
+            level = 13
+
+        if months >= 192:
+            level = 14
+
+        if months >= 204:
+            level = 15
+
+        return level
+
+    @staticmethod
     def progressive_vacation_days(months, extreme_zone_status_id = ''):
         total = 0
-        if months >= 12:
+        if months >= 36:
             total = total + 1
         
         if months >= 24:

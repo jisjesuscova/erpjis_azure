@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required, current_user
 from app import app, regular_employee_rol_need
 from app.documentations.documentation import Documentation
@@ -20,8 +20,12 @@ def index(page=1):
 
 @documentation.route("/documentation/create", methods=['GET'])
 def create():
-    return render_template('administrator/documentations/documentations_create.html')
+    title = 'Crear Documentación'
+    module_name = 'Documentación'
+    return render_template('administrator/documentations/documentations_create.html', title = title, module_name = module_name)
 
-@documentation.route("/documentation/create", methods=['POST'])
+@documentation.route("/documentation/store", methods=['POST'])
 def store():
-    return '1'
+    status_id = Documentation.pre_store(request.form)
+
+    return str(status_id)

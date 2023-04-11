@@ -1,7 +1,9 @@
 from flask import request
 from app.models.models import EmployeeExtraModel, OldEmployeeExtraModel
 from app import db
+from datetime import datetime, date
 from app.helpers.helper import Helper
+from app.employee_labor_data.employee_labor_datum import EmployeeLaborDatum
 
 class EmployeeExtraDatum():
     @staticmethod
@@ -84,6 +86,15 @@ class EmployeeExtraDatum():
             return 0
     
     @staticmethod
+    def update_level(rut, level):
+        employee_extra_datum = EmployeeExtraModel.query.filter_by(rut=rut).first()
+        employee_extra_datum.progressive_vacation_level_id = level
+        db.session.add(employee_extra_datum)
+        db.session.commit()
+
+        return 1
+
+    @staticmethod
     def update(data, rut):
         employee_extra_datum = EmployeeExtraModel.query.filter_by(rut=rut).first()
         employee_extra_datum.extreme_zone_id = data['extreme_zone_id']
@@ -95,12 +106,24 @@ class EmployeeExtraDatum():
         employee_extra_datum.progressive_vacation_status_id = data['progressive_vacation_status_id']
         employee_extra_datum.progressive_vacation_date = data['progressive_vacation_date']
         employee_extra_datum.pensioner_id = data['pensioner_id']
+        employee_extra_datum.progressive_vacation_level_id = 0
 
         db.session.add(employee_extra_datum)
         
         try:
             db.session.commit()
 
+            employee_labor_datum = EmployeeLaborDatum.get_by_rut(rut)
+            employee_extra_datum = EmployeeExtraDatum.get_by_rut(rut)
+
+            entrance_company_months = Helper.months(employee_labor_datum.entrance_company, date.today())
+            progressive_date_months = Helper.months(employee_extra_datum.progressive_vacation_date, date.today())
+
+            total_months =  int(entrance_company_months) - int(progressive_date_months)
+            level = Helper.progressive_vacation_level(total_months)
+
+            employee_extra_datum = EmployeeExtraDatum.update_level(rut, level)
+            
             return 1
         except Exception as e:
             return 0

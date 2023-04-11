@@ -640,6 +640,15 @@ class DocumentationModel(db.Model):
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
+class PreDocumentationModel(db.Model):
+    __tablename__ = 'pre_documentations'
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.Text)
+    description = db.Column(db.Text)
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
 class OldDocumentEmployeeModel(db.Model):
     __tablename__ = 'old_documents_employees'
 
@@ -980,6 +989,7 @@ class EmployeeExtraModel(db.Model, UserMixin):
     pensioner_id = db.Column(db.Integer)
     disability_id = db.Column(db.Integer)
     suplemental_health_insurance_id = db.Column(db.Integer)
+    progressive_vacation_level_id = db.Column(db.Integer)
     progressive_vacation_status_id = db.Column(db.Integer)
     progressive_vacation_date = db.Column(db.Date())
     added_date = db.Column(db.DateTime())
