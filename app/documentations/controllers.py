@@ -16,7 +16,7 @@ home = Blueprint("home", __name__)
 def constructor():
    pass
 
-@home.route("/home", methods=['GET'])
+@home.route("/documentation", methods=['GET'])
 def index():
    news = New.get()
    birthdays = Employee.get_birthdays()
