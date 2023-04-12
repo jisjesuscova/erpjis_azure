@@ -32,12 +32,15 @@ def constructor():
 
 @end_document.route("/human_resources/end_document/create/<int:rut>", methods=['GET'])
 def create(rut):
-   number_holidays = 0
    voluntary_indemnity = 0
    indemnity_years_service = 0
    substitute_compensation = 0
    fertility_proportional = 0
    total = 0
+   legal = Vacation.legal(rut)
+   taken_days = Vacation.taken_days(rut)
+   balance = Vacation.balance(legal, taken_days)
+   number_holidays = balance
    
    return render_template('administrator/human_resources/end_documents/end_document_data.html', rut = rut, number_holidays = number_holidays, voluntary_indemnity = voluntary_indemnity, indemnity_years_service = indemnity_years_service, substitute_compensation = substitute_compensation, fertility_proportional= fertility_proportional, total = total)
 
@@ -51,6 +54,7 @@ def indemnity_years_service(rut):
    voluntary_indemnity = request.form['voluntary_indemnity']
    substitute_compensation = request.form['substitute_compensation']
    fertility_proportional = request.form['fertility_proportional']
+
    total = int(voluntary_indemnity) + int(indemnity_years_service) + int(substitute_compensation) + int(fertility_proportional)
    
    return render_template('administrator/human_resources/end_documents/end_document_data.html', rut = rut, employee_status_id = employee_status_id, causal_id = causal_id, exit_company = exit_company, number_holidays = number_holidays, end_document = end_document, voluntary_indemnity = voluntary_indemnity, indemnity_years_service = indemnity_years_service, substitute_compensation = substitute_compensation, fertility_proportional = fertility_proportional, total = total)
@@ -65,6 +69,7 @@ def substitute_compensation(rut):
    voluntary_indemnity = request.form['voluntary_indemnity']
    substitute_compensation = EndDocument.substitute_compensation(rut)
    fertility_proportional = request.form['fertility_proportional']
+
    total = int(voluntary_indemnity) + int(indemnity_years_service) + int(substitute_compensation) + int(fertility_proportional)
 
    return render_template('administrator/human_resources/end_documents/end_document_data.html', rut = rut, employee_status_id = employee_status_id, causal_id = causal_id, exit_company = exit_company, number_holidays = number_holidays, end_document = end_document, voluntary_indemnity = voluntary_indemnity, indemnity_years_service = indemnity_years_service, substitute_compensation = substitute_compensation, fertility_proportional = fertility_proportional, total = total)
@@ -79,6 +84,7 @@ def fertility_proportional(rut):
    voluntary_indemnity = request.form['voluntary_indemnity']
    substitute_compensation = request.form['substitute_compensation']
    fertility_proportional = EndDocument.fertility_proportional(rut, request.form['exit_company'], request.form['number_holidays'])
+
    total = int(voluntary_indemnity) + int(indemnity_years_service) + int(substitute_compensation) + int(fertility_proportional)
 
    return render_template('administrator/human_resources/end_documents/end_document_data.html', rut = rut, employee_status_id = employee_status_id, causal_id = causal_id, exit_company = exit_company, number_holidays = number_holidays, end_document = end_document, voluntary_indemnity = voluntary_indemnity, indemnity_years_service = indemnity_years_service, substitute_compensation = substitute_compensation, fertility_proportional = fertility_proportional, total = total)
