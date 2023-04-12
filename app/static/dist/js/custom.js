@@ -17,6 +17,10 @@ $(document).ready(function () {
     
     $('[data-toggle="tooltip"]').tooltip()
 
+    $("#description").on("keyup", function() {
+        $("#markdown_view").html(marked($(this).val()));
+    });
+
     $("#reason_id").change(function(){
         if ($("#reason_id").val() == 2 || $("#reason_id").val() == 3 || $("#reason_id").val() == 4) {
             $('.replacement_honorary').show();
