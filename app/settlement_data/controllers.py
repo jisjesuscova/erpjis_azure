@@ -13,6 +13,7 @@ import os
 from app.helpers.file import File
 from app.helpers.whatsapp import Whatsapp
 from app.employees.employee import Employee
+from app.old_employees.old_employee import OldEmployee
 
 settlement_datum = Blueprint("settlement_data", __name__)
 
@@ -28,12 +29,12 @@ def constructor():
 def index(rut = '', page = 1):
     status_id = Helper.is_active(rut)
 
-    employee  = Employee.get(rut)
-
     if status_id == 1:
         documents_employees = DocumentEmployee.get_by_type(rut, 5, page)
+        employee  = Employee.get(rut)
     else:
         documents_employees = OldDocumentEmployee.get_by_type(rut, 5, page)
+        employee  = OldEmployee.get(rut)
 
     settlement_button_status_id = 1
 

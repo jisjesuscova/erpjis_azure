@@ -39,7 +39,6 @@ class OldEmployeeLaborDatum():
                 employee_labor_datum.health_id,
                 employee_labor_datum.pention_id,
                 employee_labor_datum.job_position_id,
-                employee_labor_datum.extreme_zone_id,
                 employee_labor_datum.employee_type_id,
                 order_id,
                 employee_labor_datum.regime_id,
@@ -80,24 +79,23 @@ class OldEmployeeLaborDatum():
         old_employee_labor_data.health_id = data[8]
         old_employee_labor_data.pention_id = data[9]
         old_employee_labor_data.job_position_id = data[10]
-        old_employee_labor_data.extreme_zone_id = data[11]
-        old_employee_labor_data.employee_type_id = data[12]
-        old_employee_labor_data.order_id = data[13]
-        old_employee_labor_data.regime_id = data[14]
-        old_employee_labor_data.status_id = data[15]
-        old_employee_labor_data.entrance_pention = data[16]
-        old_employee_labor_data.entrance_company = data[17]
-        old_employee_labor_data.entrance_health = data[18]
-        old_employee_labor_data.salary = data[19]
-        old_employee_labor_data.collation = data[20]
-        old_employee_labor_data.locomotion = data[21]
-        old_employee_labor_data.company_email = data[22]
-        old_employee_labor_data.added_date = data[23]
-        old_employee_labor_data.updated_date = data[24]
-        old_employee_labor_data.health_payment_id = data[25]
-        old_employee_labor_data.extra_health_amount = data[26]
-        old_employee_labor_data.apv_payment_type_id = data[27]
-        old_employee_labor_data.apv_amount = data[28]
+        old_employee_labor_data.employee_type_id = data[11]
+        old_employee_labor_data.order_id = data[12]
+        old_employee_labor_data.regime_id = data[13]
+        old_employee_labor_data.status_id = data[14]
+        old_employee_labor_data.entrance_pention = data[15]
+        old_employee_labor_data.entrance_company = data[16]
+        old_employee_labor_data.entrance_health = data[17]
+        old_employee_labor_data.salary = data[18]
+        old_employee_labor_data.collation = data[19]
+        old_employee_labor_data.locomotion = data[20]
+        old_employee_labor_data.company_email = data[21]
+        old_employee_labor_data.added_date = data[22]
+        old_employee_labor_data.updated_date = data[23]
+        old_employee_labor_data.health_payment_id = data[24]
+        old_employee_labor_data.extra_health_amount = data[25]
+        old_employee_labor_data.apv_payment_type_id = data[26]
+        old_employee_labor_data.apv_amount = data[27]
 
         db.session.add(old_employee_labor_data)
         db.session.commit()

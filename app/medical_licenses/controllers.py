@@ -12,6 +12,7 @@ from app.helpers.file import File
 from app.old_medical_licenses.old_medical_license import OldMedicalLicense
 from app.old_documents_employees.old_document_employee import OldDocumentEmployee
 from app.employees.employee import Employee
+from app.old_employees.old_employee import OldEmployee
 
 medical_license = Blueprint("medical_licenses", __name__)
 
@@ -26,16 +27,16 @@ def constructor():
 def index(rut):
    status_id = Helper.is_active(rut)
 
-   employee  = Employee.get(rut)
-   
    if status_id == 1:
       is_active = 1
 
       medical_licenses = MedicalLicense.get(rut)
+      employee  = Employee.get(rut)
    else:
       is_active = 0
 
       medical_licenses = OldMedicalLicense.get(rut)
+      employee  = OldEmployee.get(rut)
 
    medical_license_button_status_id = 1
 

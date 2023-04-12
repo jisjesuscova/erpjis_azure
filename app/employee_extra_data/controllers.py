@@ -10,6 +10,7 @@ from app.old_employee_extra_data.old_employee_extra_datum import OldEmployeeExtr
 from app.models.models import EmployeeExtraModel
 from app import db
 from app.employees.employee import Employee
+from app.old_employees.old_employee import OldEmployee
 
 employee_extra_datum = Blueprint("employee_extra_data", __name__)
 
@@ -24,14 +25,13 @@ def constructor():
 def show(rut):
    status_id = Helper.is_active(rut)
 
-   employee  = Employee.get(rut)
-
    if status_id == 1:
       employee_extra_datum = EmployeeExtraDatum.get(rut)
       contract_schedules = ContractSchedule.get()
       pentions = Pention.get()
       healths = Health.get()
       regime_id = None
+      employee  = Employee.get(rut)
 
       empty_field_status_id = EmployeeExtraDatum.empty_fields(rut)
 
@@ -42,6 +42,7 @@ def show(rut):
       pentions = Pention.get()
       healths = Health.get()
       regime_id = None
+      employee  = OldEmployee.get(rut)
 
       empty_field_status_id = 1
 

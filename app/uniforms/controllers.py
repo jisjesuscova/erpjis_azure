@@ -9,6 +9,7 @@ from app.old_uniforms.old_uniform import OldUniform
 from app.helpers.helper import Helper
 from app.uniform_types.uniform_type import UniformType
 from app.employees.employee import Employee
+from app.old_employees.old_employee import OldEmployee
 
 uniform = Blueprint("uniforms", __name__)
 
@@ -22,14 +23,14 @@ def constructor():
 def index(rut):
    status_id = Helper.is_active(rut)
 
-   employee  = Employee.get(rut)
-
    if status_id == 1:
       uniforms = Uniform.get(rut)
+      employee  = Employee.get(rut)
 
       is_active = 1
    else:
       uniforms = OldUniform.get(rut)
+      employee  = OldEmployee.get(rut)
 
       is_active = 0
 

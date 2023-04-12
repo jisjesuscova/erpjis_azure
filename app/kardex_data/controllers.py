@@ -11,6 +11,7 @@ from app.old_documents_employees.old_document_employee import OldDocumentEmploye
 from app.helpers.helper import Helper
 from app.helpers.file import File
 from app.employees.employee import Employee
+from app.old_employees.old_employee import OldEmployee
 
 kardex_datum = Blueprint("kardex_data", __name__)
 
@@ -25,14 +26,14 @@ def constructor():
 def index(rut, page = 1):
    status_id = Helper.is_active(rut)
 
-   employee  = Employee.get(rut)
-
    if status_id == 1:
       kardex_data = DocumentEmployee.get(rut, '', page, 1)
+      employee  = Employee.get(rut)
 
       is_active = 1
    else:
       kardex_data = OldDocumentEmployee.get(rut, '', page, 1)
+      employee  = OldEmployee.get(rut)
 
       is_active = 0
 

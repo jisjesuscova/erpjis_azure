@@ -8,6 +8,8 @@ from app.family_types.family_type import FamilyType
 from app.dropbox_data.dropbox import Dropbox
 from app.helpers.file import File
 from app.employees.employee import Employee
+from app.helpers.helper import Helper
+from app.old_employees.old_employee import OldEmployee
 
 family_core_datum = Blueprint("family_core_data", __name__)
 
@@ -24,7 +26,12 @@ def index(rut):
 
    family_core_button_status_id = 1
 
-   employee  = Employee.get(rut)
+   status_id = Helper.is_active(rut)
+
+   if status_id == 1:
+      employee  = Employee.get(rut)
+   else:
+      employee  = OldEmployee.get(rut)
 
    title = employee.visual_rut + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
    module_name = 'Recursos Humanos'

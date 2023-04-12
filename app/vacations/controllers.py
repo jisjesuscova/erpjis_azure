@@ -9,6 +9,7 @@ from app.helpers.helper import Helper
 from app.old_vacations.old_vacation import OldVacation
 from app.progressive_vacations.progressive_vacation import ProgressiveVacation
 from app.employee_extra_data.employee_extra_datum import EmployeeExtraDatum
+from app.old_employees.old_employee import OldEmployee
 
 vacation = Blueprint("vacations", __name__)
 
@@ -23,8 +24,6 @@ def constructor():
 def index(rut):
    status_id = Helper.is_active(rut)
 
-   employee  = Employee.get(rut)
-
    if status_id == 1:
       vacations = Vacation.get(rut, '', [3, 4])
       legal = Vacation.legal(rut)
@@ -35,6 +34,7 @@ def index(rut):
       progressive_vacation_taken_days = ProgressiveVacation.taken_days(rut)
       progressive_vacation_balance = ProgressiveVacation.balance(progressive_vacation_legal, progressive_vacation_taken_days)
       employee_extra_datum = EmployeeExtraDatum.get(rut)
+      employee  = Employee.get(rut)
    else:
       vacations = OldVacation.get(rut, '', [3, 4])
       legal = OldVacation.legal(rut)
@@ -45,6 +45,7 @@ def index(rut):
       progressive_vacation_balance = 0
       progressive_vacations = []
       employee_extra_datum = []
+      employee  = OldEmployee.get(rut)
 
    vacation_button_status_id = 1
 

@@ -21,6 +21,7 @@ from app.helpers.helper import Helper
 from app.end_documents.end_document import EndDocument
 from app.old_documents_employees.old_document_employee import OldDocumentEmployee
 from app.old_contract_data.old_contract_datum import OldContractDatum
+from app.old_employees.old_employee import OldEmployee
 
 contract_datum = Blueprint("contract_data", __name__)
 
@@ -35,8 +36,6 @@ def constructor():
 def show(rut):
    status_id = Helper.is_active(rut)
 
-   employee  = Employee.get(rut)
-
    if status_id == 1:
       contract_datum = ContractDatum.get(rut)
       contract_types = ContractType.get()
@@ -50,6 +49,7 @@ def show(rut):
       employee_types = EmployeeType.get()
       end_documents = EndDocument.get(rut)
       contract_data = DocumentEmployee.get_by_type(rut, 21)
+      employee  = Employee.get(rut)
 
       empty_field_status_id = ContractDatum.empty_fields(rut)
 
@@ -67,6 +67,7 @@ def show(rut):
       employee_types = EmployeeType.get()
       end_documents = EndDocument.get(rut)
       contract_data = OldDocumentEmployee.get_by_type(rut, 21)
+      employee  = OldEmployee.get(rut)
 
       empty_field_status_id = 1
 
