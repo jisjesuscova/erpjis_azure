@@ -73,12 +73,13 @@ class ProgressiveVacation():
 
         if employee_extra_data != None:
             entrance_company_months = Helper.months(employee_labor_data.entrance_company, date.today())
-            progressive_date_months = Helper.months(employee_extra_data.progressive_vacation_date, date.today())
+            years = Helper.months_to_years(entrance_company_months)
+            if employee_extra_data.recognized_years != None:
+                total_years =  int(years) + int(employee_extra_data.recognized_years)
+            else: 
+                total_years = years
 
-            total_months =  int(entrance_company_months) - int(progressive_date_months)
-            print(total_months)  
-
-            progressive_vacation_days = Helper.progressive_vacation_days(total_months)
+            progressive_vacation_days = Helper.progressive_vacation_days(total_years, employee_extra_data.progressive_vacation_level_id)
 
             return progressive_vacation_days
         else:

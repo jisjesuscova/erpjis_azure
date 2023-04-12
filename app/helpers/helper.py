@@ -15,6 +15,18 @@ class Helper:
     @staticmethod
     def remove_from_string(value_to_remove, string):
         return string.replace(value_to_remove, "")
+    
+    @staticmethod
+    def years_to_months(years):
+        months = years * 12
+
+        return months
+    
+    @staticmethod
+    def months_to_years(months):
+        years = int(months/12)
+
+        return years
 
     @staticmethod
     def weeks_in_month(year, month):
@@ -277,110 +289,108 @@ class Helper:
     
     @staticmethod
     def vacation_days(months, extreme_zone_status_id):
-        if extreme_zone_status_id == 1:
-            total = round((months+1)*1.66)
+        if months > 0:
+            if extreme_zone_status_id == 1:
+                total = round((months+1)*1.66)
+            else:
+                total = round((months+1)*1.25)
         else:
-            total = round((months+1)*1.25)
-
+            total = 0
+            
         return total
 
     @staticmethod
-    def progressive_vacation_level(months):
-        if months >= 36:
+    def progressive_vacation_level(years):
+        total = int(years) - 13
+
+        if total < 0:
             level = 1
-        
-        if months >= 48:
+        elif total == 0:
+            level = 1
+        elif total == 1:
             level = 2
-        
-        if months >= 60:
+        elif total == 2:
             level = 3
-        
-        if months >= 72:
+        elif total == 3:
             level = 4
-        
-        if months >= 84:
+        elif total == 4:
             level = 5
-        
-        if months >= 96:
+        elif total == 5:
             level = 6
-        
-        if months >= 108:
+        elif total == 6:
             level = 7
-        
-        if months >= 120:
+        elif total == 7:
             level = 8
-        
-        if months >= 132:
+        elif total == 8:
             level = 9
-        
-        if months >= 144:
+        elif total == 9:
             level = 10
-
-        if months >= 156:
+        elif total == 10:
             level = 11
-
-        if months >= 168:
+        elif total == 11:
             level = 12
-
-        if months >= 180:
+        elif total == 12:
             level = 13
-
-        if months >= 192:
+        elif total == 13:
             level = 14
-
-        if months >= 204:
+        elif total == 14:
             level = 15
+        elif total == 15:
+            level = 16
 
         return level
 
     @staticmethod
-    def progressive_vacation_days(months, extreme_zone_status_id = ''):
+    def progressive_vacation_days(years, level):
         total = 0
-        if months >= 36:
+
+        if years >= 13 and (level == 1):
             total = total + 1
         
-        if months >= 24:
+        if years >= 14 and (level == 1 or level == 2):
             total = total + 1
         
-        if months >= 36:
+        if years >= 15 and (level == 1 or level == 2 or level == 3):
             total = total + 1
         
-        if months >= 48:
+        if years >= 16 and (level == 1 or level == 2 or level == 3 or level == 4):
             total = total + 2
         
-        if months >= 60:
+        if years >= 17 and (level == 1 or level == 2 or level == 3 or level == 4 or level == 5):
             total = total + 2
         
-        if months >= 72:
+        if years >= 18 and (level == 1 or level == 2 or level == 3 or level == 4 or level == 5 or level == 6):
             total = total + 2
         
-        if months >= 84:
+        if years >= 19 and (level == 1 or level == 2 or level == 3 or level == 4 or level == 5 or level == 6 or level == 7):
             total = total + 3
         
-        if months >= 96:
+        if years >= 20 and (level == 1 or level == 2 or level == 3 or level == 4 or level == 5 or level == 6 or level == 7 or level == 8):
             total = total + 3
         
-        if months >= 108:
+        if years >= 21 and (level == 1 or level == 2 or level == 3 or level == 4 or level == 5 or level == 6 or level == 7 or level == 8 or level == 9):
             total = total + 3
         
-        if months >= 120:
+        if years >= 22 and (level == 1 or level == 2 or level == 3 or level == 4 or level == 5 or level == 6 or level == 7 or level == 8 or level == 9 or level == 10):
             total = total + 4
 
-        if months >= 132:
+        if years >= 23 and (level == 1 or level == 2 or level == 3 or level == 4 or level == 5 or level == 6 or level == 7 or level == 8 or level == 9 or level == 10 or level == 11):
             total = total + 4
 
-        if months >= 144:
+        if years >= 24 and (level == 1 or level == 2 or level == 3 or level == 4 or level == 5 or level == 6 or level == 7 or level == 8 or level == 9 or level == 10 or level == 11 or level == 12):
             total = total + 4
 
-        if months >= 158:
+        if years >= 25 and (level == 1 or level == 2 or level == 3 or level == 4 or level == 5 or level == 6 or level == 7 or level == 8 or level == 9 or level == 10 or level == 11 or level == 12 or level == 13):
             total = total + 5
 
-        if months >= 168:
+        if years >= 26 and (level == 1 or level == 2 or level == 3 or level == 4 or level == 5 or level == 6 or level == 7 or level == 8 or level == 9 or level == 10 or level == 11 or level == 12 or level == 13 or level == 14):
             total = total + 5
 
-        if months >= 180:
+        if years >= 27 and (level == 1 or level == 2 or level == 3 or level == 4 or level == 5 or level == 6 or level == 7 or level == 8 or level == 9 or level == 10 or level == 11 or level == 12 or level == 13 or level == 14 or level == 15):
             total = total + 5
 
+        if years == 0:
+            total = 0
 
         return total
     

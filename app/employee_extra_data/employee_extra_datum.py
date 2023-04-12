@@ -106,6 +106,7 @@ class EmployeeExtraDatum():
         employee_extra_datum.progressive_vacation_status_id = data['progressive_vacation_status_id']
         employee_extra_datum.progressive_vacation_date = data['progressive_vacation_date']
         employee_extra_datum.pensioner_id = data['pensioner_id']
+        employee_extra_datum.recognized_years = data['recognized_years']
         employee_extra_datum.progressive_vacation_level_id = 0
 
         db.session.add(employee_extra_datum)
@@ -113,14 +114,15 @@ class EmployeeExtraDatum():
         try:
             db.session.commit()
 
-            employee_labor_datum = EmployeeLaborDatum.get_by_rut(rut)
-            employee_extra_datum = EmployeeExtraDatum.get_by_rut(rut)
+            employee_labor_datum = EmployeeLaborDatum.get(rut)
+            employee_extra_datum = EmployeeExtraDatum.get(rut)
 
-            entrance_company_months = Helper.months(employee_labor_datum.entrance_company, date.today())
-            progressive_date_months = Helper.months(employee_extra_datum.progressive_vacation_date, date.today())
+            how_many_months = Helper.months(employee_labor_datum.entrance_company, employee_extra_datum.progressive_vacation_date)
+            years = Helper.months_to_years(how_many_months)
+            
+            total_years = int(years) + int(employee_extra_datum.recognized_years)
 
-            total_months =  int(entrance_company_months) - int(progressive_date_months)
-            level = Helper.progressive_vacation_level(total_months)
+            level = Helper.progressive_vacation_level(total_years)
 
             employee_extra_datum = EmployeeExtraDatum.update_level(rut, level)
             

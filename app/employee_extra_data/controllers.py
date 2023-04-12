@@ -9,6 +9,7 @@ from app.helpers.helper import Helper
 from app.old_employee_extra_data.old_employee_extra_datum import OldEmployeeExtraDatum
 from app.models.models import EmployeeExtraModel
 from app import db
+from app.employees.employee import Employee
 
 employee_extra_datum = Blueprint("employee_extra_data", __name__)
 
@@ -22,6 +23,8 @@ def constructor():
 @employee_extra_datum.route("/human_resources/employee_extra_data", methods=['GET'])
 def show(rut):
    status_id = Helper.is_active(rut)
+
+   employee  = Employee.get(rut)
 
    if status_id == 1:
       employee_extra_datum = EmployeeExtraDatum.get(rut)
@@ -46,6 +49,9 @@ def show(rut):
 
    employee_extra_datum_button_status_id = 1
 
+   title = employee.visual_rut + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
+   module_name = 'Recursos Humanos'
+
    if current_user.rol_id == 1:
       return render_template('collaborator/human_resources/extra_data/extra_data_update.html', empty_field_status_id = empty_field_status_id, employee_extra_datum_button_status_id = employee_extra_datum_button_status_id, employee_extra_datum = employee_extra_datum, contract_schedules = contract_schedules, pentions = pentions, rut = rut, healths = healths, is_active = is_active, regime_id = regime_id)
    elif current_user.rol_id == 2:
@@ -53,7 +59,7 @@ def show(rut):
    elif current_user.rol_id == 3:
       return render_template('supervisor/human_resources/extra_data/extra_data_update.html', empty_field_status_id = empty_field_status_id, employee_extra_datum_button_status_id = employee_extra_datum_button_status_id, employee_extra_datum = employee_extra_datum, contract_schedules = contract_schedules, pentions = pentions, rut = rut, healths = healths, is_active = is_active, regime_id = regime_id)
    elif current_user.rol_id == 4:
-      return render_template('administrator/human_resources/extra_data/extra_data_update.html', empty_field_status_id = empty_field_status_id, employee_extra_datum_button_status_id = employee_extra_datum_button_status_id, employee_extra_datum = employee_extra_datum, contract_schedules = contract_schedules, pentions = pentions, rut = rut, healths = healths, is_active = is_active, regime_id = regime_id)
+      return render_template('administrator/human_resources/extra_data/extra_data_update.html', title = title, module_name = module_name, empty_field_status_id = empty_field_status_id, employee_extra_datum_button_status_id = employee_extra_datum_button_status_id, employee_extra_datum = employee_extra_datum, contract_schedules = contract_schedules, pentions = pentions, rut = rut, healths = healths, is_active = is_active, regime_id = regime_id)
 
 @employee_extra_datum.route("/human_resources/employee_extra_data/<int:rut>", methods=['POST'])
 @employee_extra_datum.route("/human_resources/employee_extra_data", methods=['POST'])

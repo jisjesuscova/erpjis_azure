@@ -12,6 +12,7 @@ from app.old_documents_employees.old_document_employee import OldDocumentEmploye
 import os
 from app.helpers.file import File
 from app.helpers.whatsapp import Whatsapp
+from app.employees.employee import Employee
 
 settlement_datum = Blueprint("settlement_data", __name__)
 
@@ -27,12 +28,17 @@ def constructor():
 def index(rut = '', page = 1):
     status_id = Helper.is_active(rut)
 
+    employee  = Employee.get(rut)
+
     if status_id == 1:
         documents_employees = DocumentEmployee.get_by_type(rut, 5, page)
     else:
         documents_employees = OldDocumentEmployee.get_by_type(rut, 5, page)
 
     settlement_button_status_id = 1
+
+    title = employee.visual_rut + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
+    module_name = 'Recursos Humanos'
 
     if current_user.rol_id == 1:
         return render_template('collaborator/management_payrolls/settlement_data/settlement_data_download.html', settlement_button_status_id = settlement_button_status_id, documents_employees = documents_employees, rut = rut)
@@ -41,7 +47,7 @@ def index(rut = '', page = 1):
     elif current_user.rol_id == 3:
         return render_template('supervisor/management_payrolls/settlement_data/settlement_data_download.html', settlement_button_status_id = settlement_button_status_id, documents_employees = documents_employees, rut = rut)
     elif current_user.rol_id == 4:
-        return render_template('administrator/management_payrolls/settlement_data/settlement_data_download.html', settlement_button_status_id = settlement_button_status_id, documents_employees = documents_employees, rut = rut)
+        return render_template('administrator/management_payrolls/settlement_data/settlement_data_download.html', title = title, module_name = module_name, settlement_button_status_id = settlement_button_status_id, documents_employees = documents_employees, rut = rut)
 
 @settlement_datum.route("/management_payroll/settlement_data/uploaded/<int:page>", methods=['GET'])
 @settlement_datum.route("/management_payroll/settlement_data/uploaded", methods=['GET'])

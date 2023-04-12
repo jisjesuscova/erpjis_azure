@@ -10,6 +10,7 @@ from app.documents_employees.document_employee import DocumentEmployee
 from app.old_documents_employees.old_document_employee import OldDocumentEmployee
 from app.helpers.helper import Helper
 from app.helpers.file import File
+from app.employees.employee import Employee
 
 kardex_datum = Blueprint("kardex_data", __name__)
 
@@ -24,6 +25,8 @@ def constructor():
 def index(rut, page = 1):
    status_id = Helper.is_active(rut)
 
+   employee  = Employee.get(rut)
+
    if status_id == 1:
       kardex_data = DocumentEmployee.get(rut, '', page, 1)
 
@@ -35,7 +38,10 @@ def index(rut, page = 1):
 
    kardex_button_status_id = 1
 
-   return render_template('administrator/human_resources/kardex_data/kardex_data.html', kardex_button_status_id = kardex_button_status_id, kardex_data = kardex_data, rut = rut, is_active = is_active)
+   title = employee.visual_rut + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
+   module_name = 'Recursos Humanos'
+
+   return render_template('administrator/human_resources/kardex_data/kardex_data.html', title = title, module_name = module_name, kardex_button_status_id = kardex_button_status_id, kardex_data = kardex_data, rut = rut, is_active = is_active)
 
 @kardex_datum.route("/human_resources/kardex_data/create/<int:rut>", methods=['GET'])
 @kardex_datum.route("/human_resources/kardex_data/create", methods=['GET'])

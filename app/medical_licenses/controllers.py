@@ -11,6 +11,7 @@ from app.documents_employees.document_employee import DocumentEmployee
 from app.helpers.file import File
 from app.old_medical_licenses.old_medical_license import OldMedicalLicense
 from app.old_documents_employees.old_document_employee import OldDocumentEmployee
+from app.employees.employee import Employee
 
 medical_license = Blueprint("medical_licenses", __name__)
 
@@ -24,6 +25,8 @@ def constructor():
 @medical_license.route("/human_resources/medical_licenses", methods=['GET'])
 def index(rut):
    status_id = Helper.is_active(rut)
+
+   employee  = Employee.get(rut)
    
    if status_id == 1:
       is_active = 1
@@ -36,6 +39,9 @@ def index(rut):
 
    medical_license_button_status_id = 1
 
+   title = employee.visual_rut + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
+   module_name = 'Recursos Humanos'
+
    if current_user.rol_id == 1:
       return render_template('collaborator/human_resources/medical_licenses/medical_licenses.html', medical_license_button_status_id = medical_license_button_status_id, medical_licenses = medical_licenses, rut = rut, is_active = is_active)
    elif current_user.rol_id == 2:
@@ -43,7 +49,7 @@ def index(rut):
    elif current_user.rol_id == 3:
       return render_template('supervisor/human_resources/medical_licenses/medical_licenses.html', medical_license_button_status_id = medical_license_button_status_id, medical_licenses = medical_licenses, rut = rut, is_active = is_active)
    elif current_user.rol_id == 4:
-      return render_template('administrator/human_resources/medical_licenses/medical_licenses.html', medical_license_button_status_id = medical_license_button_status_id, medical_licenses = medical_licenses, rut = rut, is_active = is_active)
+      return render_template('administrator/human_resources/medical_licenses/medical_licenses.html', title = title, module_name = module_name, medical_license_button_status_id = medical_license_button_status_id, medical_licenses = medical_licenses, rut = rut, is_active = is_active)
 
 @medical_license.route("/human_resources/medical_license/create/<int:rut>", methods=['GET'])
 @medical_license.route("/human_resources/medical_license/create", methods=['GET'])

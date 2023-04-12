@@ -23,6 +23,8 @@ def constructor():
 def index(rut):
    status_id = Helper.is_active(rut)
 
+   employee  = Employee.get(rut)
+
    if status_id == 1:
       vacations = Vacation.get(rut, '', [3, 4])
       legal = Vacation.legal(rut)
@@ -46,6 +48,9 @@ def index(rut):
 
    vacation_button_status_id = 1
 
+   title = employee.visual_rut + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
+   module_name = 'Recursos Humanos'
+
    if current_user.rol_id == 1:
       return render_template('collaborator/human_resources/vacations/vacations.html', vacation_button_status_id = vacation_button_status_id, vacations = vacations, rut = rut, legal = legal, balance = balance, taken_days = taken_days, status_id = status_id, progressive_vacation_legal = progressive_vacation_legal, progressive_vacation_taken_days = progressive_vacation_taken_days, progressive_vacation_balance = progressive_vacation_balance, progressive_vacations = progressive_vacations, employee_extra_datum = employee_extra_datum)
    elif current_user.rol_id == 2:
@@ -53,7 +58,7 @@ def index(rut):
    elif current_user.rol_id == 3:
       return render_template('supervisor/human_resources/vacations/vacations.html', vacation_button_status_id = vacation_button_status_id, vacations = vacations, rut = rut, legal = legal, balance = balance, taken_days = taken_days, status_id = status_id, progressive_vacation_legal = progressive_vacation_legal, progressive_vacation_taken_days = progressive_vacation_taken_days, progressive_vacation_balance = progressive_vacation_balance, progressive_vacations = progressive_vacations, employee_extra_datum = employee_extra_datum)
    elif current_user.rol_id == 4:
-      return render_template('administrator/human_resources/vacations/vacations.html', vacation_button_status_id = vacation_button_status_id, vacations = vacations, rut = rut, legal = legal, balance = balance, taken_days = taken_days, status_id = status_id, progressive_vacation_legal = progressive_vacation_legal, progressive_vacation_taken_days = progressive_vacation_taken_days, progressive_vacation_balance = progressive_vacation_balance, progressive_vacations = progressive_vacations, employee_extra_datum = employee_extra_datum)
+      return render_template('administrator/human_resources/vacations/vacations.html', title = title, module_name = module_name, vacation_button_status_id = vacation_button_status_id, vacations = vacations, rut = rut, legal = legal, balance = balance, taken_days = taken_days, status_id = status_id, progressive_vacation_legal = progressive_vacation_legal, progressive_vacation_taken_days = progressive_vacation_taken_days, progressive_vacation_balance = progressive_vacation_balance, progressive_vacations = progressive_vacations, employee_extra_datum = employee_extra_datum)
 
 @vacation.route("/human_resources/vacation/create/<int:rut>", methods=['GET'])
 @vacation.route("/human_resources/vacation/create", methods=['GET'])

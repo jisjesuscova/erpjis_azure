@@ -7,6 +7,7 @@ from app.genders.gender import Gender
 from app.family_types.family_type import FamilyType
 from app.dropbox_data.dropbox import Dropbox
 from app.helpers.file import File
+from app.employees.employee import Employee
 
 family_core_datum = Blueprint("family_core_data", __name__)
 
@@ -22,6 +23,11 @@ def index(rut):
    family_core_data = FamilyCoreDatum.get('', rut)
 
    family_core_button_status_id = 1
+
+   employee  = Employee.get(rut)
+
+   title = employee.visual_rut + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
+   module_name = 'Recursos Humanos'
    
    if current_user.rol_id == 1:
       return render_template('collaborator/human_resources/family_core_data/family_core_data.html', family_core_button_status_id = family_core_button_status_id, family_core_data = family_core_data, rut = rut)
@@ -30,7 +36,7 @@ def index(rut):
    elif current_user.rol_id == 3:
       return render_template('supervisor/human_resources/family_core_data/family_core_data.html', family_core_button_status_id = family_core_button_status_id, family_core_data = family_core_data, rut = rut)
    elif current_user.rol_id == 4:
-      return render_template('administrator/human_resources/family_core_data/family_core_data.html', family_core_button_status_id = family_core_button_status_id, family_core_data = family_core_data, rut = rut)
+      return render_template('administrator/human_resources/family_core_data/family_core_data.html', title = title, module_name = module_name, family_core_button_status_id = family_core_button_status_id, family_core_data = family_core_data, rut = rut)
 
 @family_core_datum.route("/human_resources/family_core_data/create/<int:rut>", methods=['GET'])
 @family_core_datum.route("/human_resources/family_core_data/create", methods=['GET'])

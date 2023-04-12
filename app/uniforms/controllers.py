@@ -8,6 +8,7 @@ from app.uniforms.uniform import Uniform
 from app.old_uniforms.old_uniform import OldUniform
 from app.helpers.helper import Helper
 from app.uniform_types.uniform_type import UniformType
+from app.employees.employee import Employee
 
 uniform = Blueprint("uniforms", __name__)
 
@@ -21,6 +22,8 @@ def constructor():
 def index(rut):
    status_id = Helper.is_active(rut)
 
+   employee  = Employee.get(rut)
+
    if status_id == 1:
       uniforms = Uniform.get(rut)
 
@@ -32,7 +35,10 @@ def index(rut):
 
    uniform_button_status_id = 1
 
-   return render_template('administrator/human_resources/uniforms/uniforms.html', uniform_button_status_id = uniform_button_status_id, uniforms = uniforms, rut = rut, is_active = is_active)
+   title = employee.visual_rut + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
+   module_name = 'Recursos Humanos'
+
+   return render_template('administrator/human_resources/uniforms/uniforms.html', title = title, module_name = module_name, uniform_button_status_id = uniform_button_status_id, uniforms = uniforms, rut = rut, is_active = is_active)
 
 @uniform.route("/human_resources/uniform/create/<int:rut>", methods=['GET'])
 @uniform.route("/human_resources/uniform/create", methods=['GET'])

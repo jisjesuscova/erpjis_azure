@@ -1500,7 +1500,6 @@ $(document).ready(function () {
 
     $('.update-extra-data-btn').click(function(event) {
         event.preventDefault();
-
         // Verificar si hay campos vacíos o indefinidos
         var requiredFields = ['extreme_zone_id', 'employee_type_id', 'young_job_status_id', 'be_paid_id', 'disability_id', 'pensioner_id'];
         var hasEmptyField = false;
@@ -1533,6 +1532,7 @@ $(document).ready(function () {
         formData.append('progressive_vacation_status_id', $('#progressive_vacation_status_id').val());
         formData.append('progressive_vacation_date', $('#progressive_vacation_date_value').val());
         formData.append('suplemental_health_insurance_id', $('#suplemental_health_insurance_id').val());
+        formData.append('recognized_years', $('#recognized_years').val());
 
         $.ajax({
             url: "/human_resources/employee_extra_data/" + rut,
