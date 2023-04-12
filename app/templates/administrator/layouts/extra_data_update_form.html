@@ -136,7 +136,13 @@
                                 </div>
                                 <div class="col-md-4 progressive_vacation_date">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Fecha de Vacaciones Progresivas</label>
+                                        <label for="exampleInputEmail1">
+                                            Fecha de Vacaciones Progresivas
+                                            &nbsp;
+                                            <button type="button" class="btn btn-warning help-button" data-toggle="tooltip" data-placement="top" title="Recuerde que si el empleado le entrega el documento antes de que haya cumplido 3 años en la empresa debe colocar como fecha el momento que cumpliria 3 años. Es decir que si el empleado entra en el 01-01-2015 y le hace entrega del documento, debe colocar 01-01-2018">
+                                                <i class="fa-solid fa-question"></i>
+                                            </button>
+                                        </label>
                                         <input type="date" value="{{ employee_extra_datum.progressive_vacation_date }}" class="form-control" id="progressive_vacation_date_value" placeholder="Fecha de Vacaciones Progresivas" name="progressive_vacation_date">
                                     </div>
                                 </div>
