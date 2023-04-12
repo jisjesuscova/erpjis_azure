@@ -97,7 +97,13 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Aporte SIS (mayor de 65 años o pensionado total)</label>
+                                        <label for="exampleInputEmail1">
+                                            Aporte SIS
+                                            &nbsp;
+                                            <button type="button" class="btn btn-warning help-button" data-toggle="tooltip" data-placement="top" title="Todo excepto los mayores de 65 años y pensionados totales">
+                                                <i class="fa-solid fa-question"></i>
+                                            </button>
+                                        </label>
                                         <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="pensioner_id" name="pensioner_id">
                                             <option value="">- Seleccionar -</option>
                                             <option {% if 1 == employee_extra_datum.pensioner_id %} selected {% endif %} value="1">Si</option>
