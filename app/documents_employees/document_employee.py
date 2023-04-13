@@ -166,12 +166,12 @@ class DocumentEmployee():
     def get_by_administrator(rut, page, data = []):
 
         if len(data) > 0:
-            search_rut = data['rut']
-            search_names = data['names']
-            search_father_lastname = data['father_lastname']
-            search_mother_lastname = data['mother_lastname']
-            search_status_id = data['status_id']
-            search_branch_office_id = data['branch_office_id']
+            search_rut = data[0]
+            search_names = data[1]
+            search_father_lastname = data[2]
+            search_mother_lastname = data[3]
+            search_status_id = data[4]
+            search_branch_office_id = data[5]
 
         query = DocumentEmployeeModel.query\
                     .join(EmployeeModel, EmployeeModel.rut == DocumentEmployeeModel.rut)\

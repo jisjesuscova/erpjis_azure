@@ -81,7 +81,8 @@ def review(page=1):
 
       return render_template('administrator/human_resources/documental_management_data/review_documental_management_data.html', documents_employees = documents_employees, branch_offices = branch_offices)
 
-@documental_management_datum.route("/human_resources/documental_management_data/search/<int:page>", methods=['POST'])
+@documental_management_datum.route("/human_resources/documental_management_data/search/<int:page>", methods=['GET'])
+@documental_management_datum.route("/human_resources/documental_management_data/search", methods=['GET'])
 def search(page=1):
    branch_offices = BranchOffice.get()
 
@@ -90,9 +91,28 @@ def search(page=1):
 
       return render_template('supervisor/human_resources/documental_management_data/review_documental_management_data.html', documents_employees = documents_employees, branch_offices = branch_offices)
    elif current_user.rol_id == 4:
-      documents_employees = DocumentEmployee.get_by_administrator(current_user.rut, page, request.form)
+      rut = request.args.get('rut')
+      names = request.args.get('names')
+      father_lastname = request.args.get('father_lastname')
+      mother_lastname = request.args.get('mother_lastname')
+      status_id = request.args.get('status_id')
+      branch_office_id = request.args.get('branch_office_id')
 
-      return render_template('administrator/human_resources/documental_management_data/review_documental_management_data.html', documents_employees = documents_employees, branch_offices = branch_offices)
+      # Crear un arreglo para almacenar los valores
+      values = []
+
+      # Agregar los valores obtenidos al arreglo
+      values.append(rut)
+      values.append(names)
+      values.append(father_lastname)
+      values.append(mother_lastname)
+      values.append(status_id)
+      values.append(branch_office_id)
+
+   
+      documents_employees = DocumentEmployee.get_by_administrator(current_user.rut, page, values)
+
+      return render_template('administrator/human_resources/documental_management_data/review_documental_management_data_search.html', values = values, documents_employees = documents_employees, branch_offices = branch_offices)
 
 @documental_management_datum.route("/human_resources/documental_management_data/show/<int:id>", methods=['GET'])
 @documental_management_datum.route("/human_resources/documental_management_data/show", methods=['GET'])
