@@ -39,6 +39,50 @@ class DocumentEmployee():
         return document_employee
 
     @staticmethod
+    def get_by_type_array_data(rut = '', type = '', page = '', data = [], status_id = ''):
+        if page != '':
+            if rut == '':
+                if len(data) > 0:
+                    search_rut = data[0]
+                    search_names = data[1]
+                    search_father_lastname = data[2]
+                    search_mother_lastname = data[3]
+
+                query = DocumentEmployeeModel.query\
+                    .join(EmployeeModel, EmployeeModel.rut == DocumentEmployeeModel.rut)\
+                    .join(EmployeeLaborDatumModel, EmployeeLaborDatumModel.rut == EmployeeModel.rut)\
+                    .join(BranchOfficeModel, BranchOfficeModel.id == EmployeeLaborDatumModel.branch_office_id)\
+                    .join(DocumentTypeModel, DocumentTypeModel.id == DocumentEmployeeModel.document_type_id)\
+                    .add_columns(DocumentEmployeeModel.support, DocumentEmployeeModel.id, EmployeeModel.rut, EmployeeModel.visual_rut, EmployeeModel.nickname, DocumentTypeModel.document_type, DocumentEmployeeModel.added_date, DocumentEmployeeModel.status_id).order_by(db.desc(DocumentEmployeeModel.added_date)).filter(DocumentEmployeeModel.document_type_id==type)
+
+                if status_id != '':
+                    query = query.filter(DocumentEmployeeModel.status_id.like(f"%{status_id}%"))
+
+                if len(data) > 0:
+                    if search_rut:
+                        query = query.filter(EmployeeModel.visual_rut.like(f"%{search_rut}%"))
+                    if search_names:
+                        query = query.filter(EmployeeModel.nickname.like(f"%{search_names}%"))
+                    if search_father_lastname:
+                        query = query.filter(EmployeeModel.father_lastname.like(f"%{search_father_lastname}%"))
+                    if search_mother_lastname:
+                        query = query.filter(EmployeeModel.mother_lastname.like(f"%{search_mother_lastname}%"))
+                    
+                documents_employees = query.paginate(page=page, per_page=20, error_out=False)
+
+            else:
+                documents_employees = DocumentEmployeeModel.query\
+                    .join(EmployeeModel, EmployeeModel.rut == DocumentEmployeeModel.rut)\
+                    .join(EmployeeLaborDatumModel, EmployeeLaborDatumModel.rut == EmployeeModel.rut)\
+                    .join(BranchOfficeModel, BranchOfficeModel.id == EmployeeLaborDatumModel.branch_office_id)\
+                    .join(DocumentTypeModel, DocumentTypeModel.id == DocumentEmployeeModel.document_type_id)\
+                    .add_columns(DocumentEmployeeModel.support, DocumentEmployeeModel.id, EmployeeModel.rut, EmployeeModel.visual_rut, EmployeeModel.nickname, DocumentTypeModel.document_type, DocumentEmployeeModel.added_date, DocumentEmployeeModel.status_id).order_by(db.desc(DocumentEmployeeModel.added_date)).filter(DocumentEmployeeModel.rut==rut, DocumentTypeModel.id==type).paginate(page=page, per_page=20, error_out=False)     
+        else:
+            documents_employees = DocumentEmployeeModel.query.filter_by(rut=rut, document_type_id=type).all()
+        
+        return documents_employees
+    
+    @staticmethod
     def get_by_type(rut = '', type = '', page = '', data = [], status_id = ''):
         if page != '':
             if rut == '':

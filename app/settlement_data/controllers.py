@@ -7,7 +7,6 @@ from app.hr_employee_inputs.hr_employee_input import HrEmployeeInput
 from app.dropbox_data.dropbox import Dropbox
 from app.helpers.helper import Helper
 from app.documents_employees.document_employee import DocumentEmployee
-from app.helpers.helper import Helper
 from app.old_documents_employees.old_document_employee import OldDocumentEmployee
 import os
 from app.helpers.file import File
@@ -55,7 +54,9 @@ def index(rut = '', page = 1):
 def uploaded(page = 1):
     documents_employees = DocumentEmployee.get_by_type('', 5, page)
 
-    return render_template('administrator/management_payrolls/settlement_data/settlement_data.html', documents_employees = documents_employees)
+    values = ['', '', '', '']
+
+    return render_template('administrator/management_payrolls/settlement_data/settlement_data.html', documents_employees = documents_employees, values = values)
 
 
 @settlement_datum.route("/management_payroll/settlement_data/create", methods=['GET'])
@@ -145,11 +146,26 @@ def download(rut = '', period = ''):
 
     return response
 
-@settlement_datum.route("/management_payroll/settlement_data/search/<int:page>", methods=['POST'])
+@settlement_datum.route("/management_payroll/settlement_data/search/<int:page>", methods=['GET'])
+@settlement_datum.route("/management_payroll/settlement_data/search", methods=['GET'])
 def search(page=1):
-   documents_employees = DocumentEmployee.get_by_type('', 5, page, request.form)
+    rut = request.args.get('rut')
+    names = request.args.get('names')
+    father_lastname = request.args.get('father_lastname')
+    mother_lastname = request.args.get('mother_lastname')
 
-   return render_template('administrator/management_payrolls/settlement_data/settlement_data.html', documents_employees = documents_employees)
+    # Crear un arreglo para almacenar los valores
+    values = []
+
+    # Agregar los valores obtenidos al arreglo
+    values.append(rut)
+    values.append(names)
+    values.append(father_lastname)
+    values.append(mother_lastname)
+
+    documents_employees = DocumentEmployee.get_by_type_array_data('', 5, page, values)
+
+    return render_template('administrator/management_payrolls/settlement_data/settlement_data_search.html', documents_employees = documents_employees, values = values)
 
 @settlement_datum.route("/management_payroll/settlement_data/delete/<int:rut>/<int:id>", methods=['GET'])
 @settlement_datum.route("/management_payroll/settlement_data/delete", methods=['GET'])

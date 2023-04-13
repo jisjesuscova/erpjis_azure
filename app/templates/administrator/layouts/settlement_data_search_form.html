@@ -11,20 +11,19 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form role="form" action="{{ url_for('settlement_data.search', page = 1) }}" method="post">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                    <form role="form" action="{{ url_for('settlement_data.search') }}" method="get">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">RUT</label>
-                                        <input type="text" name="rut" class="form-control rut" id="exampleInputEmail1" placeholder="RUT">
+                                        <input type="text" name="rut" value="{{ values[0] }}" class="form-control rut" id="exampleInputEmail1" placeholder="RUT">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Nombre</label>
-                                        <input type="name" name="names" class="form-control" id="exampleInputEmail1" placeholder="Nombre">
+                                        <input type="name" name="names" value="{{ values[1] }}" class="form-control" id="exampleInputEmail1" placeholder="Nombre">
                                     </div>
                                 </div>
                             </div>
@@ -32,13 +31,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Apellido Paterno</label>
-                                        <input type="text" name="father_lastname" class="form-control" id="exampleInputEmail1" placeholder="Apellido Paterno">
+                                        <input type="text" name="father_lastname" value="{{ values[2] }}" class="form-control" id="exampleInputEmail1" placeholder="Apellido Paterno">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Apellido Materno</label>
-                                        <input type="name" name="mother_lastname" class="form-control" id="exampleInputEmail1" placeholder="Apellido Materno">
+                                        <input type="name" name="mother_lastname" value="{{ values[3] }}" class="form-control" id="exampleInputEmail1" placeholder="Apellido Materno">
                                     </div>
                                 </div>
                             </div>
