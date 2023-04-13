@@ -107,9 +107,11 @@ def search(page=1):
       values.append(father_lastname)
       values.append(mother_lastname)
       values.append(status_id)
-      values.append(branch_office_id)
+      if branch_office_id == '':
+         values.append(branch_office_id)
+      else:
+         values.append(int(branch_office_id))
 
-   
       documents_employees = DocumentEmployee.get_by_administrator(current_user.rut, page, values)
 
       return render_template('administrator/human_resources/documental_management_data/review_documental_management_data_search.html', values = values, documents_employees = documents_employees, branch_offices = branch_offices)
