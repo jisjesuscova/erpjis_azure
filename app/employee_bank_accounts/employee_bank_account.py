@@ -11,10 +11,25 @@ class EmployeeBankAccount():
         return employee_bank_account
     
     @staticmethod
+    def get_change_requested(rut):
+        employee_bank_account = EmployeeBankAccountModel.query.filter_by(rut=rut, status_id=0).order_by(EmployeeBankAccountModel.id.desc()).first()
+
+        return employee_bank_account
+    
+    @staticmethod
     def get_by_id(id):
         employee_bank_account = EmployeeBankAccountModel.query.filter_by(id=id, status_id=0).order_by(EmployeeBankAccountModel.id.desc()).first()
 
         return employee_bank_account
+    
+    @staticmethod
+    def get_status(rut):
+        quantity = EmployeeBankAccountModel.query.filter_by(rut=rut, status_id=0).order_by(EmployeeBankAccountModel.id.desc()).count()
+
+        if quantity > 0:
+            return 1
+        else:
+            return 0
 
     @staticmethod
     def store(data):
@@ -37,12 +52,25 @@ class EmployeeBankAccount():
             return 0
         
     @staticmethod
-    def accept(rut):
-        employee_bank_account = EmployeeBankAccountModel.query.filter_by(rut=rut, status_id=0).order_by(EmployeeBankAccountModel.id.desc()).first()
+    def accept(id):
+        employee_bank_account = EmployeeBankAccountModel.query.filter_by(id=id).order_by(EmployeeBankAccountModel.id.desc()).first()
         employee_bank_account.status_id = 1
         employee_bank_account.updated_date = datetime.now()
 
         db.session.add(employee_bank_account)
+        
+        try:
+            db.session.commit()
+            
+            return 1
+        except Exception as e:
+            return 0
+        
+    
+    @staticmethod
+    def delete(id):
+        employee_bank_account = EmployeeBankAccountModel.query.filter_by(id=id).order_by(EmployeeBankAccountModel.id.desc()).first()
+        db.session.delete(employee_bank_account)
         
         try:
             db.session.commit()

@@ -34,6 +34,7 @@ def show(rut):
       genders = Gender.get()
       nationalities = Nationality.get()
       employee_bank_account = EmployeeBankAccount.get(rut)
+      requested_employee_bank_account = EmployeeBankAccount.get_change_requested(rut)
 
       empty_field_status_id = Employee.empty_fields(rut)
 
@@ -83,6 +84,8 @@ def show(rut):
 
    banks = Bank.get()
 
+   status_change_bank_account_id = EmployeeBankAccount.get_status(rut)
+
    personal_datum_button_status_id = 1
 
    if current_user.rol_id == 1:
@@ -92,7 +95,7 @@ def show(rut):
    elif current_user.rol_id == 3:
       return render_template('supervisor/human_resources/personal_data/personal_data_update.html', banks = banks, employee_bank_account = employee_bank_account, personal_datum_button_status_id = personal_datum_button_status_id, employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active)
    elif current_user.rol_id == 4:
-      return render_template('administrator/human_resources/personal_data/personal_data_update.html', banks = banks, employee_bank_account = employee_bank_account, empty_field_status_id = empty_field_status_id, personal_datum_button_status_id = personal_datum_button_status_id, employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active)
+      return render_template('administrator/human_resources/personal_data/personal_data_update.html', requested_employee_bank_account = requested_employee_bank_account, status_change_bank_account_id = status_change_bank_account_id, banks = banks, employee_bank_account = employee_bank_account, empty_field_status_id = empty_field_status_id, personal_datum_button_status_id = personal_datum_button_status_id, employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active)
 
 @personal_datum.route("/human_resources/personal_data/<int:rut>", methods=['POST'])
 @personal_datum.route("/human_resources/personal_data", methods=['POST'])

@@ -25,11 +25,22 @@ def store():
    else:
       return '0'
 
-@employee_bank_account.route("/human_resources/employee_bank_account/accept/<int:rut>", methods=['POST'])
-def accept(rut):
-   status_id = EmployeeBankAccount.accept(rut)
+@employee_bank_account.route("/human_resources/employee_bank_account/accept/<int:id>", methods=['POST'])
+def accept(id):
+   status_id = EmployeeBankAccount.accept(id)
 
    flash('Se ha aceptado los datos bancarios con éxito', 'success')
+
+   if status_id == 1:
+      return '1'
+   else:
+      return '0'
+
+@employee_bank_account.route("/human_resources/employee_bank_account/reject/<int:id>", methods=['POST'])
+def reject(id):
+   status_id = EmployeeBankAccount.delete(id)
+
+   flash('Se ha rechazado los datos bancarios con éxito', 'success')
 
    if status_id == 1:
       return '1'

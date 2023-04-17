@@ -350,6 +350,70 @@ $(document).ready(function () {
          });
     });
 
+    $('.accept-bank-account-btn').click(function(event) {
+        var formData = new FormData();
+
+        $('span#loading-icon').show();
+        $('.accept-bank-account-btn').hide();
+
+        formData.append('requested_employee_bank_account_id', $("#requested_employee_bank_account_id").val());
+
+        $.ajax({
+            url: "/human_resources/employee_bank_account/accept/" + $("#requested_employee_bank_account_id").val(),
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response == 1) {
+                    window.location.replace("https://jiserp.com/human_resources/personal_data/" + $("#numeric_rut").val());
+                } else {
+                    $('span#loading-icon').hide();
+                    $('.accept-bank-account-btn').show();
+                }
+            },
+            error: function() {
+                $('span#loading-icon').hide();
+                $('.accept-bank-account-btn').show();
+            }
+        });
+    });
+
+    $('.reject-bank-account-btn').click(function(event) {
+        var formData = new FormData();
+
+        $('span#loading-icon').show();
+        $('.reject-bank-account-btn').hide();
+
+        formData.append('requested_employee_bank_account_id', $("#requested_employee_bank_account_id").val());
+
+        $.ajax({
+            url: "/human_resources/employee_bank_account/reject/" + $("#requested_employee_bank_account_id").val(),
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response == 1) {
+                    window.location.replace("https://jiserp.com/human_resources/personal_data/" + $("#numeric_rut").val());
+                } else {
+                    $('span#loading-icon').hide();
+                    $('.reject-bank-account-btn').show();
+                }
+            },
+            error: function() {
+                $('span#loading-icon').hide();
+                $('.reject-bank-account-btn').show();
+            }
+        });
+    });
+
     $('.create-bank-account-btn').click(function(event) {
         var formData = new FormData();
 
