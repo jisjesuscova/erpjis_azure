@@ -350,6 +350,18 @@ class CheckGroupQuestionDetailModel(db.Model):
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
+class EmployeeBankAccountModel(db.Model):
+    __tablename__ = 'employees_bank_accounts'
+
+    id = db.Column(db.Integer, primary_key=True)
+    bank_id = db.Column(db.Integer)
+    account_type_id = db.Column(db.Integer)
+    status_id = db.Column(db.Integer)
+    rut = db.Column(db.Integer)
+    account_number = db.Column(db.Integer)
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
 class EmployeeLaborDatumModel(db.Model):
     __tablename__ = 'employee_labor_data'
 

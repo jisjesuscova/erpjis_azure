@@ -33,6 +33,11 @@ class User():
 
         return user
 
+    def get_by_rol_id(rol_id):
+        users = UserModel.query.filter_by(rol_id=rol_id).all()
+
+        return users
+    
     def check_user_exists_by_token(token):
         quantity = UserModel.query.filter_by(api_token=token).count()
         

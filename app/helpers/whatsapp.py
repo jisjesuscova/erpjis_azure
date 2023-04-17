@@ -14,6 +14,7 @@ from app.birthdays.birthday import Birthday
 from app.employee_labor_data.employee_labor_datum import EmployeeLaborDatum
 from app.supervisors.supervisor import Supervisor
 from app.branch_offices.branch_office import BranchOffice
+from app.employee_bank_accounts.employee_bank_account import EmployeeBankAccount
 
 class Whatsapp:
     @staticmethod
@@ -450,6 +451,51 @@ class Whatsapp:
                 response = requests.request("POST", url, headers=headers, data=payload)
 
                 print(response.text)
+            elif template_type_id == 18:
+                whatsapp_template = WhatsappTemplate.get(template_type_id)
+                employee_bank_account = EmployeeBankAccount.get_by_id(id)
+                employee = Employee.get(employee_bank_account.rut)
+                users = User.get_by_rol_id(4)
 
+                for user in users:
+                    hr_employee = Employee.get(user.rut)
+
+                    url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+
+                    payload = json.dumps({
+                                    "messaging_product": "whatsapp",
+                                    "to": "56" + str(hr_employee.cellphone),
+                                    "type": "template",
+                                    "template": {
+                                        "name": str(whatsapp_template.whatsapp_template),
+                                        "language": {
+                                        "code": "es"
+                                        },
+                                        "components": [
+                                        {
+                                            "type": "body",
+                                            "parameters": [
+                                            {
+                                                "type": "text",
+                                                "text": hr_employee.nickname
+                                            },
+                                            {
+                                                "type": "text",
+                                                "text": employee.nickname
+                                            }
+                                            ]
+                                        }
+                                        ]
+                                    }
+                                })
+                    
+                    headers = {
+                            'Authorization': settings.facebook_token,
+                            'Content-Type': 'application/json'
+                            }
+
+                    response = requests.request("POST", url, headers=headers, data=payload)
+
+                    print(response.text)
 
         return 1

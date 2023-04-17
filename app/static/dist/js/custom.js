@@ -350,6 +350,41 @@ $(document).ready(function () {
          });
     });
 
+    $('.create-bank-account-btn').click(function(event) {
+        var formData = new FormData();
+
+        $('span#loading-icon').show();
+        $('.create-bank-account-btn').hide();
+
+        formData.append('rut', $("#rut").val());
+        formData.append('account_type_id', $("#account_type_id").val());
+        formData.append('bank_id', $("#bank_id").val());
+        formData.append('account_number', $("#account_number").val());
+
+        $.ajax({
+            url: "/human_resources/employee_bank_account/store",
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response == 1) {
+                    window.location.replace("https://jiserp.com/human_resources/personal_data/" + $("#rut").val());
+                } else {
+                    $('span#loading-icon').hide();
+                    $('.create-bank-account-btn').show();
+                }
+            },
+            error: function() {
+                $('span#loading-icon').hide();
+                $('.create-bank-account-btn').show();
+            }
+        });
+    });
+
     $('.create-mesh-btn').click(function(event) {
         var formData = new FormData();
 
