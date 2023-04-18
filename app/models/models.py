@@ -882,6 +882,7 @@ class UserModel(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     rol_id = db.Column(db.Integer, db.ForeignKey('rols.id'))
     clock_rol_id = db.Column(db.Integer)
+    status_id = db.Column(db.Integer)
     rut = db.Column(db.Integer)
     visual_rut = db.Column(db.String(20))
     nickname = db.Column(db.String(255))

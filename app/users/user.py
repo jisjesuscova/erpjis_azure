@@ -89,6 +89,7 @@ class User():
     def special_update(rut, password):
         user = UserModel.query.filter_by(rut=rut).first()
         user.password = generate_password_hash(str(password))
+        user.status_id = 1
         user.updated_date = datetime.now()
 
         db.session.add(user)
@@ -99,4 +100,18 @@ class User():
         else:
             return {'msg': 'Data could not be stored'}
 
+
+    @staticmethod
+    def update_status(rut, status_id):
+        user = UserModel.query.filter_by(rut=rut).first()
+        user.status_id = status_id
+        user.updated_date = datetime.now()
+
+        db.session.add(user)
+        db.session.commit()
+
+        if db.session.commit():
+            return user
+        else:
+            return {'msg': 'Data could not be stored'}
     

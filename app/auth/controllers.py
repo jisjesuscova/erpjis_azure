@@ -7,6 +7,7 @@ from flask_login import login_user, logout_user, current_user
 from flask_mail import Message
 from app.rols.rol import Rol
 from app.helpers.whatsapp import Whatsapp
+from werkzeug.security import generate_password_hash
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -40,7 +41,7 @@ def password(id = '', api_token = ''):
     form = PasswordForm(meta={ 'crsf':True })
 
     if form.validate_on_submit():
-
+        
         User.special_update(form.rut.data, form.password.data)
 
         flash('Se ha actualizado la contraseña con éxito.', 'success')
@@ -92,23 +93,34 @@ def login(api_token = ''):
     form = LoginForm(meta={ 'crsf':True })
     
     if form.validate_on_submit():
-        user = UserModel.query.filter_by(visual_rut=form.rut.data).first()
+        user = UserModel.query.filter_by(visual_rut=form.rut.data).first() 
 
         if user and user.check_password(form.password.data):
-            login_user(user)
-
-            next = request.form['next']
-            
-            if current_user.rol_id == 4:
-                return redirect(next or url_for("home.index"))
+            if user.status_id == 0:
+                return redirect(url_for("auth.refresh_status", id=user.id))
             else:
-                return redirect(next or url_for("personal_data.show", rut=user.rut))
+                login_user(user)
+
+                next = request.form['next']
+
+                if current_user.rol_id == 4:
+                    return redirect(next or url_for("home.index"))
+                else:
+                    return redirect(next or url_for("personal_data.show", rut=user.rut))
         else:
             flash('El RUT o Contraseña es incorrecto.', 'error')
 
             return redirect(url_for('auth.login'))
 
     return render_template('login.html', form=form)
+
+@auth.route('/refresh_status/<int:id>', methods=['GET', 'POST'])
+def refresh_status(id):
+    form = PasswordForm(meta={ 'crsf':True })
+
+    user = User.get_by_id(id)
+
+    return render_template("refresh_status.html", form=form, rut=user.visual_rut)
 
 @auth.route('/logout', methods=['GET', 'POST'])
 def logout():
