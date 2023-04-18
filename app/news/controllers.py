@@ -55,6 +55,7 @@ def store():
    picture = Dropbox.upload('nueva', '_noticia', request.files, "/blogs/", "app/static/dist/files/new_data/")
    
    new = New.store(request.form, picture)
+   Whatsapp.send(new.id, request.form['send_whatsapp'], request.form['group_id'], 4)
 
    flash('Se ha publicado la noticia')
 
