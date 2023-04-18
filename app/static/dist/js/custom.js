@@ -692,7 +692,6 @@ $(document).ready(function () {
         $('.update-user-btn').hide();
         
         var formData = new FormData();
-        alert($('#numeric_rut').val())
         formData.append('rut', $('#numeric_rut').val());
         formData.append('names', $('#names').val());
         formData.append('father_lastname', $('#father_lastname').val());

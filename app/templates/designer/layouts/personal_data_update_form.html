@@ -8,112 +8,136 @@
                     </div>
                     
                     <div class="card-body">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    {% if category == 'error' %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                    {% if category == 'success' %}
+                                        <div class="alert alert-success" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                        <div class="alert alert-danger alert-danger-form" style="display:none;" role="alert">
+                            Todos los campos del formulario son <strong>obligatorios</strong>.
+                        </div>
+                        <div class="alert alert-danger alert-rut-form" style="display:none;" role="alert">
+                            El RUT no es <strong>correcto</strong>.
+                        </div>
+                        <div class="alert alert-danger alert-danger-cellphone-form" style="display:none;" role="alert">
+                            El número de celular debe tener <strong>(9) nueve dígitos</strong>.
+                        </div>
+                        <div class="alert alert-danger alert-danger-rut-exist-form" style="display:none;" role="alert">
+                            El RUT <strong>está activo </strong> en el sistema. No puede ingresar un RUT repetido.
+                        </div>
+                        <div class="alert alert-danger alert-danger-cellphone-exist-form" style="display:none;" role="alert">
+                            El celular <strong>está registrado </strong> en el sistema. No puede ingresar un celular repetido.
+                        </div>
+                        <div class="alert alert-danger alert-danger-404-form" style="display:none;" role="alert">
+                            Error al procesar el formulario. Por favor haga click en Actualizar nuevamente.
+                        </div>
                         <!-- form start -->
-                        <form role="form" action="{{ url_for('personal_data.update') }}/{{ employee.rut }}" method="POST" enctype="multipart/form-data">
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        {% if employee.picture == none or employee.picture == '' %}
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label for="exampleInputEmail1">Foto</label>
-                                                    <input type="file" value="" class="form-control" id="exampleInputEmail1" placeholder="Imagen" name="file" accept="image/jpeg, image/png">
-                                                </div>
-                                            </div>
-                                        {% else %}
-                                            <div class="card-body">
-                                                <center>
-                                                    <div class="image-area">
-                                                        <a href="{{ url_for('personal_data.delete_picture') }}/{{ employee.rut }}" class="remove-image" style="display: inline;">&#215;</a>
-                                                        <img src="{{ download_url }}" alt="Picture">
-                                                    </div>
-                                                </center>
-                                            </div>
-                                        {% endif %}
-                                    </div>
-                                    <div class="col-md-3">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <div class="row">
+                            <div class="col-md-3">
+                                {% if employee.picture == none or employee.picture == '' %}
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">RUT</label>
-                                            <input disabled type="text" value="{{ employee.visual_rut }}" class="form-control" id="exampleInputEmail1" placeholder="RUT" name="no_disable_rut">
-                                            <input type="hidden" value="{{ employee.visual_rut }}" class="form-control" id="exampleInputEmail1" placeholder="RUT" name="rut">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Apellido Materno</label>
-                                            <input disabled type="text" value="{{ employee.mother_lastname }}" class="form-control" id="exampleInputEmail1" placeholder="Apellido Materno" name="no_disable_mother_lastname">
-                                            <input type="hidden" value="{{ employee.mother_lastname }}" class="form-control" id="exampleInputEmail1" placeholder="Apellido Materno" name="mother_lastname">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Fecha de Nacimiento</label>
-                                            <input disabled type="date" value="{{ employee.born_date }}" class="form-control" id="exampleInputEmail1" placeholder="Fecha de Nacimiento" name="no_disable_born_date">
-                                            <input type="hidden" value="{{ employee.born_date }}" class="form-control" id="exampleInputEmail1" placeholder="Fecha de Nacimiento" name="born_date">
+                                            <label for="exampleInputEmail1">Foto</label>
+                                            <input type="file" value="" class="form-control" id="exampleInputEmail1" placeholder="Imagen" name="file" accept="image/jpeg, image/png">
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Nombres</label>
-                                            <input disabled type="text" value="{{ employee.names }}" class="form-control" id="exampleInputEmail1" placeholder="Nombres" name="no_disable_names">
-                                            <input type="hidden" value="{{ employee.names }}" class="form-control" id="exampleInputEmail1" placeholder="Nombres" name="names">
+                                {% else %}
+                                    <center>
+                                        <div class="image-area">
+                                            <a href="{{ url_for('personal_data.delete_picture') }}/{{ employee.rut }}" class="remove-image" style="display: inline;">&#215;</a>
+                                            <img src="{{ download_url }}" alt="Picture">
                                         </div>
+                                    </center>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">RUT</label>
+                                    <input disabled type="text" value="{{ employee.visual_rut }}" class="form-control" id="visual_rut" placeholder="RUT" name="rut">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Apellido Materno</label>
+                                    <input disabled type="text" value="{{ employee.mother_lastname }}" class="form-control" id="mother_lastname" placeholder="Apellido Materno" name="mother_lastname">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Fecha de Nacimiento</label>
+                                    <input disabled type="date" value="{{ employee.born_date }}" class="form-control" id="born_date" placeholder="Fecha de Nacimiento" name="born_date">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Nombres</label>
+                                    <input disabled type="text" value="{{ employee.names }}" class="form-control" id="names" placeholder="Nombres" name="names">
+                                </div>
                                         
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Genero</label>
-                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="no_disable_gender_id">
-                                                <option value="">- Seleccionar -</option>
-                                                {% for gender in genders %}
-                                                    <option {% if gender.id == employee.gender_id %} selected {% endif %} value="{{ gender.id }}">{{ gender.gender }}</option>
-                                                {% endfor %}
-                                            </select>
-                                            <input type="hidden" value="{{ employee.gender_id }}" class="form-control" id="exampleInputEmail1" placeholder="Genero" name="gender_id">
-                                        </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Genero</label>
+                                    <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="gender_id" style="width: 100%;" name="gender_id">
+                                        <option value="">- Seleccionar -</option>
+                                        {% for gender in genders %}
+                                            <option {% if gender.id == employee.gender_id %} selected {% endif %} value="{{ gender.id }}">{{ gender.gender }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
 
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Celular</label>
-                                            <input type="text" value="{{ employee.cellphone }}" class="form-control" id="exampleInputEmail1" placeholder="Celular" name="cellphone">
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Apellido Paterno</label>
-                                            <input disabled type="text" value="{{ employee.father_lastname }}" class="form-control" id="exampleInputEmail1" placeholder="Apellido Paterno" name="no_disable_father_lastname">
-                                            <input type="hidden" value="{{ employee.father_lastname }}" class="form-control" id="exampleInputEmail1" placeholder="Apellido Paterno" name="father_lastname">
-                                        </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Celular</label>
+                                    <input type="text" value="{{ employee.cellphone }}" class="form-control" id="cellphone" placeholder="Celular" name="cellphone">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Apellido Paterno</label>
+                                    <input disabled type="text" value="{{ employee.father_lastname }}" class="form-control" id="father_lastname" placeholder="Apellido Paterno" name="father_lastname">
+                                </div>
 
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Nacionalidad</label>
-                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="no_disable_nationality_id">
-                                                <option value="1">- Seleccionar -</option>
-                                                {% for nationality in nationalities %}
-                                                    <option {% if nationality.id == employee.nationality_id %} selected {% endif %} value="{{ nationality.id }}">{{ nationality.nationality }}</option>
-                                                {% endfor %}
-                                            </select>
-                                            <input type="hidden" value="{{ employee.nationality_id }}" class="form-control" id="exampleInputEmail1" placeholder="Nacionalidad" name="nationality_id">
-                                        </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Nacionalidad</label>
+                                    <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="nationality_id" name="nationality_id">
+                                        <option value="1">- Seleccionar -</option>
+                                        {% for nationality in nationalities %}
+                                            <option {% if nationality.id == employee.nationality_id %} selected {% endif %} value="{{ nationality.id }}">{{ nationality.nationality }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <input type="hidden" value="{{ employee.nationality_id }}" class="form-control" id="exampleInputEmail1" placeholder="Nacionalidad" name="nationality_id">
+                                </div>
 
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Correo Personal</label>
-                                            <input type="text" value="{{ employee.personal_email }}" class="form-control" id="exampleInputEmail1" placeholder="Correo Personal" name="personal_email">
-                                        </div>
-                                    </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Correo Personal</label>
+                                    <input type="text" value="{{ employee.personal_email }}" class="form-control" id="personal_email" placeholder="Correo Personal" name="personal_email">
                                 </div>
                             </div>
 
-                            <input type="hidden" value="{{ employee.rut }}" class="form-control" id="exampleInputEmail1" name="id">
-                            <!-- /.card-body -->
-                            
-                            {% if is_active == 1 %}
-                                <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Actualizar</button>
-
-                                    <a href="{{ url_for('home.index') }}" class="btn btn-secondary">Cancelar</a>
-                                </div>
-                            {% endif %}
-                        </form>
-                        <!-- form end -->
+                            <input type="hidden" value="{{ employee.rut }}" class="form-control" id="numeric_rut" name="numeric_rut">
+                            <input type="hidden" value="{{ current_user.rol_id }}" class="form-control" id="rol_id" name="rol_id">
+                        </div>
                     </div>
+                    {% if is_active == 1 %}
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <span class="loading-icon" id="loading-icon" style="display:none;">Cargando...</span>
+                                    <button type="submit" class="btn btn-success update-user-btn">Actualizar</button>
+
+                                    <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="card">
                     <div class="card-header">
