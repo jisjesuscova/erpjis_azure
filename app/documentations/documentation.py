@@ -3,7 +3,6 @@ from app.models.models import DocumentationModel, PreDocumentationModel
 from app import db
 from datetime import datetime
 import markdown
-from app.helpers.helper import Helper
 
 class Documentation():
     @staticmethod

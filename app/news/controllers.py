@@ -39,19 +39,19 @@ def show(id):
    elif current_user.rol_id == 5:
       return render_template('designer/publicities/news/new_show.html', new = new, comments = comments)
 
-
 @new.route("/publicities/new/create", methods=['GET'])
 def create():
    whatsapp_groups = WhatsappGroup.get()
+   title = "Crear Noticia"
+   module_name = "Publicidades"
    
-   return render_template('designer/publicities/news/new_create.html', whatsapp_groups = whatsapp_groups)
+   return render_template('designer/publicities/news/new_create.html', title = title, module_name = module_name, whatsapp_groups = whatsapp_groups)
 
 @new.route("/publicities/new/store", methods=['POST'])
 def store():
    picture = Dropbox.upload('nueva', '_noticia', request.files, "/blogs/", "app/static/dist/files/new_data/")
    
    new = New.store(request.form, picture)
-   Whatsapp.send(new.id, request.form['send_whatsapp'], request.form['group_id'], 4)
 
    flash('Se ha publicado la noticia')
 

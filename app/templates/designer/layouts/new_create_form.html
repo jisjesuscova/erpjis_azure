@@ -13,16 +13,18 @@
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Título</label>
                                             <input type="text" value="" class="form-control" id="exampleInputEmail1" placeholder="Título" name="title" required>
                                         </div>
                                     </div>
-                                    <div class="col-md-8">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Descripción</label>
-                                            <textarea class="form-control" name="description" placeholder="Descripción" required></textarea>
+                                            <textarea class="form-control" rows="10" name="description" placeholder="Descripción" required></textarea>
                                         </div>
                                     </div>
                                 </div>
