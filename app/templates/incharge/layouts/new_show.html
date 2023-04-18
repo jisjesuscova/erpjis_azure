@@ -22,7 +22,7 @@
                 <hr>
                 <img src="{{ url_for("static", filename="dist/files/new_data/"+new.picture) }}" class="slider">
                 <hr>
-                <p class="new_description">{{ new['description'] }}</p>
+                <p class="new_description">{{ description }}</p>
             </div>
         </div>
         <hr>
@@ -65,15 +65,8 @@
                     </div>
                 {% endif %}
                 
-                <div class="col-md-9">
+                <div class="col-md-11">
                     {{ comment.comment }}
-                </div>
-                <div class="col-md-2">
-                    <center>
-                        <a href="{{ url_for('comments.delete', id = comment['id'], new_id = comment['new_id']) }}" class="btn btn-danger">
-                            <i class="fa fa-times"></i>
-                        </a>
-                    </center>
                 </div>
             </div>
             <hr>
