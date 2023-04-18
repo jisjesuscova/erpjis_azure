@@ -20,7 +20,7 @@ def constructor():
 def index(page=1):
    news = New.get('', page)
 
-   return render_template('human_resource/publicities/news/news.html', news = news)
+   return render_template('designer/publicities/news/news.html', news = news)
 
 @new.route("/publicities/new/show/<int:id>", methods=['GET'])
 def show(id):
@@ -36,12 +36,15 @@ def show(id):
       return render_template('incharge/publicities/news/new_show.html', new = new, comments = comments)
    elif current_user.rol_id == 4:
       return render_template('human_resource/publicities/news/new_show.html', new = new, comments = comments)
+   elif current_user.rol_id == 5:
+      return render_template('designer/publicities/news/new_show.html', new = new, comments = comments)
+
 
 @new.route("/publicities/new/create", methods=['GET'])
 def create():
    whatsapp_groups = WhatsappGroup.get()
    
-   return render_template('human_resource/publicities/news/new_create.html', whatsapp_groups = whatsapp_groups)
+   return render_template('designer/publicities/news/new_create.html', whatsapp_groups = whatsapp_groups)
 
 @new.route("/publicities/new/store", methods=['POST'])
 def store():
