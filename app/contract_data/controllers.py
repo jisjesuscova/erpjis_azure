@@ -77,7 +77,7 @@ def show(rut):
 
    title = employee.visual_rut + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
    module_name = 'Recursos Humanos'
-
+   
    if current_user.rol_id == 1:
       return render_template('collaborator/human_resources/contract_data/contract_data_update.html', employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, is_active = is_active)
    elif current_user.rol_id == 2:
@@ -86,6 +86,8 @@ def show(rut):
       return render_template('supervisor/human_resources/contract_data/contract_data_update.html', employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, is_active = is_active)
    elif current_user.rol_id == 4:
       return render_template('human_resource/human_resources/contract_data/contract_data_update.html', title = title, module_name = module_name, empty_field_status_id = empty_field_status_id, employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, contract_data = contract_data, end_documents = end_documents, is_active = is_active)
+   elif current_user.rol_id == 5:
+      return render_template('designer/human_resources/contract_data/contract_data_update.html', employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, is_active = is_active)
 
 @contract_datum.route("/human_resources/contract_data/review/<int:rut>", methods=['GET'])
 def review(rut):

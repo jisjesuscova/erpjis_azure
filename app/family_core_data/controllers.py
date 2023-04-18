@@ -44,6 +44,9 @@ def index(rut):
       return render_template('supervisor/human_resources/family_core_data/family_core_data.html', family_core_button_status_id = family_core_button_status_id, family_core_data = family_core_data, rut = rut)
    elif current_user.rol_id == 4:
       return render_template('human_resource/human_resources/family_core_data/family_core_data.html', title = title, module_name = module_name, family_core_button_status_id = family_core_button_status_id, family_core_data = family_core_data, rut = rut)
+   elif current_user.rol_id == 5:
+      return render_template('designer/human_resources/family_core_data/family_core_data.html', title = title, module_name = module_name, family_core_button_status_id = family_core_button_status_id, family_core_data = family_core_data, rut = rut)
+
 
 @family_core_datum.route("/human_resources/family_core_data/create/<int:rut>", methods=['GET'])
 @family_core_datum.route("/human_resources/family_core_data/create", methods=['GET'])

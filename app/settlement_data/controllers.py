@@ -48,6 +48,8 @@ def index(rut = '', page = 1):
         return render_template('supervisor/management_payrolls/settlement_data/settlement_data_download.html', settlement_button_status_id = settlement_button_status_id, documents_employees = documents_employees, rut = rut)
     elif current_user.rol_id == 4:
         return render_template('human_resource/management_payrolls/settlement_data/settlement_data_download.html', title = title, module_name = module_name, settlement_button_status_id = settlement_button_status_id, documents_employees = documents_employees, rut = rut)
+    elif current_user.rol_id == 5:
+        return render_template('designer/management_payrolls/settlement_data/settlement_data_download.html', title = title, module_name = module_name, settlement_button_status_id = settlement_button_status_id, documents_employees = documents_employees, rut = rut)
 
 @settlement_datum.route("/management_payroll/settlement_data/uploaded/<int:page>", methods=['GET'])
 @settlement_datum.route("/management_payroll/settlement_data/uploaded", methods=['GET'])

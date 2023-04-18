@@ -33,6 +33,13 @@ class BranchOffice():
                 branch_offices = BranchOfficeModel.query.filter_by(visibility_id = '1').order_by('branch_office').all()
 
                 return branch_offices
+            elif current_user.rol_id == 5:
+                branch_offices = BranchOfficeModel.query\
+                    .join(EmployeeLaborDatumModel, EmployeeLaborDatumModel.branch_office_id == BranchOfficeModel.id)\
+                    .filter(EmployeeLaborDatumModel.rut == current_user.rut)\
+                    .all()
+
+                return branch_offices
         else:
             branch_office = BranchOfficeModel.query.filter_by(id=id).first()
 

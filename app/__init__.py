@@ -33,7 +33,7 @@ def rol_admin_need(f):
 def regular_employee_rol_need(f):
     @wraps(f)
     def wrapper(*args, **kwds):
-        if current_user.rol_id != 1 and current_user.rol_id != 2 and current_user.rol_id != 3 and current_user.rol_id != 4:
+        if current_user.rol_id != 1 and current_user.rol_id != 2 and current_user.rol_id != 3 and current_user.rol_id != 4 and current_user.rol_id != 5:
             logout_user()
             return redirect(url_for('auth.login'))
             ## print('rol:' + str(current_user.rol_id))

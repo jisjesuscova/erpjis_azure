@@ -9,11 +9,12 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-      
+
       <!-- Sidebar Menu -->
-     
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
           <li class="nav-item">
             <a href="{{ url_for('home.index') }}" class="nav-link">
               <i class="nav-icon fas fa-home"></i>
@@ -22,23 +23,44 @@
               </p>
             </a>
           </li>
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          <li class="nav-item">
-            <a href="{{ url_for('documental_management_data.index') }}/{{ current_user.rut }}" class="nav-link">
-              <i class="fas fa-paste nav-icon"></i>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-bullhorn"></i>
               <p>
-                Gestión Documental
+                Publicidad
+                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ url_for('news.index') }}" class="nav-link">
+                  <i class="fas fa-newspaper nav-icon"></i>
+                  <p>Noticias</p>
+                </a>
+              </li>
+            </ul>
           </li>
-          
-          <li class="nav-item">
-            <a href="{{ url_for('personal_data.show') }}/{{ current_user.rut }}"  class="nav-link">
+          <li class="nav-item has-treeview">
+            <a href="{{ url_for('checks.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-check"></i>
+              <p>
+                Revisión
+              </p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a href="{{ url_for('personal_data.show', rut=current_user.rut) }}" class="nav-link">
               <i class="nav-icon fas fa-circle-user"></i>
               <p>
                 Datos Personales
+              </p>
+            </a>
+          </li>
+          <li class="nav-item has-treeview menu-close">
+            <a href="{{ url_for('documentations.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-book"></i>
+              <p>
+                Documentación
               </p>
             </a>
           </li>
@@ -49,7 +71,6 @@
                 Salir
               </p>
             </a>
-            
           </li>
         </ul>
       </nav>

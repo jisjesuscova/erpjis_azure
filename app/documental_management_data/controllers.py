@@ -38,6 +38,8 @@ def create():
       return render_template('supervisor/human_resources/documental_management_data/documental_management_data_create.html', document_types = document_types)
    elif current_user.rol_id == 4:
       return render_template('human_resource/human_resources/documental_management_data/documental_management_data_create.html', document_types = document_types)
+   elif current_user.rol_id == 5:
+      return render_template('designer/human_resources/documental_management_data/documental_management_data_create.html', document_types = document_types)
 
 @documental_management_datum.route("/human_resources/documental_management_data", methods=['GET'])
 @documental_management_datum.route("/human_resources/documental_management_data/<int:page>", methods=['GET'])
@@ -67,6 +69,9 @@ def index(rut = '', page=1):
       return render_template('supervisor/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations, status_id = status_id, employee = employee)
    elif current_user.rol_id == 4:
       return render_template('human_resource/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations, status_id = status_id, employee = employee)
+   elif current_user.rol_id == 5:
+      return render_template('designer/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations, status_id = status_id, employee = employee)
+
 
 @documental_management_datum.route("/human_resources/documental_management_data/review/<int:page>", methods=['GET'])
 def review(page=1):
