@@ -1,8 +1,9 @@
 from flask import request
 from app.models.models import NewModel
 from app import db
-from datetime import datetime}
+from datetime import datetime
 import markdown
+from app.helpers.helper import Helper
 
 class New():
     @staticmethod
@@ -23,9 +24,18 @@ class New():
 
     @staticmethod
     def store(data, picture):
+        description = Helper.remove_from_string("#", data['description'])
+        description = Helper.remove_from_string("##", description)
+        description = Helper.remove_from_string("###", description)
+        description = Helper.remove_from_string("####", description)
+        description = Helper.remove_from_string("#####", description)
+        description = Helper.remove_from_string("######", description)
+        description = Helper.remove_from_string("#######", description)
+        description = Helper.remove_from_string("**", description)
+
         new = NewModel()
         new.title = data['title']
-        new.description = data['description']
+        new.description = description
         new.markdown_description = markdown.markdown(data['description'])
         new.picture = picture
         new.added_date = datetime.now()
