@@ -420,7 +420,7 @@ $(document).ready(function () {
         $('span#loading-icon').show();
         $('.create-bank-account-btn').hide();
 
-        formData.append('rut', $("#rut").val());
+        formData.append('rut', $("#numeric_rut").val());
         formData.append('account_type_id', $("#account_type_id").val());
         formData.append('bank_id', $("#bank_id").val());
         formData.append('account_number', $("#account_number").val());
@@ -436,7 +436,7 @@ $(document).ready(function () {
             contentType: false,
             success: function(response) {
                 if (response == 1) {
-                    window.location.replace("https://jiserp.com/human_resources/personal_data/" + $("#rut").val());
+                    window.location.replace("https://jiserp.com/human_resources/personal_data/" + $("#numeric_rut").val());
                 } else {
                     $('span#loading-icon').hide();
                     $('.create-bank-account-btn').show();

@@ -14,13 +14,17 @@ def constructor():
 
 @employee_bank_account.route("/human_resources/employee_bank_account/store", methods=['POST'])
 def store():
-   id = EmployeeBankAccount.store(request.form)
+   if current_user.rol_id == 4:
+      id = EmployeeBankAccount.store(request.form, 1)
+   else:
+      id = EmployeeBankAccount.store(request.form, 0)
+
+      if id != 0:
+         Whatsapp.send(id, '1', 1, 18)
 
    flash('Se ha ingresado la solicitud de cambio de datos bancarios con éxito', 'success')
 
    if id != 0:
-      Whatsapp.send(id, '1', 1, 18)
-
       return '1'
    else:
       return '0'

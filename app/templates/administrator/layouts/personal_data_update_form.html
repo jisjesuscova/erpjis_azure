@@ -195,6 +195,18 @@
                                     </div>
                                 </div>
                             </div>
+                            <input type="hidden" value="{{ employee.rut }}" class="form-control" id="numeric_rut" name="id">
+                            <!-- /.card-body -->
+                                
+                            {% if is_active == 1 %}
+                                <div class="card-footer">
+                                    <input type="hidden" id="requested_employee_bank_account_id" name="requested_employee_bank_account_id" value="{{ requested_employee_bank_account.id }}" />
+                                    <span class="loading-icon" id="loading-icon" style="display:none;">Cargando...</span>
+                                    <button type="button" class="btn btn-success create-bank-account-btn">Actualizar</button>
+
+                                    <a href="{{ url_for('home.index') }}" class="btn btn-secondary">Cancelar</a>
+                                </div>
+                            {% endif %}
                         </div>
                     {% else %}
                         <div class="card-body">

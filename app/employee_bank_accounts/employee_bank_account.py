@@ -32,11 +32,11 @@ class EmployeeBankAccount():
             return 0
 
     @staticmethod
-    def store(data):
+    def store(data, status_id):
         employee_bank_account = EmployeeBankAccountModel()
         employee_bank_account.rut = data['rut']
         employee_bank_account.bank_id = data['bank_id']
-        employee_bank_account.status_id = 0
+        employee_bank_account.status_id = status_id
         employee_bank_account.account_type_id = data['account_type_id']
         employee_bank_account.account_number = data['account_number']
         employee_bank_account.added_date = datetime.now()
