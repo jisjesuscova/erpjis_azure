@@ -9,7 +9,7 @@ class New():
     @staticmethod
     def get(id = '', page = ''):
         if id == '' and page == '':
-            news = NewModel.query.all()
+            news = NewModel.query.order_by('added_date').all()
 
             return news
         else:

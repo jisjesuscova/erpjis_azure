@@ -7,6 +7,7 @@ from app.helpers.file import File
 from app.helpers.whatsapp import Whatsapp
 from app.whatsapp_groups.whatsapp_group import WhatsappGroup
 from app.comments.comment import Comment
+from markupsafe import Markup
 
 new = Blueprint("news", __name__)
 
@@ -26,18 +27,20 @@ def index(page=1):
 def show(id):
    new = New.get(id)
 
+   description = Markup(new.markdown_description)
+
    comments = Comment.get(id)
    
    if current_user.rol_id == 1:
-      return render_template('collaborator/publicities/news/new_show.html', new = new, comments = comments)
+      return render_template('collaborator/publicities/news/new_show.html', description = description, new = new, comments = comments)
    elif current_user.rol_id == 2:
-      return render_template('incharge/publicities/news/new_show.html', new = new, comments = comments)
+      return render_template('incharge/publicities/news/new_show.html', description = description, new = new, comments = comments)
    elif current_user.rol_id == 3:
-      return render_template('incharge/publicities/news/new_show.html', new = new, comments = comments)
+      return render_template('incharge/publicities/news/new_show.html', description = description, new = new, comments = comments)
    elif current_user.rol_id == 4:
-      return render_template('human_resource/publicities/news/new_show.html', new = new, comments = comments)
+      return render_template('human_resource/publicities/news/new_show.html', description = description, new = new, comments = comments)
    elif current_user.rol_id == 5:
-      return render_template('designer/publicities/news/new_show.html', new = new, comments = comments)
+      return render_template('designer/publicities/news/new_show.html', description = description, new = new, comments = comments)
 
 @new.route("/publicities/new/create", methods=['GET'])
 def create():
