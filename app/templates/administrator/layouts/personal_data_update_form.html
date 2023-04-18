@@ -169,7 +169,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Banco</label>
-                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="bank_id" style="width: 100%;" name="bank_id">
+                                            <select class="form-control select2 select2-danger" disabled data-dropdown-css-class="select2-danger" id="bank_id" style="width: 100%;" name="bank_id">
                                                 <option value="1">- Seleccionar -</option>
                                                 {% for bank in banks %}
                                                     <option {% if bank.id == employee_bank_account.bank_id %} selected {% endif %} value="{{ bank.id }}">{{ bank.bank }}</option>
@@ -180,7 +180,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Tipo de Cuenta</label>
-                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="account_type_id" style="width: 100%;" name="account_type_id">
+                                            <select class="form-control select2 select2-danger" disabled data-dropdown-css-class="select2-danger" id="account_type_id" style="width: 100%;" name="account_type_id">
                                                 <option value="">- Seleccionar -</option>
                                                 <option {% if 1 == employee_bank_account.account_type_id %} selected {% endif %} value="1">Corriente</option>
                                                 <option {% if 2 == employee_bank_account.account_type_id %} selected {% endif %} value="2">Vista</option>
@@ -190,7 +190,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">N° de Cuenta</label>
-                                            <input type="text" value="{{ employee_bank_account.account_number }}" class="form-control" id="account_number" placeholder="N° de Cuenta" name="account_number">
+                                            <input type="text" value="{{ employee_bank_account.account_number }}" disabled class="form-control" id="account_number" placeholder="N° de Cuenta" name="account_number">
                                         </div>
                                     </div>
                                 </div>
