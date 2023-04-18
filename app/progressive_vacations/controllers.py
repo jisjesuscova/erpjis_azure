@@ -22,7 +22,7 @@ def constructor():
 def create(rut):
    employees = Employee.get()
 
-   return render_template('administrator/human_resources/progressive_vacations/progressive_vacations_create.html', rut = rut, employees = employees)
+   return render_template('human_resource/human_resources/progressive_vacations/progressive_vacations_create.html', rut = rut, employees = employees)
 
 @progressive_vacation.route("/human_resources/progressive_vacation/delete/<int:rut>/<int:id>", methods=['GET'])
 @progressive_vacation.route("/human_resources/progressive_vacation/delete", methods=['GET'])
@@ -56,7 +56,7 @@ def upload(rut, id):
       if current_user.rol_id == 1:
          return render_template('collaborator/human_resources/progressive_vacation/progressive_vacations_upload.html', rut = rut, id = id)
       elif current_user.rol_id == 4:
-         return render_template('administrator/human_resources/progressive_vacation/progressive_vacations_upload.html', rut = rut, id = id)
+         return render_template('human_resource/human_resources/progressive_vacation/progressive_vacations_upload.html', rut = rut, id = id)
 
 @progressive_vacation.route("/human_resources/progressive_vacation/download/<int:id>", methods=['GET'])
 def download(id):

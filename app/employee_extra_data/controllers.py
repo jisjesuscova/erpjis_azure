@@ -60,7 +60,7 @@ def show(rut):
    elif current_user.rol_id == 3:
       return render_template('supervisor/human_resources/extra_data/extra_data_update.html', empty_field_status_id = empty_field_status_id, employee_extra_datum_button_status_id = employee_extra_datum_button_status_id, employee_extra_datum = employee_extra_datum, contract_schedules = contract_schedules, pentions = pentions, rut = rut, healths = healths, is_active = is_active, regime_id = regime_id)
    elif current_user.rol_id == 4:
-      return render_template('administrator/human_resources/extra_data/extra_data_update.html', title = title, module_name = module_name, empty_field_status_id = empty_field_status_id, employee_extra_datum_button_status_id = employee_extra_datum_button_status_id, employee_extra_datum = employee_extra_datum, contract_schedules = contract_schedules, pentions = pentions, rut = rut, healths = healths, is_active = is_active, regime_id = regime_id)
+      return render_template('human_resource/human_resources/extra_data/extra_data_update.html', title = title, module_name = module_name, empty_field_status_id = empty_field_status_id, employee_extra_datum_button_status_id = employee_extra_datum_button_status_id, employee_extra_datum = employee_extra_datum, contract_schedules = contract_schedules, pentions = pentions, rut = rut, healths = healths, is_active = is_active, regime_id = regime_id)
 
 @employee_extra_datum.route("/human_resources/employee_extra_data/<int:rut>", methods=['POST'])
 @employee_extra_datum.route("/human_resources/employee_extra_data", methods=['POST'])

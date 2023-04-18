@@ -47,7 +47,7 @@ def index(rut = '', page = 1):
     elif current_user.rol_id == 3:
         return render_template('supervisor/management_payrolls/settlement_data/settlement_data_download.html', settlement_button_status_id = settlement_button_status_id, documents_employees = documents_employees, rut = rut)
     elif current_user.rol_id == 4:
-        return render_template('administrator/management_payrolls/settlement_data/settlement_data_download.html', title = title, module_name = module_name, settlement_button_status_id = settlement_button_status_id, documents_employees = documents_employees, rut = rut)
+        return render_template('human_resource/management_payrolls/settlement_data/settlement_data_download.html', title = title, module_name = module_name, settlement_button_status_id = settlement_button_status_id, documents_employees = documents_employees, rut = rut)
 
 @settlement_datum.route("/management_payroll/settlement_data/uploaded/<int:page>", methods=['GET'])
 @settlement_datum.route("/management_payroll/settlement_data/uploaded", methods=['GET'])
@@ -56,13 +56,13 @@ def uploaded(page = 1):
 
     values = ['', '', '', '']
 
-    return render_template('administrator/management_payrolls/settlement_data/settlement_data.html', documents_employees = documents_employees, values = values)
+    return render_template('human_resource/management_payrolls/settlement_data/settlement_data.html', documents_employees = documents_employees, values = values)
 
 
 @settlement_datum.route("/management_payroll/settlement_data/create", methods=['GET'])
 def create():
 
-   return render_template('administrator/management_payrolls/settlement_data/settlement_data_create.html')
+   return render_template('human_resource/management_payrolls/settlement_data/settlement_data_create.html')
 
 
 @settlement_datum.route("/management_payroll/settlement_data/store/<period>", methods=['GET'])
@@ -165,7 +165,7 @@ def search(page=1):
 
     documents_employees = DocumentEmployee.get_by_type_array_data('', 5, page, values)
 
-    return render_template('administrator/management_payrolls/settlement_data/settlement_data_search.html', documents_employees = documents_employees, values = values)
+    return render_template('human_resource/management_payrolls/settlement_data/settlement_data_search.html', documents_employees = documents_employees, values = values)
 
 @settlement_datum.route("/management_payroll/settlement_data/delete/<int:rut>/<int:id>", methods=['GET'])
 @settlement_datum.route("/management_payroll/settlement_data/delete", methods=['GET'])

@@ -38,4 +38,4 @@ def show(check_id, check_question_id):
    check_question = CheckQuestion.get_filter_by(check_question_id)
    check_answer = CheckAnswer.get(check_question_id)
 
-   return render_template('administrator/checks/check_answers_show.html', check = check, check_question = check_question, check_answer = check_answer)
+   return render_template('human_resource/checks/check_answers_show.html', check = check, check_question = check_question, check_answer = check_answer)

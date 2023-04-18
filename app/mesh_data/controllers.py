@@ -12,7 +12,7 @@ def constructor():
 def index():
    branch_offices = BranchOffice.get()
    
-   return render_template('administrator/mesh_data/mesh_data.html', branch_offices = branch_offices)
+   return render_template('human_resource/mesh_data/mesh_data.html', branch_offices = branch_offices)
 
 @mesh_datum.route("/mesh_data/store", methods=['POST'])
 def store():

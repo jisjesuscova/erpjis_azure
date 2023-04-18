@@ -16,13 +16,13 @@ def constructor():
 def index(page=1):
     documentations = Documentation.get(page)
 
-    return render_template('administrator/documentations/documentations.html', documentations = documentations)
+    return render_template('human_resource/documentations/documentations.html', documentations = documentations)
 
 @documentation.route("/documentation/create", methods=['GET'])
 def create():
     title = 'Crear Documentación'
     module_name = 'Documentación'
-    return render_template('administrator/documentations/documentations_create.html', title = title, module_name = module_name)
+    return render_template('human_resource/documentations/documentations_create.html', title = title, module_name = module_name)
 
 @documentation.route("/documentation/store", methods=['POST'])
 def store():

@@ -207,7 +207,7 @@ class DocumentEmployee():
         return documents_employees
 
     @staticmethod
-    def get_by_administrator(rut, page, data = []):
+    def get_by_human_resource(rut, page, data = []):
 
         if len(data) > 0:
             search_rut = data[0]

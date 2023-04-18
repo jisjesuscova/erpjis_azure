@@ -39,14 +39,14 @@ def index(rut):
    title = employee.visual_rut + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
    module_name = 'Recursos Humanos'
 
-   return render_template('administrator/human_resources/uniforms/uniforms.html', title = title, module_name = module_name, uniform_button_status_id = uniform_button_status_id, uniforms = uniforms, rut = rut, is_active = is_active)
+   return render_template('human_resource/human_resources/uniforms/uniforms.html', title = title, module_name = module_name, uniform_button_status_id = uniform_button_status_id, uniforms = uniforms, rut = rut, is_active = is_active)
 
 @uniform.route("/human_resources/uniform/create/<int:rut>", methods=['GET'])
 @uniform.route("/human_resources/uniform/create", methods=['GET'])
 def create(rut):
    uniform_types = UniformType.get()
 
-   return render_template('administrator/human_resources/uniforms/uniforms_create.html', rut = rut, uniform_types = uniform_types)
+   return render_template('human_resource/human_resources/uniforms/uniforms_create.html', rut = rut, uniform_types = uniform_types)
 
 @uniform.route("/human_resources/uniform/delete/<int:rut>/<int:id>", methods=['GET'])
 @uniform.route("/human_resources/uniform/delete", methods=['GET'])

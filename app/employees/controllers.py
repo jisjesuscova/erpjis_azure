@@ -30,14 +30,14 @@ def index(page=1):
    title = 'Empleados'
    module_name = 'Recursos Humanos'
 
-   return render_template('administrator/human_resources/employees/employees.html', title = title, module_name = module_name, employees = employees, branch_offices = branch_offices)
+   return render_template('human_resource/human_resources/employees/employees.html', title = title, module_name = module_name, employees = employees, branch_offices = branch_offices)
 
 @employee.route("/human_resources/employees/search/<int:page>", methods=['POST'])
 def search(page=1):
    employees = Employee.search(request.form, page)
    branch_offices = BranchOffice.get()
 
-   return render_template('administrator/human_resources/employees/employees.html', employees = employees, branch_offices = branch_offices)
+   return render_template('human_resource/human_resources/employees/employees.html', employees = employees, branch_offices = branch_offices)
 
 @employee.route("/human_resources/employee/create", methods=['GET'])
 def create():
@@ -48,7 +48,7 @@ def create():
    title = 'Crear empleado'
    module_name = 'Recursos Humanos'
 
-   return render_template('administrator/human_resources/personal_data/personal_data_create.html', title = title, module_name = module_name, genders = genders, nationalities = nationalities, uid = uid, current_date = current_date)
+   return render_template('human_resource/human_resources/personal_data/personal_data_create.html', title = title, module_name = module_name, genders = genders, nationalities = nationalities, uid = uid, current_date = current_date)
 
 @employee.route("/human_resources/employee/store", methods=['POST'])
 def store():
@@ -82,7 +82,7 @@ def congratulate(rut = ''):
    else:
       employee = Employee.get(rut)
 
-      return render_template('administrator/human_resources/birthdays/birthdays.html', employee = employee, rut = rut)
+      return render_template('human_resource/human_resources/birthdays/birthdays.html', employee = employee, rut = rut)
 
 @employee.route("/human_resources/employee/check_rut", methods=['POST'])
 def check_rut():

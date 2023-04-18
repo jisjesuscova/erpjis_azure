@@ -43,7 +43,7 @@ def index(rut):
    elif current_user.rol_id == 3:
       return render_template('supervisor/human_resources/family_core_data/family_core_data.html', family_core_button_status_id = family_core_button_status_id, family_core_data = family_core_data, rut = rut)
    elif current_user.rol_id == 4:
-      return render_template('administrator/human_resources/family_core_data/family_core_data.html', title = title, module_name = module_name, family_core_button_status_id = family_core_button_status_id, family_core_data = family_core_data, rut = rut)
+      return render_template('human_resource/human_resources/family_core_data/family_core_data.html', title = title, module_name = module_name, family_core_button_status_id = family_core_button_status_id, family_core_data = family_core_data, rut = rut)
 
 @family_core_datum.route("/human_resources/family_core_data/create/<int:rut>", methods=['GET'])
 @family_core_datum.route("/human_resources/family_core_data/create", methods=['GET'])
@@ -51,7 +51,7 @@ def create(rut):
    genders = Gender.get()
    family_types = FamilyType.get()
 
-   return render_template('administrator/human_resources/family_core_data/family_core_data_create.html', genders = genders, rut = rut, family_types = family_types)
+   return render_template('human_resource/human_resources/family_core_data/family_core_data_create.html', genders = genders, rut = rut, family_types = family_types)
 
 @family_core_datum.route("/human_resources/family_core_data/edit/<int:rut>/<int:id>", methods=['GET'])
 @family_core_datum.route("/human_resources/family_core_data/edit", methods=['GET'])
@@ -60,7 +60,7 @@ def edit(rut, id):
    family_types = FamilyType.get()
    family_core_datum = FamilyCoreDatum.get(id, '')
 
-   return render_template('administrator/human_resources/family_core_data/family_core_data_edit.html', family_core_datum = family_core_datum, genders = genders, rut = rut, family_types = family_types, id = id)
+   return render_template('human_resource/human_resources/family_core_data/family_core_data_edit.html', family_core_datum = family_core_datum, genders = genders, rut = rut, family_types = family_types, id = id)
 
 @family_core_datum.route("/human_resources/family_core_data/update/<int:rut>/<int:id>", methods=['POST'])
 @family_core_datum.route("/human_resources/family_core_data/update", methods=['POST'])

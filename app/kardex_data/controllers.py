@@ -42,14 +42,14 @@ def index(rut, page = 1):
    title = employee.visual_rut + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
    module_name = 'Recursos Humanos'
 
-   return render_template('administrator/human_resources/kardex_data/kardex_data.html', title = title, module_name = module_name, kardex_button_status_id = kardex_button_status_id, kardex_data = kardex_data, rut = rut, is_active = is_active)
+   return render_template('human_resource/human_resources/kardex_data/kardex_data.html', title = title, module_name = module_name, kardex_button_status_id = kardex_button_status_id, kardex_data = kardex_data, rut = rut, is_active = is_active)
 
 @kardex_datum.route("/human_resources/kardex_data/create/<int:rut>", methods=['GET'])
 @kardex_datum.route("/human_resources/kardex_data/create", methods=['GET'])
 def create(rut):
    document_types = DocumentType.get('', 1, '', '')
 
-   return render_template('administrator/human_resources/kardex_data/kardex_data_create.html', rut = rut, document_types = document_types)
+   return render_template('human_resource/human_resources/kardex_data/kardex_data_create.html', rut = rut, document_types = document_types)
 
 @kardex_datum.route("/human_resources/kardex_data/edit/<int:rut>/<int:id>", methods=['GET'])
 @kardex_datum.route("/human_resources/kardex_data/edit", methods=['GET'])

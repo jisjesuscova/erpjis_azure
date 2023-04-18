@@ -37,7 +37,7 @@ def create():
    elif current_user.rol_id == 3:
       return render_template('supervisor/human_resources/documental_management_data/documental_management_data_create.html', document_types = document_types)
    elif current_user.rol_id == 4:
-      return render_template('administrator/human_resources/documental_management_data/documental_management_data_create.html', document_types = document_types)
+      return render_template('human_resource/human_resources/documental_management_data/documental_management_data_create.html', document_types = document_types)
 
 @documental_management_datum.route("/human_resources/documental_management_data", methods=['GET'])
 @documental_management_datum.route("/human_resources/documental_management_data/<int:page>", methods=['GET'])
@@ -66,7 +66,7 @@ def index(rut = '', page=1):
    elif current_user.rol_id == 3:
       return render_template('supervisor/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations, status_id = status_id, employee = employee)
    elif current_user.rol_id == 4:
-      return render_template('administrator/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations, status_id = status_id, employee = employee)
+      return render_template('human_resource/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations, status_id = status_id, employee = employee)
 
 @documental_management_datum.route("/human_resources/documental_management_data/review/<int:page>", methods=['GET'])
 def review(page=1):
@@ -79,9 +79,9 @@ def review(page=1):
 
       return render_template('supervisor/human_resources/documental_management_data/review_documental_management_data.html', documents_employees = documents_employees, branch_offices = branch_offices)
    elif current_user.rol_id == 4:
-      documents_employees = DocumentEmployee.get_by_administrator(current_user.rut, page)
+      documents_employees = DocumentEmployee.get_by_human_resource(current_user.rut, page)
 
-      return render_template('administrator/human_resources/documental_management_data/review_documental_management_data.html', values = values, documents_employees = documents_employees, branch_offices = branch_offices)
+      return render_template('human_resource/human_resources/documental_management_data/review_documental_management_data.html', values = values, documents_employees = documents_employees, branch_offices = branch_offices)
 
 @documental_management_datum.route("/human_resources/documental_management_data/search/<int:page>", methods=['GET'])
 @documental_management_datum.route("/human_resources/documental_management_data/search", methods=['GET'])
@@ -114,9 +114,9 @@ def search(page=1):
       else:
          values.append(int(branch_office_id))
 
-      documents_employees = DocumentEmployee.get_by_administrator(current_user.rut, page, values)
+      documents_employees = DocumentEmployee.get_by_human_resource(current_user.rut, page, values)
 
-      return render_template('administrator/human_resources/documental_management_data/review_documental_management_data_search.html', values = values, documents_employees = documents_employees, branch_offices = branch_offices)
+      return render_template('human_resource/human_resources/documental_management_data/review_documental_management_data_search.html', values = values, documents_employees = documents_employees, branch_offices = branch_offices)
 
 @documental_management_datum.route("/human_resources/documental_management_data/show/<int:id>", methods=['GET'])
 @documental_management_datum.route("/human_resources/documental_management_data/show", methods=['GET'])
@@ -134,7 +134,7 @@ def show(id, page=1):
    if current_user.rol_id == 3:
       return render_template('supervisor/human_resources/document_requests/document_requests_review.html', document_employee = document_employee, document_type_id = document_type_id, vacation = vacation, employee = employee)
    else:
-      return render_template('administrator/human_resources/document_requests/document_requests_review.html', document_employee = document_employee, document_type_id = document_type_id, vacation = vacation, employee = employee)
+      return render_template('human_resource/human_resources/document_requests/document_requests_review.html', document_employee = document_employee, document_type_id = document_type_id, vacation = vacation, employee = employee)
 
 @documental_management_datum.route("/human_resources/documental_management_data/signed/<int:rut>/<int:id>", methods=['GET'])
 def signed(rut, id):
@@ -146,7 +146,7 @@ def signed(rut, id):
    elif current_user.rol_id == 3:
       return render_template('supervisor/human_resources/documental_management_data/upload_signed_document.html', id = id, rut = rut)
    elif current_user.rol_id == 4:
-      return render_template('administrator/human_resources/documental_management_data/upload_signed_document.html', id = id, rut = rut)
+      return render_template('human_resource/human_resources/documental_management_data/upload_signed_document.html', id = id, rut = rut)
 
 @documental_management_datum.route("/human_resources/documental_management_data/signed_vacation/<int:rut>/<int:id>", methods=['GET'])
 def signed_vacation(rut, id):
@@ -158,7 +158,7 @@ def signed_vacation(rut, id):
    elif current_user.rol_id == 3:
       return render_template('supervisor/human_resources/documental_management_data/upload_signed_vacation_document.html', id = id, rut = rut)
    elif current_user.rol_id == 4:
-      return render_template('administrator/human_resources/documental_management_data/upload_signed_vacation_document.html', id = id, rut = rut)
+      return render_template('human_resource/human_resources/documental_management_data/upload_signed_vacation_document.html', id = id, rut = rut)
 
 
 @documental_management_datum.route("/human_resources/documental_management_data/upload", methods=['POST'])

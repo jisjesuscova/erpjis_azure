@@ -1,0 +1,219 @@
+{% extends 'human_resource/layouts/base.html' %}
+{% block content %}
+    <div class="content-wrapper">
+        <section class="content pt-3">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card text-white bg-primary mb-3">
+                        <div class="card-header">
+                            <h4>
+                                Total Empleados Activos
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <strong>{{ active_employee_total }}</strong> Empleados
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-primary mb-3">
+                        <div class="card-header">
+                            <h4>
+                                Distribución de Planta
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    Full-Time: <strong>{{ distribution_totals[0]['total'] }}</strong>
+                                </div>
+                                <div class="col-md-6">
+                                    Part-Time: <strong>{{ distribution_totals[1]['total'] }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-primary mb-3">
+                        <div class="card-header">
+                            <h4>
+                                Distribución Generos
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    Masculino: <strong>{{ gender_totals[0]['total'] }}</strong>
+                                </div>
+                                <div class="col-md-6">
+                                    Femenino: <strong>{{ gender_totals[1]['total'] }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-primary mb-3">
+                        <div class="card-header">
+                            <h4>
+                                Saldo de Vacaciones
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <strong>{{ total_vacations }}</strong> Días
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="content">
+            <div class="row pt-3">
+                <div class="col-md-12">
+                <h2>Cumpleaños de {{ current_month }}</h2>
+                <hr>
+                </div>
+            </div>
+            <div class="row">
+                {% if birthday_quantities == 1 %}
+                    <div class="col-md-12">
+                        <div class="card text-bg-primary mb-3 " style="background-color: #357EBE; color: #fff; height: 250px !important;">
+                            <div class="card-header"><h3>Día {{ birthdays[0][5] }}</h3></div>
+                            <div class="card-body text-center">
+                                <h5>Felicita a: <strong>{{ birthdays[0][1] }}</strong></h5>
+                                <h6>SUCURSAL {{ birthdays[0][4] }}</h6>
+                                <a class="btn" href="{{ url_for('employees.congratulate', rut=birthdays[0][0]) }}" style="background-color: #fff; color: #000;"><i class="fa-brands fa-whatsapp"></i> ¡Felicitalo con un Mensaje!</a>
+                            </div>
+                        </div>
+                    </div>
+                {% elif birthday_quantities == 2 %}
+                    <div class="col-md-6">
+                        <div class="card text-bg-primary mb-3 " style="background-color: #357EBE; color: #fff; height: 250px !important;">
+                            <div class="card-header"><h3>Día {{ birthdays[0][5] }}</h3></div>
+                            <div class="card-body text-center">
+                                <h5>Felicita a: <strong>{{ birthdays[0][1] }}</strong></h5>
+                                <h6>SUCURSAL {{ birthdays[0][4] }}</h6>
+                                <a class="btn" style="background-color: #fff; color: #000;"><i class="fa-brands fa-whatsapp"></i> ¡Felicitalo con un Mensaje!</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card text-bg-primary mb-3 " style="background-color: #3BBE35; color: #fff; height: 250px !important;">
+                            <div class="card-header"><h3>Día {{ birthdays[1][5] }}</h3></div>
+                            <div class="card-body text-center">
+                                <h5>Felicita a: <strong>{{ birthdays[1][1] }}</strong></h5>
+                                <h6>SUCURSAL {{ birthdays[1][4] }}</h6>
+                                <a class="btn" style="background-color: #fff; color: #000;"><i class="fa-brands fa-whatsapp"></i> ¡Felicitalo con un Mensaje!</a>
+                            </div>
+                        </div>
+                    </div>
+                {% elif birthday_quantities == 3 %}
+                    <div class="col-md-4">
+                        <div class="card text-bg-primary mb-3 " style="background-color: #357EBE; color: #fff; height: 250px !important;">
+                            <div class="card-header"><h3>Día {{ birthdays[0][5] }}</h3></div>
+                            <div class="card-body text-center">
+                                <h5>Felicita a: <strong>{{ birthdays[0][1] }}</strong></h5>
+                                <h6>SUCURSAL {{ birthdays[0][4] }}</h6>
+                                <a class="btn" style="background-color: #fff; color: #000;"><i class="fa-brands fa-whatsapp"></i> ¡Felicitalo con un Mensaje!</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-bg-primary mb-3 " style="background-color: #3BBE35; color: #fff; height: 250px !important;">
+                            <div class="card-header"><h3>Día {{ birthdays[1][5] }}</h3></div>
+                            <div class="card-body text-center">
+                                <h5>Felicita a: <strong>{{ birthdays[1][1] }}</strong></h5>
+                                <h6>SUCURSAL {{ birthdays[1][4] }}</h6>
+                                <a class="btn" style="background-color: #fff; color: #000;"><i class="fa-brands fa-whatsapp"></i> ¡Felicitalo con un Mensaje!</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-bg-primary mb-3 " style="background-color: #C43131; color: #fff; height: 250px !important;">
+                            <div class="card-header"><h3>Día {{ birthdays[2][5] }}</h3></div>
+                            <div class="card-body text-center">
+                                <h5>Felicita a: <strong>{{ birthdays[2][1] }}</strong></h5>
+                                <h6>SUCURSAL {{ birthdays[2][4] }}</h6>
+                                <a class="btn" style="background-color: #fff; color: #000;"><i class="fa-brands fa-whatsapp"></i> ¡Felicitalo con un Mensaje!</a>
+                            </div>
+                        </div>
+                    </div>
+                {% elif birthday_quantities == 4 %}
+                    <div class="col-md-3">
+                        <div class="card text-bg-primary mb-3 " style="background-color: #357EBE; color: #fff; height: 250px !important;">
+                            <div class="card-header"><h3>Día {{ birthdays[0][5] }}</h3></div>
+                            <div class="card-body text-center">
+                                <h5>Felicita a: <strong>{{ birthdays[0][1] }}</strong></h5>
+                                <h6>SUCURSAL {{ birthdays[0][4] }}</h6>
+                                <a class="btn" style="background-color: #fff; color: #000;"><i class="fa-brands fa-whatsapp"></i> ¡Felicitalo con un Mensaje!</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-bg-primary mb-3 " style="background-color: #3BBE35; color: #fff; height: 250px !important;">
+                            <div class="card-header"><h3>Día {{ birthdays[1][5] }}</h3></div>
+                            <div class="card-body text-center">
+                                <h5>Felicita a: <strong>{{ birthdays[1][1] }}</strong></h5>
+                                <h6>SUCURSAL {{ birthdays[1][4] }}</h6>
+                                <a class="btn" style="background-color: #fff; color: #000;"><i class="fa-brands fa-whatsapp"></i> ¡Felicitalo con un Mensaje!</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-bg-primary mb-3 " style="background-color: #C43131; color: #fff; height: 250px !important;">
+                            <div class="card-header"><h3>Día {{ birthdays[2][5] }}</h3></div>
+                            <div class="card-body text-center">
+                                <h5>Felicita a: <strong>{{ birthdays[2][1] }}</strong></h5>
+                                <h6>SUCURSAL {{ birthdays[2][4] }}</h6>
+                                <a class="btn" style="background-color: #fff; color: #000;"><i class="fa-brands fa-whatsapp"></i> ¡Felicitalo con un Mensaje!</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-bg-primary mb-3 " style="background-color: #7D2A9A; color: #fff; height: 250px !important;">
+                            <div class="card-header"><h3>Día {{ birthdays[3][5] }}</h3></div>
+                            <div class="card-body text-center">
+                                <h5>Felicita a: <strong>{{ birthdays[3][1] }}</strong></h5>
+                                <h6>SUCURSAL {{ birthdays[3][4] }}</h6>
+                                <a class="btn" style="background-color: #fff; color: #000;"><i class="fa-brands fa-whatsapp"></i> ¡Felicitalo con un Mensaje!</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                
+            </div>
+            <div class="row pt-3">
+                <div class="col-md-12">
+                <h2>Noticias</h2>
+                <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="slider">
+                        {% for new in news %}
+                            <a href="{{ url_for('news.show', id=new['id']) }}">
+                                <img src="{{ url_for("static", filename="dist/files/new_data/"+new.picture) }}" class="slider" alt="imagen1">
+                            </a>
+                        {% endfor %}
+                    </div>
+                    <div class="slick-prev">
+                        <i class="fas fa-chevron-left"></i>
+                    </div>
+                    <div class="slick-next">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+    

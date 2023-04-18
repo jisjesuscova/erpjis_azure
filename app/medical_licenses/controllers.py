@@ -50,7 +50,7 @@ def index(rut):
    elif current_user.rol_id == 3:
       return render_template('supervisor/human_resources/medical_licenses/medical_licenses.html', medical_license_button_status_id = medical_license_button_status_id, medical_licenses = medical_licenses, rut = rut, is_active = is_active)
    elif current_user.rol_id == 4:
-      return render_template('administrator/human_resources/medical_licenses/medical_licenses.html', title = title, module_name = module_name, medical_license_button_status_id = medical_license_button_status_id, medical_licenses = medical_licenses, rut = rut, is_active = is_active)
+      return render_template('human_resource/human_resources/medical_licenses/medical_licenses.html', title = title, module_name = module_name, medical_license_button_status_id = medical_license_button_status_id, medical_licenses = medical_licenses, rut = rut, is_active = is_active)
 
 @medical_license.route("/human_resources/medical_license/create/<int:rut>", methods=['GET'])
 @medical_license.route("/human_resources/medical_license/create", methods=['GET'])
@@ -58,7 +58,7 @@ def create(rut):
    medical_license_types = MedicalLicenseType.get()
    patology_types = PatologyType.get()
 
-   return render_template('administrator/human_resources/medical_licenses/medical_licenses_create.html', rut = rut, medical_license_types = medical_license_types, patology_types = patology_types)
+   return render_template('human_resource/human_resources/medical_licenses/medical_licenses_create.html', rut = rut, medical_license_types = medical_license_types, patology_types = patology_types)
 
 @medical_license.route("/human_resources/medical_license/edit/<int:rut>/<int:id>", methods=['GET'])
 @medical_license.route("/human_resources/medical_license/edit", methods=['GET'])
@@ -120,7 +120,7 @@ def upload(id, rut):
       else:
          return '0'
    else:
-      return render_template('administrator/human_resources/medical_licenses/medical_licenses_upload.html', id = id, rut = rut)
+      return render_template('human_resource/human_resources/medical_licenses/medical_licenses_upload.html', id = id, rut = rut)
 
 
 @medical_license.route("/human_resources/medical_license/download/<int:id>/<int:rut>", methods=['GET'])

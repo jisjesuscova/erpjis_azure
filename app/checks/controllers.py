@@ -64,7 +64,7 @@ def index(page=1):
    title = 'Revisión'
    module_name = 'Revisión'
 
-   return render_template('administrator/checks/checks.html', title = title, module_name = module_name, checks = checks)
+   return render_template('human_resource/checks/checks.html', title = title, module_name = module_name, checks = checks)
 
 @check.route("/check/create", methods=['GET'])
 def create():
@@ -75,7 +75,7 @@ def create():
    title = 'Crear Revisión'
    module_name = 'Revisión'
 
-   return render_template('administrator/checks/checks_create.html', title = title, module_name = module_name, branch_offices = branch_offices, months = months, years = years, check_group_questions = check_group_questions)
+   return render_template('human_resource/checks/checks_create.html', title = title, module_name = module_name, branch_offices = branch_offices, months = months, years = years, check_group_questions = check_group_questions)
 
 @check.route("/checks/store", methods=['POST'])
 def store():
@@ -94,13 +94,13 @@ def show(id):
 
    title = check.check_title
 
-   return render_template('administrator/checks/check_questions.html', title = title, check_questions = check_questions)
+   return render_template('human_resource/checks/check_questions.html', title = title, check_questions = check_questions)
 
 @check.route("/check/answer/<int:check_id>/<int:check_question_id>", methods=['GET'])
 def answer(check_id, check_question_id):
    check_question = CheckQuestion.get_filter_by('', id)
 
-   return render_template('administrator/checks/check_answers_create.html', check_question = check_question, check_id = check_id, check_question_id = check_question_id)
+   return render_template('human_resource/checks/check_answers_create.html', check_question = check_question, check_id = check_id, check_question_id = check_question_id)
 
 @check.route("/check/delete/<int:id>", methods=['GET'])
 def delete(id):

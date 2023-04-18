@@ -29,7 +29,7 @@ def index(page=1):
    if current_user.rol_id == 3:
       return render_template('supervisor/human_resources/honoraries/honoraries.html', honoraries = honoraries, title = title, module_name = module_name)
    elif current_user.rol_id == 4:
-      return render_template('administrator/human_resources/honoraries/honoraries.html', honoraries = honoraries, title = title, module_name = module_name)
+      return render_template('human_resource/human_resources/honoraries/honoraries.html', honoraries = honoraries, title = title, module_name = module_name)
 
 @honorary.route("/human_resources/honorary/create", methods=['GET'])
 def create():
@@ -45,7 +45,7 @@ def create():
    if current_user.rol_id == 3:
       return render_template('supervisor/human_resources/honoraries/honoraries_create.html', honorary_reasons = honorary_reasons, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
    elif current_user.rol_id == 4:
-      return render_template('administrator/human_resources/honoraries/honoraries_create.html', honorary_reasons = honorary_reasons, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
+      return render_template('human_resource/human_resources/honoraries/honoraries_create.html', honorary_reasons = honorary_reasons, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
 
 @honorary.route("/human_resources/honorary/store", methods=['POST'])
 def store():
@@ -82,7 +82,7 @@ def edit(id):
 
    module_name = "Recursos Humanos"
 
-   return render_template('administrator/human_resources/honoraries/honoraries_update.html', employees = employees, honorary_reasons = honorary_reasons, communes = communes, honorary = honorary, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
+   return render_template('human_resource/human_resources/honoraries/honoraries_update.html', employees = employees, honorary_reasons = honorary_reasons, communes = communes, honorary = honorary, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
 
 @honorary.route("/human_resources/honorary/delete/<int:id>", methods=['GET'])
 def delete(id):

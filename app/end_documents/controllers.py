@@ -42,7 +42,7 @@ def create(rut):
    balance = Vacation.balance(legal, taken_days)
    number_holidays = balance
    
-   return render_template('administrator/human_resources/end_documents/end_document_data.html', rut = rut, number_holidays = number_holidays, voluntary_indemnity = voluntary_indemnity, indemnity_years_service = indemnity_years_service, substitute_compensation = substitute_compensation, fertility_proportional= fertility_proportional, total = total)
+   return render_template('human_resource/human_resources/end_documents/end_document_data.html', rut = rut, number_holidays = number_holidays, voluntary_indemnity = voluntary_indemnity, indemnity_years_service = indemnity_years_service, substitute_compensation = substitute_compensation, fertility_proportional= fertility_proportional, total = total)
 
 @end_document.route("/human_resources/end_document/indemnity_years_service/<int:rut>", methods=['POST'])
 def indemnity_years_service(rut):
@@ -57,7 +57,7 @@ def indemnity_years_service(rut):
 
    total = int(voluntary_indemnity) + int(indemnity_years_service) + int(substitute_compensation) + int(fertility_proportional)
    
-   return render_template('administrator/human_resources/end_documents/end_document_data.html', rut = rut, employee_status_id = employee_status_id, causal_id = causal_id, exit_company = exit_company, number_holidays = number_holidays, end_document = end_document, voluntary_indemnity = voluntary_indemnity, indemnity_years_service = indemnity_years_service, substitute_compensation = substitute_compensation, fertility_proportional = fertility_proportional, total = total)
+   return render_template('human_resource/human_resources/end_documents/end_document_data.html', rut = rut, employee_status_id = employee_status_id, causal_id = causal_id, exit_company = exit_company, number_holidays = number_holidays, end_document = end_document, voluntary_indemnity = voluntary_indemnity, indemnity_years_service = indemnity_years_service, substitute_compensation = substitute_compensation, fertility_proportional = fertility_proportional, total = total)
 
 @end_document.route("/human_resources/end_document/substitute_compensation/<int:rut>", methods=['POST'])
 def substitute_compensation(rut):
@@ -72,7 +72,7 @@ def substitute_compensation(rut):
 
    total = int(voluntary_indemnity) + int(indemnity_years_service) + int(substitute_compensation) + int(fertility_proportional)
 
-   return render_template('administrator/human_resources/end_documents/end_document_data.html', rut = rut, employee_status_id = employee_status_id, causal_id = causal_id, exit_company = exit_company, number_holidays = number_holidays, end_document = end_document, voluntary_indemnity = voluntary_indemnity, indemnity_years_service = indemnity_years_service, substitute_compensation = substitute_compensation, fertility_proportional = fertility_proportional, total = total)
+   return render_template('human_resource/human_resources/end_documents/end_document_data.html', rut = rut, employee_status_id = employee_status_id, causal_id = causal_id, exit_company = exit_company, number_holidays = number_holidays, end_document = end_document, voluntary_indemnity = voluntary_indemnity, indemnity_years_service = indemnity_years_service, substitute_compensation = substitute_compensation, fertility_proportional = fertility_proportional, total = total)
 
 @end_document.route("/human_resources/end_document/fertility_proportional/<int:rut>", methods=['POST'])
 def fertility_proportional(rut):
@@ -87,7 +87,7 @@ def fertility_proportional(rut):
 
    total = int(voluntary_indemnity) + int(indemnity_years_service) + int(substitute_compensation) + int(fertility_proportional)
 
-   return render_template('administrator/human_resources/end_documents/end_document_data.html', rut = rut, employee_status_id = employee_status_id, causal_id = causal_id, exit_company = exit_company, number_holidays = number_holidays, end_document = end_document, voluntary_indemnity = voluntary_indemnity, indemnity_years_service = indemnity_years_service, substitute_compensation = substitute_compensation, fertility_proportional = fertility_proportional, total = total)
+   return render_template('human_resource/human_resources/end_documents/end_document_data.html', rut = rut, employee_status_id = employee_status_id, causal_id = causal_id, exit_company = exit_company, number_holidays = number_holidays, end_document = end_document, voluntary_indemnity = voluntary_indemnity, indemnity_years_service = indemnity_years_service, substitute_compensation = substitute_compensation, fertility_proportional = fertility_proportional, total = total)
 
 @end_document.route("/human_resources/end_document/store", methods=['POST'])
 def store():
@@ -169,7 +169,7 @@ def upload(id, rut):
 
       return redirect(url_for('contract_data.show', rut = rut))
    else:
-      return render_template('administrator/human_resources/end_documents/end_documents_upload.html', id = id, rut = rut)
+      return render_template('human_resource/human_resources/end_documents/end_documents_upload.html', id = id, rut = rut)
 
 
 @end_document.route("/human_resources/end_document/download/<int:id>/<int:rut>", methods=['GET'])

@@ -39,7 +39,7 @@ def show(id):
    elif current_user.rol_id == 3:
       return render_template('supervisor/human_resources/document_requests/document_requests_create.html', document_type = document_type, branch_offices = branch_offices, job_positions = job_positions, employees = employees, id = id)
    elif current_user.rol_id == 4:
-      return render_template('administrator/human_resources/document_requests/document_requests_create.html', document_type = document_type, branch_offices = branch_offices, job_positions = job_positions, employees = employees, id = id)
+      return render_template('human_resource/human_resources/document_requests/document_requests_create.html', document_type = document_type, branch_offices = branch_offices, job_positions = job_positions, employees = employees, id = id)
 
 @document_request.route("/human_resources/document_requests/store", methods=['POST'])
 def store():

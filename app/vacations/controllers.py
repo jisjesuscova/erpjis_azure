@@ -59,14 +59,14 @@ def index(rut):
    elif current_user.rol_id == 3:
       return render_template('supervisor/human_resources/vacations/vacations.html', vacation_button_status_id = vacation_button_status_id, vacations = vacations, rut = rut, legal = legal, balance = balance, taken_days = taken_days, status_id = status_id, progressive_vacation_legal = progressive_vacation_legal, progressive_vacation_taken_days = progressive_vacation_taken_days, progressive_vacation_balance = progressive_vacation_balance, progressive_vacations = progressive_vacations, employee_extra_datum = employee_extra_datum)
    elif current_user.rol_id == 4:
-      return render_template('administrator/human_resources/vacations/vacations.html', title = title, module_name = module_name, vacation_button_status_id = vacation_button_status_id, vacations = vacations, rut = rut, legal = legal, balance = balance, taken_days = taken_days, status_id = status_id, progressive_vacation_legal = progressive_vacation_legal, progressive_vacation_taken_days = progressive_vacation_taken_days, progressive_vacation_balance = progressive_vacation_balance, progressive_vacations = progressive_vacations, employee_extra_datum = employee_extra_datum)
+      return render_template('human_resource/human_resources/vacations/vacations.html', title = title, module_name = module_name, vacation_button_status_id = vacation_button_status_id, vacations = vacations, rut = rut, legal = legal, balance = balance, taken_days = taken_days, status_id = status_id, progressive_vacation_legal = progressive_vacation_legal, progressive_vacation_taken_days = progressive_vacation_taken_days, progressive_vacation_balance = progressive_vacation_balance, progressive_vacations = progressive_vacations, employee_extra_datum = employee_extra_datum)
 
 @vacation.route("/human_resources/vacation/create/<int:rut>", methods=['GET'])
 @vacation.route("/human_resources/vacation/create", methods=['GET'])
 def create(rut):
    employees = Employee.get()
 
-   return render_template('administrator/human_resources/vacations/vacations_create.html', rut = rut, employees = employees)
+   return render_template('human_resource/human_resources/vacations/vacations_create.html', rut = rut, employees = employees)
 
 @vacation.route("/human_resources/vacation/delete/<int:rut>/<int:id>", methods=['GET'])
 @vacation.route("/human_resources/vacation/delete", methods=['GET'])
@@ -107,7 +107,7 @@ def upload(rut, id):
       if current_user.rol_id == 1:
          return render_template('collaborator/human_resources/vacations/vacations_upload.html', rut = rut, id = id)
       elif current_user.rol_id == 4:
-         return render_template('administrator/human_resources/vacations/vacations_upload.html', rut = rut, id = id)
+         return render_template('human_resource/human_resources/vacations/vacations_upload.html', rut = rut, id = id)
 
 @vacation.route("/human_resources/vacation/download/<int:id>", methods=['GET'])
 def download(id):

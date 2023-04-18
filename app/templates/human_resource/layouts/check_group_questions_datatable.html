@@ -1,0 +1,70 @@
+{% from 'human_resource/macro/_checks_pagination.html' import m_pagination %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Datos</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    {% if category == 'error' %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                    {% if category == 'success' %}
+                                        <div class="alert alert-success" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Pregunta</th>
+                                    <th>Estatus</th>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            {% for check_question in check_questions %}
+                                <tbody>
+                                    <tr>
+                                        <td>{{ check_question['id'] }}</td>
+                                        <td>{{ check_question['question'] }}</td>
+                                        <td>
+                                            {% if check_question['status_id'] == 1 %}
+                                                <span class="badge badge-warning">Sin responder</span>
+                                            {% endif %}
+                                            {% if check_question['status_id'] == 2 %}
+                                                <span class="badge badge-primary">Respondida</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{{ url_for('checks.answer', check_id = check_question['check_id'], check_question_id = check_question['id']) }}" class="btn btn-success">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            {% if check_question['status_id'] == 2 %}
+                                                <a href="{{ url_for('check_answers.show', check_id = check_question['check_id'], check_question_id = check_question['id']) }}" class="btn btn-primary">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

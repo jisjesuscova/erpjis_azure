@@ -18,4 +18,4 @@ def show(id):
    branch_offices = BranchOffice.get()
    check_group_question_quantity = CheckGroupQuestionDetail.quantity(id)
 
-   return render_template('administrator/check_group_question_details/check_group_question_details.html', id = id, check_group_question_quantity = check_group_question_quantity, check_group_question_details = check_group_question_details, branch_offices = branch_offices)
+   return render_template('human_resource/check_group_question_details/check_group_question_details.html', id = id, check_group_question_quantity = check_group_question_quantity, check_group_question_details = check_group_question_details, branch_offices = branch_offices)

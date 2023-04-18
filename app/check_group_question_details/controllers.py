@@ -20,4 +20,4 @@ def constructor():
 def index(id):
    check_group_questions = CheckGroupQuestion.get(id)
 
-   return render_template('administrator/checks/checks.html', check_group_questions = check_group_questions)
+   return render_template('human_resource/checks/checks.html', check_group_questions = check_group_questions)

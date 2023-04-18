@@ -695,7 +695,7 @@ class WhatsappTemplateModel(db.Model):
     __tablename__ = 'whatsapp_templates'
 
     id = db.Column(db.Integer, primary_key=True)
-    administrator_id = db.Column(db.Integer)
+    human_resource_id = db.Column(db.Integer)
     group_id = db.Column(db.Integer)
     whatsapp_template = db.Column(db.Text())
     template = db.Column(db.Text())

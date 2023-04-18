@@ -36,4 +36,4 @@ def index():
    elif current_user.rol_id == 3:
       return render_template('supervisor/home/index.html', current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities)
    elif current_user.rol_id == 4:
-      return render_template('administrator/home/index.html', hola_mundo = hola_mundo, total_vacations = total_vacations, active_employee_total = active_employee_total, distribution_totals = distribution_totals, gender_totals = gender_totals, current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities)
+      return render_template('human_resource/home/index.html', hola_mundo = hola_mundo, total_vacations = total_vacations, active_employee_total = active_employee_total, distribution_totals = distribution_totals, gender_totals = gender_totals, current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities)

@@ -1,0 +1,96 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Agregar Familiar</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- form start -->
+                        <form role="form" action="{{ url_for('family_core_data.store') }}" method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">RUT</label>
+                                            <input type="text" value="" class="form-control" id="exampleInputEmail1" placeholder="RUT" name="family_rut">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Nombres</label>
+                                            <input type="text" value="" class="form-control" id="exampleInputEmail1" placeholder="Nombres" name="names">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Apellido Paterno</label>
+                                            <input type="text" value="" class="form-control" id="exampleInputEmail1" placeholder="Apellido Paterno" name="father_lastname">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Apellido Materno</label>
+                                            <input type="text" value="" class="form-control" id="exampleInputEmail1" placeholder="Apellido Materno" name="mother_lastname">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Fecha de Nacimiento</label>
+                                            <input type="date" value="" class="form-control" id="exampleInputEmail1" placeholder="Apellido Materno" name="born_date">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Genero</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="gender_id">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for gender in genders %}
+                                                    <option value="{{ gender.id }}">{{ gender.gender }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Parentesco</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="family_type_id">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for family_type in family_types %}
+                                                    <option value="{{ family_type.id }}">{{ family_type.family_type }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Certificado de Nacimiento</label>
+                                            <input type="file" value="" class="form-control" id="exampleInputEmail1" placeholder="Imagen" name="support">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+
+                            <input type="hidden" value="{{ rut }}" class="form-control" id="exampleInputEmail1" name="rut">
+                            
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+
+                                <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
+                            </div>
+                        </form>
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
