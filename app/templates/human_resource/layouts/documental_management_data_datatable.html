@@ -41,7 +41,7 @@
                                             {% endif %}
                                         </td>
                                         <td>
-                                            {% if documents_employee['status_id'] == 2 %}
+                                            {% if documents_employee['status_id'] == 4 %}
                                                 <a href="{{ url_for('document_requests.show') }}/{{ documents_employee['rut'] }}/{{ documents_employee['id'] }}" class="btn btn-warning">
                                                     <i class="fa fa-eye"></i>
                                                 </a>

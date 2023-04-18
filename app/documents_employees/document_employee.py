@@ -207,7 +207,7 @@ class DocumentEmployee():
         return documents_employees
 
     @staticmethod
-    def get_by_human_resource(rut, page, data = []):
+    def get_by_human_resource(page, data = []):
 
         if len(data) > 0:
             search_rut = data[0]
@@ -222,9 +222,10 @@ class DocumentEmployee():
                     .join(EmployeeLaborDatumModel, EmployeeLaborDatumModel.rut == EmployeeModel.rut)\
                     .join(BranchOfficeModel, BranchOfficeModel.id == EmployeeLaborDatumModel.branch_office_id)\
                     .join(DocumentTypeModel, DocumentTypeModel.id == DocumentEmployeeModel.document_type_id)\
-                    .add_columns(DocumentEmployeeModel.id, EmployeeModel.rut, EmployeeModel.visual_rut, EmployeeModel.nickname, DocumentTypeModel.document_type, DocumentEmployeeModel.added_date, DocumentEmployeeModel.status_id).filter(DocumentTypeModel.document_group_id==2)
+                    .add_columns(DocumentTypeModel.id.label('document_type_id'), DocumentEmployeeModel.id, EmployeeModel.rut, EmployeeModel.visual_rut, EmployeeModel.nickname, DocumentTypeModel.document_type, DocumentEmployeeModel.added_date, DocumentEmployeeModel.status_id).filter(DocumentTypeModel.document_group_id==2)
 
         if len(data) > 0:
+            print()
             if search_rut:
                 query = query.filter(EmployeeModel.visual_rut.like(f"%{search_rut}%"))
             if search_names:
@@ -240,7 +241,7 @@ class DocumentEmployee():
         else:
             query = query.filter(DocumentEmployeeModel.status_id == 2)
         
-        documents_employees = query.paginate(page=page, per_page=20, error_out=False)
+        documents_employees = query.order_by(DocumentEmployeeModel.added_date.desc()).paginate(page=page, per_page=20, error_out=False)
 
         return documents_employees
 

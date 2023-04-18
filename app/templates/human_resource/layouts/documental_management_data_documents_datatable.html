@@ -39,29 +39,37 @@
                                 </tr>
                             </thead>
                             {% for document_employee in documents_employees.items %}
-                                <tbody>
-                                    <tr>
-                                        <td>{{ document_employee['visual_rut'] }}</td>
-                                        <td>{{ document_employee['nickname'] }}</td>
-                                        <td>{{ document_employee['document_type'] }}</td>
-                                        <td>{{ document_employee['added_date']|datetime("dd-MM-yyyy") }}</td>
-                                        <td>
-                                            {% if document_employee['status_id'] == 2 %}
-                                                <a href="{{ url_for('documental_management_data.show') }}/{{ document_employee['id'] }}" class="btn btn-warning">
-                                                    <i class="fa fa-eye"></i>
-                                                </a>
-                                            {% elif document_employee['status_id'] == 3 %}
-                                                <a href="{{ url_for('documental_management_data.signed', rut=document_employee['rut'], id=document_employee['id']) }}" class="btn btn-success">
-                                                    <i class="fa fa-arrow-up"></i>
-                                                </a>
-                                            {% else %}
-                                                <a href="{{ url_for('documental_management_data.download', id=document_employee['id']) }}" class="btn btn-primary">
-                                                    <i class="fa fa-arrow-down"></i>
-                                                </a>
-                                            {% endif %}
-                                        </td>
-                                    </tr>
-                                </tbody>
+                                {% if document_employee['document_type_id'] == 6 %}
+                                    <tbody>
+                                        <tr>
+                                            <td>{{ document_employee['visual_rut'] }}</td>
+                                            <td>{{ document_employee['nickname'] }}</td>
+                                            <td>{{ document_employee['document_type'] }}</td>
+                                            <td>
+                                                {% if document_employee['added_date'] != none %}
+                                                    {{ document_employee['added_date']|datetime("dd-MM-yyyy") }}
+                                                {% else %}
+                                                    N/A
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if document_employee['status_id'] == 2 %}
+                                                    <a href="{{ url_for('documental_management_data.show') }}/{{ document_employee['id'] }}" class="btn btn-warning">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
+                                                {% elif document_employee['status_id'] == 3 %}
+                                                    <a href="{{ url_for('documental_management_data.signed', rut=document_employee['rut'], id=document_employee['id']) }}" class="btn btn-success">
+                                                        <i class="fa fa-arrow-up"></i>
+                                                    </a>
+                                                {% else %}
+                                                    <a href="{{ url_for('documental_management_data.download', id=document_employee['id']) }}" class="btn btn-primary">
+                                                        <i class="fa fa-arrow-down"></i>
+                                                    </a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                {% endif %}
                             {% endfor %}
                         </table>
                         <hr>

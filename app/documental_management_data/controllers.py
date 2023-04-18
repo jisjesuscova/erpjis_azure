@@ -72,8 +72,9 @@ def index(rut = '', page=1):
    elif current_user.rol_id == 5:
       return render_template('designer/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations, status_id = status_id, employee = employee)
 
-
 @documental_management_datum.route("/human_resources/documental_management_data/review/<int:page>", methods=['GET'])
+@documental_management_datum.route("/human_resources/documental_management_data/review", methods=['GET'])
+
 def review(page=1):
    branch_offices = BranchOffice.get()
 
@@ -84,7 +85,7 @@ def review(page=1):
 
       return render_template('supervisor/human_resources/documental_management_data/review_documental_management_data.html', documents_employees = documents_employees, branch_offices = branch_offices)
    elif current_user.rol_id == 4:
-      documents_employees = DocumentEmployee.get_by_human_resource(current_user.rut, page)
+      documents_employees = DocumentEmployee.get_by_human_resource(page, '')
 
       return render_template('human_resource/human_resources/documental_management_data/review_documental_management_data.html', values = values, documents_employees = documents_employees, branch_offices = branch_offices)
 
@@ -119,7 +120,7 @@ def search(page=1):
       else:
          values.append(int(branch_office_id))
 
-      documents_employees = DocumentEmployee.get_by_human_resource(current_user.rut, page, values)
+      documents_employees = DocumentEmployee.get_by_human_resource(page, values)
 
       return render_template('human_resource/human_resources/documental_management_data/review_documental_management_data_search.html', values = values, documents_employees = documents_employees, branch_offices = branch_offices)
 

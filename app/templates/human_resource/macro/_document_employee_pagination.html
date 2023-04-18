@@ -10,7 +10,7 @@
                 {% if page != pagination.page %}
                     <li class="page-item"><a class="page-link" href="{{ url_for('documental_management_data.review', page=page) }}">{{ page }}</a></li>
                 {% else %}
-                <li class="page-item active"><a class="page-link" href="#">{{ page }}</a></li>
+                    <li class="page-item active"><a class="page-link" href="#">{{ page }}</a></li>
                 {% endif %}
             {%- endfor %}
 
