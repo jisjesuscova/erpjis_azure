@@ -663,39 +663,37 @@ $(document).ready(function () {
     $('.update-user-btn').click(function(event) {
         event.preventDefault();
 
-        // Verificar si hay campos vacíos o indefinidos
-        var requiredFields = ['names', 'father_lastname', 'mother_lastname', 'gender_id', 'nationality_id', 'personal_email', 'cellphone', 'born_date'];
-        var hasEmptyField = false;
-        for (var i = 0; i < requiredFields.length; i++) {
-            var field = $('#' + requiredFields[i]);
-            if (field.val() === '' || typeof field.val() === 'undefined') {
-                hasEmptyField = true;
-                break;
+        if ($('#rol_id').val() != 1) {
+            // Verificar si hay campos vacíos o indefinidos
+            var requiredFields = ['names', 'father_lastname', 'mother_lastname', 'gender_id', 'nationality_id', 'personal_email', 'cellphone', 'born_date'];
+            var hasEmptyField = false;
+            for (var i = 0; i < requiredFields.length; i++) {
+                var field = $('#' + requiredFields[i]);
+                if (field.val() === '' || typeof field.val() === 'undefined') {
+                    hasEmptyField = true;
+                    break;
+                }
             }
-        }
 
-        if (hasEmptyField) {
-            $('.alert-danger-form').show();
-            return;
-        }
+            if (hasEmptyField) {
+                $('.alert-danger-form').show();
+                return;
+            }
 
-        var cellphone = $('#cellphone').val();
-        if (cellphone.length < 9) {
-            $('.alert-danger-cellphone-form').show();
-            $('.alert-danger-form').hide();
-            return;
+            var cellphone = $('#cellphone').val();
+            if (cellphone.length < 9) {
+                $('.alert-danger-cellphone-form').show();
+                $('.alert-danger-form').hide();
+                return;
+            }
         }
 
         $('span#loading-icon').show();
         $('.update-user-btn').hide();
         
         var formData = new FormData();
-        var rut =  $('#rut').val()
-
-        rut = rut.split('-')
-        rut = rut[0]
-        
-        formData.append('rut', $('#rut').val());
+        alert($('#numeric_rut').val())
+        formData.append('rut', $('#numeric_rut').val());
         formData.append('names', $('#names').val());
         formData.append('father_lastname', $('#father_lastname').val());
         formData.append('mother_lastname', $('#mother_lastname').val());
@@ -707,7 +705,7 @@ $(document).ready(function () {
         formData.append('success_update_id', 1);
 
         $.ajax({
-            url: "/human_resources/personal_data/"+rut,
+            url: "/human_resources/personal_data/"+$('#numeric_rut').val(),
             method: 'POST',
             headers: {
                 "X-CSRFToken": $('input[name="csrf_token"]').val()
@@ -717,7 +715,7 @@ $(document).ready(function () {
             contentType: false,
             success: function(response) {
                 if (response == 1) {
-                    window.location.replace("https://jiserp.com/human_resources/personal_data/"+rut);
+                    window.location.replace("https://jiserp.com/human_resources/personal_data/"+$('#numeric_rut').val());
                 } else {
                     $('.alert-danger-404-form').show();
                     $('.alert-danger-cellphone-form').hide();
