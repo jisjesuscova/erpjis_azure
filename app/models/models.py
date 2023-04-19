@@ -883,19 +883,21 @@ class DocumentationTitleModel(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     documentation_id = db.Column(db.Integer)
     title = db.Column(db.String(255))
-    sub_titles = relationship('DocumentationSubTitleModel', back_populates='title')
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
+
+    sub_titles = db.relationship('DocumentationSubTitleModel', backref='documentation_title', lazy=True)
+
 
 class DocumentationSubTitleModel(db.Model, UserMixin):
     __tablename__ = 'documentation_sub_titles'
 
     id = db.Column(db.Integer, primary_key=True)
-    documentation_id = db.Column(db.Integer)
+    documentation_title_id = db.Column(db.Integer, db.ForeignKey('documentation_titles.id'))
     title = db.Column(db.String(255))
-    title = relationship('DocumentationTitle', back_populates='sub_titles')
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
+
 
 class UserModel(db.Model, UserMixin):
     __tablename__ = 'users'

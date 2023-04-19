@@ -38,7 +38,9 @@ def store():
 def show(id):
     documentation_titles = DocumentationTitle.get(id)
 
-    for documentation_title in documentation_titles:
-        print(documentation_title.sub_titles)
+    for title in documentation_titles:
+        title.title
+        for sub_title in title.sub_titles:
+            print(sub_title.title)
 
     return '1'

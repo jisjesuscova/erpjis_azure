@@ -9,6 +9,6 @@ from bs4 import BeautifulSoup
 class DocumentationTitle():
     @staticmethod
     def get(id = ''):
-        documentation_titles = DocumentationTitleModel.query.outerjoin(DocumentationTitleModel.sub_titles).all()
+        documentation_titles = DocumentationTitleModel.query.all()
 
         return documentation_titles
