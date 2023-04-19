@@ -1,6 +1,7 @@
 from flask_login import UserMixin
 from app import db
 from werkzeug.security import check_password_hash
+from sqlalchemy.orm import relationship
 
 class HrSingleTaxModel(db.Model):
     __tablename__ = 'hr_single_taxes'
@@ -882,6 +883,7 @@ class DocumentationTitleModel(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     documentation_id = db.Column(db.Integer)
     title = db.Column(db.String(255))
+    sub_titles = relationship('DocumentationSubTitleModel', back_populates='title')
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
@@ -891,6 +893,7 @@ class DocumentationSubTitleModel(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     documentation_id = db.Column(db.Integer)
     title = db.Column(db.String(255))
+    title = relationship('DocumentationTitle', back_populates='sub_titles')
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 

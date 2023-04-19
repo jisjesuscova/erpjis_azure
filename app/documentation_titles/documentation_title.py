@@ -8,12 +8,7 @@ from bs4 import BeautifulSoup
 
 class DocumentationTitle():
     @staticmethod
-    def get(id = '', level_id = ''):
-        if level_id == 1:
-            documentation_title = DocumentationTitleModel.query.filter_by(documentation_id=id).all()
+    def get(id = ''):
+        documentation_titles = DocumentationTitleModel.query.outerjoin(DocumentationTitleModel.sub_titles).all()
 
-            return documentation_title
-        else:
-            documentation_title = DocumentationSubTitleModel.query.filter_by(documentation_id=id).all()
-
-            return documentation_title
+        return documentation_titles

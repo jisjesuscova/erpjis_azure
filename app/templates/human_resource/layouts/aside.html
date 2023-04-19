@@ -113,12 +113,43 @@
             </a>
           </li>
           <li class="nav-item has-treeview menu-close">
-            <a href="{{ url_for('documentations.index') }}" class="nav-link">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p>
                 Documentación
+                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ url_for('documental_management_data.review', page=1) }}"  class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Colaboradores</p>
+                  <i class="right fas fa-angle-left"></i>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{{ url_for('documental_management_data.review', page=1) }}"  class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Colaboradores</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{ url_for('settlement_data.uploaded') }}"  class="nav-link">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Liquidaciones</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              </li>
+              <li class="nav-item">
+                <a href="{{ url_for('settlement_data.uploaded') }}"  class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Liquidaciones</p>
+                </a>
+              </li>
+            </ul>
           </li>
           <li class="nav-item has-treeview menu-close">
             <a href="{{ url_for('auth.logout') }}" class="nav-link">

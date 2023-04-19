@@ -36,11 +36,9 @@ def store():
 
 @documentation.route("/documentation/show/<int:id>", methods=['GET'])
 def show(id):
-    documentation = Documentation.get(id)
+    documentation_titles = DocumentationTitle.get(id)
 
-    description = Markup(documentation.description)
+    for documentation_title in documentation_titles:
+        print(documentation_title.sub_titles)
 
-    documentation_titles = DocumentationTitle.get(id, 1)
-    documentation_sub_titles = DocumentationTitle.get(id, 2)
-
-    return render_template('human_resource/documentations/documentation_show.html', documentation = documentation, description = description, documentation_titles = documentation_titles, documentation_sub_titles = documentation_sub_titles)
+    return '1'
