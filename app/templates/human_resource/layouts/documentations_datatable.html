@@ -4,6 +4,24 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
+                <div class="col-12">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                {% if category == 'error' %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ message }}
+                                    </div>
+                                {% endif %}
+                                {% if category == 'success' %}
+                                    <div class="alert alert-success" role="alert">
+                                        {{ message }}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Datos</h3>
@@ -22,7 +40,7 @@
                             <tbody>
                                 <tr>
                                     <td>{{ documentation['title'] }}</td>
-                                    <td>{{ documentation['added_date'] }}</td>
+                                    <td>{{ documentation['added_date']|datetime("dd-MM-yyyy") }}</td>
                                     <td>
                                     </td>
                                 </tr>

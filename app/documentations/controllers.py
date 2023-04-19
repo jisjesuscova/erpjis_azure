@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_required, current_user
 from app import app, regular_employee_rol_need
 from app.documentations.documentation import Documentation
@@ -26,6 +26,8 @@ def create():
 
 @documentation.route("/documentation/store", methods=['POST'])
 def store():
-    status_id = Documentation.pre_store(request.form)
+    status_id = Documentation.store(request.form)
 
-    return str(status_id)
+    flash("La documentación ha sido publicada con éxito.", "success")
+
+    return redirect(url_for('documentations.index'))

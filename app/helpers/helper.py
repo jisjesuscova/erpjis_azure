@@ -10,11 +10,32 @@ import re
 import random
 import pandas as pd
 import numpy as np
+import markdown
+from bs4 import BeautifulSoup
+import re
 
 class Helper:
     @staticmethod
+    def get_documentation_main_title(description):
+        html_text = markdown.markdown(description)
+        soup = BeautifulSoup(html_text, 'html.parser')
+        h1_tag = soup.find('h1')
+
+        return h1_tag
+    
+    @staticmethod
     def remove_from_string(value_to_remove, string):
-        return string.replace(value_to_remove, "")
+        string = string.replace(value_to_remove, "")
+
+        return string
+    
+    @staticmethod
+    def fix_documentation_titles(string):
+        pattern = re.compile(r'<h[1-5].*?>|</h[1-5]>')
+
+        string = pattern.sub('', string)
+
+        return string
     
     @staticmethod
     def years_to_months(years):

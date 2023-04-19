@@ -876,6 +876,16 @@ class OldUniformModel(db.Model, UserMixin):
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
+class DocumentationTitleModel(db.Model, UserMixin):
+    __tablename__ = 'documentation_titles'
+
+    id = db.Column(db.Integer, primary_key=True)
+    documentation_id = db.Column(db.Integer)
+    level_id = db.Column(db.Integer)
+    title = db.Column(db.String(255))
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
 class UserModel(db.Model, UserMixin):
     __tablename__ = 'users'
 
