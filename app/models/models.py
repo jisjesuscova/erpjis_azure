@@ -881,7 +881,15 @@ class DocumentationTitleModel(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     documentation_id = db.Column(db.Integer)
-    level_id = db.Column(db.Integer)
+    title = db.Column(db.String(255))
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
+class DocumentationSubTitleModel(db.Model, UserMixin):
+    __tablename__ = 'documentation_sub_titles'
+
+    id = db.Column(db.Integer, primary_key=True)
+    documentation_id = db.Column(db.Integer)
     title = db.Column(db.String(255))
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())

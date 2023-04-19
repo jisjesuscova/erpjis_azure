@@ -42,6 +42,9 @@
                                     <td>{{ documentation['title'] }}</td>
                                     <td>{{ documentation['added_date']|datetime("dd-MM-yyyy") }}</td>
                                     <td>
+                                        <a title="Ver Documentación" href="{{ url_for('documentations.show', id=documentation['id']) }}" class="btn btn-warning">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             </tbody>
