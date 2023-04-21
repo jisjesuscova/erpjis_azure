@@ -12,6 +12,7 @@ from app.helpers.helper import Helper
 from app.helpers.file import File
 from app.employees.employee import Employee
 from app.old_employees.old_employee import OldEmployee
+from app.documentation_titles.documentation_title import DocumentationTitle
 
 kardex_datum = Blueprint("kardex_data", __name__)
 
@@ -25,6 +26,7 @@ def constructor():
 @kardex_datum.route("/human_resources/kardex_data/<int:rut>", methods=['GET'])
 def index(rut, page = 1):
    status_id = Helper.is_active(rut)
+   documentation_titles_menu = DocumentationTitle.get()
 
    if status_id == 1:
       kardex_data = DocumentEmployee.get(rut, '', page, 1)
@@ -42,21 +44,23 @@ def index(rut, page = 1):
    title = employee.visual_rut + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
    module_name = 'Recursos Humanos'
 
-   return render_template('human_resource/human_resources/kardex_data/kardex_data.html', title = title, module_name = module_name, kardex_button_status_id = kardex_button_status_id, kardex_data = kardex_data, rut = rut, is_active = is_active)
+   return render_template('human_resource/human_resources/kardex_data/kardex_data.html', documentation_titles_menu = documentation_titles_menu, title = title, module_name = module_name, kardex_button_status_id = kardex_button_status_id, kardex_data = kardex_data, rut = rut, is_active = is_active)
 
 @kardex_datum.route("/human_resources/kardex_data/create/<int:rut>", methods=['GET'])
 @kardex_datum.route("/human_resources/kardex_data/create", methods=['GET'])
 def create(rut):
+   documentation_titles_menu = DocumentationTitle.get()
    document_types = DocumentType.get('', 1, '', '')
 
-   return render_template('human_resource/human_resources/kardex_data/kardex_data_create.html', rut = rut, document_types = document_types)
+   return render_template('human_resource/human_resources/kardex_data/kardex_data_create.html', documentation_titles_menu = documentation_titles_menu, rut = rut, document_types = document_types)
 
 @kardex_datum.route("/human_resources/kardex_data/edit/<int:rut>/<int:id>", methods=['GET'])
 @kardex_datum.route("/human_resources/kardex_data/edit", methods=['GET'])
 def edit(rut, id):
+   documentation_titles_menu = DocumentationTitle.get()
    KardexDatum.get(id, '')
 
-   return render_template('human_resources/kardex_data/kardex_data_edit.html', rut = rut)
+   return render_template('human_resources/kardex_data/kardex_data_edit.html', rut = rut, documentation_titles_menu = documentation_titles_menu)
 
 @kardex_datum.route("/human_resources/kardex_data/update/<int:rut>/<int:id>", methods=['POST'])
 @kardex_datum.route("/human_resources/kardex_data/update", methods=['POST'])
