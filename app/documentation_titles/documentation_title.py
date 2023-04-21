@@ -9,6 +9,9 @@ from bs4 import BeautifulSoup
 class DocumentationTitle():
     @staticmethod
     def get(id = ''):
-        documentation_titles = DocumentationTitleModel.query.all()
+        if id == '':
+            documentation_titles = DocumentationTitleModel.query.all()
+        else:
+            documentation_titles = DocumentationTitleModel.query.filter_by(documentation_id = id).all() 
 
         return documentation_titles

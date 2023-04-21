@@ -122,33 +122,19 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ url_for('documental_management_data.review', page=1) }}"  class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Colaboradores</p>
-                  <i class="right fas fa-angle-left"></i>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="{{ url_for('documental_management_data.review', page=1) }}"  class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Colaboradores</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="{{ url_for('settlement_data.uploaded') }}"  class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Liquidaciones</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              </li>
-              <li class="nav-item">
-                <a href="{{ url_for('settlement_data.uploaded') }}"  class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Liquidaciones</p>
+                <a href="{{ url_for('documentations.index') }}"  class="nav-link">
+                  <i class="far fa-plus nav-icon"></i>
+                  <p>Nueva</p>
                 </a>
               </li>
+              {% for title in documentation_titles_menu %}
+                <li class="nav-item">
+                  <a href="{{ url_for('documentations.show', id=title.documentation_id) }}"  class="nav-link">
+                    <i class="fas fa-check nav-icon"></i>
+                    <p>{{ title.title }}</p>
+                  </a>
+                </li>
+              {% endfor %}
             </ul>
           </li>
           <li class="nav-item has-treeview menu-close">
@@ -158,7 +144,6 @@
                 Salir
               </p>
             </a>
-            
           </li>
         </ul>
       </nav>

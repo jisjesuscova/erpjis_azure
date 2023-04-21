@@ -888,16 +888,16 @@ class DocumentationTitleModel(db.Model, UserMixin):
 
     sub_titles = db.relationship('DocumentationSubTitleModel', backref='documentation_title', lazy=True)
 
-
 class DocumentationSubTitleModel(db.Model, UserMixin):
     __tablename__ = 'documentation_sub_titles'
 
     id = db.Column(db.Integer, primary_key=True)
+    documentation_id = db.Column(db.Integer)
     documentation_title_id = db.Column(db.Integer, db.ForeignKey('documentation_titles.id'))
     title = db.Column(db.String(255))
+    tag = db.Column(db.String(255))
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
-
 
 class UserModel(db.Model, UserMixin):
     __tablename__ = 'users'

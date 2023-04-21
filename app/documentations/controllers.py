@@ -38,9 +38,10 @@ def store():
 def show(id):
     documentation_titles = DocumentationTitle.get(id)
 
-    for title in documentation_titles:
-        title.title
-        for sub_title in title.sub_titles:
-            print(sub_title.title)
+    documentation_titles_menu = DocumentationTitle.get()
 
-    return '1'
+    documentation = Documentation.get(id)
+
+    description = Markup(documentation.description)
+
+    return render_template('human_resource/documentations/documentation_show.html', description = description, documentation_titles = documentation_titles, documentation_titles_menu = documentation_titles_menu)

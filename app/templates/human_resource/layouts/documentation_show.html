@@ -5,14 +5,14 @@
                 {{ description }}
             </div>
             <div class="col-md-3">
-                <ul>
-                    {% for documentation_title in documentation_titles %}
+                <ul class="index">
+                    {% for title in documentation_titles %}
                         <li>
-                            <a href="#welcomestackedit">{{ documentation_title['title'] }}</a>
+                            <a href="#welcomestackedit">{{ title.title }}</a>
                             <ul>
-                                {% for documentation_sub_title in documentation_sub_titles %}
+                                {% for sub_title in title.sub_titles %}
                                     <li>
-                                        <a href="#welcomestackedit">{{ documentation_sub_title['title'] }}</a>
+                                        <a href="#{{ sub_title.tag }}">{{ sub_title.title }}</a>
                                     </li>
                                 {% endfor %}
                             </ul>

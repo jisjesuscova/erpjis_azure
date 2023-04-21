@@ -16,6 +16,22 @@ import re
 
 class Helper:
     @staticmethod
+    def clean_string(input_string):
+        # Remover caracteres especiales y acentos
+        clean_string = re.sub(r'[^\w\s]', '', input_string).strip().lower()
+        clean_string = re.sub(r'[áäà]', 'a', clean_string)
+        clean_string = re.sub(r'[éëè]', 'e', clean_string)
+        clean_string = re.sub(r'[íïì]', 'i', clean_string)
+        clean_string = re.sub(r'[óöò]', 'o', clean_string)
+        clean_string = re.sub(r'[úüù]', 'u', clean_string)
+        
+        # Remover espacios y convertir a formato de tag
+        clean_string = re.sub(r'\s+', '-', clean_string)
+        clean_string = re.sub(r'[^a-zA-Z0-9-]', '', clean_string)
+        
+        return clean_string
+
+    @staticmethod
     def get_documentation_main_title(description):
         html_text = markdown.markdown(description)
         soup = BeautifulSoup(html_text, 'html.parser')
@@ -427,7 +443,7 @@ class Helper:
                         .order_by(db.desc(DocumentEmployeeModel.added_date))
 
             taken_days = 0
-
+            
             for vacation in vacations:
                 taken_days = taken_days + vacation.days - vacation.no_valid_days
         else:
