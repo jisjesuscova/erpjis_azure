@@ -13,6 +13,7 @@ from app.helpers.file import File
 from app.helpers.whatsapp import Whatsapp
 from app.employees.employee import Employee
 from app.old_employees.old_employee import OldEmployee
+from app.documentation_titles.documentation_title import DocumentationTitle
 
 settlement_datum = Blueprint("settlement_data", __name__)
 
@@ -27,6 +28,7 @@ def constructor():
 @settlement_datum.route("/management_payroll/settlement_data", methods=['GET'])
 def index(rut = '', page = 1):
     status_id = Helper.is_active(rut)
+    documentation_titles_menu = DocumentationTitle.get()
 
     if status_id == 1:
         documents_employees = DocumentEmployee.get_by_type(rut, 5, page)
@@ -41,30 +43,32 @@ def index(rut = '', page = 1):
     module_name = 'Recursos Humanos'
 
     if current_user.rol_id == 1:
-        return render_template('collaborator/management_payrolls/settlement_data/settlement_data_download.html', settlement_button_status_id = settlement_button_status_id, documents_employees = documents_employees, rut = rut)
+        return render_template('collaborator/management_payrolls/settlement_data/settlement_data_download.html', documentation_titles_menu = documentation_titles_menu, settlement_button_status_id = settlement_button_status_id, documents_employees = documents_employees, rut = rut)
     elif current_user.rol_id == 2:
-        return render_template('incharge/management_payrolls/settlement_data/settlement_data_download.html', settlement_button_status_id = settlement_button_status_id, documents_employees = documents_employees, rut = rut)
+        return render_template('incharge/management_payrolls/settlement_data/settlement_data_download.html', documentation_titles_menu = documentation_titles_menu, settlement_button_status_id = settlement_button_status_id, documents_employees = documents_employees, rut = rut)
     elif current_user.rol_id == 3:
-        return render_template('supervisor/management_payrolls/settlement_data/settlement_data_download.html', settlement_button_status_id = settlement_button_status_id, documents_employees = documents_employees, rut = rut)
+        return render_template('supervisor/management_payrolls/settlement_data/settlement_data_download.html', documentation_titles_menu = documentation_titles_menu, settlement_button_status_id = settlement_button_status_id, documents_employees = documents_employees, rut = rut)
     elif current_user.rol_id == 4:
-        return render_template('human_resource/management_payrolls/settlement_data/settlement_data_download.html', title = title, module_name = module_name, settlement_button_status_id = settlement_button_status_id, documents_employees = documents_employees, rut = rut)
+        return render_template('human_resource/management_payrolls/settlement_data/settlement_data_download.html', documentation_titles_menu = documentation_titles_menu, title = title, module_name = module_name, settlement_button_status_id = settlement_button_status_id, documents_employees = documents_employees, rut = rut)
     elif current_user.rol_id == 5:
-        return render_template('designer/management_payrolls/settlement_data/settlement_data_download.html', title = title, module_name = module_name, settlement_button_status_id = settlement_button_status_id, documents_employees = documents_employees, rut = rut)
+        return render_template('designer/management_payrolls/settlement_data/settlement_data_download.html', documentation_titles_menu = documentation_titles_menu, title = title, module_name = module_name, settlement_button_status_id = settlement_button_status_id, documents_employees = documents_employees, rut = rut)
 
 @settlement_datum.route("/management_payroll/settlement_data/uploaded/<int:page>", methods=['GET'])
 @settlement_datum.route("/management_payroll/settlement_data/uploaded", methods=['GET'])
 def uploaded(page = 1):
     documents_employees = DocumentEmployee.get_by_type('', 5, page)
+    documentation_titles_menu = DocumentationTitle.get()
 
     values = ['', '', '', '']
 
-    return render_template('human_resource/management_payrolls/settlement_data/settlement_data.html', documents_employees = documents_employees, values = values)
+    return render_template('human_resource/management_payrolls/settlement_data/settlement_data.html', documentation_titles_menu = documentation_titles_menu, documents_employees = documents_employees, values = values)
 
 
 @settlement_datum.route("/management_payroll/settlement_data/create", methods=['GET'])
 def create():
+   documentation_titles_menu = DocumentationTitle.get()
 
-   return render_template('human_resource/management_payrolls/settlement_data/settlement_data_create.html')
+   return render_template('human_resource/management_payrolls/settlement_data/settlement_data_create.html', documentation_titles_menu = documentation_titles_menu)
 
 
 @settlement_datum.route("/management_payroll/settlement_data/store/<period>", methods=['GET'])
@@ -156,6 +160,8 @@ def search(page=1):
     father_lastname = request.args.get('father_lastname')
     mother_lastname = request.args.get('mother_lastname')
 
+    documentation_titles_menu = DocumentationTitle.get()
+
     # Crear un arreglo para almacenar los valores
     values = []
 
@@ -167,7 +173,7 @@ def search(page=1):
 
     documents_employees = DocumentEmployee.get_by_type_array_data('', 5, page, values)
 
-    return render_template('human_resource/management_payrolls/settlement_data/settlement_data_search.html', documents_employees = documents_employees, values = values)
+    return render_template('human_resource/management_payrolls/settlement_data/settlement_data_search.html', documentation_titles_menu = documentation_titles_menu, documents_employees = documents_employees, values = values)
 
 @settlement_datum.route("/management_payroll/settlement_data/delete/<int:rut>/<int:id>", methods=['GET'])
 @settlement_datum.route("/management_payroll/settlement_data/delete", methods=['GET'])

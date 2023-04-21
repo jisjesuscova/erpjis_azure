@@ -10,6 +10,7 @@ from app.helpers.helper import Helper
 from app.uniform_types.uniform_type import UniformType
 from app.employees.employee import Employee
 from app.old_employees.old_employee import OldEmployee
+from app.documentation_titles.documentation_title import DocumentationTitle
 
 uniform = Blueprint("uniforms", __name__)
 
@@ -22,6 +23,7 @@ def constructor():
 @uniform.route("/human_resources/uniform/<int:rut>", methods=['GET'])
 def index(rut):
    status_id = Helper.is_active(rut)
+   documentation_titles_menu = DocumentationTitle.get()
 
    if status_id == 1:
       uniforms = Uniform.get(rut)
@@ -39,14 +41,15 @@ def index(rut):
    title = employee.visual_rut + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
    module_name = 'Recursos Humanos'
 
-   return render_template('human_resource/human_resources/uniforms/uniforms.html', title = title, module_name = module_name, uniform_button_status_id = uniform_button_status_id, uniforms = uniforms, rut = rut, is_active = is_active)
+   return render_template('human_resource/human_resources/uniforms/uniforms.html', documentation_titles_menu = documentation_titles_menu, title = title, module_name = module_name, uniform_button_status_id = uniform_button_status_id, uniforms = uniforms, rut = rut, is_active = is_active)
 
 @uniform.route("/human_resources/uniform/create/<int:rut>", methods=['GET'])
 @uniform.route("/human_resources/uniform/create", methods=['GET'])
 def create(rut):
    uniform_types = UniformType.get()
+   documentation_titles_menu = DocumentationTitle.get()
 
-   return render_template('human_resource/human_resources/uniforms/uniforms_create.html', rut = rut, uniform_types = uniform_types)
+   return render_template('human_resource/human_resources/uniforms/uniforms_create.html', documentation_titles_menu = documentation_titles_menu, rut = rut, uniform_types = uniform_types)
 
 @uniform.route("/human_resources/uniform/delete/<int:rut>/<int:id>", methods=['GET'])
 @uniform.route("/human_resources/uniform/delete", methods=['GET'])
