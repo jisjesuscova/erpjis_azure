@@ -131,7 +131,7 @@
                 <li class="nav-item">
                   <a href="{{ url_for('documentations.show', id=title.documentation_id) }}"  class="nav-link">
                     <i class="fas fa-check nav-icon"></i>
-                    <p>{{ title.title }}</p>
+                    <p style="font-size: 12px;">{{ title.title|truncate(22) }}</p>
                   </a>
                 </li>
               {% endfor %}

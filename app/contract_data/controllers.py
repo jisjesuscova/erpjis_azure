@@ -22,6 +22,7 @@ from app.end_documents.end_document import EndDocument
 from app.old_documents_employees.old_document_employee import OldDocumentEmployee
 from app.old_contract_data.old_contract_datum import OldContractDatum
 from app.old_employees.old_employee import OldEmployee
+from app.documentation_titles.documentation_title import DocumentationTitle
 
 contract_datum = Blueprint("contract_data", __name__)
 
@@ -35,6 +36,8 @@ def constructor():
 @contract_datum.route("/human_resources/contract_data", methods=['GET'])
 def show(rut):
    status_id = Helper.is_active(rut)
+
+   documentation_titles_menu = DocumentationTitle.get()
 
    if status_id == 1:
       contract_datum = ContractDatum.get(rut)
@@ -79,19 +82,21 @@ def show(rut):
    module_name = 'Recursos Humanos'
    
    if current_user.rol_id == 1:
-      return render_template('collaborator/human_resources/contract_data/contract_data_update.html', employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, is_active = is_active)
+      return render_template('collaborator/human_resources/contract_data/contract_data_update.html', documentation_titles_menu = documentation_titles_menu, employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, is_active = is_active)
    elif current_user.rol_id == 2:
-      return render_template('incharge/human_resources/contract_data/contract_data_update.html', employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, is_active = is_active)
+      return render_template('incharge/human_resources/contract_data/contract_data_update.html', documentation_titles_menu = documentation_titles_menu, employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, is_active = is_active)
    elif current_user.rol_id == 3:
-      return render_template('supervisor/human_resources/contract_data/contract_data_update.html', employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, is_active = is_active)
+      return render_template('supervisor/human_resources/contract_data/contract_data_update.html', documentation_titles_menu = documentation_titles_menu, employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, is_active = is_active)
    elif current_user.rol_id == 4:
-      return render_template('human_resource/human_resources/contract_data/contract_data_update.html', title = title, module_name = module_name, empty_field_status_id = empty_field_status_id, employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, contract_data = contract_data, end_documents = end_documents, is_active = is_active)
+      return render_template('human_resource/human_resources/contract_data/contract_data_update.html', documentation_titles_menu = documentation_titles_menu, title = title, module_name = module_name, empty_field_status_id = empty_field_status_id, employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, contract_data = contract_data, end_documents = end_documents, is_active = is_active)
    elif current_user.rol_id == 5:
-      return render_template('designer/human_resources/contract_data/contract_data_update.html', employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, is_active = is_active)
+      return render_template('designer/human_resources/contract_data/contract_data_update.html', documentation_titles_menu = documentation_titles_menu, employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, is_active = is_active)
 
 @contract_datum.route("/human_resources/contract_data/review/<int:rut>", methods=['GET'])
 def review(rut):
    status_id = Helper.is_active(rut)
+
+   documentation_titles_menu = DocumentationTitle.get()
 
    if status_id == 1:
       contract_datum = ContractDatum.get(rut)
@@ -130,7 +135,7 @@ def review(rut):
 
    employee_contract_datum_button_status_id = 1
 
-   return render_template('human_resource/human_resources/contract_data/contract_data_review.html', empty_field_status_id = empty_field_status_id, employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, contract_data = contract_data, end_documents = end_documents, is_active = is_active)
+   return render_template('human_resource/human_resources/contract_data/contract_data_review.html', documentation_titles_menu = documentation_titles_menu, empty_field_status_id = empty_field_status_id, employee_contract_datum_button_status_id = employee_contract_datum_button_status_id, contract_datum = contract_datum, rut = rut, contract_types = contract_types, branch_offices = branch_offices, regions = regions, civil_states = civil_states, healths = healths, pentions = pentions, job_positions = job_positions, employee_types = employee_types, communes = communes, contract_data = contract_data, end_documents = end_documents, is_active = is_active)
                              
 
 @contract_datum.route("/human_resources/contract_data/<int:rut>", methods=['POST'])

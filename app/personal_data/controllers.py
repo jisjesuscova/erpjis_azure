@@ -14,6 +14,7 @@ from app.old_employees.old_employee import OldEmployee
 from app.old_employee_labor_data.old_employee_labor_datum import OldEmployeeLaborDatum
 from app.helpers.helper import Helper
 from app.employee_bank_accounts.employee_bank_account import EmployeeBankAccount
+from app.documentation_titles.documentation_title import DocumentationTitle
 
 personal_datum = Blueprint("personal_data", __name__)
 
@@ -27,6 +28,8 @@ def constructor():
 @personal_datum.route("/human_resources/personal_data", methods=['GET'])
 def show(rut):
    status_id = Helper.is_active(rut)
+
+   documentation_titles_menu = DocumentationTitle.get()
 
    if status_id == 1:
       employee = Employee.get(rut)
@@ -89,15 +92,15 @@ def show(rut):
    personal_datum_button_status_id = 1
 
    if current_user.rol_id == 1:
-      return render_template('collaborator/human_resources/personal_data/personal_data_update.html', banks = banks, employee_bank_account = employee_bank_account, personal_datum_button_status_id = personal_datum_button_status_id, employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active)
+      return render_template('collaborator/human_resources/personal_data/personal_data_update.html', documentation_titles_menu = documentation_titles_menu, banks = banks, employee_bank_account = employee_bank_account, personal_datum_button_status_id = personal_datum_button_status_id, employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active)
    elif current_user.rol_id == 2:
-      return render_template('incharge/human_resources/personal_data/personal_data_update.html', banks = banks, employee_bank_account = employee_bank_account, personal_datum_button_status_id = personal_datum_button_status_id, employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active)
+      return render_template('incharge/human_resources/personal_data/personal_data_update.html', documentation_titles_menu = documentation_titles_menu, banks = banks, employee_bank_account = employee_bank_account, personal_datum_button_status_id = personal_datum_button_status_id, employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active)
    elif current_user.rol_id == 3:
-      return render_template('supervisor/human_resources/personal_data/personal_data_update.html', banks = banks, employee_bank_account = employee_bank_account, personal_datum_button_status_id = personal_datum_button_status_id, employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active)
+      return render_template('supervisor/human_resources/personal_data/personal_data_update.html', documentation_titles_menu = documentation_titles_menu, banks = banks, employee_bank_account = employee_bank_account, personal_datum_button_status_id = personal_datum_button_status_id, employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active)
    elif current_user.rol_id == 4:
-      return render_template('human_resource/human_resources/personal_data/personal_data_update.html', requested_employee_bank_account = requested_employee_bank_account, status_change_bank_account_id = status_change_bank_account_id, banks = banks, employee_bank_account = employee_bank_account, empty_field_status_id = empty_field_status_id, personal_datum_button_status_id = personal_datum_button_status_id, employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active)
+      return render_template('human_resource/human_resources/personal_data/personal_data_update.html', documentation_titles_menu = documentation_titles_menu, requested_employee_bank_account = requested_employee_bank_account, status_change_bank_account_id = status_change_bank_account_id, banks = banks, employee_bank_account = employee_bank_account, empty_field_status_id = empty_field_status_id, personal_datum_button_status_id = personal_datum_button_status_id, employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active)
    elif current_user.rol_id == 5:
-      return render_template('designer/human_resources/personal_data/personal_data_update.html', requested_employee_bank_account = requested_employee_bank_account, status_change_bank_account_id = status_change_bank_account_id, banks = banks, employee_bank_account = employee_bank_account, empty_field_status_id = empty_field_status_id, personal_datum_button_status_id = personal_datum_button_status_id, employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active)
+      return render_template('designer/human_resources/personal_data/personal_data_update.html', documentation_titles_menu = documentation_titles_menu, requested_employee_bank_account = requested_employee_bank_account, status_change_bank_account_id = status_change_bank_account_id, banks = banks, employee_bank_account = employee_bank_account, empty_field_status_id = empty_field_status_id, personal_datum_button_status_id = personal_datum_button_status_id, employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active)
 
 @personal_datum.route("/human_resources/personal_data/<int:rut>", methods=['POST'])
 @personal_datum.route("/human_resources/personal_data", methods=['POST'])
