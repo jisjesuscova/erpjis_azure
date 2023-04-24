@@ -1,0 +1,139 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Datos Extras</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- form start -->
+                        <form role="form" action="{{ url_for('contract_data.update') }}/{{ rut }}" method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Tipo de Contrato</label>
+                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="contract_schedule_id">
+                                                {% for contract_schedule in contract_schedules %}
+                                                    <option {% if contract_schedule.id == employee_extra_datum.contract_schedule_id %} selected {% endif %} value="{{ contract_schedule.id }}">{{ contract_schedule.contract_schedule }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Zona Extrema</label>
+                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="extreme_zone_id">
+                                                <option value="">- Seleccionar -</option>
+                                                <option {% if 1 == employee_extra_datum.extreme_zone_id %} selected {% endif %} value="1">Si</option>
+                                                <option {% if 2 == employee_extra_datum.extreme_zone_id %} selected {% endif %} value="2">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Tipo de Empleado</label>
+                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="employee_type_id">
+                                                <option value="">- Seleccionar -</option>
+                                                <option {% if 1 == employee_extra_datum.employee_type_id %} selected {% endif %} value="1">Activo</option>
+                                                <option {% if 2 == employee_extra_datum.employee_type_id %} selected {% endif %} value="2">Pensionado y Cotiza</option>
+                                                <option {% if 3 == employee_extra_datum.employee_type_id %} selected {% endif %} value="3">Pensionado y No Cotiza</option>
+                                                <option {% if 4 == employee_extra_datum.employee_type_id %} selected {% endif %} value="4">Activo > 65 Años (Nunca Pensionado)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Tipo de Pago de Salud</label>
+                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="health_payment_id">
+                                                <option value="">- Seleccionar -</option>
+                                                <option {% if 1 == employee_extra_datum.health_payment_type_id %} selected {% endif %} value="1">$</option>
+                                                <option {% if 2 == employee_extra_datum.health_payment_type_id %} selected {% endif %} value="2">UF</option>
+                                                <option {% if 3 == employee_extra_datum.health_payment_type_id %} selected {% endif %} value="3">Ninguno</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Monto Extra Salud</label>
+                                            <input type="number" value="{{ employee_extra_datum.extra_health_amount }}" class="form-control" id="exampleInputEmail1" placeholder="Monto Extra Salud" name="extra_health_amount" required disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Empleo Jovén</label>
+                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="young_job_status_id">
+                                                <option value="">- Seleccionar -</option>
+                                                <option {% if 1 == employee_extra_datum.young_job_status_id %} selected {% endif %} value="1">Si</option>
+                                                <option {% if 2 == employee_extra_datum.young_job_status_id %} selected {% endif %} value="2">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Goce de Sueldo</label>
+                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="be_paid_id" disabled>
+                                                <option value="">- Seleccionar -</option>
+                                                <option {% if 1 == employee_extra_datum.be_paid_id %} selected {% endif %} value="1">Si</option>
+                                                <option {% if 2 == employee_extra_datum.be_paid_id %} selected {% endif %} value="2">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Invalidez</label>
+                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="disability_id" disabled>
+                                                <option value="">- Seleccionar -</option>
+                                                <option {% if 0 == employee_extra_datum.disability_id %} selected {% endif %} value="0">No</option>
+                                                <option {% if 1 == employee_extra_datum.disability_id %} selected {% endif %} value="1">Discapacidad Certificada por la Compin</option>
+                                                <option {% if 2 == employee_extra_datum.disability_id %} selected {% endif %} value="2">Asignatario Pensión por Invalidez Total</option>
+                                                <option {% if 3 == employee_extra_datum.disability_id %} selected {% endif %} value="3">Pensionado con Invalidez Parcial</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Aporte SIS (mayor de 65 años o pensionado total)</label>
+                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="pensioner_id" disabled>
+                                                <option value="">- Seleccionar -</option>
+                                                <option {% if 1 == employee_extra_datum.progressive_vacation_status_id %} selected {% endif %} value="1">Si</option>
+                                                <option {% if 2 == employee_extra_datum.progressive_vacation_status_id %} selected {% endif %} value="2">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Vacaciones Progresivas</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="progressive_vacation_status_id" id="progressive_vacation_status_id" required disabled>
+                                                <option value="">- Seleccionar -</option>
+                                                <option {% if 1 == employee_extra_datum.progressive_vacation_status_id %} selected {% endif %} value="1">Si</option>
+                                                <option {% if 2 == employee_extra_datum.progressive_vacation_status_id %} selected {% endif %} value="2">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" id="progressive_vacation_date">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Fecha de Vacaciones Progresivas</label>
+                                            <input type="date" value="{{ employee_extra_datum.progressive_vacation_date }}" class="form-control" id="exampleInputEmail1" placeholder="Fecha de Vacaciones Progresivas" name="progressive_vacation_date" required disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,43 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'error' %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                    {% if category == 'success' %}
+                        <div class="alert alert-success" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="row">
+
+        </div>
+        <hr>
+        <h2>Felicitar</h2>
+        <hr>
+        <form role="form" action="{{ url_for('comments.store') }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Comentario</label>
+                            <textarea class="form-control" name="comment" placeholder="Descripción" required></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <input type="hidden" value="{{ new['id'] }}" name="new_id">
+                <button type="submit" class="btn btn-primary">Comentar</button>
+            </div>
+        </form>
+    </div>
+</section>

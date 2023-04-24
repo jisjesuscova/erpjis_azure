@@ -1,0 +1,69 @@
+{% from 'human_resource/macro/_documentation_pagination.html' import m_pagination %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="col-12">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                {% if category == 'error' %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ message }}
+                                    </div>
+                                {% endif %}
+                                {% if category == 'success' %}
+                                    <div class="alert alert-success" role="alert">
+                                        {{ message }}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Datos</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Fecha</th>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        {% for documentation in documentations.items %}
+                            <tbody>
+                                <tr>
+                                    <td>{{ documentation['title'] }}</td>
+                                    <td>{{ documentation['added_date']|datetime("dd-MM-yyyy") }}</td>
+                                    <td>
+                                        <a title="Ver Documentación" href="{{ url_for('documentations.show', id=documentation['id']) }}" class="btn btn-warning">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <a title="Editar Documentación" href="{{ url_for('documentations.edit', id=documentation['id']) }}" class="btn btn-success">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        {% if documentation['created_by'] == current_user.rut %}
+                                            <a title="Borrar Documentación" href="{{ url_for('documentations.delete', id=documentation['id']) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar el registro?')">
+                                                <i class="fa fa-remove"></i>
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        {% endfor %}
+
+                        
+                    </table>
+                    <hr>
+                    {{ m_pagination(documentations) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

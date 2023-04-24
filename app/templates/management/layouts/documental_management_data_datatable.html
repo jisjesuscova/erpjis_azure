@@ -1,0 +1,243 @@
+{% from 'management/macro/_document_employee_settlement_data_pagination.html' import m_pagination %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            {% if category == 'error' %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endif %}
+                            {% if category == 'success' %}
+                                <div class="alert alert-success" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Kardex</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Documento</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            {% for kardex_datum in kardex_data %}
+                                <tbody>
+                                    <tr>
+                                        <td>{{ kardex_datum['document_type'] }}</td>
+                                        <td>
+                                            <a href="{{ url_for('kardex_data.download') }}/{{ kardex_datum['id']}}/{{ kardex_datum['rut']}}" class="btn btn-success">
+                                                <i class="fa fa-arrow-down"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                            
+                        </table>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            Certificados
+                        </h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Documento</th>
+                                    <th>Fecha</th>
+                                    <th>Estatus</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            {% for certificate in certificates %}
+                                <tbody>
+                                    <tr>
+                                        <td>Certificado de Antigüedad</td>
+                                        <td>{{ certificate['added_date']|datetime("dd-MM-yyyy") }}</td>
+                                        <td>
+                                            {% if certificate['status_id'] == 1 %}
+                                                <span class="badge badge-warning">En revisión</span>
+                                            {% endif %}
+                                            {% if certificate['status_id'] == 2 %}
+                                                <span class="badge badge-primary">Aceptado</span>
+                                            {% endif %}
+                                            {% if certificate['status_id'] == 3 %}
+                                                <span class="badge badge-danger">Firmado</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if certificate['status_id'] == 3 %}
+                                                <a href="{{ url_for('document_requests.download', id=certificate['id']) }}" class="btn btn-success">
+                                                    <i class="fa fa-arrow-down"></i>
+                                                </a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Liquidación de Sueldo</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Documento</th>
+                                    <th>Periodo</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            {% for settlement_datum in settlement_data %}
+                                <tbody>
+                                    <tr>
+                                        <td>Liquidación de Sueldo</td>
+                                        <td>{{ settlement_datum['added_date']|datetime("MM-yyyy") }}</td>
+                                        <td>
+                                            {% if settlement_datum['status_id'] == 2 %}
+                                                <a href="#" class="btn btn-primary"  data-toggle="modal" data-target="#settlementModal{{ settlement_datum['id'] }}">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                            {% else %}
+                                                <a href="{{ url_for('settlement_data.sign', id=settlement_datum['id']) }}" class="btn btn-primary" >
+                                                    <i class="fa fa-arrow-down"></i>
+                                                </a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <!-- Modal -->
+                                <div class="modal fade" id="settlementModal{{ settlement_datum['id'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Liquidación de sueldo</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            {% if employee.signature == none or employee.signature == ''  %}
+                                                <div class="alert alert-danger" role="alert">
+                                                    Debe crear una firma para descargar el documento
+                                                </div>
+                                            {% endif %}
+                                            <iframe src="{{ url_for("static", filename="dist/files/settlement_data/"+settlement_datum['support']) }}#toolbar=0&navpanes=0&scrollbar=0" width="100%" height="800"></iframe>
+                                        </div>
+                                        <div class="modal-footer">
+                                            {% if employee.signature != none and employee.signature != ''  %}
+                                                <a href="{{ url_for('settlement_data.sign', id=settlement_datum['id']) }}" id="sign-button" class="btn btn-primary">Firmar</a>
+                                                <a href="#" class="btn btn-danger" data-dismiss="modal">Cerrar</a>
+                                            {% else %}
+                                                <a href="{{ url_for('personal_data.show', rut=employee.rut) }}" class="btn btn-warning">Crear Firma</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </table>
+                        <br>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Vacaciones</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Desde</th>
+                                    <th>Hasta</th>
+                                    <th>Días</th>
+                                    <th>Estatus</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            {% for vacation in vacations %}
+                                <tbody>
+                                    <tr>
+                                        <td>{{ vacation['since']|datetime("dd-MM-yyyy") }}</td>
+                                        <td>{{ vacation['until']|datetime("dd-MM-yyyy") }}</td>
+                                        <td>{{ vacation['days'] }}</td>
+                                        <td>
+                                            {% if vacation['status_id'] == 1 %}
+                                                <span class="badge badge-warning">Solicitado</span>
+                                            {% endif %}
+                                            {% if vacation['status_id'] == 2 %}
+                                                <span class="badge badge-primary">Aceptado</span>
+                                            {% endif %}
+                                            {% if vacation['status_id'] == 3 %}
+                                                <span class="badge badge-danger">En espera</span>
+                                            {% endif %}
+                                            {% if vacation['status_id'] == 4 %}
+                                                <span class="badge badge-success">Firmado</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if vacation['status_id'] == 4  %}
+                                                <a href="{{ url_for('documental_management_data.download', id=vacation['document_employee_id']) }}" class="btn btn-warning">
+                                                    <i class="fa fa-arrow-down"></i>
+                                                </a>
+                                            {% endif %}
+                                            {% if vacation['status_id'] == 3  %}
+                                                <a href="{{ url_for('documental_management_data.signed', rut=vacation['rut'], id=vacation['document_employee_id']) }}" class="btn btn-success">
+                                                    <i class="fa fa-arrow-up"></i>
+                                                </a>
+                                                <a href="{{ url_for('document_requests.download', id=vacation['document_employee_id']) }}" class="btn btn-warning">
+                                                    <i class="fa fa-file"></i>
+                                                </a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Horario Laboral</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Documento</th>
+                                    <th>Fecha</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
