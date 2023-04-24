@@ -21,6 +21,14 @@ $(document).ready(function () {
         $("#markdown_view").html(marked($(this).val()));
     });
 
+    $("#description").focusout(function(){
+        $("#markdown_view").html(marked($(this).val()));
+    });
+
+    $("#description").focusin(function(){
+        $("#markdown_view").html(marked($(this).val()));
+    });
+
     $("#reason_id").change(function(){
         if ($("#reason_id").val() == 2 || $("#reason_id").val() == 3 || $("#reason_id").val() == 4) {
             $('.replacement_honorary').show();

@@ -43,6 +43,25 @@
             </a>
           </li>
           <li class="nav-item has-treeview menu-close">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-book"></i>
+              <p>
+                Documentación
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              {% for title in documentation_titles_menu %}
+                <li class="nav-item">
+                  <a href="{{ url_for('documentations.show', id=title.documentation_id) }}"  class="nav-link">
+                    <i class="fas fa-check nav-icon"></i>
+                    <p style="font-size: 12px;">{{ title.title|truncate(22) }}</p>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </li>
+          <li class="nav-item has-treeview menu-close">
             <a href="{{ url_for('auth.logout') }}" class="nav-link">
               <i class="nav-icon fas fa-times"></i>
               <p>

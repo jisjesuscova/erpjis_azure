@@ -648,6 +648,7 @@ class DocumentationModel(db.Model):
     __tablename__ = 'documentations'
 
     id = db.Column(db.Integer, primary_key=True)
+    created_by = db.Column(db.Integer)
     title = db.Column(db.Text)
     original_description = db.Column(db.Text)
     markdown_description = db.Column(db.Text)

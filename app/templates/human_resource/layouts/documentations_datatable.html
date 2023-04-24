@@ -45,6 +45,14 @@
                                         <a title="Ver Documentación" href="{{ url_for('documentations.show', id=documentation['id']) }}" class="btn btn-warning">
                                             <i class="fa fa-eye"></i>
                                         </a>
+                                        <a title="Editar Documentación" href="{{ url_for('documentations.edit', id=documentation['id']) }}" class="btn btn-success">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        {% if documentation['created_by'] == current_user.rut %}
+                                            <a title="Borrar Documentación" href="{{ url_for('documentations.delete', id=documentation['id']) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar el registro?')">
+                                                <i class="fa fa-remove"></i>
+                                            </a>
+                                        {% endif %}
                                     </td>
                                 </tr>
                             </tbody>

@@ -15,3 +15,11 @@ class DocumentationTitle():
             documentation_titles = DocumentationTitleModel.query.filter_by(documentation_id = id).all() 
 
         return documentation_titles
+    
+    @staticmethod
+    def delete(id = ''):
+        delete_documentation_title = DocumentationTitleModel.query.filter_by(documentation_id=id).first()
+
+        db.session.delete(delete_documentation_title)
+
+        db.session.commit()
