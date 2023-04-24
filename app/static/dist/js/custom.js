@@ -102,6 +102,9 @@ $(document).ready(function () {
             expectedDv = "K";
         }
     
+        // Convert k to K
+        dv = dv.toUpperCase();
+    
         // Compare the expected check digit with the actual check digit
         if (dv == expectedDv) {
             return true;
