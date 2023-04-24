@@ -170,7 +170,6 @@ def search(page=1):
     values.append(names)
     values.append(father_lastname)
     values.append(mother_lastname)
-
     documents_employees = DocumentEmployee.get_by_type_array_data('', 5, page, values)
 
     return render_template('human_resource/management_payrolls/settlement_data/settlement_data_search.html', documentation_titles_menu = documentation_titles_menu, documents_employees = documents_employees, values = values)

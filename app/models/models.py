@@ -649,7 +649,8 @@ class DocumentationModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text)
-    description = db.Column(db.Text)
+    original_description = db.Column(db.Text)
+    markdown_description = db.Column(db.Text)
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 

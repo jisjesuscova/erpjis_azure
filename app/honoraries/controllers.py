@@ -8,6 +8,7 @@ from app.region.region import Region
 from app.banks.bank import Bank
 from app.communes.commune import Commune
 from app.honorary_reasons.honorary_reason import HonoraryReason
+from app.documentation_titles.documentation_title import DocumentationTitle
 
 honorary = Blueprint("honoraries", __name__)
 
@@ -21,15 +22,16 @@ def constructor():
 @honorary.route("/human_resources/honoraries", methods=['GET'])
 def index(page=1):
    honoraries = Honorary.get('', page)
+   documentation_titles_menu = DocumentationTitle.get()
 
    title = "Honorarios"
 
    module_name = "Recursos Humanos"
 
    if current_user.rol_id == 3:
-      return render_template('supervisor/human_resources/honoraries/honoraries.html', honoraries = honoraries, title = title, module_name = module_name)
+      return render_template('supervisor/human_resources/honoraries/honoraries.html', documentation_titles_menu = documentation_titles_menu, honoraries = honoraries, title = title, module_name = module_name)
    elif current_user.rol_id == 4:
-      return render_template('human_resource/human_resources/honoraries/honoraries.html', honoraries = honoraries, title = title, module_name = module_name)
+      return render_template('human_resource/human_resources/honoraries/honoraries.html', documentation_titles_menu = documentation_titles_menu, honoraries = honoraries, title = title, module_name = module_name)
 
 @honorary.route("/human_resources/honorary/create", methods=['GET'])
 def create():
@@ -37,15 +39,16 @@ def create():
    banks = Bank.get()
    branch_offices = BranchOffice.get()
    honorary_reasons = HonoraryReason.get()
+   documentation_titles_menu = DocumentationTitle.get()
 
    title = "Crear Honorario"
 
    module_name = "Recursos Humanos"
 
    if current_user.rol_id == 3:
-      return render_template('supervisor/human_resources/honoraries/honoraries_create.html', honorary_reasons = honorary_reasons, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
+      return render_template('supervisor/human_resources/honoraries/honoraries_create.html', documentation_titles_menu = documentation_titles_menu, honorary_reasons = honorary_reasons, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
    elif current_user.rol_id == 4:
-      return render_template('human_resource/human_resources/honoraries/honoraries_create.html', honorary_reasons = honorary_reasons, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
+      return render_template('human_resource/human_resources/honoraries/honoraries_create.html', documentation_titles_menu = documentation_titles_menu, honorary_reasons = honorary_reasons, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
 
 @honorary.route("/human_resources/honorary/store", methods=['POST'])
 def store():
@@ -77,12 +80,13 @@ def edit(id):
    branch_offices = BranchOffice.get()
    honorary_reasons = HonoraryReason.get()
    employees = Employee.get_all()
+   documentation_titles_menu = DocumentationTitle.get()
 
    title = "Revisar Honorario"
 
    module_name = "Recursos Humanos"
 
-   return render_template('human_resource/human_resources/honoraries/honoraries_update.html', employees = employees, honorary_reasons = honorary_reasons, communes = communes, honorary = honorary, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
+   return render_template('human_resource/human_resources/honoraries/honoraries_update.html', documentation_titles_menu = documentation_titles_menu, employees = employees, honorary_reasons = honorary_reasons, communes = communes, honorary = honorary, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
 
 @honorary.route("/human_resources/honorary/delete/<int:id>", methods=['GET'])
 def delete(id):

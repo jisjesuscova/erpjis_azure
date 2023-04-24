@@ -7,6 +7,7 @@ from datetime import datetime
 from app.helpers.helper import Helper
 from app.employee_labor_data.employee_labor_datum import EmployeeLaborDatum
 from app.vacations.vacation import Vacation
+from app.documentation_titles.documentation_title import DocumentationTitle
 
 home = Blueprint("home", __name__)
 
@@ -27,15 +28,15 @@ def index():
    distribution_totals = EmployeeLaborDatum.distribution_totals()
    active_employee_total = Employee.active_employee_total()
    total_vacations = Vacation.calculate_total_vacation_days()
-   hola_mundo = 'Hola Mundo'
+   documentation_titles_menu = DocumentationTitle.get()
 
    if current_user.rol_id == 1:
-      return render_template('collaborator/home/index.html', current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities)
+      return render_template('collaborator/home/index.html', documentation_titles_menu = documentation_titles_menu, current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities)
    elif current_user.rol_id == 2:
-      return render_template('incharge/home/index.html', current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities)
+      return render_template('incharge/home/index.html', documentation_titles_menu = documentation_titles_menu, current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities)
    elif current_user.rol_id == 3:
-      return render_template('supervisor/home/index.html', current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities)
+      return render_template('supervisor/home/index.html', documentation_titles_menu = documentation_titles_menu, current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities)
    elif current_user.rol_id == 4:
-      return render_template('human_resource/home/index.html', hola_mundo = hola_mundo, total_vacations = total_vacations, active_employee_total = active_employee_total, distribution_totals = distribution_totals, gender_totals = gender_totals, current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities)
+      return render_template('human_resource/home/index.html', documentation_titles_menu = documentation_titles_menu, total_vacations = total_vacations, active_employee_total = active_employee_total, distribution_totals = distribution_totals, gender_totals = gender_totals, current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities)
    elif current_user.rol_id == 5:
-      return render_template('designer/home/index.html', hola_mundo = hola_mundo, total_vacations = total_vacations, active_employee_total = active_employee_total, distribution_totals = distribution_totals, gender_totals = gender_totals, current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities)
+      return render_template('designer/home/index.html', documentation_titles_menu = documentation_titles_menu, total_vacations = total_vacations, active_employee_total = active_employee_total, distribution_totals = distribution_totals, gender_totals = gender_totals, current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities)

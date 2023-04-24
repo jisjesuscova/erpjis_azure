@@ -29,10 +29,12 @@ class Documentation():
     def store(data):
         title = Helper.get_documentation_main_title(data['description'])
         title = Helper.fix_documentation_titles(str(title))
+        title = Helper.clean_string(str(title))
 
         documentation = DocumentationModel()
         documentation.title = title
-        documentation.description = markdown.markdown(data['description'])
+        documentation.original_description = data['description']
+        documentation.markdown_description = markdown.markdown(data['description'])
         documentation.added_date = datetime.now()
         documentation.updated_date = datetime.now()
 
