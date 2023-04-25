@@ -297,7 +297,14 @@ class Helper:
             current_date += delta
             
         return weekend_count
-    
+
+    def count_days(date1: str, date2: str) -> int:
+        date_format = "%Y-%m-%d"
+        d1 = datetime.strptime(str(date1), date_format)
+        d2 = datetime.strptime(str(date2), date_format)
+        delta = d2 - d1
+        return delta.days + 1
+
     def add_business_days(start_date, num_days, holidays):
         start_date = datetime.strptime(start_date, "%Y-%m-%d")
         current_date = start_date
@@ -556,6 +563,27 @@ class Helper:
             return 1
         else:
             return 0
+    
+    @staticmethod
+    def week_day(year, month, day):
+        date = datetime(year, month, day)
+        week_day = date.weekday()
+        wee_days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
+        return wee_days[week_day]
+
+    @staticmethod
+    def calculate_total_hours(start_time: str, end_time: str) -> float:
+        format = "%H:%M:%S"
+        start_time = datetime.strptime(start_time, format)
+        end_time = datetime.strptime(end_time, format)
+
+        if end_time < start_time:
+            end_time += timedelta(days=1)
+
+        diference = end_time - start_time
+        total_hours = diference.total_seconds() / 3600
+
+        return total_hours
 
     @staticmethod
     def get_first_day_current_month():

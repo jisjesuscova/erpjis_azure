@@ -68,6 +68,8 @@ class TurnModel(db.Model):
     end = db.Column(db.String(255))
     break_in = db.Column(db.String(255))
     break_out = db.Column(db.String(255))
+    total_week_hours = db.Column(db.String(255))
+    day_hours = db.Column(db.Integer)
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
@@ -132,8 +134,11 @@ class MeshDatumModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     turn_id = db.Column(db.Integer)
     rut = db.Column(db.Integer)
-    start_date = db.Column(db.Date())
-    end_date = db.Column(db.Date())
+    date = db.Column(db.Date())
+    total_hours = db.Column(db.Integer)
+    start = db.Column(db.String(255))
+    end = db.Column(db.String(255))
+    week_day = db.Column(db.String(255))
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
