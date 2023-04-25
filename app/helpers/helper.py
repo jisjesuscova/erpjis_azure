@@ -1,7 +1,7 @@
 from app.models.models import ProgressiveVacationModel, VacationModel, DocumentEmployeeModel, EmployeeModel, OldVacationModel, OldDocumentEmployeeModel
 from app.hr_final_day_months.hr_final_day_month import HrFinalDayMonth
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from app import db
 from fitz import fitz
 from dateutil.relativedelta import relativedelta
@@ -534,16 +534,47 @@ class Helper:
         end_date = end_datetime.strftime('%Y-%m-%d')
         
         return end_date
+    
+    @staticmethod
+    def validate_current_month(start_date):
+        current_date = datetime.now()
+        inserted_date = datetime.strptime(start_date, '%Y-%m-%d')
 
+        if inserted_date.month == current_date.month:
+            return 0
+        else:
+            return 1
+    
+    @staticmethod
+    def compare_dates(start_date, end_date):
+        # Convertir las fechas de cadena a objetos datetime
+        start_date = datetime.strptime(start_date, "%Y-%m-%d")
+        end_date = datetime.strptime(end_date, "%Y-%m-%d")
+
+        # Comparar las fechas y devolver 1 si start_date es mayor que end_date, de lo contrario devolver 0
+        if start_date > end_date:
+            return 1
+        else:
+            return 0
+
+    @staticmethod
+    def get_first_day_current_month():
+        today = date.today()
+        first_day = date(today.year, today.month, 1)
+        return first_day.strftime("%Y-%m-%d")
+
+    @staticmethod
     def get_seconds(data):
         time_str = data.working
         hh, mm, ss = time_str.split(':')
         return int(hh) * 3600 + int(mm) * 60 + int(ss)
 
+    @staticmethod
     def get_total_hour_weeks(seconds, days):
         total = seconds*days
         return time.strftime('%H:%M', time.gmtime(total))
 
+    @staticmethod
     def get_end_document_total_years(start_year, end_year):
         date1 = datetime.strptime(str(start_year), "%Y-%m-%d")
         date2 = datetime.strptime(str(end_year), "%Y-%m-%d")

@@ -153,7 +153,6 @@ class Honorary():
         honorary.region_id = data['region_id']
         honorary.commune_id = data['commune_id']
         honorary.status_id = 2
-        honorary.requested_by = current_user.rut
         honorary.employee_to_replace = employee_to_replace
         honorary.rut = data['rut']
         honorary.full_name = data['full_name']
