@@ -564,11 +564,34 @@ class Helper:
         else:
             return 0
     
+    def sum_times(time1, time2):
+        if not time1 or time1 == '00:00:00':
+            return time2
+        try:
+            h1, m1, s1 = map(int, time1.split(':'))
+        except ValueError:
+            # handle invalid format or empty string
+            h1, m1, s1 = 0, 0, 0
+        h2, m2, s2 = map(int, time2.split(':'))
+        total_seconds = (h1 * 3600) + (m1 * 60) + s1 + (h2 * 3600) + (m2 * 60) + s2
+        new_hour = total_seconds // 3600
+        remaining_seconds = total_seconds % 3600
+        new_minute = remaining_seconds // 60
+        new_second = remaining_seconds % 60
+        return f"{new_hour:02d}:{new_minute:02d}:{new_second:02d}"
+
+    def which_week(year, month, day):
+        current_date = date(year, month, day)
+        first_day_month = date(year, month, 1)
+        weekday_first_day_month = first_day_month.weekday()
+        week = (current_date.day + weekday_first_day_month - 1) // 7 + 1
+        return week
+    
     @staticmethod
     def week_day(year, month, day):
         date = datetime(year, month, day)
         week_day = date.weekday()
-        wee_days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
+        wee_days = [1, 2, 3, 4, 5, 6, 7]
         return wee_days[week_day]
 
     @staticmethod

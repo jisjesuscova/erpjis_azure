@@ -128,6 +128,18 @@ class HonoraryModel(db.Model):
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
+class TotalMeshDatumModel(db.Model):
+    __tablename__ = 'total_mesh_data'
+
+    id = db.Column(db.Integer, primary_key=True)
+    rut = db.Column(db.Integer)
+    total_hours = db.Column(db.Integer)
+    week = db.Column(db.Integer)
+    total_sundays = db.Column(db.Integer)
+    total_free_days = db.Column(db.Integer)
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
 class MeshDatumModel(db.Model):
     __tablename__ = 'mesh_data'
 
@@ -138,6 +150,7 @@ class MeshDatumModel(db.Model):
     total_hours = db.Column(db.Integer)
     start = db.Column(db.String(255))
     end = db.Column(db.String(255))
+    week = db.Column(db.Integer)
     week_day = db.Column(db.String(255))
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())

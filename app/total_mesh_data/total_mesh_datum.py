@@ -83,8 +83,6 @@ class MeshDatum():
 
                 time_1 = total
 
-                count = count + 1
-
             print(i)
             print(total)
 
