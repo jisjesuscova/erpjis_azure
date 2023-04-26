@@ -1,7 +1,7 @@
 from flask import request
 from app import db
 from datetime import datetime, timedelta
-from app.models.models import MeshDatumModel, PreEmployeeTurnModel
+from app.models.models import MeshDatumModel, TotalMeshDatumModel
 from app.employees_turns.employee_turn import EmployeeTurn
 from app.turns.turn import Turn
 from app.helpers.helper import Helper
@@ -75,17 +75,35 @@ class MeshDatum():
 
             count = 1
 
+            total_sundays = 0
+
+            total_free_days = 0
+
             for mesh_datum in mesh_data:
+                rut = mesh_datum.rut
+
                 if count == 1:
                     total = Helper.sum_times('00:00:00', str(mesh_datum.total_hours))
                 else:
                     total = Helper.sum_times(time_1, str(mesh_datum.total_hours))
 
+                if mesh_datum.week_day == 7:
+                    total_sundays = total_sundays + 1
+
+                if mesh_datum.turn_id == 0:
+                    total_free_days = total_free_days + 1
+
                 time_1 = total
 
                 count = count + 1
 
-            print(i)
-            print(total)
-
+            total_mesh_datum = TotalMeshDatumModel()
+            total_mesh_datum.rut = rut
+            total_mesh_datum.total_hours = total
+            total_mesh_datum.week = i
+            total_mesh_datum.total_sundays = total_sundays
+            total_mesh_datum.total_free_days = total_free_days
+            db.session.add(total_mesh_datum)
+            db.session.commit()
+            
         return 1

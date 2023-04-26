@@ -52,9 +52,17 @@ class EmployeeTurn():
     @staticmethod
     def pre_store(data):
         quantity = EmployeeTurn.get_quantity(data['employee_id'])
-        validate_status = Helper.validate_current_month(data['start_date'])
+        turn = Turn.get(data['turn_id'])
 
-        if quantity == 0 and validate_status == 1:
+        if data['turn_id'] != '0': 
+            end_date = Helper.get_last_date(data['start_date'], turn.group_day_id)
+            validate_status_start_date = Helper.validate_current_month(data['start_date'])
+            validate_status_end_date = Helper.validate_current_month(end_date)
+        else:
+            validate_status_start_date = Helper.validate_current_month(data['start_date'])
+            validate_status_end_date = 0
+
+        if quantity == 0 and validate_status_start_date == 1:
             turn = Turn.get(data['turn_id'])
 
             end_date = Helper.get_last_date(data['start_date'], turn.group_day_id)
@@ -79,10 +87,10 @@ class EmployeeTurn():
                 return status
             else:
                 return 0
-        elif quantity > 0 and validate_status == 1:
+        elif quantity > 0 and validate_status_end_date == 1:
             turn = Turn.get(data['turn_id'])
 
-            end_date = Helper.get_last_date(data['start_date'], turn.group_day_id)
+            end_date = Helper.get_last_day_of_month(str(data['start_date']))
 
             turn = PreEmployeeTurnModel()
             turn.turn_id = data['turn_id']

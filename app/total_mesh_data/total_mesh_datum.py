@@ -1,89 +1,31 @@
 from flask import request
 from app import db
-from datetime import datetime, timedelta
-from app.models.models import MeshDatumModel, PreEmployeeTurnModel
-from app.employees_turns.employee_turn import EmployeeTurn
-from app.turns.turn import Turn
-from app.helpers.helper import Helper
-from app.pre_employee_turns.pre_employee_turn import PreEmployeeTurn
+from app.models.models import MeshDatumModel, TotalMeshDatumModel
 
-class MeshDatum():
+class TotalMeshDatum():
     @staticmethod
-    def get(week):
-        mesh_data = MeshDatumModel.query.filter_by(week=week).all()
+    def get():
+        total_mesh_data = (
+            TotalMeshDatumModel.query
+            .with_entities(
+                TotalMeshDatumModel.rut,
+                TotalMeshDatumModel.period
+            )
+            .group_by(
+                TotalMeshDatumModel.rut,
+                TotalMeshDatumModel.period
+            )
+            .all()
+        )
 
-        return mesh_data
-
+        return total_mesh_data
+    
     @staticmethod
     def store(data):
-        employee_turns = EmployeeTurn.get_all_by_rut(data['rut'])
-
-        for employee_turn in employee_turns:
-            current = datetime.strptime(str(employee_turn.start_date), '%Y-%m-%d')
-            end = datetime.strptime(str(employee_turn.end_date), '%Y-%m-%d')
-            
-            while current <= end:
-                current_date = Helper.split(current.strftime('%Y-%m-%d'), "-")
-                week_day = Helper.week_day(int(current_date[0]), int(current_date[1]), int(current_date[2]))
-                week = Helper.which_week(int(current_date[0]), int(current_date[1]), int(current_date[2]))
-
-                if employee_turn.turn_id == 0:
-                    turn = Turn.get(employee_turn.turn_id)
-
-                    mesh_datum = MeshDatumModel()
-                    mesh_datum.turn_id = employee_turn.turn_id
-                    mesh_datum.rut = employee_turn.rut
-                    mesh_datum.date = current.strftime('%Y-%m-%d')
-                    mesh_datum.total_hours = '00:00:00'
-                    mesh_datum.week = week
-                    mesh_datum.week_day = week_day
-                    mesh_datum.start = '00:00:00'
-                    mesh_datum.end = '00:00:00'
-                    mesh_datum.added_date = datetime.now()
-                    mesh_datum.updated_date = datetime.now()
-
-                    db.session.add(mesh_datum)
-                    db.session.commit()
-                else:
-                    turn = Turn.get(employee_turn.turn_id)
-
-                    mesh_datum = MeshDatumModel()
-                    mesh_datum.turn_id = employee_turn.turn_id
-                    mesh_datum.rut = employee_turn.rut
-                    mesh_datum.date = current.strftime('%Y-%m-%d')
-                    mesh_datum.total_hours = turn.working
-                    mesh_datum.week = week
-                    mesh_datum.week_day = week_day
-                    mesh_datum.start = turn.start
-                    mesh_datum.end = turn.end
-                    mesh_datum.added_date = datetime.now()
-                    mesh_datum.updated_date = datetime.now()
-
-                    db.session.add(mesh_datum)
-                    db.session.commit()
-
-                last_week = week
-
-                current += timedelta(days=1)
-
-            PreEmployeeTurn.delete(employee_turn.id)
-
-        n = last_week
-
-        for i in range(1, n+1):
-            mesh_data = MeshDatum.get(i)
-
-            count = 1
-
-            for mesh_datum in mesh_data:
-                if count == 1:
-                    total = Helper.sum_times('00:00:00', str(mesh_datum.total_hours))
-                else:
-                    total = Helper.sum_times(time_1, str(mesh_datum.total_hours))
-
-                time_1 = total
-
-            print(i)
-            print(total)
+        total_mesh_datum = TotalMeshDatumModel()
+        total_mesh_datum.rut = rut
+        total_mesh_datum.total_hours = total
+        db.session.add(total_mesh_datum)
+        db.session.commit()
 
         return 1

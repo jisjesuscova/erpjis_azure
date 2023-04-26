@@ -144,15 +144,35 @@
                 const date = new Date();
                 
                 let day = date.getDate();
-                let month = date.getMonth() + 1;
+                let month = date.getMonth() + 2;
+                let last_month = date.getMonth() + 3;
                 let year = date.getFullYear();
-                var lastOfMonth = new Date( year, month, 0 )
-                lastOfMonth = lastOfMonth.toLocaleDateString("en-US")
+
+                if (month > 12) {
+                  month = 1;
+                  year += 1;
+                }
+
+                if (month < 10) {
+                  month = '0' + month;
+                }
+
+                if (last_month > 12) {
+                  last_month = 1;
+                  year += 1;
+                }
+
+                if (last_month < 10) {
+                  last_month = '0' + last_month;
+                }
+
+                var lastOfMonth = new Date(year, last_month, 0);
+                lastOfMonth = lastOfMonth.toLocaleDateString("en-US");
                 var lastOfMonth = lastOfMonth.split("/");
 
-                let lastDate = `${year}-${month}-${lastOfMonth[1]}T23:59:00`;
+                let lastDate = `${year}-${last_month}-${lastOfMonth[1]}T23:59:00`;
                 let startDate = `${year}-${month}-${'01'}T00:00:00`;
-
+    
                 var calendar = new Calendar(calendarEl, {
                   firstDay: 1,
                   headerToolbar: {
@@ -191,6 +211,7 @@
                   editable: true,
                   droppable: true,
                   drop: function(info) {
+                    console.log(info)
                     turn_id = info.draggedEl.innerText;
                     turn_id = turn_id.split(' ');
 

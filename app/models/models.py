@@ -81,6 +81,7 @@ class PreEmployeeTurnModel(db.Model):
     rut = db.Column(db.Integer)
     start_date = db.Column(db.Date())
     end_date = db.Column(db.Date())
+    period = db.Column(db.String(255))
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
@@ -133,10 +134,11 @@ class TotalMeshDatumModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     rut = db.Column(db.Integer)
-    total_hours = db.Column(db.Integer)
+    total_hours = db.Column(db.String(255))
     week = db.Column(db.Integer)
     total_sundays = db.Column(db.Integer)
     total_free_days = db.Column(db.Integer)
+    period = db.Column(db.String(255))
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
@@ -151,7 +153,8 @@ class MeshDatumModel(db.Model):
     start = db.Column(db.String(255))
     end = db.Column(db.String(255))
     week = db.Column(db.Integer)
-    week_day = db.Column(db.String(255))
+    week_day = db.Column(db.Integer)
+    period = db.Column(db.String(255))
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 

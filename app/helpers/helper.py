@@ -171,6 +171,16 @@ class Helper:
         file_name = str(random_float) + "_" + str(rut) + "_" + str(description) + "_" + str(current_day) + "_" + str(current_month) + "_" + str(current_year)
 
         return file_name
+    
+    def get_last_day_of_month(date_str):
+        # Convertimos el string en fecha
+        date = datetime.strptime(date_str, '%Y-%m-%d')
+        # Obtenemos el último día del mes
+        last_day = calendar.monthrange(date.year, date.month)[1]
+        # Creamos una nueva fecha con el último día del mes
+        last_day_date = datetime(date.year, date.month, last_day)
+        # Formateamos la fecha en el formato deseado
+        return last_day_date.strftime('%Y-%m-%d')
 
     @staticmethod
     def get_last_day(date):
@@ -545,6 +555,7 @@ class Helper:
     @staticmethod
     def validate_current_month(start_date):
         current_date = datetime.now()
+        current_date = current_date + relativedelta(months=1)
         inserted_date = datetime.strptime(start_date, '%Y-%m-%d')
 
         if inserted_date.month == current_date.month:
