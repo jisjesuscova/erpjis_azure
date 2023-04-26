@@ -1,6 +1,6 @@
 <section class="content">
     <div class="container-fluid">
-      <!-- Info boxes -->
+      <form role="form" action="{{ url_for('mesh_data.store') }}" method="post">
         <div class="row">
           <div class="col-md-12">
               <!-- general form elements -->
@@ -8,11 +8,8 @@
                   <div class="card-header">
                       <h3 class="card-title">Buscar</h3>
                   </div>
-                  <!-- /.card-header -->
-                  <!-- form start -->
-                  <form role="form" action="">
-                      <div class="card-body">
-                          <div class="row">
+                  <div class="card-body">
+                    <div class="row">
                               <div class="col-md-4">
                                   <div class="form-group">
                                     <label for="exampleInputEmail1">Sucursal</label>
@@ -27,7 +24,7 @@
                               <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Empleado</label>
-                                    <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="employee_id" id="employee_id">
+                                    <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="rut" id="employee_id">
                                       <option value="">- Seleccionar -</option>
                                     </select>
                                 </div>
@@ -44,7 +41,6 @@
                             </div>
                           </div>
                       </div>
-                  </form>
                   <!-- form end -->
               </div>
           </div>
@@ -82,13 +78,14 @@
         <hr>
         <div class="row pb-5 text-right">
           <div class="col-12">
+            <form role="form" action="">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-            <span class="loading-icon" id="loading-icon" style="display:none;">Cargando...</span>
-            <button type="button" class="btn btn-success create-mesh-btn">Guardar</button>
+            <input type="submit" value="Guardar" class="btn btn-success">
             <a href="{{ url_for('home.index') }}" class="btn btn-secondary">Cancelar</a>
           </div>
         </div>
-        <script>
+      </form>
+      <script>
             document.addEventListener('DOMContentLoaded', function() {
                 var originalDate;
                 var turn_id;

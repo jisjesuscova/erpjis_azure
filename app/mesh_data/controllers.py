@@ -17,7 +17,6 @@ def index():
    
    return render_template('human_resource/mesh_data/mesh_data.html', module_name = module_name, title = title, total_mesh_data = total_mesh_data)
 
-
 @mesh_datum.route("/mesh_data/create", methods=['GET'])
 def create():
    branch_offices = BranchOffice.get()
@@ -26,14 +25,11 @@ def create():
 
 @mesh_datum.route("/mesh_data/store", methods=['POST'])
 def store():
-   status_id = MeshDatum.store(request.form)
+   MeshDatum.store(request.form)
    
    flash('Malla Horaria creada con éxito', 'success')
 
-   if status_id == 1:
-      return '1'
-   else:
-      return '0'
+   return redirect(url_for('mesh_data.index'))
 
 @mesh_datum.route("/mesh_data/delete/<int:rut>/<period>", methods=['GET'])
 def delete(rut, period):
