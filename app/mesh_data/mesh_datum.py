@@ -113,13 +113,12 @@ class MeshDatum():
         return 1
 
     @staticmethod
-    def delete(id):
-        medical_license = TotalMeshDatumModel.query.filter_by(document_employee_id=id).first()
+    def delete(rut, period):
+        mesh_data = MeshDatumModel.query.filter_by(rut=rut, period = period).all()
 
-        db.session.delete(medical_license)
-        try:
+        for mesh_datum in mesh_data:
+            mesh_datum = MeshDatumModel.query.filter_by(id=mesh_datum.id).first()
+
+            db.session.delete(mesh_datum)
             db.session.commit()
-
-            return 1
-        except Exception as e:
-            return 0
+        

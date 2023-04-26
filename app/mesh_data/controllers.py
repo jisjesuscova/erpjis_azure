@@ -37,9 +37,10 @@ def store():
 
 @mesh_datum.route("/mesh_data/delete/<int:rut>/<period>", methods=['GET'])
 def delete(rut, period):
-   status_id = MeshDatum.delete(rut, period)
+   mesh_datum_status_id = MeshDatum.delete(rut, period)
+   total_mesh_datum_status_id = TotalMeshDatum.delete(rut, period)
    
-   if status_id == 1:
+   if mesh_datum_status_id == 1 and total_mesh_datum_status_id == 1:
       return '1'
    else:
       return '0'

@@ -29,3 +29,13 @@ class TotalMeshDatum():
         db.session.commit()
 
         return 1
+    
+    @staticmethod
+    def delete(rut, period):
+        total_mesh_data = TotalMeshDatumModel.query.filter_by(rut=rut, period = period).all()
+
+        for total_mesh_datum in total_mesh_data:
+            total_mesh_datum = TotalMeshDatumModel.query.filter_by(id=total_mesh_datum.id).first()
+
+            db.session.delete(total_mesh_datum)
+            db.session.commit()
