@@ -39,6 +39,7 @@ class MeshDatum():
                     mesh_datum.week_day = week_day
                     mesh_datum.start = '00:00:00'
                     mesh_datum.end = '00:00:00'
+                    mesh_datum.period = employee_turn.period
                     mesh_datum.added_date = datetime.now()
                     mesh_datum.updated_date = datetime.now()
 
@@ -56,6 +57,7 @@ class MeshDatum():
                     mesh_datum.week_day = week_day
                     mesh_datum.start = turn.start
                     mesh_datum.end = turn.end
+                    mesh_datum.period = employee_turn.period
                     mesh_datum.added_date = datetime.now()
                     mesh_datum.updated_date = datetime.now()
 
@@ -80,6 +82,7 @@ class MeshDatum():
             total_free_days = 0
 
             for mesh_datum in mesh_data:
+                period = mesh_datum.period
                 rut = mesh_datum.rut
 
                 if count == 1:
@@ -103,7 +106,20 @@ class MeshDatum():
             total_mesh_datum.week = i
             total_mesh_datum.total_sundays = total_sundays
             total_mesh_datum.total_free_days = total_free_days
+            total_mesh_datum.period = period
             db.session.add(total_mesh_datum)
             db.session.commit()
             
         return 1
+
+    @staticmethod
+    def delete(id):
+        medical_license = TotalMeshDatumModel.query.filter_by(document_employee_id=id).first()
+
+        db.session.delete(medical_license)
+        try:
+            db.session.commit()
+
+            return 1
+        except Exception as e:
+            return 0

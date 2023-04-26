@@ -53,6 +53,7 @@ class EmployeeTurn():
     def pre_store(data):
         quantity = EmployeeTurn.get_quantity(data['employee_id'])
         turn = Turn.get(data['turn_id'])
+        period = Helper.get_period(data['month'], data['year'])
 
         if data['turn_id'] != '0': 
             end_date = Helper.get_last_date(data['start_date'], turn.group_day_id)
@@ -72,16 +73,17 @@ class EmployeeTurn():
             compare_date = Helper.compare_dates(first_day_current_month, end_date)
 
             if compare_date == 0:
-                turn = PreEmployeeTurnModel()
-                turn.turn_id = data['turn_id']
-                turn.rut = data['employee_id']
-                turn.start_date = first_day_current_month
-                turn.end_date = end_date
-                turn.added_date = datetime.now()
-                turn.updated_date = datetime.now()
-                inspection = inspect(turn)
+                pre_employee_turn = PreEmployeeTurnModel()
+                pre_employee_turn.turn_id = data['turn_id']
+                pre_employee_turn.rut = data['employee_id']
+                pre_employee_turn.start_date = first_day_current_month
+                pre_employee_turn.end_date = end_date
+                pre_employee_turn.period = period
+                pre_employee_turn.added_date = datetime.now()
+                pre_employee_turn.updated_date = datetime.now()
+                inspection = inspect(pre_employee_turn)
 
-                db.session.add(turn)
+                db.session.add(pre_employee_turn)
                 status = inspection.pending
                 db.session.commit()
                 return status
@@ -92,31 +94,33 @@ class EmployeeTurn():
 
             end_date = Helper.get_last_day_of_month(str(data['start_date']))
 
-            turn = PreEmployeeTurnModel()
-            turn.turn_id = data['turn_id']
-            turn.rut = data['employee_id']
-            turn.start_date = data['start_date']
-            turn.end_date = end_date
-            turn.added_date = datetime.now()
-            turn.updated_date = datetime.now()
-            inspection = inspect(turn)
+            pre_employee_turn = PreEmployeeTurnModel()
+            pre_employee_turn.turn_id = data['turn_id']
+            pre_employee_turn.rut = data['employee_id']
+            pre_employee_turn.start_date = data['start_date']
+            pre_employee_turn.end_date = end_date
+            pre_employee_turn.period = period
+            pre_employee_turn.added_date = datetime.now()
+            pre_employee_turn.updated_date = datetime.now()
+            inspection = inspect(pre_employee_turn)
 
-            db.session.add(turn)
+            db.session.add(pre_employee_turn)
             status = inspection.pending
             db.session.commit()
             return status
         else:
             if data['turn_id'] == '0':
-                turn = PreEmployeeTurnModel()
-                turn.turn_id = 0
-                turn.rut = data['employee_id']
-                turn.start_date = data['start_date']
-                turn.end_date = data['start_date']
-                turn.added_date = datetime.now()
-                turn.updated_date = datetime.now()
-                inspection = inspect(turn)
+                pre_employee_turn = PreEmployeeTurnModel()
+                pre_employee_turn.turn_id = 0
+                pre_employee_turn.rut = data['employee_id']
+                pre_employee_turn.start_date = data['start_date']
+                pre_employee_turn.end_date = data['start_date']
+                pre_employee_turn.period = period
+                pre_employee_turn.added_date = datetime.now()
+                pre_employee_turn.updated_date = datetime.now()
+                inspection = inspect(pre_employee_turn)
 
-                db.session.add(turn)
+                db.session.add(pre_employee_turn)
                 status = inspection.pending
                 db.session.commit()
                 return status
@@ -125,16 +129,17 @@ class EmployeeTurn():
 
                 end_date = Helper.get_last_date(data['start_date'], turn.group_day_id)
 
-                turn = PreEmployeeTurnModel()
-                turn.turn_id = data['turn_id']
-                turn.rut = data['employee_id']
-                turn.start_date = data['start_date']
-                turn.end_date = end_date
-                turn.added_date = datetime.now()
-                turn.updated_date = datetime.now()
-                inspection = inspect(turn)
+                pre_employee_turn = PreEmployeeTurnModel()
+                pre_employee_turn.turn_id = data['turn_id']
+                pre_employee_turn.rut = data['employee_id']
+                pre_employee_turn.start_date = data['start_date']
+                pre_employee_turn.end_date = end_date
+                pre_employee_turn.period = period
+                pre_employee_turn.added_date = datetime.now()
+                pre_employee_turn.updated_date = datetime.now()
+                inspection = inspect(pre_employee_turn)
 
-                db.session.add(turn)
+                db.session.add(pre_employee_turn)
                 status = inspection.pending
                 db.session.commit()
                 return status

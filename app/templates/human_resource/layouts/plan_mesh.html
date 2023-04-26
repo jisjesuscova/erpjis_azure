@@ -238,6 +238,8 @@
                         employee_id: $("#employee_id").val(),
                         turn_id: turn_id[1],
                         start_date: info.dateStr,
+                        month: month,
+                        year: year
                       };
 
                       var csrf_token = "{{ csrf_token() }}";
@@ -280,6 +282,8 @@
                         employee_id: $("#employee_id").val(),
                         turn_id: turn_id[1],
                         start_date: info.dateStr,
+                        month: month,
+                        year: year
                       };
 
                       var csrf_token = "{{ csrf_token() }}";
@@ -333,7 +337,7 @@
                     var formData = {
                       employee_id: $("#employee_id").val(),
                       turn_id: old_turn_id,
-                      start_date: old_date,
+                      start_date: old_date
                     };
 
                     var csrf_token = "{{ csrf_token() }}";
@@ -358,7 +362,7 @@
                         id: pre_store_id,
                         employee_id: $("#employee_id").val(),
                         turn_id: turn_id,
-                        start_date: new_date,
+                        start_date: new_date
                       };
   
                       var csrf_token = "{{ csrf_token() }}";

@@ -723,7 +723,11 @@ class Helper:
 
         return MONTH_NAMES_ES[month]
 
-    staticmethod
+    @staticmethod
+    def get_period(month, year):
+        return str(month) + "-" + str(year)
+        
+    @staticmethod
     def get_periods(since, until):
         d1 = datetime.strptime(since, "%Y-%m-%d")
         d2 = datetime.strptime(until, "%Y-%m-%d")
