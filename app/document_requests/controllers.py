@@ -15,6 +15,8 @@ from app.dropbox_data.dropbox import Dropbox
 from app.helpers.whatsapp import Whatsapp
 from app.progressive_vacations.progressive_vacation import ProgressiveVacation
 import pdfkit
+from datetime import datetime
+from app.helpers.helper import Helper
 
 document_request = Blueprint("document_requests", __name__)
 
@@ -149,16 +151,20 @@ def download(id):
 
       signature_exist = Dropbox.exist('/signature/', employee.signature)
 
+      current_date = datetime.now().strftime('%Y-%m-%d')
+
+      current_date = Helper.document_date(str(current_date))
+
       if signature_exist == 1:
          
          signature = Dropbox.get('/signature/', employee.signature)
 
-         data = [full_name, rut, entrance_company, signature]
+         data = [full_name, rut, entrance_company, current_date, signature]
 
       else:
          signature = ''
 
-         data = [full_name, rut, entrance_company, signature]
+         data = [full_name, rut, entrance_company, current_date, signature]
 
       pdf = Pdf.create_pdf('antique_certification', data)
 
