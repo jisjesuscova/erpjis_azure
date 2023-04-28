@@ -729,9 +729,19 @@ class Helper:
         
     @staticmethod
     def get_periods(since, until):
-        d1 = datetime.strptime(since, "%Y-%m-%d")
-        d2 = datetime.strptime(until, "%Y-%m-%d")
-        days = abs((d2 - d1).days)
+        format = "%Y-%m-%d"
+        start_obj = datetime.strptime(since, format)
+        end_obj = datetime.strptime(until, format)
+
+        # Calcula la diferencia entre las dos fechas
+        diference = end_obj - start_obj
+
+        # Obtiene la cantidad de días
+        days = diference.days
+
+        # Si las fechas están en el mismo mes, no suma 1, de lo contrario, suma 1
+        if start_obj.month != end_obj.month:
+            days += 1
 
         splited_since = since.split("-")
         splited_until = until.split("-")
