@@ -159,16 +159,18 @@ def download(id):
 
       current_date = Helper.document_date(str(current_date))
 
+      entrance_date = Helper.document_date(str(employee_labor_datum.entrance_company))
+
       if signature_exist == 1:
          
          signature = Dropbox.get('/signature/', employee.signature)
 
-         data = [full_name, rut, entrance_company, current_date, signature, job_position.job_position, employee_type.employee_type]
+         data = [full_name, rut, entrance_company, signature, current_date, job_position.job_position, employee_type.employee_type, entrance_date]
 
       else:
          signature = ''
 
-         data = [full_name, rut, entrance_company, signature, current_date, job_position.job_position, employee_type.employee_type]
+         data = [full_name, rut, entrance_company, signature, current_date, job_position.job_position, employee_type.employee_type, entrance_date]
 
       pdf = Pdf.create_pdf('antique_certification', data)
 
