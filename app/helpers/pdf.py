@@ -21,7 +21,9 @@ class Pdf:
                                                     'margin-top': '0.7in',
                                                     'margin-right': '0.5in',
                                                     'margin-bottom': '0.5in',
-                                                    'margin-left': '0.5in'
+                                                    'margin-left': '0.5in',
+                                                    'dpi': '400',
+                                                    'zoom': '1'
                                                     }, configuration = config)
 
         return pdf

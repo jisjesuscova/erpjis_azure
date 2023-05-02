@@ -17,6 +17,8 @@ from app.progressive_vacations.progressive_vacation import ProgressiveVacation
 import pdfkit
 from datetime import datetime
 from app.helpers.helper import Helper
+from app.job_positions.job_position import JobPosition
+from app.employee_types.employee_type import EmployeeType
 
 document_request = Blueprint("document_requests", __name__)
 
@@ -141,6 +143,8 @@ def download(id):
    elif document_employee.document_type_id == 4:
       employee = Employee.get(document_employee.rut)
       employee_labor_datum = EmployeeLaborDatum.get(document_employee.rut)
+      job_position = JobPosition.get(employee_labor_datum.job_position_id)
+      employee_type = EmployeeType.get(employee_labor_datum.employee_type_id)
 
       full_name = employee.names + " " + employee.father_lastname + " " + employee.mother_lastname
       rut = employee.visual_rut
@@ -159,12 +163,12 @@ def download(id):
          
          signature = Dropbox.get('/signature/', employee.signature)
 
-         data = [full_name, rut, entrance_company, current_date, signature]
+         data = [full_name, rut, entrance_company, current_date, signature, job_position.job_position, employee_type.employee_type]
 
       else:
          signature = ''
 
-         data = [full_name, rut, entrance_company, signature, current_date]
+         data = [full_name, rut, entrance_company, signature, current_date, job_position.job_position, employee_type.employee_type]
 
       pdf = Pdf.create_pdf('antique_certification', data)
 
