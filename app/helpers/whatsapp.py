@@ -32,16 +32,16 @@ class Whatsapp:
                     
                     new = New.get(id)
 
-                    response = Dropbox.get('/blogs/', new.picture)
+                    image = Dropbox.get('/blogs/', new.picture)
 
                     for employee in employees:
-                        user = User.get_by_int_rut(employee.rut)
+                        user = User.get_by_int_rut(employee['rut'])
 
                         url = "https://graph.facebook.com/v16.0/101066132689690/messages"
 
                         payload = json.dumps({
                                 "messaging_product": "whatsapp",
-                                "to": "56" + str(employee['cellphone']),
+                                "to": "56" + str("935887241"),
                                 "type": "template",
                                 "template": {
                                     "name": str(whatsapp_template.whatsapp_template),
@@ -55,7 +55,7 @@ class Whatsapp:
                                         {
                                             "type": "image",
                                             "image": {
-                                            "link": response
+                                            "link": image
                                             }
                                         }
                                         ]
@@ -86,7 +86,8 @@ class Whatsapp:
                                     }
                                     ]
                                 }
-                                })
+                            })
+
                         headers = {
                                 'Authorization': settings.facebook_token,
                                 'Content-Type': 'application/json'
