@@ -91,9 +91,11 @@ def upload_store():
 
     for file in files:
         detail = Helper.split(file.filename, '_')
-        filename = Dropbox.upload_local_cloud(detail[3] + "_" + str(month) + "-" + str(year), "_settlement", request.files, "/salary_settlements/", "app/static/dist/files/settlement_data/", 0)
-        document_id = DocumentEmployee.store_by_dropbox(detail[3], filename, 5, 2, period)
-        Whatsapp.send(document_id, '1', 4, 12)
+        check_rut = Employee.check_rut(detail[3])
+        if check_rut == 1:
+            filename = Dropbox.upload_local_cloud(detail[3] + "_" + str(month) + "-" + str(year), "_settlement", request.files, "/salary_settlements/", "app/static/dist/files/settlement_data/", 0)
+            document_id = DocumentEmployee.store_by_dropbox(detail[3], filename, 5, 2, period)
+            Whatsapp.send(document_id, '1', 4, 12)
 
     return redirect(url_for('settlement_data.uploaded'))
 
