@@ -164,7 +164,7 @@ def download(id):
       else:
          signature = ''
 
-         data = [full_name, rut, entrance_company, current_date, signature]
+         data = [full_name, rut, entrance_company, signature, current_date]
 
       pdf = Pdf.create_pdf('antique_certification', data)
 
