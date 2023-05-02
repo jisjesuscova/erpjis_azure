@@ -38,7 +38,8 @@ class Dropbox():
         f = data['file']
 
         extesion = os.path.splitext(f.filename)[1]
-        dropbox_file_name = str(name) + str(description) + "_" + str(datetime.now().date()) + extesion
+        dropbox_file_name = Helper.file_name(str(name), str(description))
+        dropbox_file_name = dropbox_file_name + "_" + str(datetime.now().date()) + extesion
 
         if resize  == 1:
             image = Image.open(f)
