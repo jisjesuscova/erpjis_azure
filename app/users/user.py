@@ -22,6 +22,15 @@ class User():
         user = UserModel.query.filter_by(id=id).first()
 
         return user
+    
+    @staticmethod
+    def check_rut(rut):
+        user_qty = UserModel.query.filter_by(rut=rut).count()
+
+        if(user_qty > 0):
+            return 1
+        else:
+            return 0
 
     def get_by_rut(rut):
         user = UserModel.query.filter_by(visual_rut=rut).first()
