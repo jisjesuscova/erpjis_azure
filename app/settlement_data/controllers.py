@@ -1,3 +1,4 @@
+import dropbox
 from flask import Blueprint, render_template, redirect, request, url_for, make_response, send_file
 from flask_login import login_required, current_user
 from app import regular_employee_rol_need
@@ -15,6 +16,8 @@ from app.employees.employee import Employee
 from app.old_employees.old_employee import OldEmployee
 from app.documentation_titles.documentation_title import DocumentationTitle
 from app.users.user import User
+from dropbox.exceptions import AuthError, ApiError
+from app.settings.setting import Setting
 
 settlement_datum = Blueprint("settlement_data", __name__)
 
@@ -85,6 +88,27 @@ def store(period = ''):
 
 @settlement_datum.route("/management_payroll/settlement_data/store", methods=['POST'])
 def upload_store():
+    settings = Setting.get()
+    files = request.files.getlist('file')
+    dbx = dropbox.Dropbox(settings.dropbox_token)
+    month = request.form.get('month')
+    year = request.form.get('year')
+    period = year + '-' + month + '-01'
+
+    for file in files:
+        detail = Helper.split(file.filename, '_')
+        file_path = '/salary_settlements/' + file.filename
+        check_user_rut = User.check_rut(detail[3])
+        check_employee_rut = Employee.check_rut(detail[3])
+        
+        if check_user_rut == 1 and check_employee_rut == 1:
+            dbx.files_upload(file.stream.read(), file_path, mode=dropbox.files.WriteMode('overwrite'))
+            document_id = DocumentEmployee.store_by_dropbox(detail[3], file.filename, 5, 2, period)
+            Whatsapp.send(document_id, '1', 4, 12)
+
+    return redirect(url_for('settlement_data.uploaded'))
+
+    """
     files = request.files.getlist('file')
     month = request.form.get('month')
     year = request.form.get('year')
@@ -92,12 +116,13 @@ def upload_store():
 
     for file in files:
         detail = Helper.split(file.filename, '_')
-        check_rut = User.check_rut(detail[3])
-        if check_rut == 1:
+        check_user_rut = User.check_rut(detail[3])
+        check_employee_rut = Employee.check_rut(detail[3])
+        if check_user_rut == 1 and check_employee_rut == 1:
             filename = Dropbox.upload_local_cloud(detail[3] + "_" + str(month) + "-" + str(year), "_settlement", request.files, "/salary_settlements/", "app/static/dist/files/settlement_data/", 0)
             document_id = DocumentEmployee.store_by_dropbox(detail[3], filename, 5, 2, period)
             Whatsapp.send(document_id, '1', 4, 12)
-
+    """
     return redirect(url_for('settlement_data.uploaded'))
 
 @settlement_datum.route("/management_payroll/settlement_data/uploaded/download/<int:id>", methods=['GET'])
