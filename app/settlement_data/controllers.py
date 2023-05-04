@@ -100,10 +100,10 @@ def upload_store():
         file_path = '/salary_settlements/' + file.filename
         check_user_rut = User.check_rut(detail[3])
         check_employee_rut = Employee.check_rut(detail[3])
-        
+
         if check_user_rut == 1 and check_employee_rut == 1:
             dbx.files_upload(file.stream.read(), file_path, mode=dropbox.files.WriteMode('overwrite'))
-            document_id = DocumentEmployee.store_by_dropbox(detail[3], file.filename, 5, 2, period)
+            document_id = DocumentEmployee.store_by_dropbox(detail[3], file.filename, 5, 3, period)
             Whatsapp.send(document_id, '1', 4, 12)
 
     return redirect(url_for('settlement_data.uploaded'))

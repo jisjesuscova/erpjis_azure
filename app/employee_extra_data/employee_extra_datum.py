@@ -106,6 +106,12 @@ class EmployeeExtraDatum():
         employee_extra_datum.progressive_vacation_status_id = data['progressive_vacation_status_id']
         employee_extra_datum.progressive_vacation_date = data['progressive_vacation_date']
         employee_extra_datum.pensioner_id = data['pensioner_id']
+
+        if request.form['recognized_years'] == '':
+            recognized_years = 0
+        else:
+            recognized_years = request.form['recognized_years']
+
         employee_extra_datum.recognized_years = data['recognized_years']
         employee_extra_datum.progressive_vacation_level_id = 0
 
