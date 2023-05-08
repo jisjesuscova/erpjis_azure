@@ -22,7 +22,7 @@ class ClockUser():
     @staticmethod
     def get(rut = ''):
         if rut != '':
-            clock_user = ClockUserModel.query.get(rut=rut).first()
+            clock_user = ClockUserModel.query.filter_by(rut=rut).first()
 
             return clock_user
         else:

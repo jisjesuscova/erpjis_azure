@@ -4,6 +4,7 @@ from app.clock_users.clock_user import ClockUser
 
 class ClockAttendance():
     def store(data):
+        print(data['rut'])
         clock_user = ClockUser.get(data['rut'])
 
         clock_attendance = ClockAttendanceModel()
@@ -17,4 +18,4 @@ class ClockAttendance():
         db.session.add(clock_attendance)
         db.session.commit()
         
-        return str(data['uid']) + "_" + str(data['rut']) + "_" + str(data['punch']) + "_" + str(data['status']) + "_" + str(data['mark_date']) + "_" + str(data['branch_office_id'])
+        return str(clock_user.uid) + "_" + str(data['rut']) + "_" + str(data['punch']) + "_" + str(data['status']) + "_" + str(data['mark_date']) + "_" + str(data['branch_office_id'])
