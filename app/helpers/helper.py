@@ -206,7 +206,7 @@ class Helper:
 
     @staticmethod
     def vacation_day_value(amount):
-        value = round(amount/30)
+        value = math.ceil(amount/30)
 
         return value
 
@@ -285,7 +285,7 @@ class Helper:
     @staticmethod
     def gratification(salary):
 
-        return round(salary * 0.25)
+        return math.ceil(salary * 0.25)
 
     @staticmethod
     def calculate_end_document_end_date(start_date, balance):
@@ -654,7 +654,7 @@ class Helper:
         else:
             years = 0
         
-        return round(years)
+        return math.ceil(years)
 
     @staticmethod
     def serialize(data, type):
