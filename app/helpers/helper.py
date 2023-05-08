@@ -13,6 +13,7 @@ import numpy as np
 import markdown
 from bs4 import BeautifulSoup
 import re
+import math
 
 class Helper:
     @staticmethod
@@ -345,9 +346,9 @@ class Helper:
     def vacation_days(months, extreme_zone_status_id):
         if months > 0:
             if extreme_zone_status_id == 1:
-                total = round((months+1)*1.66)
+                total = math.ceil(float((months+1))*float(1.66))
             else:
-                total = round((months+1)*1.25)
+                total = math.ceil((float(months+1)) * float(1.25))
         else:
             total = 0
             
