@@ -121,7 +121,6 @@ class EmployeeExtraDatum():
             db.session.commit()
 
             employee_labor_datum = EmployeeLaborDatum.get(rut)
-            employee_extra_datum = EmployeeExtraDatum.get(rut)
 
             how_many_months = Helper.months(employee_labor_datum.entrance_company, employee_extra_datum.progressive_vacation_date)
             years = Helper.months_to_years(how_many_months)
