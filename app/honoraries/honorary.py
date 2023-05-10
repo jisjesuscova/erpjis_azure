@@ -2,7 +2,7 @@ from app.models.models import SupervisorModel, HonoraryModel, BankModel, BranchO
 from app.helpers.helper import Helper
 from flask_login import current_user
 from app import db
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from sqlalchemy import func
 import requests
 import json
@@ -41,16 +41,25 @@ class Honorary():
             return honoraries
 
     @staticmethod
-    def current_get(id, page):
-        honoraries = HonoraryModel.query\
-                    .join(BankModel, BankModel.id == HonoraryModel.bank_id)\
-                    .join(BranchOfficeModel, BranchOfficeModel.id == HonoraryModel.branch_office_id)\
-                    .join(RegionModel, RegionModel.id == HonoraryModel.region_id)\
-                    .join(CommunesModel, CommunesModel.id == HonoraryModel.commune_id)\
-                    .join(EmployeeModel, EmployeeModel.rut == HonoraryModel.requested_by)\
-                    .join(HonoraryReasonModel, HonoraryReasonModel.id == HonoraryModel.reason_id)\
-                    .add_columns(HonoraryModel.status_id, HonoraryModel.id, HonoraryModel.rut, HonoraryModel.full_name, EmployeeModel.nickname, HonoraryReasonModel.reason, HonoraryModel.added_date).order_by(HonoraryModel.added_date.desc()).paginate(page=page, per_page=10, error_out=False)
+    def current_get(page):
+        # Obtener la fecha actual y restarle un mes
+        one_month_ago = date.today().replace(day=1) - timedelta(days=1)
+        one_month_ago_str = one_month_ago.strftime('%Y-%m')  # Formatear a 'YYYY-mm'
 
+        # Filtrar la consulta para que solo devuelva resultados con fechas dentro del mes anterior
+        honoraries = HonoraryModel.query\
+            .join(BankModel, BankModel.id == HonoraryModel.bank_id)\
+            .join(BranchOfficeModel, BranchOfficeModel.id == HonoraryModel.branch_office_id)\
+            .join(RegionModel, RegionModel.id == HonoraryModel.region_id)\
+            .join(CommunesModel, CommunesModel.id == HonoraryModel.commune_id)\
+            .join(EmployeeModel, EmployeeModel.rut == HonoraryModel.requested_by)\
+            .join(HonoraryReasonModel, HonoraryReasonModel.id == HonoraryModel.reason_id)\
+            .filter(HonoraryModel.status_id == 2)\
+            .filter(func.DATE_FORMAT(HonoraryModel.added_date, '%Y-%m') == one_month_ago_str)\
+            .add_columns(HonoraryModel.status_id, HonoraryModel.id, HonoraryModel.rut, HonoraryModel.full_name, EmployeeModel.nickname, HonoraryReasonModel.reason, HonoraryModel.added_date)\
+            .order_by(HonoraryModel.added_date.desc())\
+            .paginate(page=page, per_page=10, error_out=False)
+        
         return honoraries
 
     @staticmethod

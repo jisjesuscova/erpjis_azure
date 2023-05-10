@@ -34,7 +34,6 @@
                                     <th>Solicitado</th>
                                     <th>Razón</th>
                                     <th>Fecha</th>
-                                    <th>Estatus</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -47,21 +46,9 @@
                                         <td>{{ honorary['reason'] }}</td>
                                         <td>{{ honorary['added_date']|datetime("dd-MM-yyyy") }}</td>
                                         <td>
-                                            {% if honorary['status_id'] == 1 %}
-                                                <span class="badge badge-primary">En espera</span>
-                                            {% else %}
-                                                <span class="badge badge-success">Aceptado</span>
-                                            {% endif %}
-                                        </td>
-                                        <td>
-                                            {% if honorary['status_id'] == 1 %}
-                                                <a title="Revisar Honorario" href="{{ url_for('honoraries.edit', id = honorary['id']) }}" class="btn btn-primary">
-                                                    <i class="fa fa-eye"></i>
-                                                </a>
-                                                <a href="{{ url_for('honoraries.delete', id = honorary['id']) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar el registro?')">
-                                                    <i class="fa fa-times"></i>
-                                                </a>
-                                            {% endif %}
+                                            <a title="Ejecutar Honorario" href="{{ url_for('honoraries.accountability', id = honorary['id']) }}" class="btn btn-primary">
+                                                <i class="fa fa-check"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 </tbody>
