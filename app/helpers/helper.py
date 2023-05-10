@@ -14,6 +14,7 @@ import markdown
 from bs4 import BeautifulSoup
 import re
 import math
+from app.hr_settings.hr_setting import HrSetting
 
 class Helper:
     @staticmethod
@@ -286,6 +287,24 @@ class Helper:
     def gratification(salary):
 
         return math.ceil(salary * 0.25)
+    
+    @staticmethod
+    def get_honorary_net_value(amount):
+        hr_settings = HrSetting.get()
+
+        amount = round(int(amount) / float(hr_settings.percentage_honorary_bill))
+
+        return amount
+    
+    @staticmethod
+    def get_honorary_tax_value(amount):
+        hr_settings = HrSetting.get()
+
+        gross_amount = round(int(amount) / float(hr_settings.percentage_honorary_bill))
+
+        tax = int(gross_amount) - int(amount)
+
+        return tax
 
     @staticmethod
     def calculate_end_document_end_date(start_date, balance):

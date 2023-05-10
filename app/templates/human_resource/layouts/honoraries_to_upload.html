@@ -1,4 +1,4 @@
-{% from 'human_resource/macro/_honoraries_pagination.html' import m_pagination %}
+{% from 'human_resource/macro/_honoraries_to_upload_pagination.html' import m_pagination %}
 
 <section class="content">
     <div class="container-fluid">
@@ -33,6 +33,7 @@
                                     <th>Asignado</th>
                                     <th>Solicitado</th>
                                     <th>Razón</th>
+                                    <th>Estatus</th>
                                     <th>Fecha</th>
                                     <th></th>
                                 </tr>
@@ -44,6 +45,13 @@
                                         <td>{{ honorary['full_name'] }}</td>
                                         <td>{{ honorary['nickname'] }}</td>
                                         <td>{{ honorary['reason'] }}</td>
+                                        <td>
+                                            {% if honorary['accountability_status_id'] == 0 %}
+                                                <span class="badge badge-primary">En espera</span>
+                                            {% else %}
+                                                <span class="badge badge-success">Enviado</span>
+                                            {% endif %}
+                                        </td>
                                         <td>{{ honorary['added_date']|datetime("dd-MM-yyyy") }}</td>
                                         <td>
                                             <a title="Ejecutar Honorario" href="{{ url_for('honoraries.accountability', id = honorary['id']) }}" class="btn btn-primary">

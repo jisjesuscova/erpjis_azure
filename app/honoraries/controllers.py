@@ -9,6 +9,7 @@ from app.banks.bank import Bank
 from app.communes.commune import Commune
 from app.honorary_reasons.honorary_reason import HonoraryReason
 from app.documentation_titles.documentation_title import DocumentationTitle
+import requests
 
 honorary = Blueprint("honoraries", __name__)
 
@@ -51,7 +52,11 @@ def create():
       return render_template('human_resource/human_resources/honoraries/honoraries_create.html', documentation_titles_menu = documentation_titles_menu, honorary_reasons = honorary_reasons, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
 
 @honorary.route("/human_resources/honorary/accountability/<int:id>", methods=['GET'])
-def accountability():
+def accountability(id):
+   honorary = Honorary.get(id, '')
+
+   Honorary.accountability(honorary)
+
    return redirect(url_for('honoraries.to_upload'))
 
 @honorary.route("/human_resources/honorary/to_upload", methods=['GET'])

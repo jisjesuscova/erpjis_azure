@@ -8,6 +8,9 @@ import requests
 import json
 from app.communes.commune import Commune
 from app.hr_settings.hr_setting import HrSetting
+from os import sys
+from libredte.sdk import LibreDTE
+from app.branch_offices.branch_office import BranchOffice
 
 class Honorary():
     @staticmethod
@@ -36,9 +39,80 @@ class Honorary():
                     .join(HonoraryReasonModel, HonoraryReasonModel.id == HonoraryModel.reason_id)\
                     .join(SupervisorModel, SupervisorModel.branch_office_id == BranchOfficeModel.id)\
                     .filter(SupervisorModel.rut == current_user.rut)\
-                    .add_columns(HonoraryModel.status_id, HonoraryModel.id, HonoraryModel.rut, HonoraryModel.full_name, EmployeeModel.nickname, HonoraryReasonModel.reason, HonoraryModel.added_date).order_by(HonoraryModel.added_date.desc()).paginate(page=page, per_page=10, error_out=False)
+                    .add_columns(HonoraryModel.status_id, HonoraryModel.id, HonoraryModel.rut, HonoraryModel.full_name, EmployeeModel.nickname, HonoraryReasonModel.reason, HonoraryModel.added_date).order_by(HonoraryModel.added_date.desc()).paginate(page=page, per_page=50, error_out=False)
             
             return honoraries
+        
+    @staticmethod
+    def accountability(honorary):
+        gross_amount = Helper.get_honorary_net_value(honorary.amount)
+        tax = Helper.get_honorary_tax_value(honorary.amount)
+        date = Helper.split(str(honorary.added_date), " ")
+        uft8_date = Helper.fix_date(date[0])
+        branch_office = BranchOffice.get(honorary.branch_office_id)
+        accounting_asset_name = str(branch_office.branch_office) + "_443000344_" + str(uft8_date) + "_honorario_" + str(honorary.id)
+        
+        # datos a utilizar
+        url = 'https://libredte.cl'
+        hash = 'JXou3uyrc7sNnP2ewOCX38tWZ6BTm4D1'
+        creator = '76063822-6';
+
+        if honorary.foreigner_id == 1:
+            data = {
+                'fecha': date[0],
+                'glosa': accounting_asset_name,
+                'detalle': {
+                    'debe': {
+                        111000102: gross_amount,
+                    },
+                    'haber': {
+                        443000344: honorary.amount,
+                        221000223: tax,
+                    },
+                },
+                'operacion': 'E',
+                'documentos': {
+                    'emitidos': [
+                        {
+                            'dte': '',
+                            'folio': '',
+                        },
+                    ],
+                },
+            }
+        else:
+            data = {
+                'fecha': date[0],
+                'glosa': accounting_asset_name,
+                'detalle': {
+                    'debe': {
+                        111000102: honorary.amount
+                    },
+                    'haber': {
+                        443000344: honorary.amount
+                    },
+                },
+                'operacion': 'E',
+                'documentos': {
+                    'emitidos': [
+                        {
+                            'dte': '',
+                            'folio': '',
+                        },
+                    ],
+                },
+            }
+
+        Cliente = LibreDTE(hash, url)
+
+        # crear DTE temporal
+        create_asset = Cliente.post('/lce/lce_asientos/crear/' + creator, data)
+        if create_asset.status_code!=200 :
+            print(create_asset.json())
+        else:
+            Honorary.update_accountability_honorary_status(honorary.id)
+
+        return 1
 
     @staticmethod
     def current_get(page):
@@ -55,8 +129,9 @@ class Honorary():
             .join(EmployeeModel, EmployeeModel.rut == HonoraryModel.requested_by)\
             .join(HonoraryReasonModel, HonoraryReasonModel.id == HonoraryModel.reason_id)\
             .filter(HonoraryModel.status_id == 2)\
+            .filter(HonoraryModel.accountability_status_id == 0)\
             .filter(func.DATE_FORMAT(HonoraryModel.added_date, '%Y-%m') == one_month_ago_str)\
-            .add_columns(HonoraryModel.status_id, HonoraryModel.id, HonoraryModel.rut, HonoraryModel.full_name, EmployeeModel.nickname, HonoraryReasonModel.reason, HonoraryModel.added_date)\
+            .add_columns(HonoraryModel.accountability_status_id, HonoraryModel.status_id, HonoraryModel.id, HonoraryModel.rut, HonoraryModel.full_name, EmployeeModel.nickname, HonoraryReasonModel.reason, HonoraryModel.added_date)\
             .order_by(HonoraryModel.added_date.desc())\
             .paginate(page=page, per_page=10, error_out=False)
         
@@ -78,6 +153,7 @@ class Honorary():
         honorary.region_id = data['region_id']
         honorary.commune_id = data['commune_id']
         honorary.status_id = 1
+        honorary.accountability_status_id = 0
         honorary.requested_by = current_user.rut
         honorary.employee_to_replace = employee_to_replace
         honorary.rut = data['rut']
@@ -154,7 +230,22 @@ class Honorary():
         print(response.text)
 
         return 1
-        
+
+    @staticmethod
+    def update_accountability_honorary_status(id):
+
+        honorary = HonoraryModel.query.filter_by(id=id).first() 
+        honorary.accountability_status_id = 1
+
+        db.session.add(honorary)
+
+        try:
+            db.session.commit()
+
+            return 1
+        except Exception as e:
+            return 0
+
     @staticmethod
     def update(data, id):
         if data['employee_to_replace'] == '':
