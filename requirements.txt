@@ -51,6 +51,7 @@ image==1.5.33
 isodate==0.6.1
 itsdangerous==2.1.2
 Jinja2==3.1.2
+libredte==3.1.1
 looseversion==1.0.3
 lxml==4.9.2
 Mako==1.2.3
