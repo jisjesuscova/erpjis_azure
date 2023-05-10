@@ -48,9 +48,11 @@ class Honorary():
         gross_amount = Helper.get_honorary_net_value(honorary.amount)
         tax = Helper.get_honorary_tax_value(honorary.amount)
         date = Helper.split(str(honorary.added_date), " ")
-        uft8_date = Helper.fix_date(date[0])
+        asset_name_date = Helper.asset_name_date(date[0])
+        asset_date = Helper.asset_date(date[0])
+
         branch_office = BranchOffice.get(honorary.branch_office_id)
-        accounting_asset_name = str(branch_office.branch_office) + "_443000344_" + str(uft8_date) + "_honorario_" + str(honorary.id)
+        accounting_asset_name = str(branch_office.branch_office) + "_443000344_" + str(asset_name_date) + "_Honorario_" + str(honorary.id)
         
         # datos a utilizar
         url = 'https://libredte.cl'
@@ -59,7 +61,7 @@ class Honorary():
 
         if honorary.foreigner_id == 1:
             data = {
-                'fecha': date[0],
+                'fecha': asset_date,
                 'glosa': accounting_asset_name,
                 'detalle': {
                     'debe': {
@@ -82,7 +84,7 @@ class Honorary():
             }
         else:
             data = {
-                'fecha': date[0],
+                'fecha': asset_date,
                 'glosa': accounting_asset_name,
                 'detalle': {
                     'debe': {

@@ -218,6 +218,18 @@ class Helper:
         return value[2] + "-" + value[1] + "-" + value[0]
     
     @staticmethod
+    def asset_name_date(value):
+        value = value.split("-")
+
+        return "01-" + value[1] + "-" + value[0]
+    
+    @staticmethod
+    def asset_date(value):
+        value = value.split("-")
+
+        return value[0] + "-" + value[1] + "-01"
+    
+    @staticmethod
     def american_date(value):
         value = value.split("-")
 
