@@ -40,7 +40,19 @@ class Honorary():
             
             return honoraries
 
-        
+    @staticmethod
+    def current_get(id, page):
+        honoraries = HonoraryModel.query\
+                    .join(BankModel, BankModel.id == HonoraryModel.bank_id)\
+                    .join(BranchOfficeModel, BranchOfficeModel.id == HonoraryModel.branch_office_id)\
+                    .join(RegionModel, RegionModel.id == HonoraryModel.region_id)\
+                    .join(CommunesModel, CommunesModel.id == HonoraryModel.commune_id)\
+                    .join(EmployeeModel, EmployeeModel.rut == HonoraryModel.requested_by)\
+                    .join(HonoraryReasonModel, HonoraryReasonModel.id == HonoraryModel.reason_id)\
+                    .add_columns(HonoraryModel.status_id, HonoraryModel.id, HonoraryModel.rut, HonoraryModel.full_name, EmployeeModel.nickname, HonoraryReasonModel.reason, HonoraryModel.added_date).order_by(HonoraryModel.added_date.desc()).paginate(page=page, per_page=10, error_out=False)
+
+        return honoraries
+
     @staticmethod
     def store(data):
         if data['employee_to_replace'] == '':

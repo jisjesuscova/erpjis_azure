@@ -50,6 +50,13 @@ def create():
    elif current_user.rol_id == 4:
       return render_template('human_resource/human_resources/honoraries/honoraries_create.html', documentation_titles_menu = documentation_titles_menu, honorary_reasons = honorary_reasons, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
 
+@honorary.route("/human_resources/honorary/create", methods=['GET'])
+def to_upload(page = 1):
+	honoraries = Honorary.current_get('', page)
+
+	return render_template('human_resource/human_resources/honoraries/honoraries_to_upload.html', honoraries = honoraries)
+
+
 @honorary.route("/human_resources/honorary/store", methods=['POST'])
 def store():
    status_id = Honorary.store(request.form)

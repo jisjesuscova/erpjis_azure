@@ -46,6 +46,23 @@
               </li>
             </ul>
           </li>
+		  <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-people-group"></i>
+              <p>
+                Gestión y Planificación
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ url_for('honoraries.to_upload') }}" class="nav-link">
+                  <i class="fas fa-rectangle-list nav-icon"></i>
+                  <p>Honorarios</p>
+                </a>
+              </li>
+            </ul>
+          </li>
           <li class="nav-item">
             <a href="{{ url_for('documental_management_data.index') }}" class="nav-link">
               <i class="nav-icon fas fa-paste"></i>
