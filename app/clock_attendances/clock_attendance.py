@@ -6,4 +6,4 @@ class ClockAttendance():
     def store(data):
 
         
-        return str(clock_user.uid) + "_" + str(data['rut']) + "_" + str(data['punch']) + "_" + str(data['status']) + "_" + str(data['mark_date']) + "_" + str(data['branch_office_id'])
+        return str(1) + "_" + str(data['rut']) + "_" + str(data['punch']) + "_" + str(data['status']) + "_" + str(data['mark_date']) + "_" + str(data['branch_office_id'])
