@@ -41,7 +41,7 @@ class ClockUser():
         
     @staticmethod
     def get_last_uid():
-        clock_user = ClockUserModel.query.order_by(ClockUserModel.uid.desc()).first()
+        clock_user = ClockUserModel.query.filter(ClockUserModel.rut != '15538007').order_by(ClockUserModel.uid.desc()).first()
         result = clock_user.uid + 1
 
         return result
