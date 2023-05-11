@@ -1,4 +1,4 @@
-from app.models.models import ClockFingerModel
+from app.models.models import ClockFingerModel, ClockUserModel
 from app import db
 from datetime import datetime
 
@@ -17,7 +17,7 @@ class ClockFinger():
 
     @staticmethod
     def get():
-        clock_fingers = ClockFingerModel.query.all()
+        clock_fingers = db.session.query(ClockFingerModel).join(ClockUserModel, ClockFingerModel.uid == ClockUserModel.uid).all()
 
         return clock_fingers
 

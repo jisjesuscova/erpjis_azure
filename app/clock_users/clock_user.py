@@ -62,7 +62,7 @@ class ClockUser():
             clock_user.uid = data['uid']
             
             clock_user.rut = rut
-            upper_string = data['names'] + " " + data['father_lastname'] + " " + data['mother_lastname']
+            upper_string = data['names'] + " " + data['father_lastname']
             upper_string = Helper.upper_string(upper_string)
             clock_user.full_name = upper_string
             clock_user.privilege = data['privilege']
