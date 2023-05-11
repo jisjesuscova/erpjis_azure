@@ -5,5 +5,6 @@ clock_attendance = Blueprint("clock_attendances", __name__)
 
 @clock_attendance.route("/clock_attendance/store", methods=['GET'])
 def store():
+   data = ClockAttendance.store(request.form)
 
-   return str(request.form)
+   return str(data)
