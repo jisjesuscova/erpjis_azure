@@ -652,7 +652,7 @@ class Helper:
         return total_hours
 
     @staticmethod
-    def get_first_day_current_month():
+    def get_first_day_current_month(data):
         today = date.today()
         first_day = date(today.year, today.month, 1)
         return first_day.strftime("%Y-%m-%d")

@@ -51,6 +51,7 @@ class EmployeeTurn():
         
     @staticmethod
     def pre_store(data):
+        
         quantity = EmployeeTurn.get_quantity(data['employee_id'])
         turn = Turn.get(data['turn_id'])
         period = Helper.get_period(data['month'], data['year'])
@@ -67,9 +68,10 @@ class EmployeeTurn():
             turn = Turn.get(data['turn_id'])
 
             end_date = Helper.get_last_date(data['start_date'], turn.group_day_id)
+            start_date = Helper.split(end_date, "-")
 
-            first_day_current_month = Helper.get_first_day_current_month()
-
+            first_day_current_month = start_date[0] + '-' + start_date[1] + '-01'
+           
             compare_date = Helper.compare_dates(first_day_current_month, end_date)
 
             if compare_date == 0:
