@@ -141,6 +141,7 @@
                 const date = new Date();
                 
                 let day = date.getDate();
+                let old_month = date.getMonth() + 1;
                 let month = date.getMonth() + 2;
                 let last_month = date.getMonth() + 3;
                 let year = date.getFullYear();
@@ -168,7 +169,8 @@
                 var lastOfMonth = lastOfMonth.split("/");
 
                 let lastDate = `${year}-${last_month}-${lastOfMonth[1]}T23:59:00`;
-                let startDate = `${year}-${month}-${'01'}T00:00:00`;
+                let startDate = `${year}-${old_month}-${'01'}T00:00:00`;
+                let initialDate = `${year}-${month}-${'01'}`;
                 
                 var calendar = new Calendar(calendarEl, {
                   firstDay: 1,
