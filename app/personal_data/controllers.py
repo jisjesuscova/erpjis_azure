@@ -64,6 +64,7 @@ def show(rut):
       genders = Gender.get()
       nationalities = Nationality.get()
       employee_bank_account = EmployeeBankAccount.get(rut)
+      requested_employee_bank_account = EmployeeBankAccount.get_change_requested(rut)
 
       empty_field_status_id = 1
 
