@@ -113,6 +113,8 @@ $(document).ready(function () {
             formData.append('fertility_proportional_days', $('#fertility_proportional_days').val());
             formData.append('number_holidays', $('#number_holidays').val());
             formData.append('total', $('#total').val());
+            formData.append('status_id', 3);
+            formData.append('document_type_id', 22);
             
             $.ajax({
                 url: "/human_resources/end_document/store",
