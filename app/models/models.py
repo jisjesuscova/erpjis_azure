@@ -475,7 +475,7 @@ class EndDocumentModel(db.Model):
     document_employee_id = db.Column(db.Integer)
     causal_id = db.Column(db.Integer)
     rut = db.Column(db.Integer)
-    number_holidays = db.Column(db.Integer)
+    fertility_proportional_days = db.Column(db.Integer)
     voluntary_indemnity = db.Column(db.Integer)
     indemnity_years_service = db.Column(db.Integer)
     substitute_compensation = db.Column(db.Integer)

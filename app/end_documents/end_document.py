@@ -127,7 +127,7 @@ class EndDocument():
         end_document.document_employee_id = id
         end_document.causal_id = data['causal_id']
         end_document.rut = data['rut']
-        end_document.number_holidays = data['number_holidays']
+        end_document.fertility_proportional_days = data['fertility_proportional_days']
         end_document.voluntary_indemnity = Helper.remove_from_string(".", data['voluntary_indemnity'])
         end_document.indemnity_years_service = Helper.remove_from_string(".", data['indemnity_years_service'])
         end_document.substitute_compensation = Helper.remove_from_string(".", data['substitute_compensation'])

@@ -176,7 +176,7 @@ def document(rut, id):
    substitute_compensation = Helper.fix_thousands(end_document.substitute_compensation)
    indemnity_years_service = Helper.fix_thousands(end_document.indemnity_years_service)
 
-   data = [exit_company_date, full_name, old_employee.visual_rut, job_position.job_position, entrance_company, causal.causal, indemnity_years_service, substitute_compensation, voluntary_indemnity, end_document.number_holidays, fertility_proportional, total]
+   data = [exit_company_date, full_name, old_employee.visual_rut, job_position.job_position, entrance_company, causal.causal, indemnity_years_service, substitute_compensation, voluntary_indemnity, end_document.fertility_proportional_days, fertility_proportional, total]
 
    pdf = Pdf.create_pdf('end_document', data)
   
