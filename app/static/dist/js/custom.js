@@ -5,6 +5,7 @@ $(document).ready(function () {
     $(".update-honorary-btn").prop("disabled", true);
     $('.full_time').show();
     $('.part_time').show();
+
     if ($("#exit_company").val() != null && $("#exit_company").val() != '') {
         $("#calculate_fertility_proportional").prop("disabled", false);
         $("#calculate_substitute_compensation").prop("disabled", false);
@@ -15,6 +16,126 @@ $(document).ready(function () {
         $("#calculate_indemnity_years_service").prop("disabled", true);
     }
     
+    $("#calculate_indemnity_years_service").click(function() {
+        var formData = new FormData();
+        
+        formData.append('rut', $('#rut').val());
+        formData.append('exit_company', $('#exit_company').val());
+
+        $.ajax({
+            url: "/human_resources/end_document/indemnity_years_service",
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                $('#indemnity_years_service').val(response);
+
+                return;
+            }
+        });
+    });
+
+    $("#calculate_substitute_compensation").click(function() {
+        var formData = new FormData();
+        
+        formData.append('rut', $('#rut').val());
+
+        $.ajax({
+            url: "/human_resources/end_document/substitute_compensation",
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                $('#substitute_compensation').val(response);
+
+                return;
+            }
+        });
+    });
+
+    $("#calculate_fertility_proportional").click(function() {
+        var formData = new FormData();
+        
+        formData.append('rut', $('#rut').val());
+        formData.append('exit_company', $('#exit_company').val());
+        formData.append('balance', $('#balance').val());
+        formData.append('number_holidays', $('#number_holidays').val());
+        
+        $.ajax({
+            url: "/human_resources/end_document/fertility_proportional",
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                data = response.split("_");
+
+                $('#fertility_proportional').val(data[0]);
+                $('#fertility_proportional_days').val(data[1]);
+
+                return;
+            }
+        });
+    });
+
+    $("#end_document_total").click(function() {
+        $('#total').val(parseInt($('#substitute_compensation').val()) + parseInt($('#indemnity_years_service').val()) + parseInt($('#fertility_proportional').val()));
+    });
+
+    $("#save_end_document").click(function() {
+        var formData = new FormData();
+        
+        if ($('#employee_status_id').val() != '' 
+            && $('#causal_id').val() != "" 
+            && $('#exit_company').val() != ""
+            && $('#balance').val() != ""
+        ) {
+            formData.append('rut', $('#rut').val());
+            formData.append('employee_status_id', $('#employee_status_id').val());
+            formData.append('causal_id', $('#causal_id').val());
+            formData.append('exit_company', $('#exit_company').val());
+            formData.append('balance', $('#balance').val());
+            formData.append('voluntary_indemnity', $('#voluntary_indemnity').val());
+            formData.append('indemnity_years_service', $('#indemnity_years_service').val());
+            formData.append('substitute_compensation', $('#substitute_compensation').val());
+            formData.append('fertility_proportional', $('#fertility_proportional').val());
+            formData.append('fertility_proportional_days', $('#fertility_proportional_days').val());
+            formData.append('number_holidays', $('#number_holidays').val());
+            formData.append('total', $('#total').val());
+            
+            $.ajax({
+                url: "/human_resources/end_document/store",
+                method: 'POST',
+                headers: {
+                    "X-CSRFToken": $('input[name="csrf_token"]').val()
+                },
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response == 1) {
+                        window.location.replace("https://jiserp.com/human_resources/personal_data/" + $("#rut").val());
+                    } else {
+                        alert("No se pudo completar la transacción.");
+                    }
+
+                    return;
+                }
+            });
+        }
+    });
+
     $('[data-toggle="tooltip"]').tooltip()
 
     $("#description").on("keyup", function() {

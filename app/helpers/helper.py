@@ -328,7 +328,8 @@ class Helper:
     def count_weekends(start_date, end_date):
         start_date = datetime.strptime(start_date, "%Y-%m-%d")
         end_date = datetime.strptime(end_date, '%Y-%m-%d')
-        if end_date.weekday() == 4:  # Si es viernes (0=Lunes, 6=Domingo)
+
+        if end_date.weekday() == 5:  # Si es viernes (0=Lunes, 6=Domingo)
             end_date += timedelta(days=2)  # Suma 2 dias
         weekend_count = 0
         delta = timedelta(days=1)
@@ -351,7 +352,7 @@ class Helper:
         start_date = datetime.strptime(start_date, "%Y-%m-%d")
         current_date = start_date
         added_days = 0
-        while added_days < num_days:
+        while added_days < int(num_days):
             # sumamos un día a la fecha actual
             current_date += timedelta(days=1)
             # verificamos si la fecha actual es hábil/laboral

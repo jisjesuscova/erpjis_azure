@@ -21,6 +21,7 @@ from app.helpers.pdf import Pdf
 from app.causals.causal import Causal
 from app.job_positions.job_position import JobPosition
 from app.helpers.file import File
+from app.hr_settings.hr_setting import HrSetting
 
 end_document = Blueprint("end_documents", __name__)
 
@@ -40,54 +41,28 @@ def create(rut):
    legal = Vacation.legal(rut)
    taken_days = Vacation.taken_days(rut)
    balance = Vacation.balance(legal, taken_days)
-   number_holidays = balance
-   
-   return render_template('human_resource/human_resources/end_documents/end_document_data.html', rut = rut, number_holidays = number_holidays, voluntary_indemnity = voluntary_indemnity, indemnity_years_service = indemnity_years_service, substitute_compensation = substitute_compensation, fertility_proportional= fertility_proportional, total = total)
+  
+   return render_template('human_resource/human_resources/end_documents/end_document_data.html', rut = rut, balance = balance, voluntary_indemnity = voluntary_indemnity, indemnity_years_service = indemnity_years_service, substitute_compensation = substitute_compensation, fertility_proportional= fertility_proportional, total = total)
 
-@end_document.route("/human_resources/end_document/indemnity_years_service/<int:rut>", methods=['POST'])
-def indemnity_years_service(rut):
+@end_document.route("/human_resources/end_document/indemnity_years_service", methods=['POST'])
+def indemnity_years_service():
+   rut = request.form['rut']
    indemnity_years_service = EndDocument.indemnity_years_service(rut, request.form['exit_company'])
-   employee_status_id = request.form['employee_status_id']
-   causal_id = request.form['causal_id']
-   exit_company = request.form['exit_company']
-   number_holidays = request.form['number_holidays']
-   voluntary_indemnity = request.form['voluntary_indemnity']
-   substitute_compensation = request.form['substitute_compensation']
-   fertility_proportional = request.form['fertility_proportional']
 
-   total = int(voluntary_indemnity) + int(indemnity_years_service) + int(substitute_compensation) + int(fertility_proportional)
-   
-   return render_template('human_resource/human_resources/end_documents/end_document_data.html', rut = rut, employee_status_id = employee_status_id, causal_id = causal_id, exit_company = exit_company, number_holidays = number_holidays, end_document = end_document, voluntary_indemnity = voluntary_indemnity, indemnity_years_service = indemnity_years_service, substitute_compensation = substitute_compensation, fertility_proportional = fertility_proportional, total = total)
+   return str(indemnity_years_service)
+  
+@end_document.route("/human_resources/end_document/substitute_compensation", methods=['POST'])
+def substitute_compensation():
+   substitute_compensation = EndDocument.substitute_compensation(request.form['rut'])
 
-@end_document.route("/human_resources/end_document/substitute_compensation/<int:rut>", methods=['POST'])
-def substitute_compensation(rut):
-   indemnity_years_service = request.form['indemnity_years_service']
-   employee_status_id = request.form['employee_status_id']
-   causal_id = request.form['causal_id']
-   exit_company = request.form['exit_company']
-   number_holidays = request.form['number_holidays']
-   voluntary_indemnity = request.form['voluntary_indemnity']
-   substitute_compensation = EndDocument.substitute_compensation(rut)
-   fertility_proportional = request.form['fertility_proportional']
+   return str(substitute_compensation)
 
-   total = int(voluntary_indemnity) + int(indemnity_years_service) + int(substitute_compensation) + int(fertility_proportional)
+@end_document.route("/human_resources/end_document/fertility_proportional", methods=['POST'])
+def fertility_proportional():
+   fertility_proportional = EndDocument.fertility_proportional(request.form['rut'], request.form['exit_company'], request.form['balance'], request.form['number_holidays'])
+   total_vacations = EndDocument.total_vacations(request.form['rut'], request.form['exit_company'], request.form['balance'], request.form['number_holidays'])
 
-   return render_template('human_resource/human_resources/end_documents/end_document_data.html', rut = rut, employee_status_id = employee_status_id, causal_id = causal_id, exit_company = exit_company, number_holidays = number_holidays, end_document = end_document, voluntary_indemnity = voluntary_indemnity, indemnity_years_service = indemnity_years_service, substitute_compensation = substitute_compensation, fertility_proportional = fertility_proportional, total = total)
-
-@end_document.route("/human_resources/end_document/fertility_proportional/<int:rut>", methods=['POST'])
-def fertility_proportional(rut):
-   indemnity_years_service = request.form['indemnity_years_service']
-   employee_status_id = request.form['employee_status_id']
-   causal_id = request.form['causal_id']
-   exit_company = request.form['exit_company']
-   number_holidays = request.form['number_holidays']
-   voluntary_indemnity = request.form['voluntary_indemnity']
-   substitute_compensation = request.form['substitute_compensation']
-   fertility_proportional = EndDocument.fertility_proportional(rut, request.form['exit_company'], request.form['number_holidays'])
-
-   total = int(voluntary_indemnity) + int(indemnity_years_service) + int(substitute_compensation) + int(fertility_proportional)
-
-   return render_template('human_resource/human_resources/end_documents/end_document_data.html', rut = rut, employee_status_id = employee_status_id, causal_id = causal_id, exit_company = exit_company, number_holidays = number_holidays, end_document = end_document, voluntary_indemnity = voluntary_indemnity, indemnity_years_service = indemnity_years_service, substitute_compensation = substitute_compensation, fertility_proportional = fertility_proportional, total = total)
+   return str(fertility_proportional) +"_"+ str(total_vacations)
 
 @end_document.route("/human_resources/end_document/store", methods=['POST'])
 def store():

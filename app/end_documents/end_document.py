@@ -83,16 +83,16 @@ class EndDocument():
             gratification = hr_settings.top_gratification
 
         years = Helper.get_end_document_total_years(employee_labor_datum.entrance_company, exit_company)
+        if years > 11:
+            years = 11
+
         result = (int(employee_labor_datum.salary) + int(employee_labor_datum.collation) + int(employee_labor_datum.locomotion) + int(gratification)) * int(years)
 
         return result
 
     @staticmethod
-    def fertility_proportional(rut, exit_company, number_holidays):
+    def fertility_proportional(rut, exit_company, balance, number_holidays):
         employee_labor_datum = EmployeeLaborDatum.get(rut)
-        legal = Vacation.legal(rut)
-        taken_days = Vacation.taken_days(rut)
-        balance = Vacation.balance(legal, taken_days)
         start_date = exit_company
         end_date = Helper.add_business_days(start_date, balance, number_holidays)
         end_date_split = Helper.split(str(end_date), " ")
@@ -101,6 +101,20 @@ class EndDocument():
         vacation_day_value = Helper.vacation_day_value(employee_labor_datum.salary)
 
         result = int(vacation_day_value) * int(total)
+
+        if result < 0:
+            result = 0
+            
+        return result
+    
+    @staticmethod
+    def total_vacations(rut, exit_company, balance, number_holidays):
+        start_date = exit_company
+        end_date = Helper.add_business_days(start_date, balance, number_holidays)
+        end_date_split = Helper.split(str(end_date), " ")
+        weekends_between_dates = Helper.count_weekends(start_date, end_date_split[0])
+        total = int(balance) + int(weekends_between_dates) + int(number_holidays)
+        result = int(total)
 
         if result < 0:
             result = 0
