@@ -15,13 +15,13 @@ class EndDocument():
         if status_id == 1:
             end_documents = EndDocumentModel.query\
                 .join(DocumentEmployeeModel, DocumentEmployeeModel.id == EndDocumentModel.document_employee_id)\
-                .add_columns(DocumentEmployeeModel.status_id, EndDocumentModel.id, EndDocumentModel.added_date, EndDocumentModel.document_employee_id, EndDocumentModel.causal_id, EndDocumentModel.rut, EndDocumentModel.number_holidays, EndDocumentModel.voluntary_indemnity, EndDocumentModel.indemnity_years_service, EndDocumentModel.fertility_proportional, EndDocumentModel.substitute_compensation, EndDocumentModel.total)\
+                .add_columns(DocumentEmployeeModel.status_id, EndDocumentModel.id, EndDocumentModel.added_date, EndDocumentModel.document_employee_id, EndDocumentModel.causal_id, EndDocumentModel.rut, EndDocumentModel.fertility_proportional_days, EndDocumentModel.voluntary_indemnity, EndDocumentModel.indemnity_years_service, EndDocumentModel.fertility_proportional, EndDocumentModel.substitute_compensation, EndDocumentModel.total)\
                 .filter(EndDocumentModel.rut==rut)\
                 .all()
         else:
             end_documents = EndDocumentModel.query\
                 .join(OldDocumentEmployeeModel, OldDocumentEmployeeModel.id == EndDocumentModel.document_employee_id)\
-                .add_columns(OldDocumentEmployeeModel.status_id, EndDocumentModel.id, EndDocumentModel.added_date, EndDocumentModel.document_employee_id, EndDocumentModel.causal_id, EndDocumentModel.rut, EndDocumentModel.number_holidays, EndDocumentModel.voluntary_indemnity, EndDocumentModel.indemnity_years_service, EndDocumentModel.fertility_proportional, EndDocumentModel.substitute_compensation, EndDocumentModel.total)\
+                .add_columns(OldDocumentEmployeeModel.status_id, EndDocumentModel.id, EndDocumentModel.added_date, EndDocumentModel.document_employee_id, EndDocumentModel.causal_id, EndDocumentModel.rut, EndDocumentModel.fertility_proportional_days, EndDocumentModel.voluntary_indemnity, EndDocumentModel.indemnity_years_service, EndDocumentModel.fertility_proportional, EndDocumentModel.substitute_compensation, EndDocumentModel.total)\
                 .filter(EndDocumentModel.rut==rut)\
                 .all()
 
@@ -31,7 +31,7 @@ class EndDocument():
     def get_by_id(id):
         end_documents = EndDocumentModel.query\
                 .join(DocumentEmployeeModel, DocumentEmployeeModel.id == EndDocumentModel.document_employee_id)\
-                .add_columns(EndDocumentModel.id, DocumentEmployeeModel.status_id, EndDocumentModel.added_date, EndDocumentModel.document_employee_id, EndDocumentModel.causal_id, EndDocumentModel.rut, EndDocumentModel.number_holidays, EndDocumentModel.voluntary_indemnity, EndDocumentModel.indemnity_years_service, EndDocumentModel.fertility_proportional, EndDocumentModel.substitute_compensation, EndDocumentModel.total)\
+                .add_columns(EndDocumentModel.id, DocumentEmployeeModel.status_id, EndDocumentModel.added_date, EndDocumentModel.document_employee_id, EndDocumentModel.causal_id, EndDocumentModel.rut, EndDocumentModel.fertility_proportional_days, EndDocumentModel.voluntary_indemnity, EndDocumentModel.indemnity_years_service, EndDocumentModel.fertility_proportional, EndDocumentModel.substitute_compensation, EndDocumentModel.total)\
                 .filter(EndDocumentModel.id==id)\
                 .first()
 
@@ -44,13 +44,13 @@ class EndDocument():
         if status_id == 1:
             end_documents = EndDocumentModel.query\
                 .join(DocumentEmployeeModel, DocumentEmployeeModel.id == EndDocumentModel.document_employee_id)\
-                .add_columns(EndDocumentModel.id, DocumentEmployeeModel.status_id, EndDocumentModel.added_date, EndDocumentModel.document_employee_id, EndDocumentModel.causal_id, EndDocumentModel.rut, EndDocumentModel.number_holidays, EndDocumentModel.voluntary_indemnity, EndDocumentModel.indemnity_years_service, EndDocumentModel.fertility_proportional, EndDocumentModel.substitute_compensation, EndDocumentModel.total)\
+                .add_columns(EndDocumentModel.id, DocumentEmployeeModel.status_id, EndDocumentModel.added_date, EndDocumentModel.document_employee_id, EndDocumentModel.causal_id, EndDocumentModel.rut, EndDocumentModel.fertility_proportional_days, EndDocumentModel.voluntary_indemnity, EndDocumentModel.indemnity_years_service, EndDocumentModel.fertility_proportional, EndDocumentModel.substitute_compensation, EndDocumentModel.total)\
                 .filter(EndDocumentModel.rut==rut)\
                 .first()
         else:
             end_documents = EndDocumentModel.query\
                 .join(OldDocumentEmployeeModel, OldDocumentEmployeeModel.id == EndDocumentModel.document_employee_id)\
-                .add_columns(EndDocumentModel.id, OldDocumentEmployeeModel.status_id, EndDocumentModel.id, EndDocumentModel.added_date, EndDocumentModel.document_employee_id, EndDocumentModel.causal_id, EndDocumentModel.rut, EndDocumentModel.number_holidays, EndDocumentModel.voluntary_indemnity, EndDocumentModel.indemnity_years_service, EndDocumentModel.fertility_proportional, EndDocumentModel.substitute_compensation, EndDocumentModel.total)\
+                .add_columns(EndDocumentModel.id, OldDocumentEmployeeModel.status_id, EndDocumentModel.id, EndDocumentModel.added_date, EndDocumentModel.document_employee_id, EndDocumentModel.causal_id, EndDocumentModel.rut, EndDocumentModel.fertility_proportional_days, EndDocumentModel.voluntary_indemnity, EndDocumentModel.indemnity_years_service, EndDocumentModel.fertility_proportional, EndDocumentModel.substitute_compensation, EndDocumentModel.total)\
                 .filter(EndDocumentModel.rut==rut)\
                 .first()
 
