@@ -9,8 +9,14 @@ from app.pre_employee_turns.pre_employee_turn import PreEmployeeTurn
 
 class MeshDatum():
     @staticmethod
-    def get(week):
-        mesh_data = MeshDatumModel.query.filter_by(week=week).all()
+    def get(week = ''):
+        if week != '':
+            mesh_data = MeshDatumModel.query.filter_by(week=week).all()
+        else:
+            now = datetime.now()
+            current_date = now.strftime('%Y-%m-%d')
+
+            mesh_data = MeshDatumModel.query.filter_by(date=current_date).all()
 
         return mesh_data
 

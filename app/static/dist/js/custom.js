@@ -90,7 +90,7 @@ $(document).ready(function () {
     });
 
     $("#end_document_total").click(function() {
-        $('#total').val(parseInt($('#substitute_compensation').val()) + parseInt($('#indemnity_years_service').val()) + parseInt($('#fertility_proportional').val()));
+        $('#total').val(parseInt($('#substitute_compensation').val()) + parseInt($('#indemnity_years_service').val()) + parseInt($('#fertility_proportional').val()) + parseInt($('#voluntary_indemnity').val()));
     });
 
     $("#save_end_document").click(function() {

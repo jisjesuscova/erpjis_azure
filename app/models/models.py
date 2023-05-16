@@ -69,6 +69,7 @@ class TurnModel(db.Model):
     break_in = db.Column(db.String(255))
     break_out = db.Column(db.String(255))
     total_week_hours = db.Column(db.String(255))
+    end_entry_time_threshold = db.Column(db.String(255))
     day_hours = db.Column(db.Integer)
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
