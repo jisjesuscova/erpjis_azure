@@ -11,7 +11,7 @@ class Turn():
         turn = TurnModel.query.filter_by(id=id).first()
 
         return turn
-
+    
     def get_special(id):
         turn = TurnModel.query.filter_by(id=id).all()
 

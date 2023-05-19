@@ -16,6 +16,11 @@ class EmployeeLaborDatum():
 
         return employee_labor_data
     
+    def get_detail_by_rut(rut):
+        employee_labor_data = EmployeeLaborDatumModel.query.filter_by(rut=rut).first()
+
+        return employee_labor_data
+    
     @staticmethod
     def distribution_totals():
         # Consulta para obtener el total de hombres y mujeres

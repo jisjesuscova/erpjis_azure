@@ -70,6 +70,7 @@ class TurnModel(db.Model):
     break_out = db.Column(db.String(255))
     total_week_hours = db.Column(db.String(255))
     end_entry_time_threshold = db.Column(db.String(255))
+    end_exit_time_threshold = db.Column(db.String(255))
     day_hours = db.Column(db.Integer)
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
@@ -1092,6 +1093,27 @@ class PatologyTypeModel(db.Model, UserMixin):
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
+class AlertModel(db.Model, UserMixin):
+    __tablename__ = 'alerts'
+
+    id = db.Column(db.Integer, primary_key=True)
+    rut = db.Column(db.Integer)
+    alert_type_id = db.Column(db.Integer)
+    status_id = db.Column(db.Integer)
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
+class ControlClockNoMarkModel(db.Model, UserMixin):
+    __tablename__ = 'control_clock_no_marks'
+
+    id = db.Column(db.Integer, primary_key=True)
+    status_id = db.Column(db.Integer)
+    rut = db.Column(db.Integer)
+    punch = db.Column(db.Integer)
+    mark_date = db.Column(db.DateTime())
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
 class ClockAttendanceModel(db.Model, UserMixin):
     __tablename__ = 'clock_attendances'
 
@@ -1099,8 +1121,10 @@ class ClockAttendanceModel(db.Model, UserMixin):
     uid = db.Column(db.Integer)
     branch_office_id = db.Column(db.Integer)
     rut = db.Column(db.Integer)
+    week_id = db.Column(db.Integer)
     punch = db.Column(db.Integer)
     status = db.Column(db.Integer)
+    checked_attendance_id = db.Column(db.Integer)
     mark_date = db.Column(db.DateTime())
 
 class ClockUserModel(db.Model, UserMixin):

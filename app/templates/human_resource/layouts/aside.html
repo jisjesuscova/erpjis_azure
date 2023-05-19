@@ -86,32 +86,29 @@
               </li>
             </ul>
           </li>
-          
-            <li class="nav-item has-treeview menu-close">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-clock"></i>
-                <p>
-                  Gestión Tiempo
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="{{ url_for('clocks.index') }}"  class="nav-link">
-                    <i class="far fa-hourglass-half nav-icon"></i>
-                    <p>Reloj Control</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="{{ url_for('mesh_data.index') }}"  class="nav-link">
-                    <i class="far fa-calendar nav-icon"></i>
-                    <p>Mallas Horarias</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-          
-          
+          <li class="nav-item has-treeview menu-close">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-clock"></i>
+              <p>
+                Gestión Tiempo
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ url_for('clocks.index') }}"  class="nav-link">
+                  <i class="far fa-hourglass-half nav-icon"></i>
+                  <p>Reloj Control</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ url_for('mesh_data.index') }}"  class="nav-link">
+                  <i class="far fa-calendar nav-icon"></i>
+                  <p>Mallas Horarias</p>
+                </a>
+              </li>
+            </ul>
+          </li>
           <li class="nav-item ">
             <a href="{{ url_for('personal_data.show', rut=current_user.rut) }}" class="nav-link">
               <i class="nav-icon fas fa-circle-user"></i>

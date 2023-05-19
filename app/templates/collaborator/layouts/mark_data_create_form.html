@@ -1,0 +1,54 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Agregar Marca</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- form start -->
+                        <form role="form" action="{{ url_for('clock_attendances.special_store') }}" method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">RUT</label>
+                                            <input type="text" value="{{ clock_no_mark.rut }}" class="form-control" id="exampleInputEmail1" placeholder="RUT" name="rut_disabled" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Fecha</label>
+                                            <input type="text" value="{{ clock_no_mark.added_date }}" class="form-control" id="exampleInputEmail1" placeholder="Fecha" name="added_date_disabled" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Hora de Marca</label>
+                                            <input type="time" step="1" value="" class="form-control" id="exampleInputEmail1" placeholder="Hora de Marca" name="mark_hour" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                            <input type="hidden" value="{{ clock_no_mark.rut }}" class="form-control" id="exampleInputEmail1" name="rut">
+                            <input type="hidden" value="{{ clock_no_mark.added_date }}" class="form-control" id="exampleInputEmail1" name="added_date">
+                            <input type="hidden" value="{{ clock_no_mark.punch }}" class="form-control" id="exampleInputEmail1" name="punch">
+                            <input type="hidden" value="{{ clock_no_mark.id }}" class="form-control" id="exampleInputEmail1" name="id">
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+
+                                <a href="{{ url_for('clock_attendances.mark', rut=clock_no_mark.rut) }}" class="btn btn-secondary">Cancelar</a>
+                            </div>
+                        </form>
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

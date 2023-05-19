@@ -1,5 +1,6 @@
 from flask import Blueprint, request, render_template, redirect, url_for, flash, session, jsonify
 from app.clocks.clock import Clock
+from app.control_clock_no_marks.control_clock_no_mark import ControlClockNoMark
 
 clock = Blueprint("clocks", __name__)
 
@@ -26,8 +27,14 @@ def store():
 
 @clock.route("/clock/delete/<int:id>", methods=['GET'])
 def delete(id):
-    Clock.delete(id)
+   Clock.delete(id)
 
-    flash("El reloj ha sido borrado con éxito.", "success")
+   flash("El reloj ha sido borrado con éxito.", "success")
 
-    return redirect(url_for('clocks.index'))
+   return redirect(url_for('clocks.index'))
+
+@clock.route("/clock_data/create/<int:id>", methods=['GET'])
+def create(id):
+   clock_no_mark = ControlClockNoMark.get_by_id(id)
+
+   return render_template('collaborator/clocks/create_mark_data.html', clock_no_mark = clock_no_mark)

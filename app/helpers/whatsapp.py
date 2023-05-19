@@ -15,6 +15,8 @@ from app.employee_labor_data.employee_labor_datum import EmployeeLaborDatum
 from app.supervisors.supervisor import Supervisor
 from app.branch_offices.branch_office import BranchOffice
 from app.employee_bank_accounts.employee_bank_account import EmployeeBankAccount
+import pytz
+from datetime import datetime
 
 class Whatsapp:
     @staticmethod
@@ -465,7 +467,7 @@ class Whatsapp:
 
                     payload = json.dumps({
                                     "messaging_product": "whatsapp",
-                                    "to": "56" + str(hr_employee.cellphone),
+                                    "to": "56" + "935887241",
                                     "type": "template",
                                     "template": {
                                         "name": str(whatsapp_template.whatsapp_template),
@@ -498,5 +500,90 @@ class Whatsapp:
                     response = requests.request("POST", url, headers=headers, data=payload)
 
                     print(response.text)
+            elif template_type_id == 19:
+                whatsapp_template = WhatsappTemplate.get(template_type_id)
+                hr_employee = Employee.get(id)
 
+                santiago_timezone = pytz.timezone('Chile/Continental')
+                current_date = datetime.now(santiago_timezone).date()
+                current_date = str(current_date)
+
+                url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+
+                payload = json.dumps({
+                                    "messaging_product": "whatsapp",
+                                    "to": "56" + "935887241",
+                                    "type": "template",
+                                    "template": {
+                                        "name": str(whatsapp_template.whatsapp_template),
+                                        "language": {
+                                        "code": "es"
+                                        },
+                                        "components": [
+                                        {
+                                            "type": "body",
+                                            "parameters": [
+                                            {
+                                                "type": "text",
+                                                "text": hr_employee.nickname
+                                            },
+                                            {
+                                                "type": "text",
+                                                "text": current_date
+                                            }
+                                            ]
+                                        }
+                                        ]
+                                    }
+                                })
+                    
+                headers = {
+                            'Authorization': settings.facebook_token,
+                            'Content-Type': 'application/json'
+                            }
+
+                response = requests.request("POST", url, headers=headers, data=payload)
+
+                print(response.text)
+            elif template_type_id == 20:
+                whatsapp_template = WhatsappTemplate.get(template_type_id)
+                hr_employee = Employee.get(id)
+
+                url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+
+                payload = json.dumps({
+                                    "messaging_product": "whatsapp",
+                                    "to": "56" + "935887241",
+                                    "type": "template",
+                                    "template": {
+                                        "name": str(whatsapp_template.whatsapp_template),
+                                        "language": {
+                                        "code": "es"
+                                        },
+                                        "components": [
+                                        {
+                                            "type": "body",
+                                            "parameters": [
+                                            {
+                                                "type": "text",
+                                                "text": hr_employee.nickname
+                                            },
+                                            {
+                                                "type": "text",
+                                                "text": current_date
+                                            }
+                                            ]
+                                        }
+                                        ]
+                                    }
+                                })
+                    
+                headers = {
+                            'Authorization': settings.facebook_token,
+                            'Content-Type': 'application/json'
+                            }
+
+                response = requests.request("POST", url, headers=headers, data=payload)
+
+                print(response.text)
         return 1

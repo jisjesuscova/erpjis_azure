@@ -6,6 +6,7 @@ from app.employees_turns.employee_turn import EmployeeTurn
 from app.turns.turn import Turn
 from app.helpers.helper import Helper
 from app.pre_employee_turns.pre_employee_turn import PreEmployeeTurn
+from sqlalchemy import func
 
 class MeshDatum():
     @staticmethod
@@ -17,6 +18,18 @@ class MeshDatum():
             current_date = now.strftime('%Y-%m-%d')
 
             mesh_data = MeshDatumModel.query.filter_by(date=current_date).all()
+
+        return mesh_data
+    
+    @staticmethod
+    def get_week(rut, date):
+        mesh_datum = MeshDatumModel.query.filter_by(rut=rut,date=date).first()
+
+        return mesh_datum.week
+    
+    @staticmethod
+    def get_by_date(date):
+        mesh_data = MeshDatumModel.query.filter_by(date=date).all()
 
         return mesh_data
 
