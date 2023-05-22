@@ -62,13 +62,13 @@ def index(rut = '', page=1):
       settlement_data = DocumentEmployee.get(rut, 5, page, '')
       certificates = DocumentEmployee.get_by_type(rut, 4, page, [], 2)
       vacations = Vacation.get(rut, '', '')
-      total_mesh_data = TotalMeshDatum.get('', '')
+      total_mesh_data = TotalMeshDatum.get_by_rut(rut)
    else:
       kardex_data = OldDocumentEmployee.get(rut, '', page, 1)
       settlement_data = OldDocumentEmployee.get(rut, 5, page, '')
       certificates = OldDocumentEmployee.get_by_type(rut, 4, page, [], 2)
       vacations = OldVacation.get(rut, '', '')
-      total_mesh_data = TotalMeshDatum.get('', '')
+      total_mesh_data = TotalMeshDatum.get_by_rut(rut)
 
    employee = Employee.get(rut)
 

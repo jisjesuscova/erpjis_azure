@@ -1,6 +1,7 @@
 from flask import request
 from app import db
 from app.models.models import MeshDatumModel, TotalMeshDatumModel
+from sqlalchemy import func
 
 class TotalMeshDatum():
     @staticmethod
@@ -20,6 +21,15 @@ class TotalMeshDatum():
                 )
                 .all()
             )
+
+        return total_mesh_data
+    
+    @staticmethod
+    def get_by_rut(rut = ''):
+        total_mesh_data = db.session.query(
+            TotalMeshDatumModel.rut,
+            TotalMeshDatumModel.period
+        ).filter_by(rut=rut).group_by(TotalMeshDatumModel.rut, TotalMeshDatumModel.period).all()
 
         return total_mesh_data
     
