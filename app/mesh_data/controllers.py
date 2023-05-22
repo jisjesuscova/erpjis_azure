@@ -26,7 +26,8 @@ def create():
 
 @mesh_datum.route("/mesh_data/store", methods=['POST'])
 def store():
-   MeshDatum.store(request.form)
+   id = DocumentEmployee.store(request.form)
+   MeshDatum.store(id, request.form)
    
    flash('Malla Horaria creada con éxito', 'success')
 

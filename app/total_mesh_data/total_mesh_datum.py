@@ -34,16 +34,6 @@ class TotalMeshDatum():
         return total_mesh_data
     
     @staticmethod
-    def store(data):
-        total_mesh_datum = TotalMeshDatumModel()
-        total_mesh_datum.rut = rut
-        total_mesh_datum.total_hours = total
-        db.session.add(total_mesh_datum)
-        db.session.commit()
-
-        return 1
-    
-    @staticmethod
     def delete(rut, period):
         total_mesh_data = TotalMeshDatumModel.query.filter_by(rut=rut, period = period).all()
 

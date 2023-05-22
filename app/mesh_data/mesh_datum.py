@@ -42,7 +42,7 @@ class MeshDatum():
         return mesh_data
 
     @staticmethod
-    def store(data):
+    def store(id, data):
         employee_turns = EmployeeTurn.get_all_by_rut(data['rut'])
 
         for employee_turn in employee_turns:
@@ -128,6 +128,7 @@ class MeshDatum():
                 count = count + 1
 
             total_mesh_datum = TotalMeshDatumModel()
+            total_mesh_datum.document_employee_id = id
             total_mesh_datum.rut = rut
             total_mesh_datum.total_hours = total
             total_mesh_datum.week = i

@@ -136,6 +136,7 @@ class TotalMeshDatumModel(db.Model):
     __tablename__ = 'total_mesh_data'
 
     id = db.Column(db.Integer, primary_key=True)
+    document_employee_id = db.Column(db.Integer)
     rut = db.Column(db.Integer)
     total_hours = db.Column(db.String(255))
     week = db.Column(db.Integer)
