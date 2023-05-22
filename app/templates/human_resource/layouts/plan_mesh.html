@@ -5,43 +5,42 @@
           <div class="col-md-12">
               <!-- general form elements -->
               <div class="card card-primary">
-                  <div class="card-header">
+                <div class="card-header">
                       <h3 class="card-title">Buscar</h3>
-                  </div>
-                  <div class="card-body">
-                    <div class="row">
-                              <div class="col-md-4">
-                                  <div class="form-group">
-                                    <label for="exampleInputEmail1">Sucursal</label>
-                                    <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="branch_office_id" name="branch_office_id">
-                                      <option value="">- Seleccionar -</option>
-                                      {% for branch_office in branch_offices %}
-                                        <option value="{{ branch_office.id }}">{{ branch_office.branch_office }}</option>
-                                      {% endfor %}
-                                    </select>
-                                  </div>
-                              </div>
-                              <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Empleado</label>
-                                    <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="rut" id="employee_id">
-                                      <option value="">- Seleccionar -</option>
-                                    </select>
-                                </div>
-                              </div>
-                              <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Jornada</label>
-                                    <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="employee_id" id="group_id">
-                                      <option value="">- Seleccionar -</option>
-                                      <option value="1">Mañana</option>
-                                      <option value="2">Tarde</option>
-                                    </select>
-                                </div>
-                            </div>
-                          </div>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Sucursal</label>
+                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="branch_office_id" name="branch_office_id">
+                          <option value="">- Seleccionar -</option>
+                          {% for branch_office in branch_offices %}
+                            <option value="{{ branch_office.id }}">{{ branch_office.branch_office }}</option>
+                          {% endfor %}
+                        </select>
                       </div>
-                  <!-- form end -->
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Empleado</label>
+                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="rut" id="employee_id">
+                          <option value="">- Seleccionar -</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Jornada</label>
+                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="employee_id" id="group_id">
+                          <option value="">- Seleccionar -</option>
+                          <option value="1">Mañana</option>
+                          <option value="2">Tarde</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
           </div>
         </div>
@@ -202,10 +201,10 @@
                       },
                     });
                   },
-                  initialDate: '2023-06-01',
+                  initialDate: initialDate,
                   validRange: {
-                    start: "2023-05-28T00:00:00",
-                    end: "2023-07-30T00:00:00"
+                    start: startDate,
+                    end: lastDate
                   },
                   locale: 'es',
                   editable: true,
