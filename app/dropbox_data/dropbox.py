@@ -31,6 +31,15 @@ class Dropbox():
             return dropbox_file_name + extesion
         else:
             return 0
+        
+    @staticmethod
+    def upload_signed_files(pdf_bytes, file_path):
+        settings = Setting.get()
+        file_path = '/business_hours/horario.pdf'
+        dbx = dropbox.Dropbox(settings.dropbox_token)
+        dbx.files_upload(pdf_bytes, file_path, mode=dropbox.files.WriteMode.overwrite)
+
+        return 1
 
     def upload_local_cloud(name = '', description = '', data = '', dropbox_path = '', computer_path = '', resize = 0):
         settings = Setting.get()

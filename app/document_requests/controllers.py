@@ -21,6 +21,9 @@ from app.job_positions.job_position import JobPosition
 from app.employee_types.employee_type import EmployeeType
 from app.mesh_data.mesh_datum import MeshDatum
 from app.users.user import User
+import tempfile
+import dropbox
+from app.settings.setting import Setting
 
 document_request = Blueprint("document_requests", __name__)
 
@@ -119,6 +122,7 @@ def detail(rut = '', id = ''):
 
 @document_request.route("/human_resources/document_request/download_mesh/<rut>/<period>", methods=['GET'])
 def download_mesh(rut, period):
+   settings = Setting.get()
    employee = Employee.get(rut)
 
    user = User.get_by_int_rut(rut)
@@ -138,6 +142,14 @@ def download_mesh(rut, period):
    mesh_data = MeshDatum.get_per_day(rut, period)
 
    pdf = Pdf.create_business_hours_pdf('business_hours', data, mesh_data)
+
+   with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as temp_file:
+      temp_file.write(pdf)
+
+      file_path = '/business_hours/horario.pdf'  # Ruta y nombre de archivo en Dropbox
+      dbx = dropbox.Dropbox(settings.dropbox_token)
+      with open(temp_file.name, 'rb') as file:
+         dbx.files_upload(file.read(), file_path, mode=dropbox.files.WriteMode.overwrite)
 
    response = make_response(pdf)
    response.headers['Content-Type'] = 'application/pdf'

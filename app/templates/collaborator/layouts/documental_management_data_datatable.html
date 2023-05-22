@@ -231,6 +231,7 @@
                                 <tr>
                                     <th>Documento</th>
                                     <th>Periodo</th>
+                                    <th>Estatus</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -239,8 +240,9 @@
                                     <tr>
                                         <td>Horario Laboral</td>
                                         <td>{{ total_mesh_datum['period'] }}</td>
+                                        <td><span class="badge badge-success">Firmado</span></td>
                                         <td>
-                                            <a href="{{ url_for('document_requests.download_mesh', rut=total_mesh_datum['rut'], period=total_mesh_datum['period']) }}" class="btn btn-primary">
+                                            <a href="{{ url_for('documental_management_data.sign', rut=total_mesh_datum['rut'], period=total_mesh_datum['period'], document_type_id=23) }}" class="btn btn-primary">
                                                 <i class="fa fa-arrow-down"></i>
                                             </a>
                                         </td>

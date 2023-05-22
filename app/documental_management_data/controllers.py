@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, make_response
 from flask_login import login_required, current_user
 from app import app, regular_employee_rol_need
 from app.models.models import EmployeeModel
@@ -13,6 +13,12 @@ from app.helpers.helper import Helper
 from app.old_documents_employees.old_document_employee import OldDocumentEmployee
 from app.old_vacations.old_vacation import OldVacation
 from app.total_mesh_data.total_mesh_datum import TotalMeshDatum
+import dropbox
+from app.settings.setting import Setting
+import tempfile
+from app.mesh_data.mesh_datum import MeshDatum
+from app.users.user import User
+from app.helpers.pdf import Pdf
 
 documental_management_datum = Blueprint("documental_management_data", __name__)
 
@@ -167,7 +173,7 @@ def signed(rut, id):
 
 @documental_management_datum.route("/human_resources/documental_management_data/signed_vacation/<int:rut>/<int:id>", methods=['GET'])
 def signed_vacation(rut, id):
-   print(current_user.rol_id )
+
    if current_user.rol_id == 1:
       return render_template('collaborator/human_resources/documental_management_data/upload_signed_vacation_document.html', id = id, rut = rut)
    elif current_user.rol_id == 2:
@@ -235,6 +241,46 @@ def download(id):
    response = Dropbox.get('/employee_documents/', document_employee.support)
 
    return redirect(response)
+
+@documental_management_datum.route("/human_resources/documental_management_data/sign/<rut>/<period>/<int:document_type_id>", methods=['GET'])
+def sign(rut, period, document_type_id):
+   settings = Setting.get()
+   employee = Employee.get(rut)
+
+   user = User.get_by_int_rut(rut)
+
+   signature_exist = Dropbox.exist('/signature/', employee.signature)
+
+   if signature_exist == 1:
+   
+      signature = Dropbox.get('/signature/', employee.signature)
+   
+      data = ['', user.visual_rut, '', signature]
+   else:
+      signature = ''
+
+      data = ['', user.visual_rut, '', signature]
+
+   mesh_data = MeshDatum.get_per_day(rut, period)
+
+   pdf = Pdf.create_business_hours_pdf('business_hours', data, mesh_data)
+
+   with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as temp_file:
+      temp_file.write(pdf)
+
+      if document_type_id == 23:
+         file_name = 'Horario_Laboral_' + rut + "_" + period + '.pdf'
+
+      file_path = '/business_hours/' + file_name
+      dbx = dropbox.Dropbox(settings.dropbox_token)
+      with open(temp_file.name, 'rb') as file:
+         dbx.files_upload(file.read(), file_path, mode=dropbox.files.WriteMode.overwrite)
+
+   response = make_response(pdf)
+   response.headers['Content-Type'] = 'application/pdf'
+   response.headers['Content-Disposition'] = 'attachment; filename='+file_name
+
+   return response
 
 @documental_management_datum.route("/human_resources/documental_management_data/delete/<int:id>", methods=['GET'])
 def delete(id):
