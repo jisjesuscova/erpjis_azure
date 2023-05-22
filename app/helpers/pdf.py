@@ -45,14 +45,12 @@ class Pdf:
 
     @staticmethod
     def create_business_hours_pdf(file_name, data, multiple_data = ''):
-        path_wkhtmltopdf = 'C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe'
+        path_wkhtmltopdf = '/usr/bin/wkhtmltopdf'
         config = pdfkit.configuration(wkhtmltopdf = path_wkhtmltopdf)
 
         template_path = 'pdfs/' + str(file_name) + '.html'
 
         logo = os.path.join('app/static/dist/img/logo.png')
-
-        print(multiple_data)
 
         rendered = render_template(template_path, data = data, root = 'https://127.0.0.1:5000/', multiple_data = multiple_data, logo = logo)
 
