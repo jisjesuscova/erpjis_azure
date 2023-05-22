@@ -247,7 +247,7 @@ def sign(rut, period, document_type_id):
    employee = Employee.get(rut)
    user = User.get_by_int_rut(rut)
    total_mesh_datum = TotalMeshDatum.get_one(rut, period)
-   id = total_mesh_datum.id
+   id = total_mesh_datum.document_employee_id
    signature_exist = Dropbox.exist('/signature/', employee.signature)
    mesh_data = MeshDatum.get_per_day(rut, period)
 
@@ -275,7 +275,7 @@ def sign(rut, period, document_type_id):
       with open(temp_file.name, 'rb') as file:
          dbx.files_upload(file.read(), file_path, mode=dropbox.files.WriteMode.overwrite)
 
-         DocumentEmployee.update_file(id, file_name)
+   DocumentEmployee.update_file(id, file_name)
 
    response = make_response(pdf)
    response.headers['Content-Type'] = 'application/pdf'
