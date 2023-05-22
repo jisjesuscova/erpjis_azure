@@ -12,6 +12,7 @@ from datetime import datetime
 from app.helpers.helper import Helper
 from app.old_documents_employees.old_document_employee import OldDocumentEmployee
 from app.old_vacations.old_vacation import OldVacation
+from app.total_mesh_data.total_mesh_datum import TotalMeshDatum
 
 documental_management_datum = Blueprint("documental_management_data", __name__)
 
@@ -55,16 +56,18 @@ def index(rut = '', page=1):
       settlement_data = DocumentEmployee.get(rut, 5, page, '')
       certificates = DocumentEmployee.get_by_type(rut, 4, page, [], 2)
       vacations = Vacation.get(rut, '', '')
+      total_mesh_data = TotalMeshDatum.get('', '')
    else:
       kardex_data = OldDocumentEmployee.get(rut, '', page, 1)
       settlement_data = OldDocumentEmployee.get(rut, 5, page, '')
       certificates = OldDocumentEmployee.get_by_type(rut, 4, page, [], 2)
       vacations = OldVacation.get(rut, '', '')
+      total_mesh_data = TotalMeshDatum.get('', '')
 
    employee = Employee.get(rut)
 
    if current_user.rol_id == 1:
-      return render_template('collaborator/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations, status_id = status_id, employee = employee)
+      return render_template('collaborator/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations, status_id = status_id, employee = employee, total_mesh_data = total_mesh_data)
    elif current_user.rol_id == 2:
       return render_template('incharge/human_resources/documental_management_data/documental_management_data.html', employees = EmployeeModel.query.paginate(page=page, per_page=20, error_out=False), kardex_data = kardex_data, certificates = certificates, settlement_data = settlement_data, vacations = vacations, status_id = status_id, employee = employee)
    elif current_user.rol_id == 3:
