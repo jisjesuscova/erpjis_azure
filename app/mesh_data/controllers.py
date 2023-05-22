@@ -33,11 +33,11 @@ def store():
 
    return redirect(url_for('mesh_data.index'))
 
-@mesh_datum.route("/mesh_data/delete/<int:rut>/<period>", methods=['GET'])
-def delete(rut, period):
+@mesh_datum.route("/mesh_data/delete/<int:document_employee_id>/<int:rut>/<period>", methods=['GET'])
+def delete(document_employee_id, rut, period):
    mesh_datum_status_id = MeshDatum.delete(rut, period)
    total_mesh_datum_status_id = TotalMeshDatum.delete(rut, period)
-   document_employee_status_id = DocumentEmployee.delete(rut, period)
+   document_employee_status_id = DocumentEmployee.delete(document_employee_id)
    
    if mesh_datum_status_id == 1 and total_mesh_datum_status_id == 1 and document_employee_status_id == 1:
       return '1'

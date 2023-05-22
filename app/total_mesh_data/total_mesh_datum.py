@@ -12,10 +12,12 @@ class TotalMeshDatum():
             total_mesh_data = (
                 TotalMeshDatumModel.query
                 .with_entities(
+                    TotalMeshDatumModel.document_employee_id,
                     TotalMeshDatumModel.rut,
                     TotalMeshDatumModel.period
                 )
                 .group_by(
+                    TotalMeshDatumModel.document_employee_id,
                     TotalMeshDatumModel.rut,
                     TotalMeshDatumModel.period
                 )
