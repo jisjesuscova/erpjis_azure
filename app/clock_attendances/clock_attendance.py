@@ -72,6 +72,7 @@ class ClockAttendance():
         clock_attendance.status = data['status']
         clock_attendance.mark_date = data['mark_date']
         clock_attendance.branch_office_id = data['branch_office_id']
+        clock_attendance.checked_attendance_id = 0
         db.session.add(clock_attendance)
         db.session.commit()
 
