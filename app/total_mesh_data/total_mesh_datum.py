@@ -36,6 +36,12 @@ class TotalMeshDatum():
         return total_mesh_data
     
     @staticmethod
+    def get_one(rut = '', period = ''):
+        total_mesh_datum = TotalMeshDatumModel.query.filter_by(rut=rut, period=period).first()
+
+        return total_mesh_datum
+    
+    @staticmethod
     def delete(rut, period):
         total_mesh_data = TotalMeshDatumModel.query.filter_by(rut=rut, period = period).all()
 
