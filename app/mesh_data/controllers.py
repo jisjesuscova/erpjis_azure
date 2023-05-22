@@ -27,7 +27,6 @@ def create():
 @mesh_datum.route("/mesh_data/store", methods=['POST'])
 def store():
    MeshDatum.store(request.form)
-   DocumentEmployee.store(request.form)
    
    flash('Malla Horaria creada con éxito', 'success')
 
@@ -37,8 +36,9 @@ def store():
 def delete(rut, period):
    mesh_datum_status_id = MeshDatum.delete(rut, period)
    total_mesh_datum_status_id = TotalMeshDatum.delete(rut, period)
+   document_employee_status_id = DocumentEmployee.delete(rut, period)
    
-   if mesh_datum_status_id == 1 and total_mesh_datum_status_id == 1:
+   if mesh_datum_status_id == 1 and total_mesh_datum_status_id == 1 and document_employee_status_id == 1:
       return '1'
    else:
       return '0'

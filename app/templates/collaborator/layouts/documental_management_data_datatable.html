@@ -226,6 +226,11 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
+                        {% if employee.signature == none or employee.signature == ''  %}
+                            <div class="alert alert-danger" role="alert">
+                                Debe registrar la firma en el sistema para poder descargar el horario.
+                            </div>
+                        {% endif %}
                         <table id="example2" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
@@ -242,9 +247,11 @@
                                         <td>{{ total_mesh_datum['period'] }}</td>
                                         <td><span class="badge badge-success">Firmado</span></td>
                                         <td>
-                                            <a href="{{ url_for('documental_management_data.sign', rut=total_mesh_datum['rut'], period=total_mesh_datum['period'], document_type_id=23) }}" class="btn btn-primary">
-                                                <i class="fa fa-arrow-down"></i>
-                                            </a>
+                                            {% if employee.signature != none and employee.signature != ''  %}
+                                                <a href="{{ url_for('documental_management_data.sign', rut=total_mesh_datum['rut'], period=total_mesh_datum['period'], document_type_id=23) }}" class="btn btn-primary">
+                                                    <i class="fa fa-arrow-down"></i>
+                                                </a>
+                                            {% endif %}
                                         </td>
                                     </tr>
                                 </tbody>

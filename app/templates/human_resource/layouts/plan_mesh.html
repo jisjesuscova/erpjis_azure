@@ -77,10 +77,11 @@
         <hr>
         <div class="row pb-5 text-right">
           <div class="col-12">
-            <form role="form" action="">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
             <input type="submit" value="Guardar" class="btn btn-success">
             <a href="{{ url_for('home.index') }}" class="btn btn-secondary">Cancelar</a>
+            <input type="hidden" name="status_id" value="4" />
+            <input type="hidden" name="document_type_id" value="23" />
           </div>
         </div>
       </form>
