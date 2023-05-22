@@ -19,6 +19,8 @@ from datetime import datetime
 from app.helpers.helper import Helper
 from app.job_positions.job_position import JobPosition
 from app.employee_types.employee_type import EmployeeType
+from app.mesh_data.mesh_datum import MeshDatum
+from app.users.user import User
 
 document_request = Blueprint("document_requests", __name__)
 
@@ -114,6 +116,34 @@ def detail(rut = '', id = ''):
    employee = Employee.get(rut)
 
    return render_template('human_resources/document_requests/document_requests_review.html', document_type = document_type, branch_offices = branch_offices, job_positions = job_positions, employee = employee)
+
+@document_request.route("/human_resources/document_request/download_mesh/<rut>/<period>", methods=['GET'])
+def download_mesh(rut, period):
+   employee = Employee.get(rut)
+
+   user = User.get_by_int_rut(rut)
+
+   signature_exist = Dropbox.exist('/signature/', employee.signature)
+
+   if signature_exist == 1:
+   
+      signature = Dropbox.get('/signature/', employee.signature)
+   
+      data = ['', user.visual_rut, '', signature]
+   else:
+      signature = ''
+
+      data = ['', user.visual_rut, '', signature]
+
+   mesh_data = MeshDatum.get_per_day(rut, period)
+
+   pdf = Pdf.create_business_hours_pdf('business_hours', data, mesh_data)
+
+   response = make_response(pdf)
+   response.headers['Content-Type'] = 'application/pdf'
+   response.headers['Content-Disposition'] = 'attachment; filename=horario.pdf'
+
+   return response
 
 @document_request.route("/human_resources/document_request/download/<int:id>", methods=['GET'])
 def download(id):

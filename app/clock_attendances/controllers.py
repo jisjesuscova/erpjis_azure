@@ -33,7 +33,11 @@ def special_store():
 def mark(rut):
    mark_data = ControlClockNoMark.get(rut)
 
-   return render_template('collaborator/clocks/mark_data.html', mark_data = mark_data)
+   title = "Marcas faltantes"
+
+   module_name = "Gestión tiempo"
+
+   return render_template('collaborator/clocks/mark_data.html', mark_data = mark_data, title = title, module_name = module_name)
 
 @clock_attendance.route("/clock_attendance/validate", methods=['GET'])
 def validate():

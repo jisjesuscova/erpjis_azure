@@ -40,6 +40,9 @@
                                         <td>{{ total_mesh_datum['rut'] }}</td>
                                         <td>{{ total_mesh_datum['period'] }}</td>
                                         <td>
+                                            <a href="{{ url_for('document_requests.download_mesh', rut=total_mesh_datum['rut'], period=total_mesh_datum['period']) }}" class="btn btn-primary">
+                                                <i class="fa fa-arrow-down"></i>
+                                            </a>
                                             <a href="{{ url_for('mesh_data.delete', rut=total_mesh_datum['rut'], period=total_mesh_datum['period']) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar la malla horaria?')">
                                                 <i class="fa fa-times"></i>
                                             </a>

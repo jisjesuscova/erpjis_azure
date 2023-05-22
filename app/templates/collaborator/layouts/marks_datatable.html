@@ -8,9 +8,15 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <div class="alert alert-danger" role="alert">
-                            Usted tiene marcas faltantes. Por favor haga click en el botón de (+) para marcar su reloj.
-                        </div>
+                        {% if mark_data %}
+                            <div class="alert alert-danger" role="alert">
+                                Usted tiene marcas faltantes. Por favor haga click en el botón de (+) para marcar su reloj.
+                            </div>
+                        {% else %}
+                            <div class="alert alert-success" role="alert">
+                                Usted tiene todas las marcas al día en el reloj control.
+                            </div>
+                        {% endif %}
                         <table id="example2" class="table table-bordered table-hover">
                             <thead>
                                 <tr>

@@ -1,7 +1,7 @@
 from flask import request
 from app import db
 from datetime import datetime, timedelta
-from app.models.models import MeshDatumModel, TotalMeshDatumModel
+from app.models.models import MeshDatumModel, TotalMeshDatumModel, UserModel
 from app.employees_turns.employee_turn import EmployeeTurn
 from app.turns.turn import Turn
 from app.helpers.helper import Helper
@@ -18,6 +18,14 @@ class MeshDatum():
             current_date = now.strftime('%Y-%m-%d')
 
             mesh_data = MeshDatumModel.query.filter_by(date=current_date).all()
+
+        return mesh_data
+    
+    @staticmethod
+    def get_per_day(rut, period):
+        mesh_data = MeshDatumModel.query\
+                            .join(UserModel, UserModel.rut == MeshDatumModel.rut)\
+                            .add_columns(UserModel.visual_rut, MeshDatumModel.turn_id, MeshDatumModel.rut, MeshDatumModel.date, MeshDatumModel.total_hours, MeshDatumModel.start, MeshDatumModel.end, MeshDatumModel.week, MeshDatumModel.period).all()
 
         return mesh_data
     

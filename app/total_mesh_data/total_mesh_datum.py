@@ -4,19 +4,22 @@ from app.models.models import MeshDatumModel, TotalMeshDatumModel
 
 class TotalMeshDatum():
     @staticmethod
-    def get():
-        total_mesh_data = (
-            TotalMeshDatumModel.query
-            .with_entities(
-                TotalMeshDatumModel.rut,
-                TotalMeshDatumModel.period
+    def get(rut = '', period = ''):
+        if rut != '' and period != '':
+            total_mesh_data = TotalMeshDatumModel.query.filter_by(rut=rut, period=period).all()
+        else:
+            total_mesh_data = (
+                TotalMeshDatumModel.query
+                .with_entities(
+                    TotalMeshDatumModel.rut,
+                    TotalMeshDatumModel.period
+                )
+                .group_by(
+                    TotalMeshDatumModel.rut,
+                    TotalMeshDatumModel.period
+                )
+                .all()
             )
-            .group_by(
-                TotalMeshDatumModel.rut,
-                TotalMeshDatumModel.period
-            )
-            .all()
-        )
 
         return total_mesh_data
     
