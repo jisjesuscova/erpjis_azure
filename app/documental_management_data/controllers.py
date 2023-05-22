@@ -87,7 +87,6 @@ def index(rut = '', page=1):
 
 @documental_management_datum.route("/human_resources/documental_management_data/review/<int:page>", methods=['GET'])
 @documental_management_datum.route("/human_resources/documental_management_data/review", methods=['GET'])
-
 def review(page=1):
    branch_offices = BranchOffice.get()
 

@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, redirect, request, url_for, flash
 from app.branch_offices.branch_office import BranchOffice
 from app.mesh_data.mesh_datum import MeshDatum
 from app.total_mesh_data.total_mesh_datum import TotalMeshDatum
+from app.documents_employees.document_employee import DocumentEmployee
 
 mesh_datum = Blueprint("mesh_data", __name__)
 
@@ -26,6 +27,7 @@ def create():
 @mesh_datum.route("/mesh_data/store", methods=['POST'])
 def store():
    MeshDatum.store(request.form)
+   DocumentEmployee.store(request.form)
    
    flash('Malla Horaria creada con éxito', 'success')
 

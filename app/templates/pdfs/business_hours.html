@@ -42,6 +42,9 @@
                                 <th><center>Fin Turno</center></th>
                                 <th><center>Semana</center></th>
                             </tr>
+                            <tr>
+                                <td colspan="7"><hr></td>
+                            </tr>
                             {% for multiple_datum in multiple_data %}
                                 <tr>
                                     <td><center>{{ multiple_datum['turn_id'] }}</center></td>
@@ -51,6 +54,9 @@
                                     <td><center>{{ multiple_datum['start'] }}</center></td>
                                     <td><center>{{ multiple_datum['end'] }}</center></td>
                                     <td><center>{{ multiple_datum['week'] }}</center></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="7"><hr></td>
                                 </tr>
                             {% endfor %}
                         </table>
