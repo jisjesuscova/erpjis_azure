@@ -1,5 +1,5 @@
 from flask import Blueprint, request, render_template, redirect, url_for, flash, session, jsonify
-from flask_login import login_required
+from flask_login import login_required, current_user
 from app import regular_employee_rol_need
 from app.clock_attendances.clock_attendance import ClockAttendance
 from app.mesh_data.mesh_datum import MeshDatum
@@ -37,10 +37,9 @@ def special_store():
 
    return redirect(url_for('clock_attendances.mark', rut=request.form['rut']))
 
-@clock_attendance.route("/clock_attendance/mark/<int:rut>", methods=['GET'])
 @clock_attendance.route("/clock_attendance/mark", methods=['GET'])
-def mark(rut):
-   mark_data = ControlClockNoMark.get(rut)
+def mark():
+   mark_data = ControlClockNoMark.get(current_user.rut)
 
    title = "Marcas faltantes"
 
