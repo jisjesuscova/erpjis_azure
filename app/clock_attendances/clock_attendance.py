@@ -80,6 +80,12 @@ class ClockAttendance():
     
     @staticmethod
     def special_store(data, mark_date):
+        mark_date_str = mark_date
+        mark_date = datetime.strptime(mark_date_str, '%Y-%m-%d %H:%M:%S')
+        format_mark_date = mark_date.strftime("%Y-%m-%d")
+
+        week = MeshDatum.get_week(data['rut'], format_mark_date)
+
         clock_user = ClockUser.get(data['rut'])
         uid = clock_user.uid
 
@@ -89,6 +95,7 @@ class ClockAttendance():
         clock_attendance.uid = uid
         clock_attendance.rut = data['rut']
         clock_attendance.punch = data['punch']
+        clock_attendance.week_id = week
         clock_attendance.status = 3
         clock_attendance.checked_attendance_id = 1
         clock_attendance.mark_date = mark_date

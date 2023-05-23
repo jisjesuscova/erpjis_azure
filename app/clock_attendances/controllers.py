@@ -35,7 +35,7 @@ def special_store():
 
    flash('Usted ha marcado correctamente')
 
-   return redirect(url_for('clock_attendances.mark', rut=request.form['rut']))
+   return redirect(url_for('clock_attendances.mark'))
 
 @clock_attendance.route("/clock_attendance/mark", methods=['GET'])
 def mark():
