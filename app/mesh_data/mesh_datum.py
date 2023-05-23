@@ -42,6 +42,24 @@ class MeshDatum():
         return mesh_data
 
     @staticmethod
+    def get_data_per_week(week):
+        mesh_datum = MeshDatumModel.query.filter_by(week=week).filter(MeshDatumModel.turn_id != 0).first()
+
+        return mesh_datum
+
+    @staticmethod
+    def get_sundays(week):
+        mesh_data = MeshDatum.get(week)
+
+        total_sundays = 0
+
+        for mesh_datum in mesh_data:
+            if mesh_datum.week_day == 7:
+                total_sundays = total_sundays + 1
+
+        return total_sundays
+        
+    @staticmethod
     def store(id, data):
         employee_turns = EmployeeTurn.get_all_by_rut(data['rut'])
 
@@ -100,41 +118,20 @@ class MeshDatum():
         n = last_week
 
         for i in range(1, n+1):
-            mesh_data = MeshDatum.get(i)
+            mesh_datum = MeshDatum.get_data_per_week(i)
 
-            count = 1
+            total_sundays = MeshDatum.get_sundays(i)
 
-            total_sundays = 0
-
-            total_free_days = 0
-
-            for mesh_datum in mesh_data:
-                period = mesh_datum.period
-                rut = mesh_datum.rut
-
-                if count == 1:
-                    total = Helper.sum_times('00:00:00', str(mesh_datum.total_hours))
-                else:
-                    total = Helper.sum_times(time_1, str(mesh_datum.total_hours))
-
-                if mesh_datum.week_day == 7:
-                    total_sundays = total_sundays + 1
-
-                if mesh_datum.turn_id == 0:
-                    total_free_days = total_free_days + 1
-
-                time_1 = total
-
-                count = count + 1
+            turn = Turn.get(mesh_datum.turn_id)
 
             total_mesh_datum = TotalMeshDatumModel()
             total_mesh_datum.document_employee_id = id
-            total_mesh_datum.rut = rut
-            total_mesh_datum.total_hours = total
+            total_mesh_datum.rut = mesh_datum.rut
+            total_mesh_datum.total_hours = turn.total_week_hours
             total_mesh_datum.week = i
             total_mesh_datum.total_sundays = total_sundays
-            total_mesh_datum.total_free_days = total_free_days
-            total_mesh_datum.period = period
+            total_mesh_datum.total_free_days = turn.free_day_group_id
+            total_mesh_datum.period = mesh_datum.period
             db.session.add(total_mesh_datum)
             db.session.commit()
             
