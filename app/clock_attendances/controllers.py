@@ -9,6 +9,7 @@ from app.alerts.alert import Alert
 from app.helpers.whatsapp import Whatsapp
 from app.control_clock_no_marks.control_clock_no_mark import ControlClockNoMark
 from app.helpers.helper import Helper
+from app.clock_attendances.clock_attendance import ClockAttendance
 
 clock_attendance = Blueprint("clock_attendances", __name__)
 
@@ -37,15 +38,38 @@ def special_store():
 
    return redirect(url_for('clock_attendances.mark'))
 
+@clock_attendance.route("/clock_attendance/check", methods=['POST'])
+def check():
+   if request.form['status_id'] == '2':
+      ControlClockNoMark.update_status(request.form['id'], 2)
+
+      flash('Usted ha aceptado la marca', 'success')
+   else:
+      ControlClockNoMark.delete(request.form['id'])
+
+      clock_attendance = ClockAttendance.get_by_mark_date(request.form['rut'], request.form['mark_date'])
+
+      ClockAttendance.delete(clock_attendance.id)
+
+      flash('Usted ha rechazado la marca', 'success')
+
+   return redirect(url_for('clock_attendances.mark'))
+
+
 @clock_attendance.route("/clock_attendance/mark", methods=['GET'])
 def mark():
-   mark_data = ControlClockNoMark.get(current_user.rut)
-
    title = "Marcas faltantes"
 
    module_name = "Gestión tiempo"
+   
+   if current_user.rol_id == 1:
+      mark_data = ControlClockNoMark.get(current_user.rut)
 
-   return render_template('collaborator/clocks/mark_data.html', mark_data = mark_data, title = title, module_name = module_name)
+      return render_template('collaborator/clocks/mark_data.html', mark_data = mark_data, title = title, module_name = module_name)
+   else:
+      mark_data = ControlClockNoMark.get()
+
+      return render_template('human_resource/clocks/mark_data.html', mark_data = mark_data, title = title, module_name = module_name)
 
 @clock_attendance.route("/clock_attendance/validate", methods=['GET'])
 def validate():

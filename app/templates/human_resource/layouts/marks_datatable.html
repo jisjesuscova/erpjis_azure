@@ -1,0 +1,69 @@
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Datos</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    {% if category == 'error' %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                    {% if category == 'success' %}
+                                        <div class="alert alert-success" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                        {% if mark_data %}
+                            <div class="alert alert-danger" role="alert">
+                                Revisar las marcas faltantes de los trabajadores.
+                            </div>
+                        {% endif %}
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>RUT</th>
+                                    <th>Tipo de Marca Faltante</th>
+                                    <th>Fecha</th>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            {% for mark_datum in mark_data %}
+                                <tbody>
+                                    <tr>
+                                        <td>{{ mark_datum['id'] }}</td>
+                                        <td>{{ mark_datum['rut'] }}</td>
+                                        <td>
+                                            {% if mark_datum.punch == 0 %}
+                                                <span class="badge badge-primary">Entrada</span>
+                                            {% else %}
+                                                <span class="badge badge-primary">Salida</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ mark_datum['added_date']|datetime("dd-MM-yyyy")  }}</td>
+                                        <td>
+                                            <a title="Ver Marca Reloj" href="{{ url_for('clocks.review', id=mark_datum['id']) }}" class="btn btn-success">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

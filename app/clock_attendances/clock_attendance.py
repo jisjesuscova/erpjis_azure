@@ -22,6 +22,13 @@ class ClockAttendance():
         return clock_attendance
     
     @staticmethod
+    def get_by_mark_date(rut, date):
+        clock_attendance = ClockAttendanceModel.query.filter_by(rut=rut)\
+        .filter(ClockAttendanceModel.mark_date == date).first()
+
+        return clock_attendance
+    
+    @staticmethod
     def validate(turn_id, current_hour, punch):
         if punch == 0:
             turn = Turn.get(turn_id)
@@ -117,3 +124,15 @@ class ClockAttendance():
             db.session.commit()
 
         return str(1)
+    
+    @staticmethod
+    def delete(id):
+        control_clock_no_mark = ClockAttendanceModel.query.filter_by(id=id).first()
+
+        db.session.delete(control_clock_no_mark)
+        try:
+            db.session.commit()
+
+            return control_clock_no_mark
+        except Exception as e:
+            return {'msg': 'Data could not be stored'}
