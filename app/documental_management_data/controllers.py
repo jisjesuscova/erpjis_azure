@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, make_response
 from flask_login import login_required, current_user
-from app import app, regular_employee_rol_need
+from app import regular_employee_rol_need
 from app.models.models import EmployeeModel
 from app.document_types.document_type import DocumentType
 from app.branch_offices.branch_office import BranchOffice

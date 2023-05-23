@@ -1,11 +1,19 @@
-from flask import Blueprint, render_template
+from flask import Blueprint
 from app.employee_labor_data.employee_labor_datum import EmployeeLaborDatum
-from flask import jsonify, make_response
+from app import regular_employee_rol_need
+from flask_login import login_required
 from app.helpers.helper import Helper
 import json
 
 
 branch_office = Blueprint("branch_offices", __name__)
+
+@branch_office.before_request
+@login_required
+@regular_employee_rol_need
+def constructor():
+   pass
+
 
 @branch_office.before_request
 def constructor():

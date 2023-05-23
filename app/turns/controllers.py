@@ -1,15 +1,18 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, request
 from app.employee_labor_data.employee_labor_datum import EmployeeLaborDatum
-from flask import jsonify, make_response
+from flask_login import login_required
 from app.helpers.helper import Helper
 from app.employees_turns.employee_turn import EmployeeTurn
 from app.turns.turn import Turn
+from app import regular_employee_rol_need
 import json
 
 
 turn = Blueprint("turns", __name__)
 
 @turn.before_request
+@login_required
+@regular_employee_rol_need
 def constructor():
    pass
 

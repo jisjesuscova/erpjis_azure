@@ -1,4 +1,6 @@
 from flask import Blueprint, request, render_template, redirect, url_for, flash, session, jsonify
+from flask_login import login_required
+from app import regular_employee_rol_need
 from app.clock_attendances.clock_attendance import ClockAttendance
 from app.mesh_data.mesh_datum import MeshDatum
 import pytz
@@ -9,6 +11,12 @@ from app.control_clock_no_marks.control_clock_no_mark import ControlClockNoMark
 from app.helpers.helper import Helper
 
 clock_attendance = Blueprint("clock_attendances", __name__)
+
+@clock_attendance.before_request
+@login_required
+@regular_employee_rol_need
+def constructor():
+   pass
 
 @clock_attendance.route("/clock_attendance/store", methods=['GET'])
 def store():
