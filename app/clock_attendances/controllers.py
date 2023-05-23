@@ -30,6 +30,7 @@ def special_store():
    return redirect(url_for('clock_attendances.mark', rut=request.form['rut']))
 
 @clock_attendance.route("/clock_attendance/mark/<int:rut>", methods=['GET'])
+@clock_attendance.route("/clock_attendance/mark", methods=['GET'])
 def mark(rut):
    mark_data = ControlClockNoMark.get(rut)
 
