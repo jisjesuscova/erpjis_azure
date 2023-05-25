@@ -250,6 +250,7 @@ def sign(rut, period, document_type_id):
    id = total_mesh_datum.document_employee_id
    signature_exist = Dropbox.exist('/signature/', employee.signature)
    mesh_data = MeshDatum.get_per_day(rut, period)
+   total_mesh_data = TotalMeshDatum.get_one(rut, period)
 
    if signature_exist == 1:
    
@@ -261,8 +262,7 @@ def sign(rut, period, document_type_id):
 
       data = ['', user.visual_rut, '', signature]
 
-
-   pdf = Pdf.create_business_hours_pdf('business_hours', data, mesh_data)
+   pdf = Pdf.create_business_hours_pdf('business_hours', data, mesh_data, total_mesh_data)
 
    with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as temp_file:
       temp_file.write(pdf)

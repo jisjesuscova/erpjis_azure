@@ -44,7 +44,7 @@ class Pdf:
         return pdf
 
     @staticmethod
-    def create_business_hours_pdf(file_name, data, multiple_data = ''):
+    def create_business_hours_pdf(file_name, data, multiple_data = '', total_data = ''):
         path_wkhtmltopdf = '/usr/bin/wkhtmltopdf'
         config = pdfkit.configuration(wkhtmltopdf = path_wkhtmltopdf)
 
@@ -52,7 +52,7 @@ class Pdf:
 
         logo = os.path.join('app/static/dist/img/logo.png')
 
-        rendered = render_template(template_path, data = data, root = 'https://127.0.0.1:5000/', multiple_data = multiple_data, logo = logo)
+        rendered = render_template(template_path, data = data, root = 'https://127.0.0.1:5000/', multiple_data = multiple_data, logo = logo, total_data = total_data)
 
         pdf = pdfkit.from_string(rendered, options={
                                                     "enable-local-file-access": "",

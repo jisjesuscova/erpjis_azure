@@ -61,6 +61,27 @@
                             {% endfor %}
                         </table>
                         <br><br>
+                        <table style="width:100%;">
+                            <tr>
+                                <th><center>N° de Semana</center></th>
+                                <th><center>Horas de Trabajo</center></th>
+                                <th><center>Días Libres</center></th>
+                            </tr>
+                            <tr>
+                                <td colspan="7"><hr></td>
+                            </tr>
+                            {% for total_datum in total_data %}
+                                <tr>
+                                    <td><center>{{ total_datum['week'] }}</center></td>
+                                    <td><center>{{ total_datum['total_hours'] }}</center></td>
+                                    <td><center>{{ total_datum['total_free_days'] }}</center></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="7"><hr></td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                        <br><br>
 
                         {%  include 'layouts/signature.html' %}
                     </td>
