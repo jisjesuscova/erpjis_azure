@@ -7,6 +7,8 @@ class TotalMeshDatum():
     @staticmethod
     def get(rut = '', period = ''):
         if rut != '' and period != '':
+            print(rut)
+            print(period)
             total_mesh_data = TotalMeshDatumModel.query.filter_by(rut=rut, period=period).all()
         else:
             total_mesh_data = (

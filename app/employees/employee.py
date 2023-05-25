@@ -134,7 +134,7 @@ class Employee():
         elif search_status_id == '3':
             query = OldEmployeeModel.query\
                         .join(OldEmployeeLaborDatumModel, OldEmployeeLaborDatumModel.rut == OldEmployeeModel.rut)\
-                        .add_columns(OldEmployeeModel.id, OldEmployeeModel.rut, OldEmployeeModel.visual_rut, OldEmployeeModel.nickname).order_by('rut')
+                        .add_columns(OldEmployeeModel.id, OldEmployeeModel.rut, OldEmployeeModel.visual_rut, OldEmployeeModel.nickname, OldEmployeeModel.names, OldEmployeeModel.father_lastname, OldEmployeeModel.mother_lastname).order_by('rut')
 
             query = query.filter(OldEmployeeLaborDatumModel.status_id.like(f"%{search_status_id}%"))
 
@@ -154,7 +154,7 @@ class Employee():
         else:
             query = EmployeeModel.query\
                         .join(EmployeeLaborDatumModel, EmployeeLaborDatumModel.rut == EmployeeModel.rut)\
-                        .add_columns(EmployeeModel.id, EmployeeModel.rut, EmployeeModel.visual_rut, EmployeeModel.nickname).order_by('rut')
+                        .add_columns(EmployeeModel.id, EmployeeModel.rut, EmployeeModel.visual_rut, EmployeeModel.nickname, EmployeeModel.names, EmployeeModel.father_lastname, EmployeeModel.mother_lastname).order_by('rut')
 
             if len(data) > 0:
                 if search_rut:
