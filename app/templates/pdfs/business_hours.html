@@ -46,15 +46,27 @@
                                 <td colspan="7"><hr></td>
                             </tr>
                             {% for multiple_datum in multiple_data %}
-                                <tr>
-                                    <td><center>{{ multiple_datum['turn_id'] }}</center></td>
-                                    <td><center>{{ multiple_datum['visual_rut'] }}</center></td>
-                                    <td><center>{{ multiple_datum['date']|datetime("dd-MM-yyyy") }}</center></td>
-                                    <td><center>{{ multiple_datum['total_hours'] }}</center></td>
-                                    <td><center>{{ multiple_datum['start'] }}</center></td>
-                                    <td><center>{{ multiple_datum['end'] }}</center></td>
-                                    <td><center>{{ multiple_datum['week'] }}</center></td>
-                                </tr>
+                                {% if multiple_datum['turn_id'] == 0 %}
+                                    <tr style="background-color: red; color: white;">
+                                        <td style="background-color: red; color: white;"><center>{{ multiple_datum['turn_id'] }}</center></td>
+                                        <td style="background-color: red; color: white;"><center>{{ multiple_datum['visual_rut'] }}</center></td>
+                                        <td style="background-color: red; color: white;"><center>{{ multiple_datum['date']|datetime("dd-MM-yyyy") }}</center></td>
+                                        <td style="background-color: red; color: white;"><center>Libre</center></td>
+                                        <td style="background-color: red; color: white;"><center>Libre</center></td>
+                                        <td style="background-color: red; color: white;"><center>Libre</center></td>
+                                        <td style="background-color: red; color: white;"><center>{{ multiple_datum['week'] }}</center></td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td><center>{{ multiple_datum['turn_id'] }}</center></td>
+                                        <td><center>{{ multiple_datum['visual_rut'] }}</center></td>
+                                        <td><center>{{ multiple_datum['date']|datetime("dd-MM-yyyy") }}</center></td>
+                                        <td><center>{{ multiple_datum['total_hours'] }}</center></td>
+                                        <td><center>{{ multiple_datum['start'] }}</center></td>
+                                        <td><center>{{ multiple_datum['end'] }}</center></td>
+                                        <td><center>{{ multiple_datum['week'] }}</center></td>
+                                    </tr>
+                                {% endif %}
                                 <tr>
                                     <td colspan="7"><hr></td>
                                 </tr>

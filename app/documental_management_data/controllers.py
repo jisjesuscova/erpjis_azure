@@ -250,7 +250,7 @@ def sign(rut, period, document_type_id):
    id = total_mesh_datum.document_employee_id
    signature_exist = Dropbox.exist('/signature/', employee.signature)
    mesh_data = MeshDatum.get_per_day(rut, period)
-   total_mesh_data = TotalMeshDatum.get_one(rut, period)
+   total_mesh_data = TotalMeshDatum.get(rut, period)
 
    if signature_exist == 1:
    
