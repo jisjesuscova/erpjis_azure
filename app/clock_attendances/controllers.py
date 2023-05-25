@@ -45,6 +45,8 @@ def check():
 
       flash('Usted ha aceptado la marca', 'success')
    else:
+      Whatsapp.send(request.form['rut'], str(1), '', 21)
+
       ControlClockNoMark.delete(request.form['id'])
 
       clock_attendance = ClockAttendance.get_by_mark_date(request.form['rut'], request.form['mark_date'])

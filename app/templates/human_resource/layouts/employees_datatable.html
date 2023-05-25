@@ -22,7 +22,7 @@
                             <tbody>
                                 <tr>
                                     <td>{{ employee['visual_rut'] }}</td>
-                                    <td>{{ employee['nickname'] }}</td>
+                                    <td>{{ employee['names'] }} {{ employee['father_lastname'] }} {{ employee['mother_lastname'] }}</td>
                                     <td>
                                         <a title="Datos Personales" href="{{ url_for('personal_data.show') }}/{{ employee['rut'] }}" class="btn btn-warning">
                                             <i class="fa fa-id-card"></i>

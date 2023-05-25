@@ -17,6 +17,7 @@ from app.branch_offices.branch_office import BranchOffice
 from app.employee_bank_accounts.employee_bank_account import EmployeeBankAccount
 import pytz
 from datetime import datetime
+from app.control_clock_no_marks.control_clock_no_mark import ControlClockNoMark
 
 class Whatsapp:
     @staticmethod
@@ -571,6 +572,52 @@ class Whatsapp:
                                             {
                                                 "type": "text",
                                                 "text": current_date
+                                            }
+                                            ]
+                                        }
+                                        ]
+                                    }
+                                })
+                    
+                headers = {
+                            'Authorization': settings.facebook_token,
+                            'Content-Type': 'application/json'
+                            }
+
+                response = requests.request("POST", url, headers=headers, data=payload)
+
+                print(response.text)
+            elif template_type_id == 21:
+                whatsapp_template = WhatsappTemplate.get(template_type_id)
+                hr_employee = Employee.get(id)
+                control_clock_no_mark = ControlClockNoMark.get_first(id)
+
+                date = Helper.split(control_clock_no_mark.mark_date, ' ')
+                date = Helper.split(date[0], '-')
+                mark_date = date[2] + '-' + date[1] + '-' + date[0]
+
+                url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+
+                payload = json.dumps({
+                                    "messaging_product": "whatsapp",
+                                    "to": "56" + hr_employee.cellphone,
+                                    "type": "template",
+                                    "template": {
+                                        "name": str(whatsapp_template.whatsapp_template),
+                                        "language": {
+                                        "code": "es"
+                                        },
+                                        "components": [
+                                        {
+                                            "type": "body",
+                                            "parameters": [
+                                            {
+                                                "type": "text",
+                                                "text": hr_employee.nickname
+                                            },
+                                            {
+                                                "type": "text",
+                                                "text": mark_date
                                             }
                                             ]
                                         }

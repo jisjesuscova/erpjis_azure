@@ -15,6 +15,12 @@ class ControlClockNoMark():
         return control_clock_no_marks
     
     @staticmethod
+    def get_first(rut):
+        control_clock_no_mark = ControlClockNoMarkModel.query.filter_by(rut=rut).first()
+
+        return control_clock_no_mark
+    
+    @staticmethod
     def get_by_id(id = ''):
         control_clock_no_mark = ControlClockNoMarkModel.query.with_entities(
             func.date_format(ControlClockNoMarkModel.added_date, '%d-%m-%Y').label('added_date'),
