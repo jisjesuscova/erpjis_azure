@@ -55,15 +55,16 @@ class EmployeeTurn():
         quantity = EmployeeTurn.get_quantity(data['employee_id'])
         turn = Turn.get(data['turn_id'])
         period = Helper.get_period(data['month'], data['year'])
-        
-        if data['turn_id'] != '0': 
+        print(data['turn_id'])
+        if data['turn_id'] != '0':
             end_date = Helper.get_last_date(data['start_date'], turn.group_day_id)
             validate_status_start_date = Helper.validate_current_month(data['start_date'])
             validate_status_end_date = Helper.validate_current_month(end_date)
         else:
             validate_status_start_date = Helper.validate_current_month(data['start_date'])
             validate_status_end_date = 0
-
+        print(quantity)
+        print(validate_status_start_date)
         if quantity == 0 and validate_status_start_date == 1:
             turn = Turn.get(data['turn_id'])
 
