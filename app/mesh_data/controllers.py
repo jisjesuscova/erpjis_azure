@@ -39,7 +39,4 @@ def delete(document_employee_id, rut, period):
    total_mesh_datum_status_id = TotalMeshDatum.delete(rut, period)
    document_employee_status_id = DocumentEmployee.delete(document_employee_id)
    
-   if mesh_datum_status_id == 1 and total_mesh_datum_status_id == 1 and document_employee_status_id == 1:
-      return '1'
-   else:
-      return '0'
+   return redirect(url_for('mesh_data.index'))
