@@ -30,15 +30,10 @@ class MeshDatum():
         return mesh_data
     
     @staticmethod
-    def get_week(rut, date):
-        mesh_datum_qty = MeshDatumModel.query.filter_by(rut=rut,date=date).count()
-
-        if mesh_datum_qty != 0:
-            mesh_datum = MeshDatumModel.query.filter_by(rut=rut,date=date).first()
-
-            return mesh_datum.week
-        else:
-            return 0
+    def get_week(date):
+        date = datetime.strptime(date, "%Y-%m-%d").date()
+        week = (date.day - 1) // 7 + 1
+        return week
     
     @staticmethod
     def get_by_date(date):

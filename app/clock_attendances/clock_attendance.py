@@ -64,7 +64,7 @@ class ClockAttendance():
         mark_date = datetime.strptime(mark_date_str, '%Y-%m-%d %H:%M:%S')
         format_mark_date = mark_date.strftime("%Y-%m-%d")
 
-        week = MeshDatum.get_week(data['rut'], format_mark_date)
+        week = MeshDatum.get_week(format_mark_date)
 
         clock_user = ClockUser.get(data['rut'])
         uid = clock_user.uid
