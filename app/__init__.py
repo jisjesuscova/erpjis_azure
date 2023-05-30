@@ -105,6 +105,7 @@ from app.check_group_questions.controllers import check_group_question
 from app.honoraries.controllers import honorary
 from app.documentations.controllers import documentation
 from app.employee_bank_accounts.controllers import employee_bank_account
+from app.control_mesh_employees.controllers import control_mesh_employee
 
 app.register_blueprint(employee)
 app.register_blueprint(auth)
@@ -159,6 +160,7 @@ app.register_blueprint(honorary)
 app.register_blueprint(check_group_question)
 app.register_blueprint(documentation)
 app.register_blueprint(employee_bank_account)
+app.register_blueprint(control_mesh_employee)
 
 @app.route("/")
 def index():

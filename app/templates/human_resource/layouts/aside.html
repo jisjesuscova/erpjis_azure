@@ -96,6 +96,12 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
+                <a href="{{ url_for('control_mesh_employees.index') }}"  class="nav-link">
+                  <i class="fas fa-chart-simple nav-icon"></i>
+                  <p>Control</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{{ url_for('clocks.index') }}"  class="nav-link">
                   <i class="far fa-clock nav-icon"></i>
                   <p>Reloj Control</p>
@@ -105,12 +111,6 @@
                 <a href="{{ url_for('mesh_data.index') }}"  class="nav-link">
                   <i class="far fa-calendar nav-icon"></i>
                   <p>Mallas Horarias</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ url_for('clock_attendances.mark') }}"  class="nav-link">
-                  <i class="far fa-hourglass-half nav-icon"></i>
-                  <p>Marcas</p>
                 </a>
               </li>
             </ul>

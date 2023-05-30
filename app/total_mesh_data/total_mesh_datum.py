@@ -1,14 +1,12 @@
 from flask import request
 from app import db
-from app.models.models import MeshDatumModel, TotalMeshDatumModel
+from app.models.models import UserModel, TotalMeshDatumModel
 from sqlalchemy import func
 
 class TotalMeshDatum():
     @staticmethod
     def get(rut = '', period = ''):
         if rut != '' and period != '':
-            print(rut)
-            print(period)
             total_mesh_data = TotalMeshDatumModel.query.filter_by(rut=rut, period=period).all()
         else:
             total_mesh_data = (
@@ -25,6 +23,12 @@ class TotalMeshDatum():
                 )
                 .all()
             )
+
+        return total_mesh_data
+    
+    @staticmethod
+    def get_by_period2(period = '', page = ''):
+        total_mesh_data = TotalMeshDatumModel.query.join(UserModel, TotalMeshDatumModel.rut == UserModel.rut).filter(TotalMeshDatumModel.period == period).paginate(page=page, per_page=20, error_out=False)
 
         return total_mesh_data
     
