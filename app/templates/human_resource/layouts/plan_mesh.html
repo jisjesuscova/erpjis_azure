@@ -225,7 +225,7 @@
                         success: function(data) {
                           data = JSON.parse(data)
                           $('#free_days').empty();
-                          alert(data[0].days)
+
                           var free_day_value = $('#free_day_value').val(data[0].days);
 
                           for (var i = 1; i <= data[0].days; ++i) {
@@ -252,7 +252,6 @@
                           type: 'POST',
                           data: formData,
                           success: function(data) {
-                            alert(data)
                           }
                       });
 
@@ -301,8 +300,7 @@
                       var old_free_day_value = $('#free_day_value').val();
 
                       var free_day_value = old_free_day_value - 1;
-                      $('#free_day_value').val(free_day_value)
-                      alert(free_day_value);
+                      $('#free_day_value').val(free_day_value);
                       if(free_day_value <= 0) {
                         $(".free_days").attr('style', 'display:none');
                         $(".alert-turn-form").attr('style', 'display:block');
