@@ -14,10 +14,10 @@ from app.clock_attendances.clock_attendance import ClockAttendance
 clock_attendance = Blueprint("clock_attendances", __name__)
 
 @clock_attendance.before_request
-@login_required
-@regular_employee_rol_need
 def constructor():
-   pass
+   if request.endpoint == 'clock_attendances.special_store' or request.endpoint == 'clock_attendances.mark':
+      if not current_user.is_authenticated:
+            return redirect(url_for('login'))
 
 @clock_attendance.route("/clock_attendance/store", methods=['GET'])
 def store():
