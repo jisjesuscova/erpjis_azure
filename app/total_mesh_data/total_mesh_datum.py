@@ -27,7 +27,7 @@ class TotalMeshDatum():
         return total_mesh_data
     
     @staticmethod
-    def get_by_period2(period = '', page = ''):
+    def get_by_period(period = '', page = ''):
         total_mesh_data = TotalMeshDatumModel.query.join(UserModel, TotalMeshDatumModel.rut == UserModel.rut).filter(TotalMeshDatumModel.period == period).paginate(page=page, per_page=20, error_out=False)
 
         return total_mesh_data

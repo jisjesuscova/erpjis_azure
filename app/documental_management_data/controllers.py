@@ -241,13 +241,12 @@ def download(id):
 
    return redirect(response)
 
-@documental_management_datum.route("/human_resources/documental_management_data/sign/<rut>/<period>/<int:document_type_id>", methods=['GET'])
-def sign(rut, period, document_type_id):
+@documental_management_datum.route("/human_resources/documental_management_data/sign/<rut>/<period>/<int:document_employee_id>/<int:document_type_id>", methods=['GET'])
+def sign(rut, period, document_employee_id, document_type_id):
    settings = Setting.get()
    employee = Employee.get(rut)
    user = User.get_by_int_rut(rut)
-   total_mesh_datum = TotalMeshDatum.get_one(rut, period)
-   id = total_mesh_datum.document_employee_id
+
    signature_exist = Dropbox.exist('/signature/', employee.signature)
    mesh_data = MeshDatum.get_per_day(rut, period)
    total_mesh_data = TotalMeshDatum.get(rut, period)
@@ -262,7 +261,7 @@ def sign(rut, period, document_type_id):
 
       data = ['', user.visual_rut, '', signature]
 
-   pdf = Pdf.create_business_hours_pdf('business_hours', data, mesh_data, total_mesh_data)
+   pdf = Pdf.create_business_hours_pdf('business_hours', data, mesh_data)
 
    with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as temp_file:
       temp_file.write(pdf)

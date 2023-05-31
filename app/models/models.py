@@ -1,7 +1,7 @@
 from flask_login import UserMixin
 from app import db
 from werkzeug.security import check_password_hash
-from sqlalchemy.orm import relationship
+from sqlalchemy import Numeric
 
 class HrSingleTaxModel(db.Model):
     __tablename__ = 'hr_single_taxes'
@@ -151,9 +151,10 @@ class MeshDatumModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     turn_id = db.Column(db.Integer)
+    document_employee_id = db.Column(db.Integer)
     rut = db.Column(db.Integer)
     date = db.Column(db.Date())
-    total_hours = db.Column(db.Integer)
+    total_hours = db.Column(Numeric(precision=5, scale=2))
     start = db.Column(db.String(255))
     end = db.Column(db.String(255))
     week = db.Column(db.Integer)

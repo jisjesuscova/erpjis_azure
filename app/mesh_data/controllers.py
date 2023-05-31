@@ -10,13 +10,19 @@ mesh_datum = Blueprint("mesh_data", __name__)
 def constructor():
    pass
 
-@mesh_datum.route("/mesh_data", methods=['GET'])
+@mesh_datum.route("/mesh_data", methods=['GET', 'POST'])
 def index():
-   total_mesh_data = TotalMeshDatum.get()
+   period = request.form.get('period')
+
+   if period is not None:
+      mesh_data = MeshDatum.get_all_with_df_group_by(period)
+   else:
+      mesh_data = ''
+
    title = "Mallas Horarias"
    module_name = "Gestión Tiempo"
    
-   return render_template('human_resource/mesh_data/mesh_data.html', module_name = module_name, title = title, total_mesh_data = total_mesh_data)
+   return render_template('human_resource/mesh_data/mesh_data.html', module_name = module_name, title = title, mesh_data = mesh_data)
 
 @mesh_datum.route("/mesh_data/create", methods=['GET'])
 def create():
@@ -26,7 +32,7 @@ def create():
 
 @mesh_datum.route("/mesh_data/store", methods=['POST'])
 def store():
-   id = DocumentEmployee.store(request.form)
+   id = DocumentEmployee.store_mesh_datum(request.form)
    MeshDatum.store(id, request.form)
    
    flash('Malla Horaria creada con éxito', 'success')

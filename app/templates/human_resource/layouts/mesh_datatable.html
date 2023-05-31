@@ -29,19 +29,24 @@
                         <table id="example2" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>RUT</th>
-                                    <th>Periodo</th>
+                                    <th>Rut</th>
+                                    <th>Trabajador</th>
+                                    <th>Period</th>
                                     <th></th>
                                 </tr>
                             </thead>
-                            {% for total_mesh_datum in total_mesh_data %}
+                            {% for record in mesh_data %}
                                 <tbody>
                                     <tr>
-                                        <td>{{ total_mesh_datum['rut'] }}</td>
-                                        <td>{{ total_mesh_datum['period'] }}</td>
+                                        <td>{{ record['visual_rut'] }}</td>
+                                        <td>{{ record['nickname'] }}</td>
+                                        <td>{{ record['period'] }}</td>
                                         <td>
-                                            <a href="{{ url_for('mesh_data.delete', document_employee_id=total_mesh_datum['document_employee_id'], rut=total_mesh_datum['rut'], period=total_mesh_datum['period']) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar la malla horaria?')">
+                                            <a href="{{ url_for('mesh_data.delete', document_employee_id=record['document_employee_id'], rut=record['rut'], period=record['period']) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar la malla horaria?')">
                                                 <i class="fa fa-times"></i>
+                                            </a>
+                                            <a href="{{ url_for('documental_management_data.sign', rut=record['rut'], period=record['period'], document_employee_id=record['document_employee_id'], document_type_id=23) }}" class="btn btn-primary">
+                                                <i class="fa fa-arrow-down"></i>
                                             </a>
                                         </td>
                                     </tr>
