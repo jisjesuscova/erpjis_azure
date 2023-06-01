@@ -32,23 +32,67 @@
                     Registrado
                 </h3>
                 <hr>
-                <table id="example2" class="table table-bordered table-hover">
+                <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
                             <th>Entrada</th>
                             <th>Salida</th>
-                            <th>Estatus</th>
                         </tr>
                     </thead>
-                    {% for record in merged_data %}
+                    {% for row in clock_attendances %}
                         <tbody>
                             <tr>
-                                <td>{{ record.entrada }}</td>
-                                <td>{{ record.salida }}</td>
-                                <td>{{ record.status }}</td>
+                                {% if row.status[0] == 1 %}
+                                    <td>
+                                        {% if row.start[0] != 0 %}
+                                            {{ row.start[0] }}
+                                        {% endif %}
+                                        {% if row.start[1] != 0 %}
+                                            {{ row.start[1] }}
+                                        {% endif %}
+                                    </td>
+                                {% elif row.status[0] == 2 %}
+                                    <td style="background: red; color: white;">
+                                        {% if row.start[0] != 0 %}
+                                            {{ row.start[0] }}
+                                        {% endif %}
+                                        {% if row.start[1] != 0 %}
+                                            {{ row.start[1] }}
+                                        {% endif %}
+                                    </td>
+                                {% else %}
+                                    <td style="color:black;">
+                                        Sin Marca
+                                    </td>
+                                {% endif %}
+                                {% if row.status[1] == 1 %}
+                                    <td>
+                                        {% if row.end[0] != 0 %}
+                                            {{ row.end[0] }}
+                                        {% endif %}
+                                        {% if row.end[1] != 0 %}
+                                            {{ row.end[1] }}
+                                        {% endif %}
+                                    </td>
+                                {% elif row.status[1] == 2 %}
+                                    <td style="background: red; color: white;">
+                                        {% if row.end[0] != 0 %}
+                                            {{ row.end[0] }}
+                                        {% endif %}
+                                        {% if row.end[1] != 0 %}
+                                            {{ row.end[1] }}
+                                        {% endif %}
+                                    </td>
+                                {% else %}
+                                    <td style="color: black;">
+                                        Sin Marca
+                                    </td>
+                                {% endif %}
                             </tr>
                         </tbody>
                     {% endfor %}
+
+
                 </table>
             </div>
             <div class="col-2">
@@ -62,6 +106,13 @@
                             <th>Total</th>
                         </tr>
                     </thead>
+                    {% for datum in total_mesh_clock_data %}
+                        <tbody>
+                            <tr>
+                                <td>{{ datum.resta_total }}</td>
+                            </tr>
+                        </tbody>
+                    {% endfor %}
                 </table>
             </div>
         </div>

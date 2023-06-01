@@ -10,6 +10,7 @@ import pandas as pd
 import calendar
 import locale
 from unidecode import unidecode
+from sqlalchemy import literal
 
 class MeshDatum():
     @staticmethod
@@ -28,7 +29,7 @@ class MeshDatum():
     def get_all_with_df(rut, period):
         mesh_data = MeshDatumModel.query \
             .filter(MeshDatumModel.rut == rut, MeshDatumModel.period == period) \
-            .add_columns(MeshDatumModel.rut, MeshDatumModel.date, MeshDatumModel.start, MeshDatumModel.end, MeshDatumModel.period) \
+            .add_columns(MeshDatumModel.rut, MeshDatumModel.date, MeshDatumModel.start, MeshDatumModel.end, MeshDatumModel.period, literal(4).label('status')) \
             .all()
 
         # Configurar el idioma en español
@@ -52,6 +53,7 @@ class MeshDatum():
                 day_of_week = day_of_week
 
             data.append({
+                'rut': datum.rut,
                 'date': date,
                 'start': datum.start,
                 'end': datum.end,

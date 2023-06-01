@@ -21,11 +21,10 @@ def index(page=1):
 @control_mesh_employee.route("/control_mesh_employee/show/<int:rut>/<period>", methods=['GET'])
 def show(rut, period):
    mesh_data = MeshDatum.get_all_with_df(rut, period)
-   marked_clock_attendances = ClockAttendance.get_all_with_df_marked(rut, period)
-   inserted_clock_attendances = ClockAttendance.get_all_with_df_inserted(rut, period)
-   merged_clock_attendances = ClockAttendance.get_all_with_df_merged(marked_clock_attendances, inserted_clock_attendances)
-   total = ClockAttendance.get_all_with_df_merged_total(mesh_data, merged_clock_attendances)
+   clock_attendances = ClockAttendance.get_all_with_df(rut, period)
+   total_mesh_clock_data = ClockAttendance.calculate(mesh_data, clock_attendances)
+
    title = "Detalle del Control Tiempo"
    module_name = "Gestión Tiempo"
-   return render_template('human_resource/control_mesh_employees/show_control_mesh_employee.html', module_name = module_name, title = title, mesh_data = mesh_data, merged_clock_attendances = merged_clock_attendances)
+   return render_template('human_resource/control_mesh_employees/show_control_mesh_employee.html', module_name = module_name, title = title, mesh_data = mesh_data.to_dict(orient='records'), clock_attendances = clock_attendances.to_dict(orient='records'), total_mesh_clock_data = total_mesh_clock_data.to_dict(orient='records'))
 
