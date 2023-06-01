@@ -7,6 +7,9 @@ from app.turns.turn import Turn
 from app.helpers.helper import Helper
 from app.pre_employee_turns.pre_employee_turn import PreEmployeeTurn
 import pandas as pd
+import calendar
+import locale
+from unidecode import unidecode
 
 class MeshDatum():
     @staticmethod
@@ -21,6 +24,44 @@ class MeshDatum():
 
         return mesh_data
     
+    @staticmethod
+    def get_all_with_df(rut, period):
+        mesh_data = MeshDatumModel.query \
+            .filter(MeshDatumModel.rut == rut, MeshDatumModel.period == period) \
+            .add_columns(MeshDatumModel.rut, MeshDatumModel.date, MeshDatumModel.start, MeshDatumModel.end, MeshDatumModel.period) \
+            .all()
+
+        # Configurar el idioma en español
+        locale.setlocale(locale.LC_TIME, 'es_ES.utf-8')
+
+        data = []
+        for datum in mesh_data:
+            # Convertir la fecha a tipo datetime
+            date = pd.to_datetime(datum.date)
+
+            # Obtener el nombre del día de la semana en español y capitalizar la primera letra
+            day_of_week = pd.to_datetime(datum.date).strftime('%A').capitalize()
+
+            day_of_week = unidecode(day_of_week)
+
+            if day_of_week == "Mia(c)rcoles":
+                day_of_week = "Miércoles"
+            elif day_of_week == "Sa!bado":
+                day_of_week = "Sábado"
+            else:
+                day_of_week = day_of_week
+
+            data.append({
+                'date': date,
+                'start': datum.start,
+                'end': datum.end,
+                'day_of_week': day_of_week
+            })
+
+        df = pd.DataFrame(data)
+
+        return df
+
     @staticmethod
     def get_all_with_df_group_by(period):
         mesh_data = MeshDatumModel.query\

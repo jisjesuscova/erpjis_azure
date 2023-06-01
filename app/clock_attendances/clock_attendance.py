@@ -1,11 +1,13 @@
 from app.models.models import ClockAttendanceModel
 from app import db
 from app.clock_users.clock_user import ClockUser
-from sqlalchemy import func
+from sqlalchemy import func, extract
 from app.turns.turn import Turn
 from datetime import datetime
 from app.employee_labor_data.employee_labor_datum import EmployeeLaborDatum
 from app.mesh_data.mesh_datum import MeshDatum
+import pandas as pd
+
 
 class ClockAttendance():
     @staticmethod
@@ -84,6 +86,106 @@ class ClockAttendance():
         db.session.commit()
 
         return str(data)
+    
+    @staticmethod
+    def get_all_with_df_marked(rut, period):
+        clock_attendances = ClockAttendanceModel.query.filter_by(rut=rut).all()
+
+        data = []
+        for attendance in clock_attendances:
+            year = attendance.mark_date.year
+            month = attendance.mark_date.month
+            period = f"{month:02d}-{year}"
+
+            hours = attendance.mark_date.strftime('%H:%M:%S')
+
+            date = attendance.mark_date.strftime('%Y-%m-%d')
+            # Convertir la fecha a tipo datetime
+            date = pd.to_datetime(date)
+
+            data.append({
+                'rut': attendance.rut,
+                'mark_date': attendance.mark_date,
+                'punch': attendance.punch,
+                'status': attendance.status,
+                'period': period,
+                'hours': hours,
+                'date': date
+            })
+
+        df = pd.DataFrame(data)
+
+        # Filtrar por punch igual a 0 o 1
+        filtered_df = df[(df['punch'].isin([0, 1])) & (df['status'].isin([0, 1]))]
+        filtered_df = filtered_df.assign(status=1)
+
+        # Crear el pivot table
+        pivot_table = filtered_df.pivot_table(index=['date', 'rut', 'status'], columns='punch', values='hours', aggfunc='first')
+
+        # Reemplazar NaN por 0
+        pivot_table = pivot_table.fillna(0)
+
+        return pivot_table
+    
+    @staticmethod
+    def get_all_with_df_inserted(rut, period):
+        clock_attendances = ClockAttendanceModel.query.filter_by(rut=rut).all()
+
+        data = []
+        for attendance in clock_attendances:
+            year = attendance.mark_date.year
+            month = attendance.mark_date.month
+            period = f"{month:02d}-{year}"
+
+            hours = attendance.mark_date.strftime('%H:%M:%S')
+
+            date = attendance.mark_date.strftime('%Y-%m-%d')
+            # Convertir la fecha a tipo datetime
+            date = pd.to_datetime(date)
+
+            data.append({
+                'rut': attendance.rut,
+                'mark_date': attendance.mark_date,
+                'punch': attendance.punch,
+                'status': attendance.status,
+                'period': period,
+                'hours': hours,
+                'date': date
+            })
+
+        df = pd.DataFrame(data)
+
+        # Filtrar por punch igual a 0 o 1
+        filtered_df = df[(df['punch'].isin([0, 1])) & (df['status'].isin([2]))]
+        filtered_df = filtered_df.assign(status=2)
+
+        # Crear el pivot table
+        pivot_table = filtered_df.pivot_table(index=['date', 'rut', 'status'], columns='punch', values='hours', aggfunc='first')
+
+        # Reemplazar NaN por 0
+        pivot_table = pivot_table.fillna(0)
+
+        return pivot_table
+    
+    @staticmethod
+    def get_all_with_df_merged(df_1, df_2):
+        merged_df = df_1.merge(df_2, on=['rut', 'date', 'status'], how='outer')
+        merged_df['entrada'] = merged_df['0_x'].combine_first(merged_df['0_y'])
+        merged_df['salida'] = merged_df['1_x'].combine_first(merged_df['1_y'])
+        merged_df = merged_df.drop(['0_x', '0_y', '1_x', '1_y'], axis=1)
+
+        return merged_df
+    
+    @staticmethod
+    def get_all_with_df_merged_total(df1, df2):
+        grouped_df1 = df1.groupby('date')
+        grouped_df2 = df2.groupby('date')
+        agg_df1 = grouped_df1['start', 'end'].first()
+        agg_df2 = grouped_df2['entrada', 'salida'].first()
+        final_df = pd.concat([agg_df1, agg_df2], axis='columns')
+        print(final_df)
+        exit()
+        return final_df
     
     @staticmethod
     def special_store(data, mark_date):

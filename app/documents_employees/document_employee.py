@@ -279,6 +279,7 @@ class DocumentEmployee():
         document_employee.status_id = status_id
         document_employee.rut = rut
         document_employee.document_type_id = document_type_id
+        document_employee.old_document_status_id = 1
         document_employee.support = file
         if period != '':
             document_employee.added_date = period + ' 00:00:00'

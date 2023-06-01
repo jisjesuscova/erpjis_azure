@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template_string, render_template, request, redirect, url_for, flash, jsonify, session, current_app
 from app.total_mesh_data.total_mesh_datum import TotalMeshDatum
+from app.mesh_data.mesh_datum import MeshDatum
+from app.clock_attendances.clock_attendance import ClockAttendance
 
 control_mesh_employee = Blueprint("control_mesh_employees", __name__)
 
@@ -15,4 +17,15 @@ def index(page=1):
    module_name = "Gestión Tiempo"
    
    return render_template('human_resource/control_mesh_employees/control_mesh_employee.html', module_name = module_name, title = title, total_mesh_data = total_mesh_data)
+
+@control_mesh_employee.route("/control_mesh_employee/show/<int:rut>/<period>", methods=['GET'])
+def show(rut, period):
+   mesh_data = MeshDatum.get_all_with_df(rut, period)
+   marked_clock_attendances = ClockAttendance.get_all_with_df_marked(rut, period)
+   inserted_clock_attendances = ClockAttendance.get_all_with_df_inserted(rut, period)
+   merged_clock_attendances = ClockAttendance.get_all_with_df_merged(marked_clock_attendances, inserted_clock_attendances)
+   total = ClockAttendance.get_all_with_df_merged_total(mesh_data, merged_clock_attendances)
+   title = "Detalle del Control Tiempo"
+   module_name = "Gestión Tiempo"
+   return render_template('human_resource/control_mesh_employees/show_control_mesh_employee.html', module_name = module_name, title = title, mesh_data = mesh_data, merged_clock_attendances = merged_clock_attendances)
 

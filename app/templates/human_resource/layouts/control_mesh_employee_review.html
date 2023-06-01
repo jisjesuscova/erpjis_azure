@@ -1,0 +1,69 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-5">
+                <h3>
+                    Planificado
+                </h3>
+                <hr>
+                <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Día</th>
+                            <th>Entrada</th>
+                            <th>Salida</th>
+                        </tr>
+                    </thead>
+                    {% for datum in mesh_data %}
+                        <tbody>
+                            <tr>
+                                <td>{{ datum.date|datetime("dd-MM-yyyy") }}</td>
+                                <td>{{ datum.day_of_week }}</td>
+                                <td>{{ datum.start }}</td>
+                                <td>{{ datum.end }}</td>
+                            </tr>
+                        </tbody>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="col-5">
+                <h3>
+                    Registrado
+                </h3>
+                <hr>
+                <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Entrada</th>
+                            <th>Salida</th>
+                            <th>Estatus</th>
+                        </tr>
+                    </thead>
+                    {% for record in merged_data %}
+                        <tbody>
+                            <tr>
+                                <td>{{ record.entrada }}</td>
+                                <td>{{ record.salida }}</td>
+                                <td>{{ record.status }}</td>
+                            </tr>
+                        </tbody>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="col-2">
+                <h3>
+                    Controlado
+                </h3>
+                <hr>
+                <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

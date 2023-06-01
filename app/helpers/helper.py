@@ -48,6 +48,12 @@ class Helper:
         return string
     
     @staticmethod
+    def replace(value, new_value, string):
+        string = string.replace(value, new_value)
+
+        return string
+    
+    @staticmethod
     def fix_documentation_titles(string):
         pattern = re.compile(r'<h[1-5].*?>|</h[1-5]>')
 

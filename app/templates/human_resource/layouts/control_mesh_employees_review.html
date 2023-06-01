@@ -42,7 +42,7 @@
                                         <td>{{ record['nickname'] }}</td>
                                         <td>{{ record['period'] }}</td>
                                         <td>
-                                            <a href="{{ url_for('control_mesh_employees.show', rut=record['rut'], period=record['period']) }}" class="btn btn-success">
+                                            <a href="{{ url_for('control_mesh_employees.show', rut=record['rut'], period=record['period']) }}" class="btn btn-success" onclick="return confirm('¿Estás seguro de que quieres eliminar la malla horaria?')">
                                                 <i class="fa fa-eye"></i>
                                             </a>
                                             <a href="{{ url_for('mesh_data.delete', document_employee_id=record['document_employee_id'], rut=record['rut'], period=record['period']) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar la malla horaria?')">
