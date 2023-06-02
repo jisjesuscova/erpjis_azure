@@ -1,7 +1,7 @@
 from flask import request
 from app import db
 from datetime import datetime, timedelta
-from app.models.models import MeshDatumModel, TotalMeshDatumModel, UserModel
+from app.models.models import MeshDatumModel, UserModel, TurnModel
 from app.employees_turns.employee_turn import EmployeeTurn
 from app.turns.turn import Turn
 from app.helpers.helper import Helper
@@ -67,9 +67,23 @@ class MeshDatum():
     @staticmethod
     def get_all_with_df_grouped_by_week(rut, period):
         mesh_data = MeshDatumModel.query \
-            .with_entities(MeshDatumModel.rut, MeshDatumModel.week, MeshDatumModel.period, func.sum(MeshDatumModel.total_hours).label('total_hours')) \
+            .join(TurnModel, MeshDatumModel.turn_id == TurnModel.id) \
+            .with_entities(
+                MeshDatumModel.rut,
+                MeshDatumModel.week,
+                MeshDatumModel.period,
+                func.sum(MeshDatumModel.total_hours).label('total_hours'),
+                TurnModel.group_day_id.label('group_day_id'),
+                TurnModel.free_day_group_id.label('free_day_group_id')
+            ) \
             .filter(MeshDatumModel.rut == rut, MeshDatumModel.period == period) \
-            .group_by(MeshDatumModel.rut, MeshDatumModel.week, MeshDatumModel.period) \
+            .group_by(
+                MeshDatumModel.rut,
+                MeshDatumModel.week,
+                MeshDatumModel.period,
+                TurnModel.group_day_id,
+                TurnModel.free_day_group_id
+            ) \
             .having(func.count(MeshDatumModel.id) > 1) \
             .all()
 
@@ -82,10 +96,16 @@ class MeshDatum():
                 'rut': datum.rut,
                 'week': datum.week,
                 'period': datum.period,
-                'total_hours': datum.total_hours
+                'total_hours': datum.total_hours,
+                'working_days': datum.group_day_id,
+                'free_days': datum.free_day_group_id
             })
 
         df = pd.DataFrame(data)
+
+        df.loc['Total'] = df[['total_hours', 'working_days', 'free_days']].sum()
+
+        df['week'] = df['week'].fillna('Total')
 
         return df
     

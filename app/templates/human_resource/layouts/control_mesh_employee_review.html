@@ -123,17 +123,38 @@
                     <thead>
                         <tr>
                             <th>Semana</th>
-                            <th>Día</th>
                             <th>Horas</th>
+                            <th>Días de Trabajo</th>
+                            <th>Días Libres</th>
                         </tr>
                     </thead>
-                    {% for datum in mesh_data %}
+                    {% for datum in mesh_data_grouped_by_week %}
                         <tbody>
                             <tr>
-                                <td>{{ datum.date|datetime("dd-MM-yyyy") }}</td>
-                                <td>{{ datum.day_of_week }}</td>
-                                <td>{{ datum.start }}</td>
-                                <td>{{ datum.end }}</td>
+                                <td>{{ datum.week }}</td>
+                                <td>{{ datum.total_hours }}</td>
+                                <td>{{ datum.working_days }}</td>
+                                <td>{{ datum.free_days }}</td>
+                            </tr>
+                        </tbody>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="col-5">
+                <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Semana</th>
+                            <th>Horas</th>
+                            <th>Días</th>
+                        </tr>
+                    </thead>
+                    {% for datum in clock_attendances_grouped_by_week %}
+                        <tbody>
+                            <tr>
+                                <td>{{ datum.week }}</td>
+                                <td>{{ datum.total }}</td>
+                                <td>{{ datum.mark_date }}</td>
                             </tr>
                         </tbody>
                     {% endfor %}

@@ -203,71 +203,110 @@ class ClockAttendance():
 
         filtered_df_0 = df[(df['punch'].isin([0, 1])) & (df['status'].isin([0]))]
 
-        pivot_table_0 = filtered_df_0.pivot_table(index=['rut', 'week'], columns='punch', values='hours', aggfunc='first')
+        pivot_table_0 = filtered_df_0.pivot_table(index=['rut', 'mark_date', 'week'], columns='punch', values='hours', aggfunc=lambda x: list(x))
 
         pivot_table_0 = pivot_table_0.rename(columns={0: 'start', 1: 'end'})
 
         new_df_0 = pd.DataFrame(pivot_table_0.to_records())
+
         
         filtered_df_1 = df[(df['punch'].isin([0, 1])) & (df['status'].isin([1]))]
 
-        pivot_table_1 = filtered_df_1.pivot_table(index=['rut', 'week'], columns='punch', values='hours', aggfunc='first')
+        pivot_table_1 = filtered_df_1.pivot_table(index=['rut', 'mark_date', 'week'], columns='punch', values='hours', aggfunc=lambda x: list(x))
 
         pivot_table_1 = pivot_table_1.rename(columns={0: 'start', 1: 'end'})
 
         new_df_1 = pd.DataFrame(pivot_table_1.to_records())
 
+
         filtered_df_2 = df[(df['punch'].isin([0, 1])) & (df['status'].isin([2]))]
 
-        pivot_table_2 = filtered_df_2.pivot_table(index=['rut', 'week'], columns='punch', values='hours', aggfunc='first')
+        pivot_table_2 = filtered_df_2.pivot_table(index=['rut', 'mark_date', 'week'], columns='punch', values='hours', aggfunc=lambda x: list(x))
 
         pivot_table_2 = pivot_table_2.rename(columns={0: 'start', 1: 'end'})
 
         new_df_2 = pd.DataFrame(pivot_table_2.to_records())
 
+        
         concat = pd.concat([new_df_0, new_df_1, new_df_2], axis=0)
 
         concat['start'] = concat['start'].fillna(0)
         concat['end'] = concat['end'].fillna(0)
+        concat['mark_date'] = pd.to_datetime(concat['mark_date'])
 
-        concat.iloc[:, 2] = pd.to_datetime(concat.iloc[:, 2], format='%H:%M:%S', errors='coerce')
-        concat.iloc[:, 3] = pd.to_datetime(concat.iloc[:, 3], format='%H:%M:%S', errors='coerce')
+        concat['mark_date'] = pd.to_datetime(concat['mark_date'])
 
-        # Calcula la diferencia entre "end1" y "end2"
-        concat['total'] = np.where(pd.isna(concat['end1']) | pd.isna(concat['end2']) | (concat['end1'] == 0) | (concat['end2'] == 0), 
-                           0,
-                           np.abs(concat['end1'] - concat['end2']))
+        concat['mark_date'] = concat['mark_date'].dt.strftime('%Y-%m-%d')
+        grouped = concat.groupby(['rut', 'mark_date', 'week']).agg({'start': list, 'end': list}).reset_index()
+        counted = grouped.groupby(['week']).count()
 
-        concat['start'] = concat['start'].fillna(0)
-        concat['end'] = concat['end'].fillna(0)
+        df = pd.DataFrame(grouped)
 
-        print(concat)
-        exit()
-        # Crear DataFrame con todas las fechas del rango. ACA HAY QUE CAMBIAR EL RANGO DE FECHAS QUE VENGA POR PERIOD
-        dates = pd.date_range(start='2023-05-01', end='2023-05-31', freq='D')
-        df_dates = pd.DataFrame({'mark_date': dates})
-        df_dates['rut'] = rut  # Asignar el mismo valor de "rut" a todas las filas
+        df['start'] = df['start'].apply(lambda x: x[0][0] if isinstance(x, list) and len(x) > 0 and len(x[0]) > 0 else 0)
+        df['end'] = df['end'].apply(lambda x: x[1][0] if isinstance(x, list) and len(x) > 1 and len(x[1]) > 0 else 0)
 
-        # Unir DataFrames y ajustar formato de "mark_date"
-        df_complete = pd.concat([df, df_dates], ignore_index=True)
+        df.iloc[:, 3] = pd.to_datetime(df.iloc[:, 3], format='%H:%M:%S', errors='coerce')
+        df.iloc[:, 4] = pd.to_datetime(df.iloc[:, 4], format='%H:%M:%S', errors='coerce')
+
+        df['total'] = np.where(df.iloc[:, 3] > df.iloc[:, 4], 
+                                        df.iloc[:, 3] - df.iloc[:, 4], 
+                                        df.iloc[:, 4] - df.iloc[:, 3])
+
+        df['numeric_total'] = np.where(df.iloc[:, 3] > df.iloc[:, 4], 
+                                        df.iloc[:, 3] - df.iloc[:, 4], 
+                                        df.iloc[:, 4] - df.iloc[:, 3])
         
-        df_complete['mark_date'] = df_complete['mark_date'].dt.strftime('%Y-%m-%d 00:00:00')
+        df['start'] = df['start'].fillna(pd.Timedelta(seconds=0))
+        df['end'] = df['end'].fillna(pd.Timedelta(seconds=0))
+        df['total'] = df['total'].fillna(pd.Timedelta(seconds=0))
 
-        # Agrupar por "rut" y "week" y calcular la suma de "hours"
-        df_complete['hours'] = pd.to_timedelta(df_complete['hours']).dt.total_seconds() / 3600
-        df_grouped = df_complete.groupby(['rut', 'week'])['hours'].sum().reset_index()
-        print(df_grouped)
-        exit()
-        # Agrupar por "rut" y "week" y calcular la suma de "hours"
-        df_grouped = df_complete.groupby(['rut', 'week']).sum().reset_index()
+        grouped = df.groupby(['rut', 'week']).agg({'total': 'sum'}).reset_index()
 
+        merged_df = pd.merge(grouped, counted, on=['week'], how='left')
 
-        print(df_grouped)
-        exit()
+        df = pd.DataFrame(merged_df)
 
-        
+        # Obtener todos los valores únicos de la columna "week"
+        unique_weeks = df['week'].unique()
 
-        return merged_df
+        # Crear un rango de valores del 1 al 5
+        all_weeks = range(1, 6)
+
+        # Obtener los valores faltantes en la columna "week"
+        missing_weeks = set(all_weeks) - set(unique_weeks)
+
+        # Crear filas con los valores faltantes en la columna "week"
+        missing_rows = pd.DataFrame({'week': list(missing_weeks)})
+        missing_rows['rut'] = np.nan
+        missing_rows['total'] = pd.Timedelta(seconds=0)
+
+        # Concatenar el DataFrame original con las filas faltantes
+        df = pd.concat([df, missing_rows])
+
+        # Ordenar el DataFrame por la columna "week"
+        df = df.sort_values('week')
+
+        # Restablecer el índice del DataFrame
+        df = df.reset_index(drop=True)
+
+        df['mark_date'] = df['mark_date'].fillna(0)
+
+        df['mark_date'] = df['mark_date'].astype(str)
+
+        df['mark_date'] = df['mark_date'].str.slice(0, 1)
+
+        df['mark_date'] = pd.to_numeric(df['mark_date'], errors='coerce')
+
+        df['total'] = pd.to_timedelta(df['total'])
+
+        df.loc['Total'] = df[['total', 'mark_date']].sum()
+
+        df['week'] = df['week'].fillna('Total')
+
+        df['total'] = df['total'].astype(str)
+
+        df['total'] = df['total'].str.slice(6, 12)
+        return df
     
     @staticmethod
     def calculate(df_1, df_2):
