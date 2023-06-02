@@ -382,6 +382,7 @@ $(document).ready(function () {
     $("#cellphone").focusout(function() {
         var formData = new FormData();
             
+        formData.append('rut', $('#rut').val());
         formData.append('cellphone', $('#cellphone').val());
 
         $.ajax({
@@ -432,6 +433,7 @@ $(document).ready(function () {
     $("#cellphone").mouseout(function() {
         var formData = new FormData();
             
+        formData.append('rut', $('#rut').val());
         formData.append('cellphone', $('#cellphone').val());
 
         $.ajax({

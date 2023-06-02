@@ -10,7 +10,7 @@ import pandas as pd
 import calendar
 import locale
 from unidecode import unidecode
-from sqlalchemy import literal
+from sqlalchemy import literal, func
 
 class MeshDatum():
     @staticmethod
@@ -64,6 +64,31 @@ class MeshDatum():
 
         return df
 
+    @staticmethod
+    def get_all_with_df_grouped_by_week(rut, period):
+        mesh_data = MeshDatumModel.query \
+            .with_entities(MeshDatumModel.rut, MeshDatumModel.week, MeshDatumModel.period, func.sum(MeshDatumModel.total_hours).label('total_hours')) \
+            .filter(MeshDatumModel.rut == rut, MeshDatumModel.period == period) \
+            .group_by(MeshDatumModel.rut, MeshDatumModel.week, MeshDatumModel.period) \
+            .having(func.count(MeshDatumModel.id) > 1) \
+            .all()
+
+        # Configurar el idioma en español
+        locale.setlocale(locale.LC_TIME, 'es_ES.utf-8')
+
+        data = []
+        for datum in mesh_data:
+            data.append({
+                'rut': datum.rut,
+                'week': datum.week,
+                'period': datum.period,
+                'total_hours': datum.total_hours
+            })
+
+        df = pd.DataFrame(data)
+
+        return df
+    
     @staticmethod
     def get_all_with_df_group_by(period):
         mesh_data = MeshDatumModel.query\

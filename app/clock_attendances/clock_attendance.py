@@ -148,7 +148,7 @@ class ClockAttendance():
 
         grouped_df = concat.groupby(['rut', 'date']).agg(list).reset_index()
 
-        # Obtener todas las fechas en el rango deseado
+        # Obtener todas las fechas en el rango deseado. ACA HAY QUE CAMBIAR EL RANGO DE FECHAS QUE VENGA POR PERIOD
         date_range = pd.date_range(start='2023-05-01', end='2023-05-31', freq='D')
 
         # Crear un nuevo DataFrame con todas las combinaciones de 'rut' y 'date'
@@ -164,6 +164,108 @@ class ClockAttendance():
 
         # Ordenar el DataFrame por 'rut' y 'date'
         merged_df = merged_df.sort_values(['rut', 'date']).reset_index(drop=True)
+
+        return merged_df
+    
+    @staticmethod
+    def get_all_with_df_grouped_by_week(rut, period):
+        clock_attendances = ClockAttendanceModel.query.filter(
+            ClockAttendanceModel.rut == rut,
+            func.date_format(ClockAttendanceModel.mark_date, '%m-%Y') == period,
+            ClockAttendanceModel.punch.in_([0, 1])
+        ).all()
+
+        data = []
+        for attendance in clock_attendances:
+            year = attendance.mark_date.year
+            month = attendance.mark_date.month
+            period = f"{month:02d}-{year}"
+
+            hours = attendance.mark_date.strftime('%H:%M:%S')
+
+            date = attendance.mark_date.strftime('%Y-%m-%d')
+            # Convertir la fecha a tipo datetime
+            date = pd.to_datetime(date)
+
+            data.append({
+                'rut': attendance.rut,
+                'mark_date': attendance.mark_date,
+                'status': attendance.status,
+                'punch': attendance.punch,
+                'period': period,
+                'hours': hours,
+                'date': date,
+                'week': attendance.week_id
+            })
+
+        df = pd.DataFrame(data)
+        
+
+        filtered_df_0 = df[(df['punch'].isin([0, 1])) & (df['status'].isin([0]))]
+
+        pivot_table_0 = filtered_df_0.pivot_table(index=['rut', 'week'], columns='punch', values='hours', aggfunc='first')
+
+        pivot_table_0 = pivot_table_0.rename(columns={0: 'start', 1: 'end'})
+
+        new_df_0 = pd.DataFrame(pivot_table_0.to_records())
+        
+        filtered_df_1 = df[(df['punch'].isin([0, 1])) & (df['status'].isin([1]))]
+
+        pivot_table_1 = filtered_df_1.pivot_table(index=['rut', 'week'], columns='punch', values='hours', aggfunc='first')
+
+        pivot_table_1 = pivot_table_1.rename(columns={0: 'start', 1: 'end'})
+
+        new_df_1 = pd.DataFrame(pivot_table_1.to_records())
+
+        filtered_df_2 = df[(df['punch'].isin([0, 1])) & (df['status'].isin([2]))]
+
+        pivot_table_2 = filtered_df_2.pivot_table(index=['rut', 'week'], columns='punch', values='hours', aggfunc='first')
+
+        pivot_table_2 = pivot_table_2.rename(columns={0: 'start', 1: 'end'})
+
+        new_df_2 = pd.DataFrame(pivot_table_2.to_records())
+
+        concat = pd.concat([new_df_0, new_df_1, new_df_2], axis=0)
+
+        concat['start'] = concat['start'].fillna(0)
+        concat['end'] = concat['end'].fillna(0)
+
+        concat.iloc[:, 2] = pd.to_datetime(concat.iloc[:, 2], format='%H:%M:%S', errors='coerce')
+        concat.iloc[:, 3] = pd.to_datetime(concat.iloc[:, 3], format='%H:%M:%S', errors='coerce')
+
+        # Calcula la diferencia entre "end1" y "end2"
+        concat['total'] = np.where(pd.isna(concat['end1']) | pd.isna(concat['end2']) | (concat['end1'] == 0) | (concat['end2'] == 0), 
+                           0,
+                           np.abs(concat['end1'] - concat['end2']))
+
+        concat['start'] = concat['start'].fillna(0)
+        concat['end'] = concat['end'].fillna(0)
+
+        print(concat)
+        exit()
+        # Crear DataFrame con todas las fechas del rango. ACA HAY QUE CAMBIAR EL RANGO DE FECHAS QUE VENGA POR PERIOD
+        dates = pd.date_range(start='2023-05-01', end='2023-05-31', freq='D')
+        df_dates = pd.DataFrame({'mark_date': dates})
+        df_dates['rut'] = rut  # Asignar el mismo valor de "rut" a todas las filas
+
+        # Unir DataFrames y ajustar formato de "mark_date"
+        df_complete = pd.concat([df, df_dates], ignore_index=True)
+        
+        df_complete['mark_date'] = df_complete['mark_date'].dt.strftime('%Y-%m-%d 00:00:00')
+
+        # Agrupar por "rut" y "week" y calcular la suma de "hours"
+        df_complete['hours'] = pd.to_timedelta(df_complete['hours']).dt.total_seconds() / 3600
+        df_grouped = df_complete.groupby(['rut', 'week'])['hours'].sum().reset_index()
+        print(df_grouped)
+        exit()
+        # Agrupar por "rut" y "week" y calcular la suma de "hours"
+        df_grouped = df_complete.groupby(['rut', 'week']).sum().reset_index()
+
+
+        print(df_grouped)
+        exit()
+
+        
 
         return merged_df
     
@@ -232,24 +334,6 @@ class ClockAttendance():
         concat.rename(columns={'end_total': 'start_total', 'start_total': 'end_total'}, inplace=True)
 
         return concat
-    
-    @staticmethod
-    def get_all_with_df_merged(df_1, df_2):
-        merged_df = df_1.merge(df_2, on=['rut', 'date'], how='left')
-
-        data_dict = merged_df.to_dict(orient='records')
-
-        return data_dict
-    
-    @staticmethod
-    def get_all_with_df_merged_total(df1, df2):
-        grouped_df1 = df1.groupby('date')
-        grouped_df2 = df2.groupby('date')
-        agg_df1 = grouped_df1['start', 'end'].first()
-        agg_df2 = grouped_df2['entrada', 'salida'].first()
-        final_df = pd.concat([agg_df1, agg_df2], axis='columns')
-
-        return final_df
     
     @staticmethod
     def special_store(data, mark_date):

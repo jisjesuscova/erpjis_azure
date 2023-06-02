@@ -97,9 +97,10 @@ def check_rut():
    
 @employee.route("/human_resources/employee/check_cellphone", methods=['POST'])
 def check_cellphone():
+   rut = request.form['rut']
    cellphone = request.form['cellphone']
 
-   status_id = Employee.check_cellphone(cellphone)
+   status_id = Employee.check_cellphone(rut, cellphone)
 
    if status_id == 1:
       return '1'

@@ -116,5 +116,29 @@
                 </table>
             </div>
         </div>
+        <hr>
+        <div class="row">
+            <div class="col-5">
+                <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Semana</th>
+                            <th>Día</th>
+                            <th>Horas</th>
+                        </tr>
+                    </thead>
+                    {% for datum in mesh_data %}
+                        <tbody>
+                            <tr>
+                                <td>{{ datum.date|datetime("dd-MM-yyyy") }}</td>
+                                <td>{{ datum.day_of_week }}</td>
+                                <td>{{ datum.start }}</td>
+                                <td>{{ datum.end }}</td>
+                            </tr>
+                        </tbody>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
     </div>
 </section>

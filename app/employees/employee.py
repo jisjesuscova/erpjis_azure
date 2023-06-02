@@ -78,8 +78,8 @@ class Employee():
             return 0
         
     @staticmethod
-    def check_cellphone(cellphone):
-        employee_qty = EmployeeModel.query.filter_by(cellphone=cellphone).count()
+    def check_cellphone(rut, cellphone):
+        employee_qty = EmployeeModel.query.filter_by(rut=rut, cellphone=cellphone).count()
 
         if(employee_qty > 0):
             return 1
