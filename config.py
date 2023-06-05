@@ -16,6 +16,7 @@ class DevConfig(BaseConfig):
     MAIL_USE_SSL = False
     MAIL_DEFAULT_SENDER = 'no-responder@jisparking.com'
     UPLOAD_FOLDER = 'files/'
+    REMEMBER_COOKIE_DURATION = 2592000
 
 class ProConfig(BaseConfig):
     DEBUG = False
@@ -29,3 +30,4 @@ class ProConfig(BaseConfig):
     MAIL_USE_SSL = False
     MAIL_DEFAULT_SENDER = 'no-responder@jisparking.com'
     UPLOAD_FOLDER = 'files/'
+    REMEMBER_COOKIE_DURATION = 2592000
