@@ -181,13 +181,14 @@ class DocumentEmployee():
             search_status_id = data['status_id']
             search_branch_office_id = data['branch_office_id']
 
-        query = DocumentEmployeeModel.query\
-                    .join(EmployeeModel, EmployeeModel.rut == DocumentEmployeeModel.rut)\
-                    .join(EmployeeLaborDatumModel, EmployeeLaborDatumModel.rut == EmployeeModel.rut)\
-                    .join(BranchOfficeModel, BranchOfficeModel.id == EmployeeLaborDatumModel.branch_office_id)\
-                    .join(DocumentTypeModel, DocumentTypeModel.id == DocumentEmployeeModel.document_type_id)\
-                    .add_columns(DocumentEmployeeModel.id, EmployeeModel.rut, EmployeeModel.visual_rut, EmployeeModel.nickname, DocumentTypeModel.document_type, DocumentEmployeeModel.added_date, DocumentEmployeeModel.status_id).filter(SupervisorModel.rut==rut, DocumentTypeModel.document_group_id==2,  DocumentEmployeeModel.status_id==1)
-
+        query = db.session.query(DocumentEmployeeModel.id, EmployeeModel.rut)\
+                .join(EmployeeModel, EmployeeModel.rut == DocumentEmployeeModel.rut)\
+                .join(EmployeeLaborDatumModel, EmployeeLaborDatumModel.rut == DocumentEmployeeModel.rut)\
+                .join(DocumentTypeModel, DocumentTypeModel.id == DocumentEmployeeModel.document_type_id)\
+                .join(SupervisorModel, SupervisorModel.branch_office_id == EmployeeLaborDatumModel.branch_office_id)\
+                .join(BranchOfficeModel, BranchOfficeModel.id == SupervisorModel.branch_office_id)\
+                .filter(DocumentTypeModel.document_group_id == 2, DocumentEmployeeModel.status_id == 1, SupervisorModel.rut == rut)
+        
         if len(data) > 0:
             if search_rut:
                 query = query.filter(EmployeeModel.visual_rut.like(f"%{search_rut}%"))

@@ -101,8 +101,8 @@ def review(page=1):
 
       return render_template('human_resource/human_resources/documental_management_data/review_documental_management_data.html', values = values, documents_employees = documents_employees, branch_offices = branch_offices)
 
-@documental_management_datum.route("/human_resources/documental_management_data/search/<int:page>", methods=['GET'])
-@documental_management_datum.route("/human_resources/documental_management_data/search", methods=['GET'])
+@documental_management_datum.route("/human_resources/documental_management_data/search/<int:page>", methods=['GET', 'POST'])
+@documental_management_datum.route("/human_resources/documental_management_data/search", methods=['GET', 'POST'])
 def search(page=1):
    branch_offices = BranchOffice.get()
 

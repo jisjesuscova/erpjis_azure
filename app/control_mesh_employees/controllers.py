@@ -25,6 +25,7 @@ def show(rut, period):
    total_mesh_clock_data = ClockAttendance.calculate(mesh_data, clock_attendances)
    mesh_data_grouped_by_week = MeshDatum.get_all_with_df_grouped_by_week(rut, period)
    clock_attendances_grouped_by_week = ClockAttendance.get_all_with_df_grouped_by_week(rut, period)
+   total_mesh_clock_grouped_by_week = ClockAttendance.calculate_grouped_by_week(mesh_data, clock_attendances)
 
    title = "Detalle del Control Tiempo"
    module_name = "Gestión Tiempo"
