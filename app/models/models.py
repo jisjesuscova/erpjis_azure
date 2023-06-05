@@ -200,6 +200,18 @@ class EmployeeModel(db.Model):
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
 
+
+class PreEmployeeAddressModel(db.Model):
+    __tablename__ = 'pre_employees_addresses'
+
+    id = db.Column(db.Integer, primary_key=True)
+    rut = db.Column(db.Integer)
+    region_id = db.Column(db.String(20))
+    commune_id = db.Column(db.String(20))
+    address = db.Column(db.Text())
+    added_date = db.Column(db.DateTime())
+    updated_date = db.Column(db.DateTime())
+
 class OldEmployeeModel(db.Model):
     __tablename__ = 'old_employees'
 

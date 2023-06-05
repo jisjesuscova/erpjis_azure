@@ -77,6 +77,16 @@
                                     <label for="exampleInputEmail1">Fecha de Nacimiento</label>
                                     <input disabled type="date" value="{{ employee.born_date }}" class="form-control" id="born_date" placeholder="Fecha de Nacimiento" name="born_date">
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Region</label>
+                                    <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="region_id" name="region_id">
+                                        <option value="">- Seleccionar -</option>
+                                        {% for region in regions %}
+                                            <option {% if region.id == employee_labor_datum.region_id %} selected {% endif %} value="{{ region.id }}">{{ region.region }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -97,6 +107,16 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Celular</label>
                                     <input type="text" value="{{ employee.cellphone }}" class="form-control" id="cellphone" placeholder="Celular" name="cellphone">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Comuna</label>
+                                    <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="commune_id" name="commune_id">
+                                        <option value="">- Seleccionar -</option>
+                                        {% for commune in communes %}
+                                            <option {% if commune.id == employee_labor_datum.commune_id %} selected {% endif %} value="{{ commune.id }}">{{ commune.commune }}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -119,6 +139,11 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Correo Personal</label>
                                     <input type="text" value="{{ employee.personal_email }}" class="form-control" id="personal_email" placeholder="Correo Personal" name="personal_email">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Dirección</label>
+                                    <input type="text" value="{{ employee_labor_datum.address }}" class="form-control" id="address" placeholder="Dirección" name="address">
                                 </div>
                             </div>
 

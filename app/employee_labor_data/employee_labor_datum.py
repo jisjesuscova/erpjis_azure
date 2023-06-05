@@ -1,7 +1,7 @@
 from app.models.models import EmployeeLaborDatumModel
 from app.helpers.helper import Helper
 from app.hr_final_day_months.hr_final_day_month import HrFinalDayMonth
-from app.models.models import EmployeeModel, UserModel, OldEmployeeLaborDatumModel
+from app.models.models import EmployeeModel, UserModel, OldEmployeeLaborDatumModel, PreEmployeeAddressModel
 from datetime import datetime
 from app import db
 
@@ -80,6 +80,24 @@ class EmployeeLaborDatum():
         old_employee_labor_data = OldEmployeeLaborDatumModel.query.filter_by(rut=rut, order_id=order_id).all()
 
         return old_employee_labor_data
+    
+    @staticmethod
+    def pre_address(data, rut):
+        pre_employee_adress = PreEmployeeAddressModel()
+        pre_employee_adress.rut = data['rut']
+        pre_employee_adress.region_id = data['region_id']
+        pre_employee_adress.commune_id = data['commune_id']
+        pre_employee_adress.address = data['address']
+        pre_employee_adress.added_date = datetime.now()
+        pre_employee_adress.updated_date = datetime.now()
+
+        db.session.add(pre_employee_adress)
+        try:
+            db.session.commit()
+
+            return 1
+        except Exception as e:
+            return 0
 
     @staticmethod
     def restore(rut, order_id):

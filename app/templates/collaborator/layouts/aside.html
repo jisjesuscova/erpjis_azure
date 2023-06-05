@@ -59,6 +59,22 @@
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{{ url_for('vacations.index') }}/{{ current_user.rut }}"  class="nav-link">
+              <i class="nav-icon fas fa-plane"></i>
+              <p>
+                Vacaciones
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ url_for('settlement_data.index') }}/{{ current_user.rut }}"  class="nav-link">
+              <i class="nav-icon fas fa-file"></i>
+              <p>
+                Liquidaciones
+              </p>
+            </a>
+          </li>
           <li class="nav-item has-treeview menu-close">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
