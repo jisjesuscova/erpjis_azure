@@ -155,6 +155,106 @@
                         <!-- form end -->
                     </div>
                 </div>
+                {% if status_change_address_id == 1 %}
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Datos Dirección Nuevos</h3>
+                        </div>
+                    
+                    
+                        <div class="card-body">
+                        
+                            <div class="alert alert-warning" role="alert">
+                                El empleado está solicitando cambio en su dirección.
+                            </div>
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Region</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="new_region_id" name="region_id">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for region in regions %}
+                                                    <option {% if region.id == pre_employee_address_data.region_id %} selected {% endif %} value="{{ region.id }}">{{ region.region }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Comuna</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="new_commune_id" name="commune_id">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for commune in communes %}
+                                                    <option {% if commune.id == pre_employee_address_data.commune_id %} selected {% endif %} value="{{ commune.id }}">{{ commune.commune }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Dirección</label>
+                                            <input type="text" value="{{ pre_employee_address_data.address }}" class="form-control" id="new_address" placeholder="Dirección" name="address">
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Datos Dirección Actuales</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Region</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="region_id" name="region_id">
+                                            <option value="">- Seleccionar -</option>
+                                            {% for region in regions %}
+                                                <option {% if region.id == employee_labor_datum.region_id %} selected {% endif %} value="{{ region.id }}">{{ region.region }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Comuna</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="commune_id" name="commune_id">
+                                            <option value="">- Seleccionar -</option>
+                                            {% for commune in communes %}
+                                                <option {% if commune.id == employee_labor_datum.commune_id %} selected {% endif %} value="{{ commune.id }}">{{ commune.commune }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Dirección</label>
+                                            <input type="text" value="{{ employee_labor_datum.address }}" class="form-control" id="address" placeholder="Dirección" name="address">
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                        </div>
+
+                        <input type="hidden" value="{{ employee.rut }}" class="form-control" id="numeric_rut" name="id">
+                            <!-- /.card-body -->
+                    
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <span class="loading-icon" id="loading-icon" style="display:none;">Cargando...</span>
+                                    <button  class="btn btn-success accept-address-btn">Aceptar</button>
+                                    <button  class="btn btn-danger reject-address-btn">Rechazar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
 
                 <div class="card">
                     <div class="card-header">

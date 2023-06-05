@@ -796,6 +796,108 @@ $(document).ready(function () {
         });
     });
 
+    $('.accept-address-btn').click(function(event) {
+        event.preventDefault();
+        alert(222)
+
+        $.ajax({
+            url: "/human_resources/contract_data/accept_address/"+$('#numeric_rut').val(),
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                window.location.replace("https://jiserp.com/human_resources/personal_data/"+$('#numeric_rut').val());
+            },
+            error: function() {
+            }
+        });
+    });
+
+    $('.reject-address-btn').click(function(event) {
+        event.preventDefault();
+
+        $.ajax({
+            url: "/human_resources/contract_data/reject_address/"+$('#numeric_rut').val(),
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                window.location.replace("https://jiserp.com/human_resources/personal_data/"+$('#numeric_rut').val());
+            },
+            error: function() {
+            }
+        });
+    });
+
+    $('.update-address-btn').click(function(event) {
+        event.preventDefault();
+
+        if ($('#rol_id').val() != 1) {
+            // Verificar si hay campos vacíos o indefinidos
+            var requiredFields = ['region_id', 'commune_id', 'address'];
+            var hasEmptyField = false;
+            for (var i = 0; i < requiredFields.length; i++) {
+                var field = $('#' + requiredFields[i]);
+                if (field.val() === '' || typeof field.val() === 'undefined') {
+                    hasEmptyField = true;
+                    break;
+                }
+            }
+
+            if (hasEmptyField) {
+                $('.alert-danger-form').show();
+                return;
+            }
+        }
+
+        $('span#loading-icon').show();
+        $('.update-address-btn').hide();
+        
+        var formData = new FormData();
+        formData.append('region_id', $('#region_id').val());
+        formData.append('commune_id', $('#commune_id').val());
+        formData.append('address', $('#address').val());
+
+        $.ajax({
+            url: "/human_resources/contract_data/update_address/"+$('#numeric_rut').val(),
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": $('input[name="csrf_token"]').val()
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response == 1) {
+                    window.location.replace("https://jiserp.com/human_resources/personal_data/"+$('#numeric_rut').val());
+                } else {
+                    $('.alert-danger-404-form').show();
+                    $('.alert-danger-cellphone-form').hide();
+                    $('.alert-danger-form').hide();
+                    $('.alert-danger-rut-exist-form').hide();
+                    $('.alert-danger-cellphone-exist-form').hide();
+                    $('span#loading-icon').hide();
+                    $('.update-user-btn').show();
+                }
+            },
+            error: function() {
+                $('.alert-danger-404-form').show();
+                $('.alert-danger-cellphone-form').hide();
+                $('.alert-danger-form').hide();
+                $('.alert-danger-rut-exist-form').hide();
+                $('.alert-danger-cellphone-exist-form').hide();
+                $('span#loading-icon').hide();
+                $('.update-user-btn').show();
+            }
+        });
+    });
+
     $('.update-user-btn').click(function(event) {
         event.preventDefault();
 

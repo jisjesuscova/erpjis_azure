@@ -16,6 +16,7 @@ from app.employee_bank_accounts.employee_bank_account import EmployeeBankAccount
 from app.documentation_titles.documentation_title import DocumentationTitle
 from app.communes.commune import Commune
 from app.region.region import Region
+from app.contract_data.contract_datum import ContractDatum
 
 personal_datum = Blueprint("personal_data", __name__)
 
@@ -93,6 +94,8 @@ def show(rut):
 
    banks = Bank.get()
 
+   status_change_address_id = ContractDatum.get_status(rut)
+   pre_employee_address_data = ContractDatum.get_address_data(rut)
    status_change_bank_account_id = EmployeeBankAccount.get_status(rut)
 
    personal_datum_button_status_id = 1
@@ -104,7 +107,7 @@ def show(rut):
    elif current_user.rol_id == 3:
       return render_template('supervisor/human_resources/personal_data/personal_data_update.html', documentation_titles_menu = documentation_titles_menu, banks = banks, employee_bank_account = employee_bank_account, personal_datum_button_status_id = personal_datum_button_status_id, employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active, communes = communes, regions = regions)
    elif current_user.rol_id == 4:
-      return render_template('human_resource/human_resources/personal_data/personal_data_update.html', documentation_titles_menu = documentation_titles_menu, requested_employee_bank_account = requested_employee_bank_account, status_change_bank_account_id = status_change_bank_account_id, banks = banks, employee_bank_account = employee_bank_account, empty_field_status_id = empty_field_status_id, personal_datum_button_status_id = personal_datum_button_status_id, employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active, communes = communes, regions = regions)
+      return render_template('human_resource/human_resources/personal_data/personal_data_update.html', documentation_titles_menu = documentation_titles_menu, requested_employee_bank_account = requested_employee_bank_account, status_change_bank_account_id = status_change_bank_account_id, banks = banks, employee_bank_account = employee_bank_account, empty_field_status_id = empty_field_status_id, personal_datum_button_status_id = personal_datum_button_status_id, employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active, communes = communes, regions = regions, status_change_address_id = status_change_address_id, pre_employee_address_data = pre_employee_address_data)
    elif current_user.rol_id == 5:
       return render_template('designer/human_resources/personal_data/personal_data_update.html', documentation_titles_menu = documentation_titles_menu, requested_employee_bank_account = requested_employee_bank_account, status_change_bank_account_id = status_change_bank_account_id, banks = banks, employee_bank_account = employee_bank_account, empty_field_status_id = empty_field_status_id, personal_datum_button_status_id = personal_datum_button_status_id, employee = employee, rut = rut, genders = genders, nationalities = nationalities, download_url = download_url, employee_labor_datum = employee_labor_datum, signature_exist = signature_exist, signature = signature, is_active = is_active, communes = communes, regions = regions)
    elif current_user.rol_id == 6:
@@ -120,7 +123,6 @@ def update(rut):
          Employee.upload(rut, picture)
 
    status_id = Employee.update(request.form, rut)
-   employee_labor_datum_status_id = EmployeeLaborDatum.pre_address(request.form, rut)
 
    flash('Se ha actualizado con éxito', 'success')
 
@@ -128,7 +130,7 @@ def update(rut):
       return '1'
    else:
       return '0'
-
+   
 @personal_datum.route("/human_resources/personal_datum/delete_picture/<int:rut>", methods=['GET'])
 @personal_datum.route("/human_resources/personal_datum/delete_picture", methods=['GET'])
 def delete_picture(rut):

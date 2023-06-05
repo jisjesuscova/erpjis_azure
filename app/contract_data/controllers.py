@@ -151,6 +151,33 @@ def update(rut):
    else:
       return '0'
 
+@contract_datum.route("/human_resources/contract_data/update_address/<int:rut>", methods=['POST'])
+def update_address(rut):
+   status_id = ContractDatum.update_pre_address(request.form, rut)
+
+   if status_id == 1:
+      return '1'
+   else:
+      return '0'
+   
+@contract_datum.route("/human_resources/contract_data/accept_address/<int:rut>", methods=['POST'])
+def accept_address(rut):
+   status_id = ContractDatum.accept_pre_address(rut)
+
+   if status_id == 1:
+      return '1'
+   else:
+      return '0'
+   
+@contract_datum.route("/human_resources/contract_data/reject_address/<int:rut>", methods=['POST'])
+def reject_address(rut):
+   status_id = ContractDatum.reject_pre_address(rut)
+
+   if status_id == 1:
+      return '1'
+   else:
+      return '0'
+   
 @contract_datum.route("/human_resources/contract_data/generate", methods=['POST'])
 def generate():
    ContractDatum.get(request.form['rut'])

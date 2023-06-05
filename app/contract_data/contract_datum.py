@@ -1,5 +1,5 @@
 from flask import request
-from app.models.models import EmployeeLaborDatumModel
+from app.models.models import EmployeeLaborDatumModel, PreEmployeeAddressModel
 from app.helpers.helper import Helper
 from app import db
 from datetime import datetime
@@ -11,6 +11,21 @@ class ContractDatum():
 
         return employee_labor_data
 
+    @staticmethod
+    def get_address_data(rut):
+        pre_employee_address_data = PreEmployeeAddressModel.query.filter_by(rut = rut).first()
+
+        return pre_employee_address_data
+    
+    @staticmethod
+    def get_status(rut):
+        status = PreEmployeeAddressModel.query.filter_by(rut = rut).count()
+
+        if status > 0:
+            return 1
+        else:
+            return 0
+    
     @staticmethod
     def empty_fields(rut):
         employee_labor_datum = EmployeeLaborDatumModel.query.filter_by(rut = rut).first()
@@ -72,7 +87,61 @@ class ContractDatum():
             return 0
         else:
             return 1
+
+    @staticmethod
+    def update_pre_address(data, rut):
+        pre_employee_adress = PreEmployeeAddressModel()
+        pre_employee_adress.rut = rut
+        pre_employee_adress.region_id = data['region_id']
+        pre_employee_adress.commune_id = data['commune_id']
+        pre_employee_adress.address = data['address']
+        pre_employee_adress.added_date = datetime.now()
+        pre_employee_adress.updated_date = datetime.now()
+
+        db.session.add(pre_employee_adress)
+        try:
+            db.session.commit()
+
+            return 1
+        except Exception as e:
+            return 0
         
+    @staticmethod
+    def accept_pre_address(rut):
+        pre_employee_adress = PreEmployeeAddressModel.query.filter_by(rut = rut).first()
+
+        employee_labor_data = EmployeeLaborDatumModel.query.filter_by(rut = rut).first()
+        employee_labor_data.region_id = pre_employee_adress.region_id
+        employee_labor_data.commune_id = pre_employee_adress.commune_id
+        employee_labor_data.address = pre_employee_adress.address
+        employee_labor_data.updated_date = datetime.now()
+
+        db.session.add(employee_labor_data)
+        try:
+            db.session.commit()
+
+            pre_employee_adress = PreEmployeeAddressModel.query.filter_by(rut = rut).first()
+
+            db.session.delete(pre_employee_adress)
+
+            db.session.commit()
+
+            return 1
+        except Exception as e:
+            return 0
+
+    @staticmethod
+    def reject_pre_address(data, rut):
+        pre_employee_adress = PreEmployeeAddressModel.query.filter_by(rut = rut).first()
+
+        db.session.delete(pre_employee_adress)
+        try:
+            db.session.commit()
+
+            return 1
+        except Exception as e:
+            return 0
+         
     @staticmethod
     def store(data):
         numeric_rut = Helper.numeric_rut(data['rut'])
