@@ -1,5 +1,5 @@
 from flask import request
-from app.models.models import OldDocumentEmployeeModel, DocumentEmployeeModel, EmployeeModel, EmployeeLaborDatumModel, BranchOfficeModel, SupervisorModel, DocumentTypeModel
+from app.models.models import UserModel, OldDocumentEmployeeModel, DocumentEmployeeModel, EmployeeModel, EmployeeLaborDatumModel, BranchOfficeModel, SupervisorModel, DocumentTypeModel
 from app import db
 from datetime import datetime
 from app.end_documents.end_document import EndDocument
@@ -181,8 +181,9 @@ class DocumentEmployee():
             search_status_id = data['status_id']
             search_branch_office_id = data['branch_office_id']
 
-        query = db.session.query(DocumentEmployeeModel.id, EmployeeModel.rut)\
+        query = db.session.query(DocumentEmployeeModel.id, EmployeeModel.rut, DocumentEmployeeModel.added_date, UserModel.nickname, UserModel.visual_rut, DocumentTypeModel.document_type)\
                 .join(EmployeeModel, EmployeeModel.rut == DocumentEmployeeModel.rut)\
+                .join(UserModel, UserModel.rut == EmployeeModel.rut)\
                 .join(EmployeeLaborDatumModel, EmployeeLaborDatumModel.rut == DocumentEmployeeModel.rut)\
                 .join(DocumentTypeModel, DocumentTypeModel.id == DocumentEmployeeModel.document_type_id)\
                 .join(SupervisorModel, SupervisorModel.branch_office_id == EmployeeLaborDatumModel.branch_office_id)\
