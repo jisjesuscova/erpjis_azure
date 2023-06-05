@@ -8,6 +8,7 @@ from app.helpers.helper import Helper
 from app.employee_labor_data.employee_labor_datum import EmployeeLaborDatum
 from app.vacations.vacation import Vacation
 from app.documentation_titles.documentation_title import DocumentationTitle
+from app.dropbox_data.dropbox import Dropbox
 
 home = Blueprint("home", __name__)
 
@@ -30,15 +31,16 @@ def index():
    total_vacations = Vacation.calculate_total_vacation_days()
    documentation_titles_menu = DocumentationTitle.get()
 
+
    if current_user.rol_id == 1:
-      return render_template('collaborator/home/index.html', documentation_titles_menu = documentation_titles_menu, current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities)
+      return render_template('collaborator/home/index.html', documentation_titles_menu = documentation_titles_menu, current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities, dropbox = Dropbox())
    elif current_user.rol_id == 2:
-      return render_template('incharge/home/index.html', documentation_titles_menu = documentation_titles_menu, current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities)
+      return render_template('incharge/home/index.html', documentation_titles_menu = documentation_titles_menu, current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities, dropbox = Dropbox())
    elif current_user.rol_id == 3:
-      return render_template('supervisor/home/index.html', documentation_titles_menu = documentation_titles_menu, current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities)
+      return render_template('supervisor/home/index.html', documentation_titles_menu = documentation_titles_menu, current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities, dropbox = Dropbox())
    elif current_user.rol_id == 4:
-      return render_template('human_resource/home/index.html', documentation_titles_menu = documentation_titles_menu, total_vacations = total_vacations, active_employee_total = active_employee_total, distribution_totals = distribution_totals, gender_totals = gender_totals, current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities)
+      return render_template('human_resource/home/index.html', documentation_titles_menu = documentation_titles_menu, total_vacations = total_vacations, active_employee_total = active_employee_total, distribution_totals = distribution_totals, gender_totals = gender_totals, current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities, dropbox = Dropbox())
    elif current_user.rol_id == 5:
-      return render_template('designer/home/index.html', documentation_titles_menu = documentation_titles_menu, total_vacations = total_vacations, active_employee_total = active_employee_total, distribution_totals = distribution_totals, gender_totals = gender_totals, current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities)
+      return render_template('designer/home/index.html', documentation_titles_menu = documentation_titles_menu, total_vacations = total_vacations, active_employee_total = active_employee_total, distribution_totals = distribution_totals, gender_totals = gender_totals, current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities, dropbox = Dropbox())
    elif current_user.rol_id == 6:
-      return render_template('management/home/index.html', documentation_titles_menu = documentation_titles_menu, total_vacations = total_vacations, active_employee_total = active_employee_total, distribution_totals = distribution_totals, gender_totals = gender_totals, current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities)
+      return render_template('management/home/index.html', documentation_titles_menu = documentation_titles_menu, total_vacations = total_vacations, active_employee_total = active_employee_total, distribution_totals = distribution_totals, gender_totals = gender_totals, current_month = current_month, news = news, birthdays = birthdays, birthday_quantities = birthday_quantities, dropbox = Dropbox())

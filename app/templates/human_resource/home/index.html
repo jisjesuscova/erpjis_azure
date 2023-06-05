@@ -201,7 +201,7 @@
                     <div id="slider">
                         {% for new in news %}
                             <a href="{{ url_for('news.show', id=new['id']) }}">
-                                <img src="{{ url_for("static", filename="dist/files/new_data/"+new.picture) }}" class="slider" alt="imagen1">
+                                <img src="{{ dropbox.get('/blogs/', new.picture) }}" class="slider" alt="imagen1">
                             </a>
                         {% endfor %}
                     </div>

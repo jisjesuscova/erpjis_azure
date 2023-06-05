@@ -20,7 +20,7 @@
             <div class="col-md-12">
                 <span><font class="new_title">{{ new['title'] }}</font> - {{ new['added_date']|datetime("dd-MM-yyyy") }}</span>
                 <hr>
-                <img src="{{ url_for("static", filename="dist/files/new_data/"+new.picture) }}" class="slider">
+                <img src="{{ dropbox.get('/blogs/', new.picture) }}" class="slider">
                 <hr>
                 <p class="new_description">{{ description }}</p>
             </div>

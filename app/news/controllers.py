@@ -32,15 +32,15 @@ def show(id):
    comments = Comment.get(id)
    
    if current_user.rol_id == 1:
-      return render_template('collaborator/publicities/news/new_show.html', description = description, new = new, comments = comments)
+      return render_template('collaborator/publicities/news/new_show.html', description = description, new = new, comments = comments, dropbox = Dropbox())
    elif current_user.rol_id == 2:
-      return render_template('incharge/publicities/news/new_show.html', description = description, new = new, comments = comments)
+      return render_template('incharge/publicities/news/new_show.html', description = description, new = new, comments = comments, dropbox = Dropbox())
    elif current_user.rol_id == 3:
-      return render_template('supervisor/publicities/news/new_show.html', description = description, new = new, comments = comments)
+      return render_template('supervisor/publicities/news/new_show.html', description = description, new = new, comments = comments, dropbox = Dropbox())
    elif current_user.rol_id == 4:
-      return render_template('human_resource/publicities/news/new_show.html', description = description, new = new, comments = comments)
+      return render_template('human_resource/publicities/news/new_show.html', description = description, new = new, comments = comments, dropbox = Dropbox())
    elif current_user.rol_id == 5:
-      return render_template('designer/publicities/news/new_show.html', description = description, new = new, comments = comments)
+      return render_template('designer/publicities/news/new_show.html', description = description, new = new, comments = comments, dropbox = Dropbox())
 
 @new.route("/publicities/new/create", methods=['GET'])
 def create():

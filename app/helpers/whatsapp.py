@@ -44,7 +44,7 @@ class Whatsapp:
 
                         payload = json.dumps({
                                 "messaging_product": "whatsapp",
-                                "to": "56" + str("935887241"),
+                                "to": "56" + employee.cellphone,
                                 "type": "template",
                                 "template": {
                                     "name": str(whatsapp_template.whatsapp_template),
