@@ -8,6 +8,8 @@ from app.employee_labor_data.employee_labor_datum import EmployeeLaborDatum
 from app.mesh_data.mesh_datum import MeshDatum
 import pandas as pd
 import numpy as np
+from datetime import datetime, timedelta
+from app.helpers.helper import Helper
 
 class ClockAttendance():
     @staticmethod
@@ -306,68 +308,64 @@ class ClockAttendance():
         df['total'] = df['total'].astype(str)
 
         df['total'] = df['total'].str.slice(6, 12)
+
         return df
     
     @staticmethod
     def calculate(df_1, df_2):
-        # Concatenar los dataframes df_1 y df_2
         concat = pd.concat([df_1, df_2], axis=1)
 
-        # Extraer los valores del array en las columnas "start2" y "end2"
         concat.iloc[:, 8] = concat.iloc[:, 8].str[0]
         concat.iloc[:, 9] = concat.iloc[:, 9].str[0]
 
-        # Convertir las columnas "start1" y "end1" a formato de fecha y hora
-        concat.iloc[:, 2] = pd.to_datetime(concat.iloc[:, 2], format='%H:%M:%S', errors='coerce')
-        concat.iloc[:, 3] = pd.to_datetime(concat.iloc[:, 3], format='%H:%M:%S', errors='coerce')
+        concat.iloc[:, 2] = pd.to_datetime(concat.iloc[:, 2], format='%H:%M:%S', errors='coerce').dt.time
+        concat.iloc[:, 3] = pd.to_datetime(concat.iloc[:, 3], format='%H:%M:%S', errors='coerce').dt.time
 
-        # Convertir las columnas "start2" y "end2" a formato de fecha y hora
-        concat.iloc[:, 8] = pd.to_datetime(concat.iloc[:, 8], format='%H:%M:%S', errors='coerce')
-        concat.iloc[:, 9] = pd.to_datetime(concat.iloc[:, 9], format='%H:%M:%S', errors='coerce')
+        concat.iloc[:, 8] = pd.to_datetime(concat.iloc[:, 8], format='%H:%M:%S', errors='coerce').dt.time
+        concat.iloc[:, 9] = pd.to_datetime(concat.iloc[:, 9], format='%H:%M:%S', errors='coerce').dt.time
 
-        # Calcular la diferencia condicional entre las columnas "end1" y "end2"
-        concat['end_total'] = np.where(concat.iloc[:, 2] > concat.iloc[:, 8], 
-                                        concat.iloc[:, 2] - concat.iloc[:, 8], 
-                                        concat.iloc[:, 8] - concat.iloc[:, 2])
+        concat.iloc[:, 2] = concat.iloc[:, 2].astype(str)
+        concat[['hour', 'minute', 'second']] = concat.iloc[:, 2].str.split(':', expand=True)
+        concat['hour1'] = concat['hour'].astype(int)
+        concat['minute1'] = concat['minute'].astype(int)
+        concat['second1'] = concat['second'].astype(int)
 
-        # Calcular la diferencia condicional entre las columnas "start1" y "start2"
-        concat['start_total'] = np.where(concat.iloc[:, 9] > concat.iloc[:, 3], 
-                                        concat.iloc[:, 9] - concat.iloc[:, 3], 
-                                        concat.iloc[:, 3] - concat.iloc[:, 9])
+        concat['total_seconds1'] = concat['hour1'] * 3600 + concat['minute1'] * 60 + concat['second1']
 
-        # Convertir las diferencias a timedelta
+        concat.iloc[:, 3] = concat.iloc[:, 3].astype(str)
+        concat[['hour', 'minute', 'second']] = concat.iloc[:, 3].str.split(':', expand=True)
+        concat['hour2'] = concat['hour'].astype(int)
+        concat['minute2'] = concat['minute'].astype(int)
+        concat['second2'] = concat['second'].astype(int)
+
+        concat['total_seconds2'] = concat['hour2'] * 3600 + concat['minute2'] * 60 + concat['second2']
+
+        print(concat)
+        exit()
+
         concat['end_total'] = pd.to_timedelta(concat['end_total'], unit='s')
         concat['start_total'] = pd.to_timedelta(concat['start_total'], unit='s')
 
-        # Convertir los resultados a formato de tiempo (total de segundos)
         concat['end_total'] = concat['end_total'].dt.total_seconds().fillna(0).astype(int)
         concat['start_total'] = concat['start_total'].dt.total_seconds().fillna(0).astype(int)
 
-        # Convertir los resultados a formato de tiempo (datetime)
         concat['end_total'] = pd.to_datetime(concat['end_total'], unit='s')
         concat['start_total'] = pd.to_datetime(concat['start_total'], unit='s')
 
-        # Extraer solo la parte de tiempo (hora, minuto, segundo) de las columnas 'end_total' y 'start_total'
         concat['start_total'] = concat['start_total'].dt.time
         concat['end_total'] = concat['end_total'].dt.time
 
-        # Convertir las cadenas de tiempo a objetos datetime
         concat['start_total'] = pd.to_datetime(concat['start_total'], format='%H:%M:%S')
         concat['end_total'] = pd.to_datetime(concat['end_total'], format='%H:%M:%S')
 
-        # Calcular la resta entre las columnas 'start_total' y 'end_total'
         concat['resta_total'] = concat['end_total'] - concat['start_total']
         
-        # Convertir la diferencia en segundos
         concat['resta_total'] = concat['resta_total'].dt.total_seconds()
         
-
-        # Convertir los segundos de nuevo a tiempo (hora, minuto, segundo)
         concat['resta_total'] = pd.to_timedelta(concat['resta_total'], unit='s')
-        # Convertir la columna 'resta_total' a tipo texto
+
         concat['resta_total'] = concat['resta_total'].astype(str)
 
-        # Utilizar str.slice() para obtener los primeros cinco caracteres de la columna 'resta_total'
         concat['resta_total'] = concat['resta_total'].str.slice(6, 16)
 
         concat.rename(columns={'end_total': 'start_total', 'start_total': 'end_total'}, inplace=True)
@@ -376,118 +374,122 @@ class ClockAttendance():
     
     @staticmethod
     def calculate_grouped_by_week(df_1, df_2):
-        # Concatenar los dataframes df_1 y df_2
+        data = []
 
-        df_2 = df_2[['rut', 'date', 'start', 'end']]
+        for index, row in df_1.iterrows():
+            data.append({
+                'rut': row['rut'],
+                'date': row['date'],
+                'start_1': row['start'],
+                'end_1': row['end'],
+                'week_id': row['week_id']
+            })
 
-        index = df_2['end'].first_valid_index()
-        if index is not None:
-            df_2.loc[index, 'end'] = pd.to_datetime(df_2.loc[index, 'end'], format='%H:%M:%S').dt.time
+        df_1 = pd.DataFrame(data)
+    
+        data = []
 
-        df_2['end'] = pd.to_datetime(df_2['end'].str.get(0), format='%H:%M:%S', errors='coerce').dt.time
-        df_2['end'] = pd.to_datetime(df_2['end'].str.get(1), format='%H:%M:%S', errors='coerce').dt.time
+        for index, row in df_2.iterrows():
+            if isinstance(row['start'], list):
+                for item in row['start']:
+                    if item != 0:
+                        start_value = item
+            else:
+                start_value = row['start']
 
+            
+            if isinstance(row['end'], list):
+                for item in row['end']:
+                    if item != 0:
+                        end_value = item
+            else:
+                end_value = row['end']
+            
+            data.append({
+                'rut': row['rut'],
+                'date': row['date'],
+                'start_2': start_value,
+                'end_2': end_value
+            })
 
+        df_2 = pd.DataFrame(data)
+
+        df_2['start_2'] = df_2['start_2'].fillna(0)
+        df_2['end_2'] = df_2['end_2'].fillna(0)
+ 
         concat = pd.concat([df_1, df_2], axis=1)
+
+        concat.iloc[:, 2] = pd.to_datetime(concat.iloc[:, 2], format='%H:%M:%S', errors='coerce').dt.time
+        concat.iloc[:, 3] = pd.to_datetime(concat.iloc[:, 3], format='%H:%M:%S', errors='coerce').dt.time
+
+        concat.iloc[:, 7] = pd.to_datetime(concat.iloc[:, 7], format='%H:%M:%S', errors='coerce').dt.time
+        concat.iloc[:, 8] = pd.to_datetime(concat.iloc[:, 8], format='%H:%M:%S', errors='coerce').dt.time
+
+        concat.iloc[:, 7] = concat.iloc[:, 7].fillna(0)
+        concat.iloc[:, 8] = concat.iloc[:, 8].fillna(0)
+
+        concat.iloc[:, 2] = concat.iloc[:, 2].astype(str)
+        concat[['hour', 'minute', 'second']] = concat.iloc[:, 2].str.split(':', expand=True)
+        concat['hour1'] = concat['hour'].astype(int)
+        concat['minute1'] = concat['minute'].astype(int)
+        concat['second1'] = concat['second'].astype(int)
+
+        concat['total_seconds1'] = concat['hour1'] * 3600 + concat['minute1'] * 60 + concat['second1']
+
+        concat.iloc[:, 3] = concat.iloc[:, 3].astype(str)
+        concat[['hour', 'minute', 'second']] = concat.iloc[:, 3].str.split(':', expand=True)
+        concat['hour2'] = concat['hour'].astype(int)
+        concat['minute2'] = concat['minute'].astype(int)
+        concat['second2'] = concat['second'].astype(int)
+
+        concat['total_seconds2'] = concat['hour2'] * 3600 + concat['minute2'] * 60 + concat['second2']
+
+        concat.iloc[:, 7] = concat.iloc[:, 7].astype(str)
+        concat[['hour', 'minute', 'second']] = concat.iloc[:, 7].str.split(':', expand=True)
+
+        concat['hour3'] = concat['hour'].apply(lambda x: int(x) if pd.notnull(x) else np.nan).astype('Int64')
+        concat['minute3'] = concat['minute'].apply(lambda x: int(x) if pd.notnull(x) else np.nan).astype('Int64')
+        concat['second3'] = concat['second'].apply(lambda x: int(x) if pd.notnull(x) else np.nan).astype('Int64')
+
+        concat['total_seconds3'] = concat['hour3'] * 3600 + concat['minute3'] * 60 + concat['second3']
+
+        concat.iloc[:, 8] = concat.iloc[:, 8].astype(str)
+        concat[['hour', 'minute', 'second']] = concat.iloc[:, 8].str.split(':', expand=True)
+        concat['hour4'] = concat['hour'].apply(lambda x: int(x) if pd.notnull(x) else np.nan).astype('Int64')
+        concat['minute4'] = concat['minute'].apply(lambda x: int(x) if pd.notnull(x) else np.nan).astype('Int64')
+        concat['second4'] = concat['second'].apply(lambda x: int(x) if pd.notnull(x) else np.nan).astype('Int64')
+
+        concat['total_seconds4'] = concat['hour4'] * 3600 + concat['minute4'] * 60 + concat['second4']
+
+        concat['total_seconds1'] = concat['total_seconds1'] .fillna(0)
+        concat['total_seconds2'] = concat['total_seconds2'] .fillna(0)
+        concat['total_seconds3'] = concat['total_seconds3'] .fillna(0)
+        concat['total_seconds4'] = concat['total_seconds4'] .fillna(0)
         
+        mask = concat['total_seconds3'].ne(0)
+        concat.loc[mask, 'subtotal1'] = concat.loc[mask, 'total_seconds1'] - concat.loc[mask, 'total_seconds3']
 
-        print(df_2)
-        exit()
-
-        # Convertir las columnas "start" y "end" en objetos datetime
-        concat.iloc[:, 2] = pd.to_datetime(concat.iloc[:, 2], format='%H:%M:%S', errors='coerce')
-        concat.iloc[:, 3] = pd.to_datetime(concat.iloc[:, 3], format='%H:%M:%S', errors='coerce')
-
-        concat['start'] = concat['start'].apply(lambda x: x[0] if isinstance(x, list) and len(x) > 1 else x)
-        concat['end'] = concat['end'].apply(lambda x: x[0] if isinstance(x, list) and len(x) > 1 else x)
-
-
-
-        concat['end_total'] = np.where(concat.iloc[:, 2] > concat.iloc[:, 8], 
-                                        concat.iloc[:, 2] - concat.iloc[:, 8], 
-                                        concat.iloc[:, 8] - concat.iloc[:, 2])
-
-        # Calcular la diferencia condicional entre las columnas "start1" y "start2"
-        concat['start_total'] = np.where(concat.iloc[:, 9] > concat.iloc[:, 3], 
-                                        concat.iloc[:, 9] - concat.iloc[:, 3], 
-                                        concat.iloc[:, 3] - concat.iloc[:, 9])
-        print(concat)
-        exit()
-        # Restar las columnas "start" y "end" con ellas mismas
-        concat['start'] = concat['start'] - concat['start']
-        concat['end'] = concat['end'] - concat['end']
-
-        # Rellenar los valores NaN con ceros
-        concat['start'] = concat['start'].fillna(pd.Timedelta(seconds=0))
-        concat['end'] = concat['end'].fillna(pd.Timedelta(seconds=0))
-
-        # Agregar las columnas "rut", "date", "day_of_week", "status", "start" y "end" al DataFrame resultante
-        result = concat[['rut', 'mark_date', 'start', 'end', 'week']].copy()
-        result['day_of_week'] = pd.to_datetime(result['mark_date']).dt.day_name()
-        result['status'] = 0
-        result = result[['rut', 'mark_date', 'start', 'end', 'day_of_week', 'status']]
-        print(result)
-        exit()
-        # Extraer los valores del array en las columnas "start2" y "end2"
-        concat.iloc[:, 8] = concat.iloc[:, 8].str[0]
-        concat.iloc[:, 9] = concat.iloc[:, 9].str[0]
-
-        # Convertir las columnas "start1" y "end1" a formato de fecha y hora
-        concat.iloc[:, 2] = pd.to_datetime(concat.iloc[:, 2], format='%H:%M:%S', errors='coerce')
-        concat.iloc[:, 3] = pd.to_datetime(concat.iloc[:, 3], format='%H:%M:%S', errors='coerce')
-
-        # Convertir las columnas "start2" y "end2" a formato de fecha y hora
-        concat.iloc[:, 8] = pd.to_datetime(concat.iloc[:, 8], format='%H:%M:%S', errors='coerce')
-        concat.iloc[:, 9] = pd.to_datetime(concat.iloc[:, 9], format='%H:%M:%S', errors='coerce')
-
-        # Calcular la diferencia condicional entre las columnas "end1" y "end2"
-        concat['end_total'] = np.where(concat.iloc[:, 2] > concat.iloc[:, 8], 
-                                        concat.iloc[:, 2] - concat.iloc[:, 8], 
-                                        concat.iloc[:, 8] - concat.iloc[:, 2])
-
-        # Calcular la diferencia condicional entre las columnas "start1" y "start2"
-        concat['start_total'] = np.where(concat.iloc[:, 9] > concat.iloc[:, 3], 
-                                        concat.iloc[:, 9] - concat.iloc[:, 3], 
-                                        concat.iloc[:, 3] - concat.iloc[:, 9])
-
-        # Convertir las diferencias a timedelta
-        concat['end_total'] = pd.to_timedelta(concat['end_total'], unit='s')
-        concat['start_total'] = pd.to_timedelta(concat['start_total'], unit='s')
-
-        # Convertir los resultados a formato de tiempo (total de segundos)
-        concat['end_total'] = concat['end_total'].dt.total_seconds().fillna(0).astype(int)
-        concat['start_total'] = concat['start_total'].dt.total_seconds().fillna(0).astype(int)
-
-        # Convertir los resultados a formato de tiempo (datetime)
-        concat['end_total'] = pd.to_datetime(concat['end_total'], unit='s')
-        concat['start_total'] = pd.to_datetime(concat['start_total'], unit='s')
-
-        # Extraer solo la parte de tiempo (hora, minuto, segundo) de las columnas 'end_total' y 'start_total'
-        concat['start_total'] = concat['start_total'].dt.time
-        concat['end_total'] = concat['end_total'].dt.time
-
-        # Convertir las cadenas de tiempo a objetos datetime
-        concat['start_total'] = pd.to_datetime(concat['start_total'], format='%H:%M:%S')
-        concat['end_total'] = pd.to_datetime(concat['end_total'], format='%H:%M:%S')
-
-        # Calcular la resta entre las columnas 'start_total' y 'end_total'
-        concat['resta_total'] = concat['end_total'] - concat['start_total']
+        mask = concat['total_seconds4'].ne(0)
+        concat.loc[mask, 'subtotal2'] = concat.loc[mask, 'total_seconds2'] - concat.loc[mask, 'total_seconds4']
         
-        # Convertir la diferencia en segundos
-        concat['resta_total'] = concat['resta_total'].dt.total_seconds()
+        concat['total'] = concat['subtotal1'] - concat['subtotal2']
+
+        concat['total'] = pd.to_numeric(concat['total'], errors='coerce')
+
+        concat['total'] = concat['total'] .fillna(0)
         
+        grouped_df = concat.groupby(['week_id']).agg(list).reset_index()
+        grouped_df.loc['Total'] = grouped_df[['total']].sum()
+        grouped_df['total_sum'] = grouped_df['total'].apply(sum)
 
-        # Convertir los segundos de nuevo a tiempo (hora, minuto, segundo)
-        concat['resta_total'] = pd.to_timedelta(concat['resta_total'], unit='s')
-        # Convertir la columna 'resta_total' a tipo texto
-        concat['resta_total'] = concat['resta_total'].astype(str)
+        grouped_df['total_sum'] = pd.to_numeric(grouped_df['total_sum'], errors='coerce')
+        grouped_df['total_sum'] = grouped_df['total_sum'] .fillna(0)
 
-        # Utilizar str.slice() para obtener los primeros cinco caracteres de la columna 'resta_total'
-        concat['resta_total'] = concat['resta_total'].str.slice(6, 16)
+        grouped_df['total_sum'] = grouped_df['total_sum'].apply(lambda x: f"{x//3600:02d}:{(x%3600)//60:02d}")
+        
+        subset = grouped_df[['rut', 'date', 'week_id', 'total_sum']]
 
-        concat.rename(columns={'end_total': 'start_total', 'start_total': 'end_total'}, inplace=True)
-
-        return concat
+        return subset
     
     @staticmethod
     def special_store(data, mark_date):

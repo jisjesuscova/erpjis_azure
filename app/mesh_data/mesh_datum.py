@@ -29,7 +29,7 @@ class MeshDatum():
     def get_all_with_df(rut, period):
         mesh_data = MeshDatumModel.query \
             .filter(MeshDatumModel.rut == rut, MeshDatumModel.period == period) \
-            .add_columns(MeshDatumModel.rut, MeshDatumModel.date, MeshDatumModel.start, MeshDatumModel.end, MeshDatumModel.period, literal(4).label('status')) \
+            .add_columns(MeshDatumModel.rut, MeshDatumModel.week, MeshDatumModel.date, MeshDatumModel.start, MeshDatumModel.end, MeshDatumModel.period, literal(4).label('status')) \
             .all()
 
         # Configurar el idioma en español
@@ -57,7 +57,8 @@ class MeshDatum():
                 'date': date,
                 'start': datum.start,
                 'end': datum.end,
-                'day_of_week': day_of_week
+                'day_of_week': day_of_week,
+                'week_id': datum.week
             })
 
         df = pd.DataFrame(data)
@@ -104,6 +105,8 @@ class MeshDatum():
         df = pd.DataFrame(data)
 
         df.loc['Total'] = df[['total_hours', 'working_days', 'free_days']].sum()
+
+        df['masked_total_hours'] = df['total_hours'].apply(lambda x: '{:02d}:{:02d}'.format(int(x), int((x % 1) * 60)))
 
         df['week'] = df['week'].fillna('Total')
 

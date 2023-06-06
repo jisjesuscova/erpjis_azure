@@ -59,8 +59,9 @@ def accountability(id):
 
    return redirect(url_for('honoraries.to_upload'))
 
+@honorary.route("/human_resources/honorary/to_upload/<int:page>", methods=['GET'])
 @honorary.route("/human_resources/honorary/to_upload", methods=['GET'])
-def to_upload(page = 1):
+def to_upload(page):
    honoraries = Honorary.current_get(page)
    title = "Ejecutar Carga Honorarios"
    module_name = "Recursos Humanos"

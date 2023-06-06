@@ -132,7 +132,7 @@
                         <tbody>
                             <tr>
                                 <td>{{ datum.week }}</td>
-                                <td>{{ datum.total_hours }}</td>
+                                <td>{{ datum.masked_total_hours }}</td>
                                 <td>{{ datum.working_days }}</td>
                                 <td>{{ datum.free_days }}</td>
                             </tr>
@@ -155,6 +155,22 @@
                                 <td>{{ datum.week }}</td>
                                 <td>{{ datum.total }}</td>
                                 <td>{{ datum.mark_date }}</td>
+                            </tr>
+                        </tbody>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="col-2">
+                <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Horas</th>
+                        </tr>
+                    </thead>
+                    {% for datum in total_mesh_clock_grouped_by_week %}
+                        <tbody>
+                            <tr>
+                                <td>{{ datum.total_sum }}</td>
                             </tr>
                         </tbody>
                     {% endfor %}
