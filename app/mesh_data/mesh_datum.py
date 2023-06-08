@@ -32,7 +32,6 @@ class MeshDatum():
             .add_columns(MeshDatumModel.rut, MeshDatumModel.week, MeshDatumModel.date, MeshDatumModel.start, MeshDatumModel.end, MeshDatumModel.period, literal(4).label('status')) \
             .all()
 
-
         data = []
         for datum in mesh_data:
             date = pd.to_datetime(datum.date)
@@ -74,8 +73,6 @@ class MeshDatum():
             ) \
             .having(func.count(MeshDatumModel.id) > 1) \
             .all()
-
-        locale.setlocale(locale.LC_TIME, 'es_ES.utf-8')
 
         data = []
         for datum in mesh_data:
