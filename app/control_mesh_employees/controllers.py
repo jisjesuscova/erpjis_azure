@@ -21,11 +21,11 @@ def index(page=1):
 @control_mesh_employee.route("/control_mesh_employee/show/<int:rut>/<period>", methods=['GET'])
 def show(rut, period):
    mesh_data = MeshDatum.planned_mesh(rut, period)
-   clock_attendances = ClockAttendance.get_all_with_df(rut, period)
-   total_mesh_clock_data = ClockAttendance.calculate(mesh_data, clock_attendances)
+   clock_attendances = ClockAttendance.registered_hours(rut, period)
+   total_mesh_clock_data = ClockAttendance.controlled_hours(mesh_data, clock_attendances)
    mesh_data_grouped_by_week = MeshDatum.planned_mesh_by_week(rut, period)
-   clock_attendances_grouped_by_week = ClockAttendance.get_all_with_df_grouped_by_week(total_mesh_clock_data)
-   total_grouped_by_week = ClockAttendance.calculate_grouped_by_week(mesh_data_grouped_by_week, clock_attendances_grouped_by_week)
+   clock_attendances_grouped_by_week = ClockAttendance.registered_hours_by_week(total_mesh_clock_data)
+   total_grouped_by_week = ClockAttendance.controlled_hours_by_week(mesh_data_grouped_by_week, clock_attendances_grouped_by_week)
 
    title = "Detalle del Control Tiempo"
    module_name = "Gestión Tiempo"

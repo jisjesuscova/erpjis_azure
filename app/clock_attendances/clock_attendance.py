@@ -91,7 +91,7 @@ class ClockAttendance():
         return str(data)
     
     @staticmethod
-    def get_all_with_df(rut, period):
+    def registered_hours(rut, period):
         clock_attendances = ClockAttendanceModel.query.filter(
             ClockAttendanceModel.rut == rut,
             func.date_format(ClockAttendanceModel.mark_date, '%m-%Y') == period
@@ -159,7 +159,7 @@ class ClockAttendance():
         return merged_df
     
     @staticmethod
-    def get_all_with_df_grouped_by_week(df):
+    def registered_hours_by_week(df):
 
         subset = df[['rut', 'week_id', 'total']]
 
@@ -184,7 +184,7 @@ class ClockAttendance():
         return grouped_df
     
     @staticmethod
-    def calculate(df_1, df_2):
+    def controlled_hours(df_1, df_2):
 
         concat = pd.concat([df_1, df_2], axis=1)
 
@@ -252,7 +252,7 @@ class ClockAttendance():
         return concat
     
     @staticmethod
-    def calculate_grouped_by_week(df_1, df_2):
+    def controlled_hours_by_week(df_1, df_2):
 
         data = []
 
