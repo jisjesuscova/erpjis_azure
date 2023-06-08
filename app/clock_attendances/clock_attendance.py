@@ -129,7 +129,15 @@ class ClockAttendance():
 
         new_df = pd.DataFrame(pivot_table_0.to_records())
 
-        date_range = pd.date_range(start='2023-05-01', end='2023-05-31', freq='D')
+        splitted_period = Helper.split(period, '-')
+
+        start_period = str(splitted_period[1]) + "-" + str(splitted_period[0]) + "-01"
+
+        end_period = Helper.get_last_day_of_month(start_period)
+
+        start_period = pd.to_datetime(start_period)
+
+        date_range = pd.date_range(start=start_period, end=end_period, freq='D')
 
         new_df2 = pd.MultiIndex.from_product([new_df['rut'].unique(), date_range], names=['rut', 'date']).to_frame(index=False)
 
@@ -283,6 +291,8 @@ class ClockAttendance():
         concat['total_in_seconds_2'] = pd.to_timedelta(concat['hours_2'] + ":00").dt.total_seconds()
 
         concat['total'] = concat['total_in_seconds_1'] - concat['total_in_seconds_2']
+
+        concat.loc[concat['total'] > concat['total_in_seconds_1'], 'total'] = concat['total_in_seconds_1']
 
         concat.loc['Total'] = concat['total'].sum()
 

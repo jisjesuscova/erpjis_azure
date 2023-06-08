@@ -26,21 +26,18 @@ class MeshDatum():
         return mesh_data
     
     @staticmethod
-    def get_all_with_df(rut, period):
+    def planned_mesh(rut, period):
         mesh_data = MeshDatumModel.query \
             .filter(MeshDatumModel.rut == rut, MeshDatumModel.period == period) \
             .add_columns(MeshDatumModel.rut, MeshDatumModel.week, MeshDatumModel.date, MeshDatumModel.start, MeshDatumModel.end, MeshDatumModel.period, literal(4).label('status')) \
             .all()
 
-        # Configurar el idioma en español
         locale.setlocale(locale.LC_TIME, 'es_ES.utf-8')
 
         data = []
         for datum in mesh_data:
-            # Convertir la fecha a tipo datetime
             date = pd.to_datetime(datum.date)
 
-            # Obtener el nombre del día de la semana en español y capitalizar la primera letra
             day_of_week = pd.to_datetime(datum.date).strftime('%A').capitalize()
 
             day_of_week = unidecode(day_of_week)
@@ -66,7 +63,7 @@ class MeshDatum():
         return df
 
     @staticmethod
-    def get_all_with_df_grouped_by_week(rut, period):
+    def planned_mesh_by_week(rut, period):
         mesh_data = MeshDatumModel.query \
             .join(TurnModel, MeshDatumModel.turn_id == TurnModel.id) \
             .with_entities(
@@ -88,7 +85,6 @@ class MeshDatum():
             .having(func.count(MeshDatumModel.id) > 1) \
             .all()
 
-        # Configurar el idioma en español
         locale.setlocale(locale.LC_TIME, 'es_ES.utf-8')
 
         data = []
