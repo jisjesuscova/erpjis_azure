@@ -115,43 +115,52 @@ class MeshDatum():
             .filter(MeshDatumModel.period == period)\
             .add_columns(MeshDatumModel.id, MeshDatumModel.turn_id, MeshDatumModel.document_employee_id, MeshDatumModel.rut, MeshDatumModel.date, MeshDatumModel.total_hours, MeshDatumModel.start, MeshDatumModel.end, MeshDatumModel.week, MeshDatumModel.week_day, MeshDatumModel.period, UserModel.nickname, UserModel.visual_rut)\
             .all()
+        
+        mesh_data_qty = MeshDatumModel.query\
+            .join(UserModel, UserModel.rut == MeshDatumModel.rut)\
+            .filter(MeshDatumModel.period == period)\
+            .add_columns(MeshDatumModel.id, MeshDatumModel.turn_id, MeshDatumModel.document_employee_id, MeshDatumModel.rut, MeshDatumModel.date, MeshDatumModel.total_hours, MeshDatumModel.start, MeshDatumModel.end, MeshDatumModel.week, MeshDatumModel.week_day, MeshDatumModel.period, UserModel.nickname, UserModel.visual_rut)\
+            .count()
 
-        data = []
-        for datum in mesh_data:
-            data.append({
-                'id': datum.id,
-                'turn_id': datum.turn_id,
-                'document_employee_id': datum.document_employee_id,
-                'rut': datum.rut,
-                'date': datum.date,
-                'total_hours': datum.total_hours,
-                'start': datum.start,
-                'end': datum.end,
-                'week': datum.week,
-                'week_day': datum.week_day,
-                'period': datum.period,
-                'nickname': datum.nickname,
-                'visual_rut': datum.visual_rut
-            })
+        if mesh_data_qty > 0:
+            data = []
+            for datum in mesh_data:
+                data.append({
+                    'id': datum.id,
+                    'turn_id': datum.turn_id,
+                    'document_employee_id': datum.document_employee_id,
+                    'rut': datum.rut,
+                    'date': datum.date,
+                    'total_hours': datum.total_hours,
+                    'start': datum.start,
+                    'end': datum.end,
+                    'week': datum.week,
+                    'week_day': datum.week_day,
+                    'period': datum.period,
+                    'nickname': datum.nickname,
+                    'visual_rut': datum.visual_rut
+                })
 
-        df = pd.DataFrame(data)
-        grouped_df = df.groupby(['rut', 'period']).agg({
-            'id': 'first',
-            'turn_id': 'first',
-            'document_employee_id': 'first',
-            'date': 'first',
-            'total_hours': 'sum',
-            'start': 'first',
-            'end': 'first',
-            'week': 'first',
-            'week_day': 'first',
-            'nickname': 'first',
-            'visual_rut': 'first'
-        }).reset_index()
+            df = pd.DataFrame(data)
+            grouped_df = df.groupby(['rut', 'period']).agg({
+                'id': 'first',
+                'turn_id': 'first',
+                'document_employee_id': 'first',
+                'date': 'first',
+                'total_hours': 'sum',
+                'start': 'first',
+                'end': 'first',
+                'week': 'first',
+                'week_day': 'first',
+                'nickname': 'first',
+                'visual_rut': 'first'
+            }).reset_index()
 
-        grouped_data = grouped_df.to_dict(orient='records')
-  
-        return grouped_data
+            grouped_data = grouped_df.to_dict(orient='records')
+    
+            return grouped_data
+        else:
+            return ''
     
     @staticmethod
     def get_per_day(rut, period):
