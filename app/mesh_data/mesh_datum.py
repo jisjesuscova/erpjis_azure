@@ -32,22 +32,12 @@ class MeshDatum():
             .add_columns(MeshDatumModel.rut, MeshDatumModel.week, MeshDatumModel.date, MeshDatumModel.start, MeshDatumModel.end, MeshDatumModel.period, literal(4).label('status')) \
             .all()
 
-        locale.setlocale(locale.LC_TIME, 'es_ES.utf-8')
 
         data = []
         for datum in mesh_data:
             date = pd.to_datetime(datum.date)
 
             day_of_week = pd.to_datetime(datum.date).strftime('%A').capitalize()
-
-            day_of_week = unidecode(day_of_week)
-
-            if day_of_week == "Mia(c)rcoles":
-                day_of_week = "Miércoles"
-            elif day_of_week == "Sa!bado":
-                day_of_week = "Sábado"
-            else:
-                day_of_week = day_of_week
 
             data.append({
                 'rut': datum.rut,
