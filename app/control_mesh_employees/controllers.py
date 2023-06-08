@@ -24,10 +24,10 @@ def show(rut, period):
    clock_attendances = ClockAttendance.get_all_with_df(rut, period)
    total_mesh_clock_data = ClockAttendance.calculate(mesh_data, clock_attendances)
    mesh_data_grouped_by_week = MeshDatum.get_all_with_df_grouped_by_week(rut, period)
-   clock_attendances_grouped_by_week = ClockAttendance.get_all_with_df_grouped_by_week(rut, period)
-   total_mesh_clock_grouped_by_week = ClockAttendance.calculate_grouped_by_week(mesh_data, clock_attendances)
+   clock_attendances_grouped_by_week = ClockAttendance.get_all_with_df_grouped_by_week(total_mesh_clock_data)
+   total_grouped_by_week = ClockAttendance.calculate_grouped_by_week(mesh_data_grouped_by_week, clock_attendances_grouped_by_week)
 
    title = "Detalle del Control Tiempo"
    module_name = "Gestión Tiempo"
-   return render_template('human_resource/control_mesh_employees/show_control_mesh_employee.html', module_name = module_name, title = title, mesh_data = mesh_data.to_dict(orient='records'), clock_attendances = clock_attendances.to_dict(orient='records'), total_mesh_clock_data = total_mesh_clock_data.to_dict(orient='records'), mesh_data_grouped_by_week = mesh_data_grouped_by_week.to_dict(orient='records'), clock_attendances_grouped_by_week = clock_attendances_grouped_by_week.to_dict(orient='records'), total_mesh_clock_grouped_by_week = total_mesh_clock_grouped_by_week.to_dict(orient='records'))
+   return render_template('human_resource/control_mesh_employees/show_control_mesh_employee.html', module_name = module_name, title = title, mesh_data = mesh_data.to_dict(orient='records'), clock_attendances = clock_attendances.to_dict(orient='records'), total_mesh_clock_data = total_mesh_clock_data.to_dict(orient='records'), mesh_data_grouped_by_week = mesh_data_grouped_by_week.to_dict(orient='records'), clock_attendances_grouped_by_week = clock_attendances_grouped_by_week.to_dict(orient='records'), total_grouped_by_week = total_grouped_by_week.to_dict(orient='records'))
 

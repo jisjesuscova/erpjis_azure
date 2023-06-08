@@ -42,50 +42,22 @@
                     {% for row in clock_attendances %}
                         <tbody>
                             <tr>
-                                {% if row.status[0] == 1 %}
-                                    <td>
-                                        {% if row.start[0] != 0 %}
-                                            {{ row.start[0] }}
-                                        {% endif %}
-                                        {% if row.start[1] != 0 %}
-                                            {{ row.start[1] }}
-                                        {% endif %}
-                                    </td>
-                                {% elif row.status[0] == 2 %}
-                                    <td style="background: red; color: white;">
-                                        {% if row.start[0] != 0 %}
-                                            {{ row.start[0] }}
-                                        {% endif %}
-                                        {% if row.start[1] != 0 %}
-                                            {{ row.start[1] }}
-                                        {% endif %}
+                                {% if row.status_1 == '2' %}
+                                    <td style="background-color:red; color: white;">
+                                        {{ row.start }}
                                     </td>
                                 {% else %}
-                                    <td style="color:black;">
-                                        Sin Marca
+                                    <td>
+                                        {{ row.start }}
                                     </td>
                                 {% endif %}
-                                {% if row.status[1] == 1 %}
-                                    <td>
-                                        {% if row.end[0] != 0 %}
-                                            {{ row.end[0] }}
-                                        {% endif %}
-                                        {% if row.end[1] != 0 %}
-                                            {{ row.end[1] }}
-                                        {% endif %}
-                                    </td>
-                                {% elif row.status[1] == 2 %}
-                                    <td style="background: red; color: white;">
-                                        {% if row.end[0] != 0 %}
-                                            {{ row.end[0] }}
-                                        {% endif %}
-                                        {% if row.end[1] != 0 %}
-                                            {{ row.end[1] }}
-                                        {% endif %}
+                                {% if row.status_2 == '2' %}
+                                    <td style="background-color:red; color: white;">
+                                        {{ row.end }}
                                     </td>
                                 {% else %}
-                                    <td style="color: black;">
-                                        Sin Marca
+                                    <td>
+                                        {{ row.end }}
                                     </td>
                                 {% endif %}
                             </tr>
@@ -109,7 +81,7 @@
                     {% for datum in total_mesh_clock_data %}
                         <tbody>
                             <tr>
-                                <td>{{ datum.resta_total }}</td>
+                                <td>{{ datum.total }}</td>
                             </tr>
                         </tbody>
                     {% endfor %}
@@ -144,17 +116,13 @@
                 <table id="example2" class="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>Semana</th>
                             <th>Horas</th>
-                            <th>Días</th>
                         </tr>
                     </thead>
-                    {% for datum in clock_attendances_grouped_by_week %}
+                    {% for datum in total_grouped_by_week %}
                         <tbody>
                             <tr>
-                                <td>{{ datum.week }}</td>
-                                <td>{{ datum.total }}</td>
-                                <td>{{ datum.mark_date }}</td>
+                                <td>{{ datum.formatted }}</td>
                             </tr>
                         </tbody>
                     {% endfor %}
@@ -167,15 +135,16 @@
                             <th>Horas</th>
                         </tr>
                     </thead>
-                    {% for datum in total_mesh_clock_grouped_by_week %}
+                    {% for datum in clock_attendances_grouped_by_week %}
                         <tbody>
                             <tr>
-                                <td>{{ datum.total_sum }}</td>
+                                <td>{{ datum.formatted }}</td>
                             </tr>
                         </tbody>
                     {% endfor %}
                 </table>
             </div>
+           
         </div>
     </div>
 </section>

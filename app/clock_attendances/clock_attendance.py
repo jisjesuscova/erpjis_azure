@@ -10,6 +10,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 from app.helpers.helper import Helper
+from dateutil.relativedelta import relativedelta
 
 class ClockAttendance():
     @staticmethod
@@ -112,217 +113,81 @@ class ClockAttendance():
                 'rut': attendance.rut,
                 'mark_date': attendance.mark_date,
                 'punch': attendance.punch,
-                'status': attendance.status,
                 'period': period,
-                'hours': hours,
-                'date': date
+                'hours': str(hours) +"_"+ str(attendance.status),
+                'date': date,
+                'week_id': attendance.week_id
             })
-
+        
         df = pd.DataFrame(data)
 
-        filtered_df_0 = df[(df['punch'].isin([0, 1])) & (df['status'].isin([0]))]
+        filtered_df_0 = df[(df['punch'].isin([0, 1]))]
 
-        pivot_table_0 = filtered_df_0.pivot_table(index=['rut', 'date', 'status'], columns='punch', values='hours', aggfunc='first')
+        pivot_table_0 = filtered_df_0.pivot_table(index=['rut', 'date', 'week_id'], columns='punch', values='hours', aggfunc=lambda x: list(x))
 
         pivot_table_0 = pivot_table_0.rename(columns={0: 'start', 1: 'end'})
 
-        new_df_0 = pd.DataFrame(pivot_table_0.to_records())
+        new_df = pd.DataFrame(pivot_table_0.to_records())
 
-        filtered_df_1 = df[(df['punch'].isin([0, 1])) & (df['status'].isin([1]))]
-
-        pivot_table_1 = filtered_df_1.pivot_table(index=['rut', 'date', 'status'], columns='punch', values='hours', aggfunc='first')
-
-        pivot_table_1 = pivot_table_1.rename(columns={0: 'start', 1: 'end'})
-
-        new_df_1 = pd.DataFrame(pivot_table_1.to_records())
-
-        filtered_df_2 = df[(df['punch'].isin([0, 1])) & (df['status'].isin([2]))]
-
-        pivot_table_2 = filtered_df_2.pivot_table(index=['rut', 'date', 'status'], columns='punch', values='hours', aggfunc='first')
-
-        pivot_table_2 = pivot_table_2.rename(columns={0: 'start', 1: 'end'})
-
-        new_df_2 = pd.DataFrame(pivot_table_2.to_records())
-        
-        concat = pd.concat([new_df_0, new_df_1, new_df_2], axis=0)
-        concat['start'] = concat['start'].fillna(0)
-        concat['end'] = concat['end'].fillna(0)
-
-        grouped_df = concat.groupby(['rut', 'date']).agg(list).reset_index()
-
-        # Obtener todas las fechas en el rango deseado. ACA HAY QUE CAMBIAR EL RANGO DE FECHAS QUE VENGA POR PERIOD
         date_range = pd.date_range(start='2023-05-01', end='2023-05-31', freq='D')
 
-        # Crear un nuevo DataFrame con todas las combinaciones de 'rut' y 'date'
-        new_df = pd.MultiIndex.from_product([grouped_df['rut'].unique(), date_range], names=['rut', 'date']).to_frame(index=False)
+        new_df2 = pd.MultiIndex.from_product([new_df['rut'].unique(), date_range], names=['rut', 'date']).to_frame(index=False)
 
-        # Realizar un merge entre el nuevo DataFrame y grouped_df para llenar los valores faltantes
-        merged_df = pd.merge(new_df, grouped_df, on=['rut', 'date'], how='left')
+        merged_df = pd.merge(new_df2, new_df, on=['rut', 'date'], how='left')
 
-        # Rellenar los valores NaN con 0 en las columnas 'start' y 'end'
-        merged_df['status'] = merged_df['status'].fillna(0)
+        merged_df['status_1'] = merged_df['start'].str[0].str.split('_').str[1]
+        merged_df['status_2'] = merged_df['end'].str[0].str.split('_').str[1]
+
+        merged_df['start'] = merged_df['start'].str[0].str.split('_').str[0]
+        merged_df['end'] = merged_df['end'].str[0].str.split('_').str[0]
+
         merged_df['start'] = merged_df['start'].fillna(0)
         merged_df['end'] = merged_df['end'].fillna(0)
-
-        # Ordenar el DataFrame por 'rut' y 'date'
-        merged_df = merged_df.sort_values(['rut', 'date']).reset_index(drop=True)
+        merged_df['status_1'] = merged_df['status_1'].fillna(0)
+        merged_df['status_2'] = merged_df['status_2'].fillna(0)
+        merged_df['week_id'] = merged_df['week_id'].fillna(0)
+        merged_df['week_id'] = merged_df['week_id'].astype(int)
 
         return merged_df
     
     @staticmethod
-    def get_all_with_df_grouped_by_week(rut, period):
-        clock_attendances = ClockAttendanceModel.query.filter(
-            ClockAttendanceModel.rut == rut,
-            func.date_format(ClockAttendanceModel.mark_date, '%m-%Y') == period,
-            ClockAttendanceModel.punch.in_([0, 1])
-        ).all()
+    def get_all_with_df_grouped_by_week(df):
 
-        data = []
-        for attendance in clock_attendances:
-            year = attendance.mark_date.year
-            month = attendance.mark_date.month
-            period = f"{month:02d}-{year}"
+        subset = df[['rut', 'week_id', 'total']]
 
-            hours = attendance.mark_date.strftime('%H:%M:%S')
+        subset['total'] = pd.to_timedelta(subset['total'])
 
-            date = attendance.mark_date.strftime('%Y-%m-%d')
-            # Convertir la fecha a tipo datetime
-            date = pd.to_datetime(date)
+        # Realizar la suma por el grupo 'week_id'
+        grouped_df = subset.groupby(subset.iloc[:, 2]).agg({'total': 'sum'})
 
-            data.append({
-                'rut': attendance.rut,
-                'mark_date': attendance.mark_date,
-                'status': attendance.status,
-                'punch': attendance.punch,
-                'period': period,
-                'hours': hours,
-                'date': date,
-                'week': attendance.week_id
-            })
+        grouped_df['total_seconds'] = grouped_df['total'].dt.total_seconds()
 
-        df = pd.DataFrame(data)
-        
+        grouped_df.loc['Total'] = grouped_df['total_seconds'].sum()
 
-        filtered_df_0 = df[(df['punch'].isin([0, 1])) & (df['status'].isin([0]))]
+        # Calcular los días, horas, minutos y segundos
+        grouped_df['days'] = grouped_df['total_seconds'] // (24 * 60 * 60)
+        grouped_df['hours'] = (grouped_df['total_seconds'] % (24 * 60 * 60)) // (60 * 60)
+        grouped_df['minutes'] = (grouped_df['total_seconds'] % (60 * 60)) // 60
+        grouped_df['seconds'] = grouped_df['total_seconds'] % 60
 
-        pivot_table_0 = filtered_df_0.pivot_table(index=['rut', 'mark_date', 'week'], columns='punch', values='hours', aggfunc=lambda x: list(x))
+        # Crear el formato HH:MM:SS
+        grouped_df['formatted'] = grouped_df.apply(lambda row: f"{int(row['days'] * 24 + row['hours']):02d}:{int(row['minutes']):02d}", axis=1)
 
-        pivot_table_0 = pivot_table_0.rename(columns={0: 'start', 1: 'end'})
-
-        new_df_0 = pd.DataFrame(pivot_table_0.to_records())
-
-        
-        filtered_df_1 = df[(df['punch'].isin([0, 1])) & (df['status'].isin([1]))]
-
-        pivot_table_1 = filtered_df_1.pivot_table(index=['rut', 'mark_date', 'week'], columns='punch', values='hours', aggfunc=lambda x: list(x))
-
-        pivot_table_1 = pivot_table_1.rename(columns={0: 'start', 1: 'end'})
-
-        new_df_1 = pd.DataFrame(pivot_table_1.to_records())
-
-
-        filtered_df_2 = df[(df['punch'].isin([0, 1])) & (df['status'].isin([2]))]
-
-        pivot_table_2 = filtered_df_2.pivot_table(index=['rut', 'mark_date', 'week'], columns='punch', values='hours', aggfunc=lambda x: list(x))
-
-        pivot_table_2 = pivot_table_2.rename(columns={0: 'start', 1: 'end'})
-
-        new_df_2 = pd.DataFrame(pivot_table_2.to_records())
-
-        
-        concat = pd.concat([new_df_0, new_df_1, new_df_2], axis=0)
-
-        concat['start'] = concat['start'].fillna(0)
-        concat['end'] = concat['end'].fillna(0)
-        concat['mark_date'] = pd.to_datetime(concat['mark_date'])
-
-        concat['mark_date'] = pd.to_datetime(concat['mark_date'])
-
-        concat['mark_date'] = concat['mark_date'].dt.strftime('%Y-%m-%d')
-        grouped = concat.groupby(['rut', 'mark_date', 'week']).agg({'start': list, 'end': list}).reset_index()
-        counted = grouped.groupby(['week']).count()
-
-        df = pd.DataFrame(grouped)
-
-        df['start'] = df['start'].apply(lambda x: x[0][0] if isinstance(x, list) and len(x) > 0 and len(x[0]) > 0 else 0)
-        df['end'] = df['end'].apply(lambda x: x[1][0] if isinstance(x, list) and len(x) > 1 and len(x[1]) > 0 else 0)
-
-        df.iloc[:, 3] = pd.to_datetime(df.iloc[:, 3], format='%H:%M:%S', errors='coerce')
-        df.iloc[:, 4] = pd.to_datetime(df.iloc[:, 4], format='%H:%M:%S', errors='coerce')
-
-        df['total'] = np.where(df.iloc[:, 3] > df.iloc[:, 4], 
-                                        df.iloc[:, 3] - df.iloc[:, 4], 
-                                        df.iloc[:, 4] - df.iloc[:, 3])
-
-        df['numeric_total'] = np.where(df.iloc[:, 3] > df.iloc[:, 4], 
-                                        df.iloc[:, 3] - df.iloc[:, 4], 
-                                        df.iloc[:, 4] - df.iloc[:, 3])
-        
-        df['start'] = df['start'].fillna(pd.Timedelta(seconds=0))
-        df['end'] = df['end'].fillna(pd.Timedelta(seconds=0))
-        df['total'] = df['total'].fillna(pd.Timedelta(seconds=0))
-
-        grouped = df.groupby(['rut', 'week']).agg({'total': 'sum'}).reset_index()
-
-        merged_df = pd.merge(grouped, counted, on=['week'], how='left')
-
-        df = pd.DataFrame(merged_df)
-
-        # Obtener todos los valores únicos de la columna "week"
-        unique_weeks = df['week'].unique()
-
-        # Crear un rango de valores del 1 al 5
-        all_weeks = range(1, 6)
-
-        # Obtener los valores faltantes en la columna "week"
-        missing_weeks = set(all_weeks) - set(unique_weeks)
-
-        # Crear filas con los valores faltantes en la columna "week"
-        missing_rows = pd.DataFrame({'week': list(missing_weeks)})
-        missing_rows['rut'] = np.nan
-        missing_rows['total'] = pd.Timedelta(seconds=0)
-
-        # Concatenar el DataFrame original con las filas faltantes
-        df = pd.concat([df, missing_rows])
-
-        # Ordenar el DataFrame por la columna "week"
-        df = df.sort_values('week')
-
-        # Restablecer el índice del DataFrame
-        df = df.reset_index(drop=True)
-
-        df['mark_date'] = df['mark_date'].fillna(0)
-
-        df['mark_date'] = df['mark_date'].astype(str)
-
-        df['mark_date'] = df['mark_date'].str.slice(0, 1)
-
-        df['mark_date'] = pd.to_numeric(df['mark_date'], errors='coerce')
-
-        df['total'] = pd.to_timedelta(df['total'])
-
-        df.loc['Total'] = df[['total', 'mark_date']].sum()
-
-        df['week'] = df['week'].fillna('Total')
-
-        df['total'] = df['total'].astype(str)
-
-        df['total'] = df['total'].str.slice(6, 12)
-
-        return df
+        return grouped_df
     
     @staticmethod
     def calculate(df_1, df_2):
-        concat = pd.concat([df_1, df_2], axis=1)
 
-        concat.iloc[:, 8] = concat.iloc[:, 8].str[0]
-        concat.iloc[:, 9] = concat.iloc[:, 9].str[0]
+        concat = pd.concat([df_1, df_2], axis=1)
 
         concat.iloc[:, 2] = pd.to_datetime(concat.iloc[:, 2], format='%H:%M:%S', errors='coerce').dt.time
         concat.iloc[:, 3] = pd.to_datetime(concat.iloc[:, 3], format='%H:%M:%S', errors='coerce').dt.time
 
-        concat.iloc[:, 8] = pd.to_datetime(concat.iloc[:, 8], format='%H:%M:%S', errors='coerce').dt.time
         concat.iloc[:, 9] = pd.to_datetime(concat.iloc[:, 9], format='%H:%M:%S', errors='coerce').dt.time
+        concat.iloc[:, 10] = pd.to_datetime(concat.iloc[:, 10], format='%H:%M:%S', errors='coerce').dt.time
+
+        concat.iloc[:, 9] = concat.iloc[:, 9].fillna(0)
+        concat.iloc[:, 10] = concat.iloc[:, 10].fillna(0)
 
         concat.iloc[:, 2] = concat.iloc[:, 2].astype(str)
         concat[['hour', 'minute', 'second']] = concat.iloc[:, 2].str.split(':', expand=True)
@@ -340,112 +205,8 @@ class ClockAttendance():
 
         concat['total_seconds2'] = concat['hour2'] * 3600 + concat['minute2'] * 60 + concat['second2']
 
-        print(concat)
-        exit()
-
-        concat['end_total'] = pd.to_timedelta(concat['end_total'], unit='s')
-        concat['start_total'] = pd.to_timedelta(concat['start_total'], unit='s')
-
-        concat['end_total'] = concat['end_total'].dt.total_seconds().fillna(0).astype(int)
-        concat['start_total'] = concat['start_total'].dt.total_seconds().fillna(0).astype(int)
-
-        concat['end_total'] = pd.to_datetime(concat['end_total'], unit='s')
-        concat['start_total'] = pd.to_datetime(concat['start_total'], unit='s')
-
-        concat['start_total'] = concat['start_total'].dt.time
-        concat['end_total'] = concat['end_total'].dt.time
-
-        concat['start_total'] = pd.to_datetime(concat['start_total'], format='%H:%M:%S')
-        concat['end_total'] = pd.to_datetime(concat['end_total'], format='%H:%M:%S')
-
-        concat['resta_total'] = concat['end_total'] - concat['start_total']
-        
-        concat['resta_total'] = concat['resta_total'].dt.total_seconds()
-        
-        concat['resta_total'] = pd.to_timedelta(concat['resta_total'], unit='s')
-
-        concat['resta_total'] = concat['resta_total'].astype(str)
-
-        concat['resta_total'] = concat['resta_total'].str.slice(6, 16)
-
-        concat.rename(columns={'end_total': 'start_total', 'start_total': 'end_total'}, inplace=True)
-
-        return concat
-    
-    @staticmethod
-    def calculate_grouped_by_week(df_1, df_2):
-        data = []
-
-        for index, row in df_1.iterrows():
-            data.append({
-                'rut': row['rut'],
-                'date': row['date'],
-                'start_1': row['start'],
-                'end_1': row['end'],
-                'week_id': row['week_id']
-            })
-
-        df_1 = pd.DataFrame(data)
-    
-        data = []
-
-        for index, row in df_2.iterrows():
-            if isinstance(row['start'], list):
-                for item in row['start']:
-                    if item != 0:
-                        start_value = item
-            else:
-                start_value = row['start']
-
-            
-            if isinstance(row['end'], list):
-                for item in row['end']:
-                    if item != 0:
-                        end_value = item
-            else:
-                end_value = row['end']
-            
-            data.append({
-                'rut': row['rut'],
-                'date': row['date'],
-                'start_2': start_value,
-                'end_2': end_value
-            })
-
-        df_2 = pd.DataFrame(data)
-
-        df_2['start_2'] = df_2['start_2'].fillna(0)
-        df_2['end_2'] = df_2['end_2'].fillna(0)
- 
-        concat = pd.concat([df_1, df_2], axis=1)
-
-        concat.iloc[:, 2] = pd.to_datetime(concat.iloc[:, 2], format='%H:%M:%S', errors='coerce').dt.time
-        concat.iloc[:, 3] = pd.to_datetime(concat.iloc[:, 3], format='%H:%M:%S', errors='coerce').dt.time
-
-        concat.iloc[:, 7] = pd.to_datetime(concat.iloc[:, 7], format='%H:%M:%S', errors='coerce').dt.time
-        concat.iloc[:, 8] = pd.to_datetime(concat.iloc[:, 8], format='%H:%M:%S', errors='coerce').dt.time
-
-        concat.iloc[:, 7] = concat.iloc[:, 7].fillna(0)
-        concat.iloc[:, 8] = concat.iloc[:, 8].fillna(0)
-
-        concat.iloc[:, 2] = concat.iloc[:, 2].astype(str)
-        concat[['hour', 'minute', 'second']] = concat.iloc[:, 2].str.split(':', expand=True)
-        concat['hour1'] = concat['hour'].astype(int)
-        concat['minute1'] = concat['minute'].astype(int)
-        concat['second1'] = concat['second'].astype(int)
-
-        concat['total_seconds1'] = concat['hour1'] * 3600 + concat['minute1'] * 60 + concat['second1']
-
-        concat.iloc[:, 3] = concat.iloc[:, 3].astype(str)
-        concat[['hour', 'minute', 'second']] = concat.iloc[:, 3].str.split(':', expand=True)
-        concat['hour2'] = concat['hour'].astype(int)
-        concat['minute2'] = concat['minute'].astype(int)
-        concat['second2'] = concat['second'].astype(int)
-
-        concat['total_seconds2'] = concat['hour2'] * 3600 + concat['minute2'] * 60 + concat['second2']
-
-        concat.iloc[:, 7] = concat.iloc[:, 7].astype(str)
-        concat[['hour', 'minute', 'second']] = concat.iloc[:, 7].str.split(':', expand=True)
+        concat.iloc[:, 9] = concat.iloc[:, 9].astype(str)
+        concat[['hour', 'minute', 'second']] = concat.iloc[:, 9].str.split(':', expand=True)
 
         concat['hour3'] = concat['hour'].apply(lambda x: int(x) if pd.notnull(x) else np.nan).astype('Int64')
         concat['minute3'] = concat['minute'].apply(lambda x: int(x) if pd.notnull(x) else np.nan).astype('Int64')
@@ -453,43 +214,88 @@ class ClockAttendance():
 
         concat['total_seconds3'] = concat['hour3'] * 3600 + concat['minute3'] * 60 + concat['second3']
 
-        concat.iloc[:, 8] = concat.iloc[:, 8].astype(str)
-        concat[['hour', 'minute', 'second']] = concat.iloc[:, 8].str.split(':', expand=True)
+        concat.iloc[:, 10] = concat.iloc[:, 10].astype(str)
+        concat[['hour', 'minute', 'second']] = concat.iloc[:, 10].str.split(':', expand=True)
         concat['hour4'] = concat['hour'].apply(lambda x: int(x) if pd.notnull(x) else np.nan).astype('Int64')
         concat['minute4'] = concat['minute'].apply(lambda x: int(x) if pd.notnull(x) else np.nan).astype('Int64')
         concat['second4'] = concat['second'].apply(lambda x: int(x) if pd.notnull(x) else np.nan).astype('Int64')
 
         concat['total_seconds4'] = concat['hour4'] * 3600 + concat['minute4'] * 60 + concat['second4']
 
-        concat['total_seconds1'] = concat['total_seconds1'] .fillna(0)
-        concat['total_seconds2'] = concat['total_seconds2'] .fillna(0)
-        concat['total_seconds3'] = concat['total_seconds3'] .fillna(0)
-        concat['total_seconds4'] = concat['total_seconds4'] .fillna(0)
-        
+        concat['total_seconds1'] = concat['total_seconds1'].fillna(0)
+        concat['total_seconds2'] = concat['total_seconds2'].fillna(0)
+        concat['total_seconds3'] = concat['total_seconds3'].fillna(0)
+        concat['total_seconds4'] = concat['total_seconds4'].fillna(0)
+
         mask = concat['total_seconds3'].ne(0)
         concat.loc[mask, 'subtotal1'] = concat.loc[mask, 'total_seconds1'] - concat.loc[mask, 'total_seconds3']
 
         mask = concat['total_seconds4'].ne(0)
         concat.loc[mask, 'subtotal2'] = concat.loc[mask, 'total_seconds2'] - concat.loc[mask, 'total_seconds4']
-        
+
         concat['total'] = concat['subtotal1'] - concat['subtotal2']
 
         concat['total'] = pd.to_numeric(concat['total'], errors='coerce')
 
         concat['total'] = concat['total'] .fillna(0)
+
+        concat['total'] = concat['total'].apply(lambda x: f"{x//3600:02d}:{(x%3600)//60:02d}:{(x%3600)//60:02d}")
+
+        return concat
+    
+    @staticmethod
+    def calculate_grouped_by_week(df_1, df_2):
+
+        data = []
+
+        i = 1
+
+        for index, row in df_1.iterrows():
+            if row['week'] != 'Total':
+                data.append({
+                    'week_1': i,
+                    'hours_1': row['masked_total_hours']
+                })
+
+            i = i + 1
+
+        df_1 = pd.DataFrame(data)
+
+        data = []
+
+        i = 1
+
+        for index, row in df_2.iterrows():
+            if i < 6:
+                data.append({
+                    'week_2': i,
+                    'hours_2': row['formatted']
+                })
+
+            i = i + 1
         
-        grouped_df = concat.groupby(['week_id']).agg(list).reset_index()
-        grouped_df.loc['Total'] = grouped_df[['total']].sum()
-        grouped_df['total_sum'] = grouped_df['total'].apply(sum)
+        df_2 = pd.DataFrame(data)
 
-        grouped_df['total_sum'] = pd.to_numeric(grouped_df['total_sum'], errors='coerce')
-        grouped_df['total_sum'] = grouped_df['total_sum'] .fillna(0)
+        concat = pd.concat([df_1, df_2], axis=1)
 
-        grouped_df['total_sum'] = grouped_df['total_sum'].apply(lambda x: f"{x//3600:02d}:{(x%3600)//60:02d}")
-        
-        subset = grouped_df[['rut', 'date', 'week_id', 'total_sum']]
+        # Convertir las columnas a segundos
+        concat['total_in_seconds_1'] = pd.to_timedelta(concat['hours_1'] + ":00").dt.total_seconds()
+        concat['total_in_seconds_2'] = pd.to_timedelta(concat['hours_2'] + ":00").dt.total_seconds()
 
-        return subset
+        concat['total'] = concat['total_in_seconds_1'] - concat['total_in_seconds_2']
+
+        concat.loc['Total'] = concat['total'].sum()
+
+        # Calcular los días, horas, minutos y segundos
+        concat['days'] = concat['total'] // (24 * 60 * 60)
+        concat['hours'] = (concat['total'] % (24 * 60 * 60)) // (60 * 60)
+        concat['minutes'] = (concat['total'] % (60 * 60)) // 60
+        concat['seconds'] = concat['total'] % 60
+
+        # Crear el formato HH:MM:SS
+        concat['formatted'] = concat.apply(lambda row: f"{int(row['days'] * 24 + row['hours']):02d}:{int(row['minutes']):02d}", axis=1)
+
+        return concat
     
     @staticmethod
     def special_store(data, mark_date):
