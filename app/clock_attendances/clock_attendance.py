@@ -106,7 +106,7 @@ class ClockAttendance():
             hours = attendance.mark_date.strftime('%H:%M:%S')
 
             date = attendance.mark_date.strftime('%Y-%m-%d')
-            # Convertir la fecha a tipo datetime
+
             date = pd.to_datetime(date)
 
             data.append({
