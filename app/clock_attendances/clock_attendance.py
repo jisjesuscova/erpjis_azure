@@ -47,7 +47,7 @@ class ClockAttendance():
                     return 1
             else:
                 turn = Turn.get(turn_id)
-
+                
                 if current_hour > turn.end_exit_time_threshold:
                     return 0
                 else:

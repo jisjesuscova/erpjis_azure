@@ -101,8 +101,9 @@ def validate():
       check_alert_id = Alert.check_alert(mesh_datum.rut, format_current_date, 2)
 
       if check_attendance_id == 1 and check_alert_id == 0:
+
          exit_status = ClockAttendance.validate(mesh_datum.turn_id, format_current_hour, 1)
-         
+
          if exit_status == 0:
             Alert.store(mesh_datum.rut, 2)
             Whatsapp.send(mesh_datum.rut, str(1), '', 20)

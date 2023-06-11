@@ -550,6 +550,10 @@ class Whatsapp:
                 whatsapp_template = WhatsappTemplate.get(template_type_id)
                 hr_employee = Employee.get(id)
 
+                santiago_timezone = pytz.timezone('Chile/Continental')
+                current_date = datetime.now(santiago_timezone).date()
+                current_date = str(current_date)
+
                 url = "https://graph.facebook.com/v16.0/101066132689690/messages"
 
                 payload = json.dumps({
@@ -578,12 +582,12 @@ class Whatsapp:
                                         ]
                                     }
                                 })
-                    
+                
                 headers = {
                             'Authorization': settings.facebook_token,
                             'Content-Type': 'application/json'
                             }
-
+                
                 response = requests.request("POST", url, headers=headers, data=payload)
 
                 print(response.text)
