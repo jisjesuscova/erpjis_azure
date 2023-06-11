@@ -190,6 +190,24 @@ class Helper:
         # Formateamos la fecha en el formato deseado
         return last_day_date.strftime('%Y-%m-%d')
 
+    def translate_day_of_week(day_of_week):
+        if day_of_week == "Monday":
+            result = "Lunes"
+        elif day_of_week == "Tuesday":
+            result = "Martes"
+        elif day_of_week == "Wednesday":
+            result = "Miércoles"
+        elif day_of_week == "Thursday":
+            result = "Jueves"
+        elif day_of_week == "Friday":
+            result = "Viernes"
+        elif day_of_week == "Saturday":
+            result = "Sábado"
+        elif day_of_week == "Sunday":
+            result = "Domingo"
+        
+        return result
+    
     @staticmethod
     def get_last_day(date):
         date = Helper.split(str(date), "-")

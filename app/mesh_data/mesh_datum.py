@@ -38,12 +38,14 @@ class MeshDatum():
 
             day_of_week = pd.to_datetime(datum.date).strftime('%A').capitalize()
 
+            translated_day_of_week = Helper.translate_day_of_week(day_of_week)
+
             data.append({
                 'rut': datum.rut,
                 'date': date,
                 'start': datum.start,
                 'end': datum.end,
-                'day_of_week': day_of_week,
+                'day_of_week': translated_day_of_week,
                 'week_id': datum.week
             })
 
