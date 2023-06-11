@@ -12,6 +12,14 @@ class Turn():
 
         return turn
     
+    def existence(id):
+        turn_qty = TurnModel.query.filter_by(id=id).count()
+
+        if turn_qty > 0:
+            return 1
+        else:
+            return 0
+    
     def get_special(id):
         turn = TurnModel.query.filter_by(id=id).all()
 

@@ -35,20 +35,25 @@ class ClockAttendance():
     
     @staticmethod
     def validate(turn_id, current_hour, punch):
-        if punch == 0:
-            turn = Turn.get(turn_id)
+        existence_turn = Turn.existence(turn_id)
 
-            if current_hour > turn.end_entry_time_threshold:
-                return 0
+        if existence_turn == 1:
+            if punch == 0:
+                turn = Turn.get(turn_id)
+
+                if current_hour > turn.end_entry_time_threshold:
+                    return 0
+                else:
+                    return 1
             else:
-                return 1
+                turn = Turn.get(turn_id)
+
+                if current_hour > turn.end_exit_time_threshold:
+                    return 0
+                else:
+                    return 1
         else:
-            turn = Turn.get(turn_id)
-
-            if current_hour > turn.end_exit_time_threshold:
-                return 0
-            else:
-                return 1
+            return 1
 
     @staticmethod
     def checked_attedance(rut, current_date, punch):
