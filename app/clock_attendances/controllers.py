@@ -81,7 +81,7 @@ def validate():
 
    current_hour = datetime.datetime.now(santiago_timezone).time()
    format_current_hour = current_hour.strftime("%H:%M:%S")
-   
+   print(format_current_date)
    mesh_data = MeshDatum.get_by_date(format_current_date)
 
    for mesh_datum in mesh_data:
