@@ -65,30 +65,33 @@ class EmployeeTurn():
             validate_status_end_date = 0
 
         if quantity == 0 and validate_status_start_date == 1:
-            turn = Turn.get(data['turn_id'])
+            if validate_status_end_date == 0:
+                turn = Turn.get(data['turn_id'])
 
-            end_date = Helper.get_last_date(data['start_date'], turn.group_day_id)
-            start_date = Helper.split(end_date, "-")
+                end_date = Helper.get_last_date(data['start_date'], turn.group_day_id)
+                start_date = Helper.split(end_date, "-")
 
-            first_day_current_month = start_date[0] + '-' + start_date[1] + '-01'
-           
-            compare_date = Helper.compare_dates(first_day_current_month, end_date)
+                first_day_current_month = start_date[0] + '-' + start_date[1] + '-01'
+            
+                compare_date = Helper.compare_dates(first_day_current_month, end_date)
 
-            if compare_date == 0:
-                pre_employee_turn = PreEmployeeTurnModel()
-                pre_employee_turn.turn_id = data['turn_id']
-                pre_employee_turn.rut = data['employee_id']
-                pre_employee_turn.start_date = first_day_current_month
-                pre_employee_turn.end_date = end_date
-                pre_employee_turn.period = period
-                pre_employee_turn.added_date = datetime.now()
-                pre_employee_turn.updated_date = datetime.now()
-                inspection = inspect(pre_employee_turn)
+                if compare_date == 0:
+                    pre_employee_turn = PreEmployeeTurnModel()
+                    pre_employee_turn.turn_id = data['turn_id']
+                    pre_employee_turn.rut = data['employee_id']
+                    pre_employee_turn.start_date = first_day_current_month
+                    pre_employee_turn.end_date = end_date
+                    pre_employee_turn.period = period
+                    pre_employee_turn.added_date = datetime.now()
+                    pre_employee_turn.updated_date = datetime.now()
+                    inspection = inspect(pre_employee_turn)
 
-                db.session.add(pre_employee_turn)
-                status = inspection.pending
-                db.session.commit()
-                return status
+                    db.session.add(pre_employee_turn)
+                    status = inspection.pending
+                    db.session.commit()
+                    return status
+                else:
+                    return 0
             else:
                 return 0
         elif quantity > 0 and validate_status_end_date == 1:

@@ -7,7 +7,7 @@ class Turn():
         if employee_type_id == 1:
             turns = TurnModel.query.filter_by(employee_type_id=employee_type_id, group_id=group_id).all()
         else:
-            turns = TurnModel.query.filter(or_(TurnModel.employee_type_id == 2, TurnModel.employee_type_id == 3),
+            turns = TurnModel.query.filter(TurnModel.employee_type_id == 2,
                                TurnModel.group_id == group_id).all()
 
         return turns
@@ -29,4 +29,3 @@ class Turn():
         turn = TurnModel.query.filter_by(id=id).all()
 
         return turn
-        

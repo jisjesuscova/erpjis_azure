@@ -614,7 +614,6 @@ class Helper:
         current_date = datetime.now()
         current_date = current_date + relativedelta(months=1)
         inserted_date = datetime.strptime(start_date, '%Y-%m-%d')
-
         if inserted_date.month == current_date.month:
             return 0
         else:

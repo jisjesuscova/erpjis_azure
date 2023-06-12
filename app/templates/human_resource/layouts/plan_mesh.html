@@ -347,7 +347,7 @@
                       turn_id: old_turn_id,
                       start_date: old_date
                     };
-
+                    
                     var csrf_token = "{{ csrf_token() }}";
 
                     $.ajax({
@@ -358,6 +358,7 @@
                         type: 'POST',
                         data: formData,
                         success: function(data) {
+                          console.log(data)
                           var jsonObject = JSON.parse(data);
                           pre_store_id = jsonObject[0]['id'];
 
