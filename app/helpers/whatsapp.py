@@ -509,11 +509,16 @@ class Whatsapp:
                 current_date = datetime.now(santiago_timezone).date()
                 current_date = str(current_date)
 
+                employee = Employee.get(id)
+
+                date = Helper.split(current_date, '-')
+                current_date = date[2] + '-' + date[1] + '-' + date[0]
+
                 url = "https://graph.facebook.com/v16.0/101066132689690/messages"
 
                 payload = json.dumps({
                                     "messaging_product": "whatsapp",
-                                    "to": "56" + "935887241",
+                                    "to": "56" + employee.cellphone,
                                     "type": "template",
                                     "template": {
                                         "name": str(whatsapp_template.whatsapp_template),
@@ -554,11 +559,16 @@ class Whatsapp:
                 current_date = datetime.now(santiago_timezone).date()
                 current_date = str(current_date)
 
+                employee = Employee.get(id)
+
+                date = Helper.split(current_date, '-')
+                current_date = date[2] + '-' + date[1] + '-' + date[0]
+
                 url = "https://graph.facebook.com/v16.0/101066132689690/messages"
 
                 payload = json.dumps({
                                     "messaging_product": "whatsapp",
-                                    "to": "56" + "935887241",
+                                    "to": "56" + employee.cellphone,
                                     "type": "template",
                                     "template": {
                                         "name": str(whatsapp_template.whatsapp_template),

@@ -167,6 +167,7 @@ class MeshDatum():
     
     @staticmethod
     def get_by_date(date):
+        print(date)
         mesh_data = MeshDatumModel.query.filter_by(date=date).all()
 
         return mesh_data
