@@ -3,6 +3,7 @@ from app.branch_offices.branch_office import BranchOffice
 from app.mesh_data.mesh_datum import MeshDatum
 from app.total_mesh_data.total_mesh_datum import TotalMeshDatum
 from app.documents_employees.document_employee import DocumentEmployee
+from app.pre_employee_turns.pre_employee_turn import PreEmployeeTurn
 
 mesh_datum = Blueprint("mesh_data", __name__)
 
@@ -38,6 +39,12 @@ def store():
    flash('Malla Horaria creada con éxito', 'success')
 
    return redirect(url_for('mesh_data.index'))
+
+@mesh_datum.route("/mesh_data/pre_mesh_data/delete/<int:rut>", methods=['GET'])
+def pre_mesh_data_delete(rut):
+   PreEmployeeTurn.delete_by_rut(rut)
+   
+   return str('1')
 
 @mesh_datum.route("/mesh_data/delete/<int:document_employee_id>/<int:rut>/<period>", methods=['GET'])
 def delete(document_employee_id, rut, period):

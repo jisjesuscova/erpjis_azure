@@ -5,6 +5,7 @@ $(document).ready(function () {
     $(".update-honorary-btn").prop("disabled", true);
     $('.full_time').show();
     $('.part_time').show();
+    $('#row_question').hide();
 
     if ($("#exit_company").val() != null && $("#exit_company").val() != '') {
         $("#calculate_fertility_proportional").prop("disabled", false);
@@ -2242,6 +2243,16 @@ $(document).ready(function () {
     $('.money_value').mask('000.000.000.000', {reverse: true, autoclear: false});
 
     $('#branch_office_id').change(function() {
+        if ($('#employee_id').val() != '') {
+            $.ajax({
+                url: '/mesh_data/pre_mesh_data/delete/' + $('#employee_id').val(),
+                type: 'GET',
+                success: function(data) {
+                    location.reload();
+                }
+            });
+        }
+
         $.ajax({
             url: '/branch_offices/employees/' + $(this).val(),
             type: 'GET',
@@ -2253,6 +2264,24 @@ $(document).ready(function () {
                 for (var i = 0; i < data.length; ++i) {
                     $('<option value="'+data[i].rut+'">'+data[i].nickname+'</option>').appendTo('#employee_id');
                 }
+            }
+        });
+    });
+
+    $('#employee_id').change(function() {
+        if ($(this).val() != '') {
+            $(this).prop('disabled', true);
+
+            $('#row_question').show();
+        }
+    });
+
+    $('#question_id').change(function() {
+        $.ajax({
+            url: '/mesh_data/pre_mesh_data/delete/' + $('#employee_id').val(),
+            type: 'GET',
+            success: function(data) {
+                location.reload();
             }
         });
     });
