@@ -685,8 +685,8 @@ class Helper:
     @staticmethod
     def get_seconds(data):
         time_str = data.working
-        hh, mm, ss = time_str.split(':')
-        return int(hh) * 3600 + int(mm) * 60 + int(ss)
+        hh, mm = time_str.split(':')
+        return int(hh) * 3600 + int(mm) * 60
 
     @staticmethod
     def get_total_hour_weeks(seconds, days):

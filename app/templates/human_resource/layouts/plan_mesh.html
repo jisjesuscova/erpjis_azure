@@ -36,6 +36,7 @@
                           <option value="">- Seleccionar -</option>
                           <option value="1">Mañana</option>
                           <option value="2">Tarde</option>
+                          <option value="3">Intermedio</option>
                         </select>
                       </div>
                     </div>
@@ -134,8 +135,7 @@
                   eventData: function(eventEl) {
                     var duration = eventEl.innerText
                     duration = duration.split(' ')
-                    duration = duration[8].split('x')
-                    duration = parseInt(duration[0])
+                    duration = parseInt(duration[6])
 
                     return {
                         title: eventEl.innerText,
@@ -223,10 +223,9 @@
                   editable: true,
                   droppable: true,
                   drop: function(info) {
-                    console.log(info)
                     turn_id = info.draggedEl.innerText;
                     turn_id = turn_id.split(' ');
-
+                    
                     if(turn_id[0] != 'Día') {
                       $(".free_days").removeAttr('style');
                       $(".select_turn").attr('style', 'display:none');
