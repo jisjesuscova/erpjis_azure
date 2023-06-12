@@ -16,9 +16,13 @@ class EmployeeTurn():
             db.session.commit()
 
     def get(data):
-        pre_employee_turn = PreEmployeeTurnModel.query.filter_by(turn_id = data['turn_id'], rut = data['employee_id'], start_date = data['start_date']).all()
+        pre_employee_turns = PreEmployeeTurnModel.query.filter(
+                    PreEmployeeTurnModel.turn_id == data['turn_id'],
+                    PreEmployeeTurnModel.rut == data['employee_id'],
+                    PreEmployeeTurnModel.start_date >= data['start_date']
+                ).all()
 
-        return pre_employee_turn
+        return pre_employee_turns
 
     def get_all_by_rut(rut):
         pre_employee_turns = PreEmployeeTurnModel.query.filter_by(rut = rut).all()
@@ -35,14 +39,30 @@ class EmployeeTurn():
         turn = Turn.get(data['turn_id'])
 
         end_date = Helper.get_last_date(data['start_date'], turn.group_day_id)
-            
-        turn = PreEmployeeTurnModel.query.filter_by(id=data['id']).first()
-        turn.turn_id = data['turn_id']
-        turn.rut = data['employee_id']
-        turn.start_date = data['start_date']
-        turn.end_date = end_date
-        turn.updated_date = datetime.now()
-        inspection = inspect(turn)
+        start_date = Helper.split(end_date, "-")
+
+        first_day_current_month = start_date[0] + '-' + start_date[1] + '-01'
+        
+        validate_status_start_date = Helper.validate_current_month(data['start_date'])
+        validate_status_end_date = Helper.validate_current_month(end_date)
+        
+        if validate_status_start_date == 1:
+            if validate_status_end_date == 0:
+                turn = PreEmployeeTurnModel.query.filter_by(id=data['id']).first()
+                turn.turn_id = data['turn_id']
+                turn.rut = data['employee_id']
+                turn.start_date = first_day_current_month
+                turn.end_date = end_date
+                turn.updated_date = datetime.now()
+                inspection = inspect(turn)
+        else:
+            turn = PreEmployeeTurnModel.query.filter_by(id=data['id']).first()
+            turn.turn_id = data['turn_id']
+            turn.rut = data['employee_id']
+            turn.start_date = data['start_date']
+            turn.end_date = end_date
+            turn.updated_date = datetime.now()
+            inspection = inspect(turn)
 
         db.session.add(turn)
         status = inspection.pending
