@@ -118,9 +118,16 @@ def alert(rut, date):
 
    return redirect(url_for('mesh_data.report_per_days'))
 
-
 @clock_attendance.route("/clock_attendance/register/<int:rut>/<date>", methods=['GET'])
 def register(rut, date):
-   ClockAttendance.alert_employee_about_left_hours(rut, date)
+   clock_attendances = ClockAttendance.user_registered_all_punch_hours(rut, date)
+
+   return render_template('human_resource/mesh_data/report_mesh_data_per_days/edit_mesh_data_per_days.html', clock_attendances = clock_attendances.to_dict(orient='records'))
+
+@clock_attendance.route("/clock_attendance/store_as_human_resource", methods=['POST'])
+def store_as_human_resource():
+   ClockAttendance.store_as_human_resource(request.form)
+
+   flash('Usted le ha marcado correctamente las horas al trabajador', 'success')
 
    return redirect(url_for('mesh_data.report_per_days'))

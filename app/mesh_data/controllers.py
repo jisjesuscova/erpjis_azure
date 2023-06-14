@@ -57,11 +57,13 @@ def delete(document_employee_id, rut, period):
 
 @mesh_datum.route("/mesh_data/report_per_days", methods=['GET'])
 def report_per_days():
+   date = ''
 
-   return render_template('human_resource/mesh_data/report_mesh_data_per_days/report_mesh_data_per_days.html')
+   return render_template('human_resource/mesh_data/report_mesh_data_per_days/report_mesh_data_per_days.html', date = date)
 
 @mesh_datum.route("/mesh_data/report_per_days/search", methods=['GET', 'POST'])
 def search_report_per_days():
-   clock_attendances = ClockAttendance.registered_all_punch_hours(request.form)
+   date = request.args.get('date')
+   clock_attendances = ClockAttendance.registered_all_punch_hours(date)
 
-   return render_template('human_resource/mesh_data/report_mesh_data_per_days/report_mesh_data_per_days.html', clock_attendances = clock_attendances.to_dict(orient='records'))
+   return render_template('human_resource/mesh_data/report_mesh_data_per_days/report_mesh_data_per_days.html', clock_attendances = clock_attendances.to_dict(orient='records'), date = date)
