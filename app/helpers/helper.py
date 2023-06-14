@@ -48,6 +48,14 @@ class Helper:
         return string
     
     @staticmethod
+    def search_in_array(data, string):
+        for item in data:
+            if item['rut'] == string:
+                return 1
+        else:
+            return 0
+            
+    @staticmethod
     def replace(value, new_value, string):
         string = string.replace(value, new_value)
 

@@ -1,0 +1,84 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            Reporte
+                        </h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>RUT</th>
+                                    <th>Trabajador</th>
+                                    <th>Día</th>
+                                    <th>Entrada</th>
+                                    <th>Entrada Colación</th>
+                                    <th>Salida Colación</th>
+                                    <th>Salida</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            {% for datum in clock_attendances %}
+                                <tbody>
+                                    {% if datum.rut != 0 %}
+                                        <tr>
+                                            <td>{{ datum.rut }}</td>
+                                            <td>{{ datum.full_name }}</td>
+                                            <td>{{ datum.date|datetime("dd-MM-yyyy") }}</td>
+
+                                            {% if datum.start == '0' or datum.start == 0 %}
+                                                <td style="background-color: red; color: white;">
+                                                    <input name="start[]" type="time" value="{{ datum.start }}">
+                                                </td>
+                                            {% else %}
+                                                <td >{{ datum.start }}</td>
+                                            {% endif %}
+
+                                            {% if datum.start_lunch == '0' or datum.start_lunch == 0 %}
+                                                <td style="background-color: red; color: white;">
+                                                    <input name="start_lunch[]" type="time" value="{{ datum.start_lunch }}">
+                                                </td>
+                                            {% else %}
+                                                <td>{{ datum.start_lunch }}</td>
+                                            {% endif %}
+
+                                            {% if datum.end_lunch == '0' or datum.end_lunch == 0 %}
+                                                <td style="background-color: red; color: white;">
+                                                    <input name="end_lunch[]" type="time" value="{{ datum.end_lunch }}">
+                                                </td>
+                                            {% else %}
+                                                <td>{{ datum.end_lunch }}</td>
+                                            {% endif %}
+
+                                            {% if datum.end == '0' or datum.end == 0 %}
+                                                <td style="background-color: red; color: white;">
+                                                    <input name="end[]" type="time" value="{{ datum.end }}">
+                                                </td>
+                                            {% else %}
+                                                <td>{{ datum.end }}</td>
+                                            {% endif %}
+                                            <td>
+                                                <a title="Agregar Marcaciones" href="{{ url_for('clock_attendances.register', rut = datum.int_rut, date = datum.date) }}" class="btn btn-warning">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <a title="Avisar al Trabajador" href="{{ url_for('clock_attendances.alert', rut = datum.int_rut, date = datum.date) }}" class="btn btn-success" onclick="return confirm('¿Estás seguro de enviar el mensaje?');">
+                                                    <i class="fa fa-whatsapp"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                </tbody>
+                            {% endfor %}
+                        </table>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

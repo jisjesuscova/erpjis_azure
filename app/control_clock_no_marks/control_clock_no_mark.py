@@ -33,13 +33,17 @@ class ControlClockNoMark():
         return control_clock_no_mark
     
     @staticmethod
-    def store(rut, punch):
+    def store(rut = '', punch = '', date = ''):
         control_clock_no_mark = ControlClockNoMarkModel()
         control_clock_no_mark.status_id = 0
         control_clock_no_mark.rut = rut
         control_clock_no_mark.punch = punch
-        control_clock_no_mark.added_date = datetime.now()
-        control_clock_no_mark.updated_date = datetime.now()
+        if date == '':
+            control_clock_no_mark.added_date = datetime.now()
+            control_clock_no_mark.updated_date = datetime.now()
+        else:
+            control_clock_no_mark.added_date = date
+            control_clock_no_mark.updated_date = date
 
         db.session.add(control_clock_no_mark)
         try:

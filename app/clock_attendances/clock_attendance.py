@@ -1,4 +1,4 @@
-from app.models.models import ClockAttendanceModel
+from app.models.models import ClockAttendanceModel, EmployeeModel, UserModel
 from app import db
 from app.clock_users.clock_user import ClockUser
 from sqlalchemy import func, extract, and_
@@ -8,9 +8,11 @@ from app.employee_labor_data.employee_labor_datum import EmployeeLaborDatum
 from app.mesh_data.mesh_datum import MeshDatum
 import pandas as pd
 import numpy as np
-from datetime import datetime, timedelta
+from datetime import datetime
 from app.helpers.helper import Helper
 from dateutil.relativedelta import relativedelta
+from app.control_clock_no_marks.control_clock_no_mark import ControlClockNoMark
+from app.helpers.whatsapp import Whatsapp
 
 class ClockAttendance():
     @staticmethod
@@ -67,7 +69,6 @@ class ClockAttendance():
         else:
             return 1
         
-
     @staticmethod
     def store(data):
         mark_date_str = data['mark_date']
@@ -162,6 +163,179 @@ class ClockAttendance():
         merged_df['week_id'] = merged_df['week_id'].astype(int)
 
         return merged_df
+    
+    @staticmethod
+    def alert_employee_about_left_hours(rut, date):
+        clock_attendances = ClockAttendanceModel.query\
+                            .join(EmployeeModel, EmployeeModel.rut == ClockAttendanceModel.rut)\
+                            .join(UserModel, UserModel.rut == EmployeeModel.rut)\
+                            .filter(func.date_format(ClockAttendanceModel.mark_date, '%Y-%m-%d') == date, UserModel.rut == rut)\
+                            .add_columns(EmployeeModel.rut, UserModel.visual_rut, EmployeeModel.names, EmployeeModel.father_lastname, EmployeeModel.mother_lastname, ClockAttendanceModel.rut, ClockAttendanceModel.mark_date, ClockAttendanceModel.punch, ClockAttendanceModel.status, ClockAttendanceModel.week_id).all()
+        
+        clock_attendance_qty = ClockAttendanceModel.query\
+                            .join(EmployeeModel, EmployeeModel.rut == ClockAttendanceModel.rut)\
+                            .join(UserModel, UserModel.rut == EmployeeModel.rut)\
+                            .filter(func.date_format(ClockAttendanceModel.mark_date, '%Y-%m-%d') == date, UserModel.rut == rut)\
+                            .add_columns(EmployeeModel.rut, UserModel.visual_rut, EmployeeModel.names, EmployeeModel.father_lastname, EmployeeModel.mother_lastname, ClockAttendanceModel.rut, ClockAttendanceModel.mark_date, ClockAttendanceModel.punch, ClockAttendanceModel.status, ClockAttendanceModel.week_id).count()
+        
+        if clock_attendance_qty > 0:
+            punch_0 = 0
+            punch_1 = 0
+            punch_2 = 0
+            punch_3 = 0
+
+            for clock_attendance in clock_attendances:
+                if clock_attendance.punch == 0:
+                    punch_0 = 1
+                elif clock_attendance.punch == 1:
+                    punch_1 = 1
+                elif clock_attendance.punch == 4:
+                    punch_2 = 1
+                else:
+                    punch_3 = 1
+
+            send_whatsapp = 0
+
+            if punch_0 == 0:
+                ControlClockNoMark.store(rut, 0)
+
+                send_whatsapp = 1
+            if punch_1 == 0:
+                ControlClockNoMark.store(rut, 1)
+
+                send_whatsapp = 1
+            if punch_2 == 0:
+                ControlClockNoMark.store(rut, 4)
+
+                send_whatsapp = 1
+            if punch_3 == 0: 
+                ControlClockNoMark.store(rut, 5)
+
+                send_whatsapp = 1
+
+            if send_whatsapp == 1:
+                Whatsapp.send(rut, str(1), '', 22)
+        else:
+            ControlClockNoMark.store(rut, 0, date)
+            ControlClockNoMark.store(rut, 1, date)
+            ControlClockNoMark.store(rut, 4, date)
+            ControlClockNoMark.store(rut, 5, date)
+            Whatsapp.send(rut, str(1), '', 22)
+
+        return 1
+
+    @staticmethod
+    def registered_all_punch_hours(data):
+        date = data['date']
+
+        clock_attendances = ClockAttendanceModel.query\
+                            .join(EmployeeModel, EmployeeModel.rut == ClockAttendanceModel.rut)\
+                            .join(UserModel, UserModel.rut == EmployeeModel.rut)\
+                            .filter(func.date_format(ClockAttendanceModel.mark_date, '%Y-%m-%d') == date)\
+                            .add_columns(EmployeeModel.rut, UserModel.visual_rut, EmployeeModel.names, EmployeeModel.father_lastname, EmployeeModel.mother_lastname, ClockAttendanceModel.rut, ClockAttendanceModel.mark_date, ClockAttendanceModel.punch, ClockAttendanceModel.status, ClockAttendanceModel.week_id).all()
+        
+        data = []
+        for attendance in clock_attendances:
+            hours = attendance.mark_date.strftime('%H:%M:%S')
+
+            date = attendance.mark_date.strftime('%Y-%m-%d')
+
+            date = pd.to_datetime(date)
+
+            data.append({
+                'rut': attendance.visual_rut,
+                'int_rut': attendance.rut,
+                'full_name': str(attendance.names) +" "+ str(attendance.father_lastname) +" "+ str(attendance.mother_lastname),
+                'mark_date': attendance.mark_date,
+                'punch': attendance.punch,
+                'hours': str(hours) +"_"+ str(attendance.status),
+                'date': date,
+                'week_id': attendance.week_id
+            })
+
+        clock_attendance_start_lunch_check = ClockAttendanceModel.query.filter(
+            ClockAttendanceModel.punch == 2,
+            func.date_format(ClockAttendanceModel.mark_date, '%Y-%m-%d') == date
+        ).count()
+
+        if clock_attendance_start_lunch_check == 0:
+            data.append({
+                'rut': 0,
+                'int_rut': 0,
+                'full_name': '',
+                'mark_date': str(date) + ' 00:00:00',
+                'punch': 4,
+                'hours': "0_1",
+                'date': date,
+                'week_id': 1
+            })
+
+        clock_attendance_end_lunch_check = ClockAttendanceModel.query.filter(
+            ClockAttendanceModel.punch == 3,
+            func.date_format(ClockAttendanceModel.mark_date, '%Y-%m-%d') == date
+        ).count()
+
+        if clock_attendance_end_lunch_check == 0:
+            data.append({
+                'rut': 0,
+                'int_rut': 0,
+                'full_name': '',
+                'mark_date': str(date) + ' 00:00:00',
+                'punch': 5,
+                'hours': "0_1",
+                'date': date,
+                'week_id': 1
+            })
+
+        employees = EmployeeModel.query\
+                            .join(UserModel, UserModel.rut == EmployeeModel.rut)\
+                            .add_columns(EmployeeModel.rut, UserModel.visual_rut, EmployeeModel.names, EmployeeModel.father_lastname, EmployeeModel.mother_lastname).all()
+        
+        for employee in employees:
+            status_rut = Helper.search_in_array(data, employee.visual_rut)
+
+            if status_rut == 0:
+                data.append({
+                    'rut': employee.visual_rut,
+                    'int_rut': employee.rut,
+                    'full_name': str(employee.names) +" "+ str(employee.father_lastname) +" "+ str(employee.mother_lastname),
+                    'mark_date': str(date) + ' 00:00:00',
+                    'punch': 5,
+                    'hours': "0_1",
+                    'date': date,
+                    'week_id': 0
+                })
+
+        df = pd.DataFrame(data)
+
+        pivot_table_0 = df.pivot_table(index=['full_name', 'rut', 'int_rut', 'date', 'week_id'], columns='punch', values='hours', aggfunc=lambda x: list(x))
+
+        pivot_table_0 = pivot_table_0.rename(columns={0: 'start', 1: 'end', 4: 'start_lunch', 5: 'end_lunch'})
+
+        new_df = pd.DataFrame(pivot_table_0.to_records())
+
+        new_df['status_1'] = new_df['start'].str[0].str.split('_').str[1]
+        new_df['status_2'] = new_df['end'].str[0].str.split('_').str[1]
+
+        new_df['start'] = new_df['start'].str[0].str.split('_').str[0]
+        new_df['end'] = new_df['end'].str[0].str.split('_').str[0]
+        new_df['start_lunch'] = new_df['start_lunch'].str[0].str.split('_').str[0]
+        new_df['end_lunch'] = new_df['end_lunch'].str[0].str.split('_').str[0]
+
+        new_df['start'] = new_df['start'].fillna(0)
+        new_df['end'] = new_df['end'].fillna(0)
+        new_df['start_lunch'] = new_df['start_lunch'].fillna(0)
+        new_df['end_lunch'] = new_df['end_lunch'].fillna(0)
+        new_df['status_1'] = new_df['status_1'].fillna(0)
+        new_df['status_2'] = new_df['status_2'].fillna(0)
+        new_df['week_id'] = new_df['week_id'].fillna(0)
+        new_df['week_id'] = new_df['week_id'].astype(int)
+
+        new_df = new_df.drop(new_df[(new_df['start'] != '0') & (new_df['end'] == '0') & (new_df['start_lunch'] == '0') & (new_df['end_lunch'] == '0')].index)
+        
+        new_df_sorted = new_df.sort_values(by='int_rut')
+
+        return new_df_sorted
     
     @staticmethod
     def registered_hours_by_week(df):
@@ -318,7 +492,7 @@ class ClockAttendance():
         mark_date = datetime.strptime(mark_date_str, '%Y-%m-%d %H:%M:%S')
         format_mark_date = mark_date.strftime("%Y-%m-%d")
 
-        week = MeshDatum.get_week(data['rut'], format_mark_date)
+        week = MeshDatum.get_week(format_mark_date)
 
         clock_user = ClockUser.get(data['rut'])
         uid = clock_user.uid

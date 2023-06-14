@@ -10,6 +10,7 @@ from app.helpers.whatsapp import Whatsapp
 from app.control_clock_no_marks.control_clock_no_mark import ControlClockNoMark
 from app.helpers.helper import Helper
 from app.clock_attendances.clock_attendance import ClockAttendance
+from app.employees.employee import Employee
 
 clock_attendance = Blueprint("clock_attendances", __name__)
 
@@ -110,3 +111,16 @@ def validate():
             ControlClockNoMark.store(mesh_datum.rut, 1)
 
    return str(format_current_date)
+
+@clock_attendance.route("/clock_attendance/alert/<int:rut>/<date>", methods=['GET'])
+def alert(rut, date):
+   ClockAttendance.alert_employee_about_left_hours(rut, date)
+
+   return redirect(url_for('mesh_data.report_per_days'))
+
+
+@clock_attendance.route("/clock_attendance/register/<int:rut>/<date>", methods=['GET'])
+def register(rut, date):
+   ClockAttendance.alert_employee_about_left_hours(rut, date)
+
+   return redirect(url_for('mesh_data.report_per_days'))

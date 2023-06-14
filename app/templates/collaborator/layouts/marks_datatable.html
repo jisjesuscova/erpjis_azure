@@ -33,8 +33,15 @@
                                         <td>
                                             {% if mark_datum.punch == 0 %}
                                                 <span class="badge badge-primary">Entrada</span>
-                                            {% else %}
-                                                <span class="badge badge-primary">Salida</span>
+                                            {% endif %}
+                                            {% if mark_datum.punch == 1 %}
+                                                <span class="badge badge-success">Salida</span>
+                                            {% endif %}
+                                            {% if mark_datum.punch == 4 %}
+                                                <span class="badge badge-warning">Entrada Colación</span>
+                                            {% endif %}
+                                            {% if mark_datum.punch == 5 %}
+                                                <span class="badge badge-danger">Salida Colación</span>
                                             {% endif %}
                                         </td>
                                         <td>{{ mark_datum['added_date']|datetime("dd-MM-yyyy")  }}</td>

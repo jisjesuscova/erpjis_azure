@@ -4,6 +4,7 @@ from app.mesh_data.mesh_datum import MeshDatum
 from app.total_mesh_data.total_mesh_datum import TotalMeshDatum
 from app.documents_employees.document_employee import DocumentEmployee
 from app.pre_employee_turns.pre_employee_turn import PreEmployeeTurn
+from app.clock_attendances.clock_attendance import ClockAttendance
 
 mesh_datum = Blueprint("mesh_data", __name__)
 
@@ -53,3 +54,14 @@ def delete(document_employee_id, rut, period):
    document_employee_status_id = DocumentEmployee.delete(document_employee_id)
    
    return redirect(url_for('mesh_data.index'))
+
+@mesh_datum.route("/mesh_data/report_per_days", methods=['GET'])
+def report_per_days():
+
+   return render_template('human_resource/mesh_data/report_mesh_data_per_days/report_mesh_data_per_days.html')
+
+@mesh_datum.route("/mesh_data/report_per_days/search", methods=['GET', 'POST'])
+def search_report_per_days():
+   clock_attendances = ClockAttendance.registered_all_punch_hours(request.form)
+
+   return render_template('human_resource/mesh_data/report_mesh_data_per_days/report_mesh_data_per_days.html', clock_attendances = clock_attendances.to_dict(orient='records'))
