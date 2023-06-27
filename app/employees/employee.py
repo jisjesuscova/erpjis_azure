@@ -23,6 +23,12 @@ class Employee():
     
     @staticmethod
     def get_all():
+        employees = EmployeeModel.query.all()
+
+        return employees
+            
+    @staticmethod
+    def get_all():
         employees = EmployeeModel.query.order_by('nickname').all()
 
         return employees

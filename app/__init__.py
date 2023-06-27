@@ -7,6 +7,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager, current_user, logout_user
 from functools import wraps
 from babel.dates import format_datetime
+from app.dash_data.dashboard import Dashboard
 
 app = Flask(__name__)
 app.config.from_object(DevConfig)
@@ -18,6 +19,8 @@ login_manager = LoginManager(app)
 login_manager.init_app(app)
 login_manager.login_view = "auth.login"
 app.jinja_env.filters['datetime'] = format_datetime
+
+dash_app = Dashboard.get(app, '/dash/')
 
 def rol_admin_need(f):
     @wraps(f)

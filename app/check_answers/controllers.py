@@ -1,12 +1,13 @@
 from flask import Blueprint, redirect, request, url_for, flash, render_template
 from flask_login import login_required
-from app import regular_employee_rol_need
+from app import regular_employee_rol_need, dash_app
 from app.dropbox_data.dropbox import Dropbox
 from app.check_answers.check_answer import CheckAnswer
 from app.check_questions.check_question import CheckQuestion
-from app.helpers.file import File
 from app.checks.check import Check
 from app.check_group_question_details.check_group_question_detail import CheckGroupQuestionDetail
+from bs4 import BeautifulSoup
+from app.dash_data.dashboard import Dash
 
 check_answer = Blueprint("check_answers", __name__)
 
@@ -15,6 +16,20 @@ check_answer = Blueprint("check_answers", __name__)
 @regular_employee_rol_need
 def constructor():
    pass
+
+@check_answer.route("/check_answers/dash", methods=['GET'])
+def dash():
+   soup = BeautifulSoup(dash_app.index(), 'html.parser')
+   footer = soup.footer
+
+   return render_template('human_resource/checks/prueba.html', footer=footer)
+
+@check_answer.route("/check_answers/dash4", methods=['GET'])
+def dash2():
+   soup = BeautifulSoup(dash_app.index(), 'html.parser')
+   footer = soup.footer
+
+   return render_template('human_resource/checks/prueba.html', footer=footer)
 
 @check_answer.route("/check_answer/store", methods=['POST'])
 def store():

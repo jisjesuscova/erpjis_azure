@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, request, url_for, flash
+from flask import Blueprint, render_template, redirect, request, url_for, flash, jsonify
 from app.branch_offices.branch_office import BranchOffice
 from app.mesh_data.mesh_datum import MeshDatum
 from app.total_mesh_data.total_mesh_datum import TotalMeshDatum
@@ -67,3 +67,20 @@ def search_report_per_days():
    clock_attendances = ClockAttendance.registered_all_punch_hours(date)
 
    return render_template('human_resource/mesh_data/report_mesh_data_per_days/report_mesh_data_per_days.html', clock_attendances = clock_attendances.to_dict(orient='records'), date = date)
+
+@mesh_datum.route("/mesh_data/report_per_branch_offices", methods=['GET'])
+def report_per_branch_offices():
+   branch_offices = BranchOffice.get()
+
+   return render_template('human_resource/mesh_data/report_per_branch_offices/report_per_branch_offices.html', branch_offices = branch_offices)
+
+@mesh_datum.route("/mesh_data/report_per_branch_office", methods=['GET'])
+def show_report_per_branch_office():
+   return render_template('human_resource/mesh_data/report_per_branch_offices/show_report_per_branch_office.html')
+
+@mesh_datum.route("/mesh_data/get_data_per_branch_office", methods=['GET'])
+def get_data_per_branch_office():
+
+   mesh_data = MeshDatum.all_planned_mesh(80, '06-2023')
+
+   return jsonify(mesh_data)

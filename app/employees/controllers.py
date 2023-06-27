@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, request, url_for, flash
+from flask import Blueprint, render_template, redirect, request, url_for, flash, Response
 from flask_login import login_required
 from app import regular_employee_rol_need
 from app.genders.gender import Gender
@@ -13,6 +13,8 @@ import datetime
 from app.helpers.whatsapp import Whatsapp
 from app.birthdays.birthday import Birthday
 from app.employee_extra_data.employee_extra_datum import EmployeeExtraDatum
+import csv
+import os
 
 employee = Blueprint("employees", __name__)
 
@@ -31,6 +33,29 @@ def index(page=1):
    module_name = 'Recursos Humanos'
 
    return render_template('human_resource/human_resources/employees/employees.html', title = title, module_name = module_name, employees = employees, branch_offices = branch_offices)
+
+@employee.route("/human_resources/employees/export", methods=['GET'])
+def export_employees():
+    employees = Employee.get_all()
+
+    # Define la ruta de archivo deseada para guardar el CSV
+    csv_file_path = "C:\\Users\\jesus\\OneDrive\\Desktop\\erpjis_azure\\app\\static\\files\\csv"
+
+    # Comprueba si el directorio existe, si no, crea el directorio
+    directory = os.path.dirname(csv_file_path)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+    # Crea el escritor CSV
+    with open(csv_file_path, 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(['ID', 'Name'])  # Escribe la fila de encabezado
+
+        # Escribe los datos de los empleados
+        for employee in employees:
+            writer.writerow([employee.id, employee.names])
+
+    return "Archivo CSV guardado en: " + csv_file_path
 
 @employee.route("/human_resources/employees/search/<int:page>", methods=['POST'])
 def search(page=1):

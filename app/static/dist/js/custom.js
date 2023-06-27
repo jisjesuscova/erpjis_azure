@@ -799,7 +799,6 @@ $(document).ready(function () {
 
     $('.accept-address-btn').click(function(event) {
         event.preventDefault();
-        alert(222)
 
         $.ajax({
             url: "/human_resources/contract_data/accept_address/"+$('#numeric_rut').val(),

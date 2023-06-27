@@ -1,7 +1,7 @@
 from flask import request
 from app import db
 from datetime import datetime, timedelta
-from app.models.models import MeshDatumModel, UserModel, TurnModel
+from app.models.models import MeshDatumModel, UserModel, TurnModel, EmployeeLaborDatumModel, EmployeeModel
 from app.employees_turns.employee_turn import EmployeeTurn
 from app.turns.turn import Turn
 from app.helpers.helper import Helper
@@ -24,6 +24,79 @@ class MeshDatum():
             mesh_data = MeshDatumModel.query.filter_by(date=current_date).all()
 
         return mesh_data
+    
+    @staticmethod
+    def test():
+        mesh_data = MeshDatumModel.query.all()
+
+        df = pd.DataFrame(mesh_data)
+
+        return df
+    
+    @staticmethod
+    def all_planned_mesh(branch_office_id, period):
+        mesh_data = MeshDatumModel.query \
+        .join(EmployeeLaborDatumModel, EmployeeLaborDatumModel.rut == MeshDatumModel.rut) \
+        .join(EmployeeModel, EmployeeModel.rut == MeshDatumModel.rut) \
+        .filter(EmployeeLaborDatumModel.branch_office_id == branch_office_id, MeshDatumModel.period == period) \
+        .add_columns(
+            EmployeeModel.names,
+            EmployeeModel.father_lastname,
+            EmployeeModel.mother_lastname,
+            MeshDatumModel.rut,
+            MeshDatumModel.week,
+            MeshDatumModel.date,
+            MeshDatumModel.start,
+            MeshDatumModel.end,
+            MeshDatumModel.period,
+            literal(4).label('status')
+        ) \
+        .order_by(MeshDatumModel.rut) \
+        .all()
+        
+        data = []
+        rut = 0
+        i = 0
+        for datum in mesh_data:
+            split_start_time = Helper.split(str(datum.start), ":")
+            split_end_time = Helper.split(str(datum.end), ":")
+
+            if int(split_start_time[0]) < 10:
+                start_time = '0' + datum.start
+            else:
+                start_time = datum.start
+
+            if int(split_end_time[0]) < 10:
+                end_time = '0' + datum.end
+            else:
+                end_time = datum.end
+
+            if rut != datum.rut:
+                if i == 0:
+                    color = 'red'
+                elif i == 1:
+                    color = 'blue'
+                elif i == 2:
+                    color = '#AFECBC'
+                elif i == 3:
+                    color = '#AFECBC'
+                elif i == 4:
+                    color = '#D1CFC9'
+                elif i == 5:
+                    color = '#D8A7CF'   
+                
+                rut = datum.rut
+                i = i + 1
+
+            data.append({
+                'title': '',
+                'start': str(datum.date) +"T"+ str(start_time),
+                'end': str(datum.date) +"T"+ str(end_time),
+                'color': color,
+                'employee': str(datum.rut) + " " + str(datum.names) +" " + str(datum.father_lastname)
+            })
+
+        return data 
     
     @staticmethod
     def planned_mesh(rut, period):
