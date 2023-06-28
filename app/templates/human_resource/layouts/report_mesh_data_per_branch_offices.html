@@ -1,38 +1,54 @@
 <!-- Main content -->
-<section class="content pt-4">
+<section class="content">
     <div class="container-fluid">
+        <!-- Info boxes -->
         <div class="row">
-            <div class="col-12">
-                <div class="card">
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">
-                            Datos
-                        </h3>
+                        <h3 class="card-title">Buscar</h3>
                     </div>
                     <!-- /.card-header -->
-                    <div class="card-body">
-                        <table id="example2" class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Sucursal</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            {% for branch_office in branch_offices %}
-                                <tbody>
-                                    <tr>
-                                        <td>{{ branch_office.branch_office }}</td>
-                                        <td>
-                                            <a title="Ver Reporte" href="{{ url_for('mesh_data.show_report_per_branch_office', branch_office_id = branch_office.id) }}" class="btn btn-warning">
-                                                <i class="fa fa-eye"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            {% endfor %}
-                        </table>
-                        
-                    </div>
+                    <!-- form start -->
+                    <form role="form" action="{{ url_for('mesh_data.show_report_per_branch_office') }}" method="get">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Sucursal</label>
+                                        <select class="form-control select2 select2-danger" id="branch_office_id" data-dropdown-css-class="select2-danger" style="width: 100%;" name="branch_office_id">
+                                            <option value="">- Seleccionar -</option>
+                                            {% for branch_office in branch_offices %}
+                                                <option  value="{{ branch_office.id }}">{{ branch_office.branch_office }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Periodo</label>
+                                        <select name="period" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;">
+                                             <option value="">- Seleccione -</option>
+                                             {% for year in range(2023, 2031) %}
+                                                 {% for month in range(1, 13) %}
+                                                     {% set value = '{:02d}-{}'.format(month, year) %}
+                                                     <option value="{{ value }}">{{ value }}</option>
+                                                 {% endfor %}
+                                             {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+ 
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Ver</button>
+                        </div>
+                    </form>
+                    <!-- form end -->
                 </div>
             </div>
         </div>

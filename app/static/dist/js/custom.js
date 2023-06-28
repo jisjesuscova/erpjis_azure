@@ -2269,7 +2269,6 @@ $(document).ready(function () {
 
     $('#employee_id').change(function() {
         if ($(this).val() != '') {
-            $(this).prop('disabled', true);
 
             $('#row_question').show();
         }

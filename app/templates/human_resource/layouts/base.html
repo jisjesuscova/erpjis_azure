@@ -53,8 +53,9 @@ https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@6.1.8/index.global.min.js
       slotMaxTime: '23:30:00',
       events: function(info, successCallback, failureCallback) {
         var branchOfficeId = document.getElementById('branch_office_id').value;
+        var period = document.getElementById('period').value;
 
-        fetch('/mesh_data/get_data_per_branch_office/' + branchOfficeId)
+        fetch('/mesh_data/get_data_per_branch_office/' + branchOfficeId + '/' + period)
           .then(function(response) {
             return response.json();
           })

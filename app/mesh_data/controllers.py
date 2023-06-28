@@ -75,16 +75,18 @@ def report_per_branch_offices():
 
    return render_template('human_resource/mesh_data/report_per_branch_offices/report_per_branch_offices.html', branch_offices = branch_offices)
 
-@mesh_datum.route("/mesh_data/report_per_branch_office/<int:branch_office_id>", methods=['GET'])
-def show_report_per_branch_office(branch_office_id):
-   return render_template('human_resource/mesh_data/report_per_branch_offices/show_report_per_branch_office.html', branch_office_id = branch_office_id)
+@mesh_datum.route("/mesh_data/report_per_branch_office", methods=['GET'])
+def show_report_per_branch_office():
+   branch_office_id = request.args.get('branch_office_id')
 
-@mesh_datum.route("/mesh_data/get_data_per_branch_office/<int:branch_office_id>", methods=['GET'])
-def get_data_per_branch_office(branch_office_id):
-   current_date = datetime.datetime.now()
-   formatted_date = current_date.strftime("%m-%Y")
+   period = request.args.get('period')
 
-   mesh_data = MeshDatum.all_planned_mesh(branch_office_id, formatted_date)
+   return render_template('human_resource/mesh_data/report_per_branch_offices/show_report_per_branch_office.html', branch_office_id = branch_office_id, period = period)
+
+@mesh_datum.route("/mesh_data/get_data_per_branch_office/<int:branch_office_id>/<period>", methods=['GET'])
+def get_data_per_branch_office(branch_office_id, period):
+
+   mesh_data = MeshDatum.all_planned_mesh(branch_office_id, period)
 
    return jsonify(mesh_data)
 
