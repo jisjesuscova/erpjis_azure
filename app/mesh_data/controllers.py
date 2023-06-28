@@ -5,6 +5,7 @@ from app.total_mesh_data.total_mesh_datum import TotalMeshDatum
 from app.documents_employees.document_employee import DocumentEmployee
 from app.pre_employee_turns.pre_employee_turn import PreEmployeeTurn
 from app.clock_attendances.clock_attendance import ClockAttendance
+import datetime
 
 mesh_datum = Blueprint("mesh_data", __name__)
 
@@ -74,13 +75,21 @@ def report_per_branch_offices():
 
    return render_template('human_resource/mesh_data/report_per_branch_offices/report_per_branch_offices.html', branch_offices = branch_offices)
 
-@mesh_datum.route("/mesh_data/report_per_branch_office", methods=['GET'])
-def show_report_per_branch_office():
-   return render_template('human_resource/mesh_data/report_per_branch_offices/show_report_per_branch_office.html')
+@mesh_datum.route("/mesh_data/report_per_branch_office/<int:branch_office_id>", methods=['GET'])
+def show_report_per_branch_office(branch_office_id):
+   return render_template('human_resource/mesh_data/report_per_branch_offices/show_report_per_branch_office.html', branch_office_id = branch_office_id)
 
-@mesh_datum.route("/mesh_data/get_data_per_branch_office", methods=['GET'])
-def get_data_per_branch_office():
+@mesh_datum.route("/mesh_data/get_data_per_branch_office/<int:branch_office_id>", methods=['GET'])
+def get_data_per_branch_office(branch_office_id):
+   current_date = datetime.datetime.now()
+   formatted_date = current_date.strftime("%m-%Y")
 
-   mesh_data = MeshDatum.all_planned_mesh(80, '06-2023')
+   mesh_data = MeshDatum.all_planned_mesh(branch_office_id, formatted_date)
 
    return jsonify(mesh_data)
+
+@mesh_datum.route("/mesh_data/report_per_time", methods=['GET'])
+def report_per_time():
+   branch_offices = BranchOffice.get()
+
+   return render_template('human_resource/mesh_data/report_per_time/report_per_time.html', branch_offices = branch_offices)

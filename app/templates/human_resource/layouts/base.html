@@ -31,75 +31,76 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/3.0.7/marked.min.js"></script>
 
 <script src="https://kit.fontawesome.com/6839a22f45.js" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/locale/es.js'></script> 
+<script src="
+https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js
+"></script>
+<script src="
+https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@6.1.8/index.global.min.js
+"></script>
 <script>
-    $(document).ready(function() {
-        $('#calendar').fullCalendar({
-          header: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'agendaWeek'
-          },
-          defaultView: 'agendaWeek',
-          minTime: '07:00:00',
-          maxTime: '23:30:00', 
-          events: function(start, end, timezone, callback) {
-            $.ajax({
-              url: '/mesh_data/get_data_per_branch_office', // Cambia esto por la URL correcta de tu servidor
-              type: 'GET',
-              dataType: 'json',
-              success: function(response) {
-                console.log(response)
-                var eventos = [];
-      
-                // Transforma los datos obtenidos en el formato esperado por FullCalendar
-                for (var i = 0; i < response.length; i++) {
-                  console.log(response[i].color)
-                  var evento = {
-                    title: response[i].title,
-                    start: response[i].start,
-                    end: response[i].end,
-                    color: response[i].color,
-                    employee: response[i].employee
-                  };
-                  eventos.push(evento);
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('report_per_branch_office');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      locale: 'es',
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'timeGridWeek'
+      },
+      initialView: 'timeGridWeek',
+      slotMinTime: '07:00:00',
+      slotMaxTime: '23:30:00',
+      events: function(info, successCallback, failureCallback) {
+        var branchOfficeId = document.getElementById('branch_office_id').value;
+
+        fetch('/mesh_data/get_data_per_branch_office/' + branchOfficeId)
+          .then(function(response) {
+            return response.json();
+          })
+          .then(function(data) {
+            var events = data.map(function(item) {
+              return {
+                title: item.title,
+                start: item.start,
+                end: item.end,
+                backgroundColor: item.color,
+                extendedProps: {
+                  employee: item.employee
                 }
-      
-                callback(eventos);
-              },
-              error: function(xhr, status, error) {
-                console.error(error);
-              }
+              };
             });
-          },
-          // Personalización de la apariencia y la leyenda
-          eventRender: function(event, element) {
-            // Agregar una clase CSS para personalizar los eventos
-            element.addClass('custom-event');
 
-            // Obtener el contenedor de la leyenda
-            var legend = $('#legend');
+            successCallback(events);
+          })
+          .catch(function(error) {
+            console.error(error);
+            failureCallback(error);
+          });
+      },
+      eventDidMount: function(info) {
+        var event = info.event;
+        var legend = document.getElementById('legend');
+        var color = event.backgroundColor;
+        var employee = event.extendedProps.employee;
 
+        var legendItem = legend.querySelector('.legend-item[data-color="' + color + '"]');
+        if (!legendItem) {
+          legendItem = document.createElement('div');
+          legendItem.classList.add('legend-item');
+          legendItem.setAttribute('data-color', color);
 
-            // Verificar si ya existe un elemento para el color del evento
-            var legendItem = legend.find('.legend-item[data-color="' + event.color + '"]');
+          var legendText = document.createElement('div');
+          legendText.classList.add('legend-text');
+          legendText.style.color = color;
+          legendText.textContent = employee;
 
-            if (legendItem.length === 0) {
-              // Si no existe, crear un nuevo elemento para el color del evento
-              legendItem = $('<div class="legend-item">')
-                .attr('data-color', event.color)
-                .appendTo(legend);
-
-              // Crear el texto descriptivo del color dentro del elemento de la leyenda
-              $('<div class="legend-text">')
-                .text(event.employee)
-                .css('color', event.color)
-                .appendTo(legendItem);
-            }
-          }
-        });
+          legendItem.appendChild(legendText);
+          legend.appendChild(legendItem);
+        }
+      }
     });
+
+    calendar.render();
+  });
 </script>

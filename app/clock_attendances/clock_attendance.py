@@ -415,7 +415,7 @@ class ClockAttendance():
                 'int_rut': 0,
                 'full_name': '',
                 'mark_date': str(date) + ' 00:00:00',
-                'punch': 4,
+                'punch': 2,
                 'hours': "0_1",
                 'date': date,
                 'week_id': 1
@@ -432,7 +432,7 @@ class ClockAttendance():
                 'int_rut': 0,
                 'full_name': '',
                 'mark_date': str(date) + ' 00:00:00',
-                'punch': 5,
+                'punch': 3,
                 'hours': "0_1",
                 'date': date,
                 'week_id': 1
@@ -461,7 +461,7 @@ class ClockAttendance():
 
         pivot_table_0 = df.pivot_table(index=['full_name', 'rut', 'int_rut', 'date', 'week_id'], columns='punch', values='hours', aggfunc=lambda x: list(x))
 
-        pivot_table_0 = pivot_table_0.rename(columns={0: 'start', 1: 'end', 3: 'start_lunch', 2: 'end_lunch'})
+        pivot_table_0 = pivot_table_0.rename(columns={0: 'start', 1: 'end', 2: 'start_lunch', 3: 'end_lunch'})
 
         new_df = pd.DataFrame(pivot_table_0.to_records())
 
