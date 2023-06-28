@@ -97,7 +97,7 @@ class MeshDatum():
             })
 
         return data 
-    
+        
     @staticmethod
     def planned_mesh(rut, period):
         mesh_data = MeshDatumModel.query \

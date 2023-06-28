@@ -20,14 +20,20 @@ def index(page=1):
 
 @control_mesh_employee.route("/control_mesh_employee/show/<int:rut>/<period>", methods=['GET'])
 def show(rut, period):
-   mesh_data = MeshDatum.planned_mesh(rut, period)
-   clock_attendances = ClockAttendance.registered_hours(rut, period)
-   total_mesh_clock_data = ClockAttendance.controlled_hours(mesh_data, clock_attendances)
-   mesh_data_grouped_by_week = MeshDatum.planned_mesh_by_week(rut, period)
-   clock_attendances_grouped_by_week = ClockAttendance.registered_hours_by_week(total_mesh_clock_data)
-   total_grouped_by_week = ClockAttendance.controlled_hours_by_week(mesh_data_grouped_by_week, clock_attendances_grouped_by_week)
+   exist_start_end_mark = ClockAttendance.check_exist_marks(rut, period)
 
-   title = "Detalle del Control Tiempo"
-   module_name = "Gestión Tiempo"
-   return render_template('human_resource/control_mesh_employees/show_control_mesh_employee.html', module_name = module_name, title = title, mesh_data = mesh_data.to_dict(orient='records'), clock_attendances = clock_attendances.to_dict(orient='records'), total_mesh_clock_data = total_mesh_clock_data.to_dict(orient='records'), mesh_data_grouped_by_week = mesh_data_grouped_by_week.to_dict(orient='records'), clock_attendances_grouped_by_week = clock_attendances_grouped_by_week.to_dict(orient='records'), total_grouped_by_week = total_grouped_by_week.to_dict(orient='records'))
+   if exist_start_end_mark == 1:
+      mesh_data = MeshDatum.planned_mesh(rut, period)
+      clock_attendances = ClockAttendance.registered_hours(rut, period)
+      total_mesh_clock_data = ClockAttendance.controlled_hours(mesh_data, clock_attendances)
+      mesh_data_grouped_by_week = MeshDatum.planned_mesh_by_week(rut, period)
+      clock_attendances_grouped_by_week = ClockAttendance.registered_hours_by_week(total_mesh_clock_data)
+      total_grouped_by_week = ClockAttendance.controlled_hours_by_week(mesh_data_grouped_by_week, clock_attendances_grouped_by_week)
 
+      title = "Detalle del Control Tiempo"
+      module_name = "Gestión Tiempo"
+      return render_template('human_resource/control_mesh_employees/show_control_mesh_employee.html', module_name = module_name, title = title, mesh_data = mesh_data.to_dict(orient='records'), clock_attendances = clock_attendances.to_dict(orient='records'), total_mesh_clock_data = total_mesh_clock_data.to_dict(orient='records'), mesh_data_grouped_by_week = mesh_data_grouped_by_week.to_dict(orient='records'), clock_attendances_grouped_by_week = clock_attendances_grouped_by_week.to_dict(orient='records'), total_grouped_by_week = total_grouped_by_week.to_dict(orient='records'))
+   else:
+      flash('El trabajador no tiene marcas en el mes.', 'error')
+
+      return redirect(url_for('mesh_data.index'))

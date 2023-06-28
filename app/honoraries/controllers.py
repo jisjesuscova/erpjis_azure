@@ -88,7 +88,7 @@ def update(id):
    else:
       return '0'
 
-@honorary.route("/human_resources/honorary/show/<int:id>", methods=['GET'])
+@honorary.route("/human_resources/honorary/edit/<int:id>", methods=['GET'])
 def edit(id):
    honorary = Honorary.get(id, '')
    regions = Region.get()
@@ -103,7 +103,7 @@ def edit(id):
 
    module_name = "Recursos Humanos"
 
-   return render_template('human_resource/human_resources/honoraries/show_honorary.html', documentation_titles_menu = documentation_titles_menu, employees = employees, honorary_reasons = honorary_reasons, communes = communes, honorary = honorary, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
+   return render_template('human_resource/human_resources/honoraries/honoraries_update.html', documentation_titles_menu = documentation_titles_menu, employees = employees, honorary_reasons = honorary_reasons, communes = communes, honorary = honorary, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
 
 
 @honorary.route("/human_resources/honorary/show/<int:id>", methods=['GET'])
@@ -121,7 +121,7 @@ def show(id):
 
    module_name = "Recursos Humanos"
 
-   return render_template('human_resource/human_resources/honoraries/honoraries_update.html', documentation_titles_menu = documentation_titles_menu, employees = employees, honorary_reasons = honorary_reasons, communes = communes, honorary = honorary, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
+   return render_template('human_resource/human_resources/honoraries/show_honorary.html', documentation_titles_menu = documentation_titles_menu, employees = employees, honorary_reasons = honorary_reasons, communes = communes, honorary = honorary, title = title, module_name = module_name,  branch_offices = branch_offices, regions = regions, banks = banks)
 
 @honorary.route("/human_resources/honorary/delete/<int:id>", methods=['GET'])
 def delete(id):

@@ -99,6 +99,21 @@ class ClockAttendance():
         return str(data)
     
     @staticmethod
+    def check_exist_marks(rut, period):
+        start_mesh_data = ClockAttendanceModel.query \
+            .filter(func.date_format(ClockAttendanceModel.mark_date, '%m-%Y') == period,  ClockAttendanceModel.punch == 0, ClockAttendanceModel.rut == rut) \
+            .count()
+        
+        end_mesh_data = ClockAttendanceModel.query \
+            .filter(func.date_format(ClockAttendanceModel.mark_date, '%m-%Y') == period,  ClockAttendanceModel.punch == 1, ClockAttendanceModel.rut == rut) \
+            .count()
+
+        if start_mesh_data > 0 and end_mesh_data > 0:
+            return 1
+        else:
+            return 0
+        
+    @staticmethod
     def store_as_human_resource(data):
         if data['start'] != '':
             date = Helper.split(str(data['date']), " ")
