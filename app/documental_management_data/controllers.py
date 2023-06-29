@@ -265,7 +265,7 @@ def sign(rut, period, document_employee_id, document_type_id):
 
    with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as temp_file:
       temp_file.write(pdf)
-
+      print(document_type_id)
       if document_type_id == 23:
          file_name = 'Horario_Laboral_' + rut + "_" + period + '.pdf'
 
