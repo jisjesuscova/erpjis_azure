@@ -249,7 +249,6 @@ def sign(rut, period, document_employee_id, document_type_id):
 
    signature_exist = Dropbox.exist('/signature/', employee.signature)
    mesh_data = MeshDatum.get_per_day(rut, period)
-   total_mesh_data = TotalMeshDatum.get(rut, period)
 
    if signature_exist == 1:
    
@@ -265,7 +264,7 @@ def sign(rut, period, document_employee_id, document_type_id):
 
    with tempfile.NamedTemporaryFile(suffix='.pdf', delete=False) as temp_file:
       temp_file.write(pdf)
-      print(document_type_id)
+
       if document_type_id == 23:
          file_name = 'Horario_Laboral_' + rut + "_" + period + '.pdf'
 
@@ -274,7 +273,7 @@ def sign(rut, period, document_employee_id, document_type_id):
       with open(temp_file.name, 'rb') as file:
          dbx.files_upload(file.read(), file_path, mode=dropbox.files.WriteMode.overwrite)
 
-   DocumentEmployee.update_file(id, file_name)
+   DocumentEmployee.update_file(document_employee_id, file_name)
 
    response = make_response(pdf)
    response.headers['Content-Type'] = 'application/pdf'
