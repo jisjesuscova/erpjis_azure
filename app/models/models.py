@@ -61,6 +61,7 @@ class TurnModel(db.Model):
     group_day_id = db.Column(db.Integer)
     free_day_group_id = db.Column(db.Integer)
     employee_type_id = db.Column(db.Integer)
+    visibility_id = db.Column(db.Integer)
     turn = db.Column(db.String(255))
     working = db.Column(db.String(255))
     breaking = db.Column(db.String(255))

@@ -5,10 +5,10 @@ from sqlalchemy import or_, and_
 class Turn():
     def get_by_employee_type_group(employee_type_id, group_id):
         if employee_type_id == 1:
-            turns = TurnModel.query.filter_by(employee_type_id=employee_type_id, group_id=group_id).all()
+            turns = TurnModel.query.filter_by(employee_type_id=employee_type_id, group_id=group_id, visibility_id = 0).all()
         else:
             turns = TurnModel.query.filter(TurnModel.employee_type_id == 2,
-                               TurnModel.group_id == group_id).all()
+                               TurnModel.group_id == group_id, visibility_id = 0).all()
 
         return turns
 
