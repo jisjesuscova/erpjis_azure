@@ -168,7 +168,10 @@ class Helper:
 
     @staticmethod
     def fix_thousands(number):
-        result = "{:,}".format(number).replace(",", ".")
+        if "," in str(number):
+            result = "{:,}".format(number).replace(",", ".")
+        else:
+            result = str(number)
 
         return result
 
