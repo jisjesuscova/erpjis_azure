@@ -96,6 +96,9 @@ $(document).ready(function () {
 
     $("#save_end_document").click(function() {
         var formData = new FormData();
+
+        $('#save_end_document').hide()
+        $('span#loading-icon-signature').show();
         
         if ($('#employee_status_id').val() != '' 
             && $('#causal_id').val() != "" 
