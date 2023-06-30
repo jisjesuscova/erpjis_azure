@@ -527,6 +527,9 @@ class Helper:
             taken_days = 0
             
             for vacation in vacations:
+                print(taken_days)
+                print(vacation.days)
+                print(vacation.no_valid_days)
                 taken_days = taken_days + vacation.days - vacation.no_valid_days
         else:
             vacations = OldVacationModel.query\
