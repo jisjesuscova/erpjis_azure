@@ -527,10 +527,12 @@ class Helper:
             taken_days = 0
             
             for vacation in vacations:
-                print(taken_days)
-                print(vacation.days)
-                print(vacation.no_valid_days)
-                taken_days = taken_days + vacation.days - vacation.no_valid_days
+                if vacation.no_valid_days is None:
+                    no_valid_days = 0
+                else:
+                    no_valid_days = vacation.no_valid_days
+
+                taken_days = taken_days + vacation.days - no_valid_days
         else:
             vacations = OldVacationModel.query\
                         .join(OldDocumentEmployeeModel, OldDocumentEmployeeModel.id == OldVacationModel.document_employee_id)\
@@ -541,7 +543,12 @@ class Helper:
             taken_days = 0
 
             for vacation in vacations:
-                taken_days = taken_days + vacation.days - vacation.no_valid_days
+                if vacation.no_valid_days is None:
+                    no_valid_days = 0
+                else:
+                    no_valid_days = vacation.no_valid_days
+
+                taken_days = taken_days + vacation.days - no_valid_days
 
         return taken_days
 
