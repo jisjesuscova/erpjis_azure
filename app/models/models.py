@@ -67,11 +67,13 @@ class TurnModel(db.Model):
     breaking = db.Column(db.String(255))
     start = db.Column(db.String(255))
     end = db.Column(db.String(255))
-    break_in = db.Column(db.String(255))
-    break_out = db.Column(db.String(255))
     total_week_hours = db.Column(db.String(255))
+    start_entry_time_threshold = db.Column(db.String(255))
     end_entry_time_threshold = db.Column(db.String(255))
+    start_exit_time_threshold = db.Column(db.String(255))
     end_exit_time_threshold = db.Column(db.String(255))
+    start_collation_time_threshold = db.Column(db.String(255))
+    end_collation_time_threshold = db.Column(db.String(255))
     day_hours = db.Column(db.Integer)
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
@@ -87,7 +89,6 @@ class PreEmployeeTurnModel(db.Model):
     period = db.Column(db.String(255))
     added_date = db.Column(db.DateTime())
     updated_date = db.Column(db.DateTime())
-
 
 class BankModel(db.Model):
     __tablename__ = 'banks'

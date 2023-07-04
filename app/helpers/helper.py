@@ -631,8 +631,24 @@ class Helper:
         return end_date
     
     @staticmethod
+    def get_supervisor_number(rut):
+        employee = Employee.get(rut, '')
+
+        # Convertir la fecha inicial a objeto datetime
+        start_datetime = datetime.strptime(start_date, '%Y-%m-%d')
+        
+        # Sumar los días especificados a la fecha inicial
+        end_datetime = (start_datetime + timedelta(days=days)) - timedelta(days=1)
+        
+        # Formatear la fecha final como una cadena 'YYYY-mm-dd'
+        end_date = end_datetime.strftime('%Y-%m-%d')
+        
+        return end_date
+    
+    @staticmethod
     def validate_current_month(start_date):
         current_date = datetime.now()
+        current_date = current_date - timedelta(days=30)
         current_date = current_date + relativedelta(months=1)
         inserted_date = datetime.strptime(start_date, '%Y-%m-%d')
         if inserted_date.month == current_date.month:

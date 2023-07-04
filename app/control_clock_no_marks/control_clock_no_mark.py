@@ -1,8 +1,9 @@
 from flask import request
-from app.models.models import ControlClockNoMarkModel
+from app.models.models import ControlClockNoMarkModel, EmployeeLaborDatumModel, BranchOfficeModel, SupervisorModel, UserModel
 from app import db
 from datetime import datetime
 from sqlalchemy import func
+from flask_login import current_user
 
 class ControlClockNoMark():
     @staticmethod
@@ -10,9 +11,14 @@ class ControlClockNoMark():
         if rut != '':
             control_clock_no_marks = ControlClockNoMarkModel.query.filter_by(rut=rut,status_id=0).all()
         else:
-            control_clock_no_marks = ControlClockNoMarkModel.query.filter_by(status_id=1).all()
+            control_clock_no_marks = ControlClockNoMarkModel.query\
+                                    .join(EmployeeLaborDatumModel, EmployeeLaborDatumModel.rut == ControlClockNoMarkModel.rut)\
+                                    .join(UserModel, UserModel.rut == EmployeeLaborDatumModel.rut)\
+                                    .join(BranchOfficeModel, BranchOfficeModel.id == EmployeeLaborDatumModel.branch_office_id)\
+                                    .join(SupervisorModel, SupervisorModel.branch_office_id == BranchOfficeModel.id)\
+                                    .add_columns(UserModel.visual_rut, UserModel.nickname, ControlClockNoMarkModel.id, ControlClockNoMarkModel.punch, ControlClockNoMarkModel.added_date).filter(ControlClockNoMarkModel.status_id==1, SupervisorModel.rut == current_user.rut).all()
 
-        return control_clock_no_marks
+            return control_clock_no_marks
     
     @staticmethod
     def get_first(rut):

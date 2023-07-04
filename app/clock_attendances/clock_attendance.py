@@ -49,7 +49,21 @@ class ClockAttendance():
                     return 0
                 else:
                     return 1
-            else:
+            elif punch == 2:
+                turn = Turn.get(turn_id)
+                
+                if current_hour > turn.start_collation_time_threshold:
+                    return 0
+                else:
+                    return 1
+            elif punch == 3:
+                turn = Turn.get(turn_id)
+                
+                if current_hour > turn.end_collation_time_threshold:
+                    return 0
+                else:
+                    return 1
+            elif punch == 1:
                 turn = Turn.get(turn_id)
                 
                 if current_hour > turn.end_exit_time_threshold:

@@ -29,12 +29,14 @@ def index(rut, group_id):
 
 @turn.route("/turns/pre_store", methods=['POST'])
 def pre_store():
+
    status = EmployeeTurn.pre_store(request.form)
 
    return json.dumps(status)
 
 @turn.route("/turns/update", methods=['POST'])
 def update():
+
    status = EmployeeTurn.update(request.form)
 
    return json.dumps(status)

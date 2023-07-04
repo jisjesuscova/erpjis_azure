@@ -83,7 +83,8 @@ class EmployeeTurn():
         else:
             validate_status_start_date = Helper.validate_current_month(data['start_date'])
             validate_status_end_date = 0
-
+        print(quantity)
+        print(validate_status_start_date)
         if quantity == 0 and validate_status_start_date == 1:
             if validate_status_end_date == 0:
                 turn = Turn.get(data['turn_id'])

@@ -48,4 +48,4 @@ def review(id):
 
    time = date[1]
 
-   return render_template('human_resource/clocks/review_mark_data.html', clock_no_mark = clock_no_mark, time = time)
+   return render_template('supervisor/clocks/review_mark_data.html', clock_no_mark = clock_no_mark, time = time)
