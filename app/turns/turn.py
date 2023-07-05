@@ -8,7 +8,7 @@ class Turn():
             turns = TurnModel.query.filter_by(employee_type_id=employee_type_id, group_id=group_id, visibility_id = 0).all()
         else:
             turns = TurnModel.query.filter(TurnModel.employee_type_id == 2,
-                               TurnModel.group_id == group_id, visibility_id = 0).all()
+                               TurnModel.group_id == group_id, TurnModel.visibility_id == 0).all()
 
         return turns
 
