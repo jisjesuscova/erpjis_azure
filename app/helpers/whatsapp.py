@@ -697,7 +697,7 @@ class Whatsapp:
                 whatsapp_template = WhatsappTemplate.get(template_type_id)
                 hr_employee = Employee.get(id)
                 employee_labor_datum = EmployeeLaborDatum.get(id)
-                supervisor = Supervisor.get_by_rut(employee_labor_datum.branch_office_id)
+                supervisor = Supervisor.get_by_branch_office_id(employee_labor_datum.branch_office_id)
                 employee_supervisor = Employee.get(supervisor.rut)
 
                 santiago_timezone = pytz.timezone('Chile/Continental')
@@ -711,18 +711,18 @@ class Whatsapp:
                 url = "https://graph.facebook.com/v16.0/101066132689690/messages"
 
                 payload = json.dumps({
-                                    "messaging_product": "whatsapp",
-                                    "to": "56" + employee_supervisor.cellphone,
-                                    "type": "template",
-                                    "template": {
-                                        "name": str(whatsapp_template.whatsapp_template),
-                                        "language": {
-                                        "code": "es"
-                                        },
-                                        "components": [
-                                        {
-                                            "type": "body",
-                                            "parameters": [
+                            "messaging_product": "whatsapp",
+                            "to": "56" + employee_supervisor.cellphone,
+                            "type": "template",
+                            "template": {
+                                "name": str(whatsapp_template.whatsapp_template),
+                                "language": {
+                                    "code": "es"
+                                },
+                                "components": [
+                                    {
+                                        "type": "body",
+                                        "parameters": [
                                             {
                                                 "type": "text",
                                                 "text": employee.nickname
@@ -730,17 +730,17 @@ class Whatsapp:
                                             {
                                                 "type": "text",
                                                 "text": hr_employee.nickname
-                                            }
                                             },
                                             {
                                                 "type": "text",
                                                 "text": current_date
                                             }
-                                            ]
-                                        }
                                         ]
                                     }
-                                })
+                                ]
+                            }
+                        })
+
                 
                 headers = {
                             'Authorization': settings.facebook_token,
@@ -754,7 +754,7 @@ class Whatsapp:
                 whatsapp_template = WhatsappTemplate.get(template_type_id)
                 hr_employee = Employee.get(id)
                 employee_labor_datum = EmployeeLaborDatum.get(id)
-                supervisor = Supervisor.get_by_rut(employee_labor_datum.branch_office_id)
+                supervisor = Supervisor.get_by_branch_office_id(employee_labor_datum.branch_office_id)
                 employee_supervisor = Employee.get(supervisor.rut)
 
                 santiago_timezone = pytz.timezone('Chile/Continental')
@@ -768,18 +768,18 @@ class Whatsapp:
                 url = "https://graph.facebook.com/v16.0/101066132689690/messages"
 
                 payload = json.dumps({
-                                    "messaging_product": "whatsapp",
-                                    "to": "56" + employee_supervisor.cellphone,
-                                    "type": "template",
-                                    "template": {
-                                        "name": str(whatsapp_template.whatsapp_template),
-                                        "language": {
-                                        "code": "es"
-                                        },
-                                        "components": [
-                                        {
-                                            "type": "body",
-                                            "parameters": [
+                            "messaging_product": "whatsapp",
+                            "to": "56" + employee_supervisor.cellphone,
+                            "type": "template",
+                            "template": {
+                                "name": str(whatsapp_template.whatsapp_template),
+                                "language": {
+                                    "code": "es"
+                                },
+                                "components": [
+                                    {
+                                        "type": "body",
+                                        "parameters": [
                                             {
                                                 "type": "text",
                                                 "text": employee.nickname
@@ -787,17 +787,17 @@ class Whatsapp:
                                             {
                                                 "type": "text",
                                                 "text": hr_employee.nickname
-                                            }
                                             },
                                             {
                                                 "type": "text",
                                                 "text": current_date
                                             }
-                                            ]
-                                        }
                                         ]
                                     }
-                                })
+                                ]
+                            }
+                        })
+
                 
                 headers = {
                             'Authorization': settings.facebook_token,
@@ -911,7 +911,7 @@ class Whatsapp:
                 whatsapp_template = WhatsappTemplate.get(template_type_id)
                 hr_employee = Employee.get(id)
                 employee_labor_datum = EmployeeLaborDatum.get(id)
-                supervisor = Supervisor.get_by_rut(employee_labor_datum.branch_office_id)
+                supervisor = Supervisor.get_by_branch_office_id(employee_labor_datum.branch_office_id)
                 employee_supervisor = Employee.get(supervisor.rut)
 
                 santiago_timezone = pytz.timezone('Chile/Continental')
@@ -925,18 +925,18 @@ class Whatsapp:
                 url = "https://graph.facebook.com/v16.0/101066132689690/messages"
 
                 payload = json.dumps({
-                                    "messaging_product": "whatsapp",
-                                    "to": "56" + employee_supervisor.cellphone,
-                                    "type": "template",
-                                    "template": {
-                                        "name": str(whatsapp_template.whatsapp_template),
-                                        "language": {
-                                        "code": "es"
-                                        },
-                                        "components": [
-                                        {
-                                            "type": "body",
-                                            "parameters": [
+                            "messaging_product": "whatsapp",
+                            "to": "56" + employee_supervisor.cellphone,
+                            "type": "template",
+                            "template": {
+                                "name": str(whatsapp_template.whatsapp_template),
+                                "language": {
+                                    "code": "es"
+                                },
+                                "components": [
+                                    {
+                                        "type": "body",
+                                        "parameters": [
                                             {
                                                 "type": "text",
                                                 "text": employee.nickname
@@ -944,17 +944,17 @@ class Whatsapp:
                                             {
                                                 "type": "text",
                                                 "text": hr_employee.nickname
-                                            }
                                             },
                                             {
                                                 "type": "text",
                                                 "text": current_date
                                             }
-                                            ]
-                                        }
                                         ]
                                     }
-                                })
+                                ]
+                            }
+                        })
+
                 
                 headers = {
                             'Authorization': settings.facebook_token,
@@ -968,7 +968,7 @@ class Whatsapp:
                 whatsapp_template = WhatsappTemplate.get(template_type_id)
                 hr_employee = Employee.get(id)
                 employee_labor_datum = EmployeeLaborDatum.get(id)
-                supervisor = Supervisor.get_by_rut(employee_labor_datum.branch_office_id)
+                supervisor = Supervisor.get_by_branch_office_id(employee_labor_datum.branch_office_id)
                 employee_supervisor = Employee.get(supervisor.rut)
 
                 santiago_timezone = pytz.timezone('Chile/Continental')
@@ -982,18 +982,18 @@ class Whatsapp:
                 url = "https://graph.facebook.com/v16.0/101066132689690/messages"
 
                 payload = json.dumps({
-                                    "messaging_product": "whatsapp",
-                                    "to": "56" + employee_supervisor.cellphone,
-                                    "type": "template",
-                                    "template": {
-                                        "name": str(whatsapp_template.whatsapp_template),
-                                        "language": {
-                                        "code": "es"
-                                        },
-                                        "components": [
-                                        {
-                                            "type": "body",
-                                            "parameters": [
+                            "messaging_product": "whatsapp",
+                            "to": "56" + employee_supervisor.cellphone,
+                            "type": "template",
+                            "template": {
+                                "name": str(whatsapp_template.whatsapp_template),
+                                "language": {
+                                    "code": "es"
+                                },
+                                "components": [
+                                    {
+                                        "type": "body",
+                                        "parameters": [
                                             {
                                                 "type": "text",
                                                 "text": employee.nickname
@@ -1001,17 +1001,17 @@ class Whatsapp:
                                             {
                                                 "type": "text",
                                                 "text": hr_employee.nickname
-                                            }
                                             },
                                             {
                                                 "type": "text",
                                                 "text": current_date
                                             }
-                                            ]
-                                        }
                                         ]
                                     }
-                                })
+                                ]
+                            }
+                        })
+
                 
                 headers = {
                             'Authorization': settings.facebook_token,

@@ -90,16 +90,12 @@ def validate():
    mesh_data = MeshDatum.get_by_date(format_current_date)
 
    for mesh_datum in mesh_data:
-      print(mesh_datum)
       check_attendance_id = ClockAttendance.checked_attedance(mesh_datum.rut, format_current_date, 0)
       check_alert_id = Alert.check_alert(mesh_datum.rut, format_current_date, 1)
-      print(check_attendance_id)
-      print(check_alert_id)
       if check_attendance_id == 1 and check_alert_id == 0:
 
          entrance_status = ClockAttendance.validate(mesh_datum.turn_id, format_current_hour, 0)
-         print(entrance_status)
-         print(mesh_datum.turn_id)
+
          if entrance_status == 0:
             Alert.store(mesh_datum.rut, 1)
             Whatsapp.send(mesh_datum.rut, str(1), '', 19)
