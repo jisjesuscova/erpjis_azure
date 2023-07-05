@@ -771,9 +771,7 @@ class Helper:
                     'working': datum.working,
                     'breaking': datum.breaking,
                     'start': datum.start,
-                    'end': datum.end,
-                    'break_in': datum.break_in,
-                    'break_out': datum.break_out,
+                    'end': datum.end
                 })
         elif type == 3:
             for datum in data:
