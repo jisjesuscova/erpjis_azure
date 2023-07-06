@@ -87,7 +87,7 @@ def validate():
    current_hour = datetime.datetime.now(santiago_timezone).time()
    format_current_hour = current_hour.strftime("%H:%M:%S")
 
-   mesh_data = MeshDatum.get_by_date_and_rut('27141399', format_current_date)
+   mesh_data = MeshDatum.get_by_date(format_current_date)
 
    for mesh_datum in mesh_data:
       check_attendance_id = ClockAttendance.checked_attedance(mesh_datum.rut, format_current_date, 0)
