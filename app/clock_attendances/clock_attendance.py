@@ -44,7 +44,8 @@ class ClockAttendance():
         if existence_turn == 1:
             if punch == 0:
                 turn = Turn.get(turn_id)
-
+                print(current_hour)
+                print(turn.end_entry_time_threshold)
                 if current_hour > turn.end_entry_time_threshold:
                     return 0
                 else:

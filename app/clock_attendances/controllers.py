@@ -87,7 +87,7 @@ def validate():
    current_hour = datetime.datetime.now(santiago_timezone).time()
    format_current_hour = current_hour.strftime("%H:%M:%S")
 
-   mesh_data = MeshDatum.get_by_date(format_current_date)
+   mesh_data = MeshDatum.get_by_date_and_rut('27141399', format_current_date)
 
    for mesh_datum in mesh_data:
       check_attendance_id = ClockAttendance.checked_attedance(mesh_datum.rut, format_current_date, 0)
@@ -95,7 +95,7 @@ def validate():
       if check_attendance_id == 1 and check_alert_id == 0:
 
          entrance_status = ClockAttendance.validate(mesh_datum.turn_id, format_current_hour, 0)
-
+         print(entrance_status)
          if entrance_status == 0:
             Alert.store(mesh_datum.rut, 1)
             Whatsapp.send(mesh_datum.rut, str(1), '', 19)
@@ -103,30 +103,30 @@ def validate():
             ControlClockNoMark.store(mesh_datum.rut, 0)
 
       check_attendance_id = ClockAttendance.checked_attedance(mesh_datum.rut, format_current_date, 2)
-      check_alert_id = Alert.check_alert(mesh_datum.rut, format_current_date, 2)
+      check_alert_id = Alert.check_alert(mesh_datum.rut, format_current_date, 3)
 
       if check_attendance_id == 1 and check_alert_id == 0:
 
          exit_status = ClockAttendance.validate(mesh_datum.turn_id, format_current_hour, 2)
 
          if exit_status == 0:
-            Alert.store(mesh_datum.rut, 2)
+            Alert.store(mesh_datum.rut, 3)
             Whatsapp.send(mesh_datum.rut, str(1), '', 25)
             Whatsapp.send(mesh_datum.rut, str(1), '', 27)
-            ControlClockNoMark.store(mesh_datum.rut, 1)
+            ControlClockNoMark.store(mesh_datum.rut, 2)
 
       check_attendance_id = ClockAttendance.checked_attedance(mesh_datum.rut, format_current_date, 3)
-      check_alert_id = Alert.check_alert(mesh_datum.rut, format_current_date, 2)
+      check_alert_id = Alert.check_alert(mesh_datum.rut, format_current_date, 4)
 
       if check_attendance_id == 1 and check_alert_id == 0:
 
          exit_status = ClockAttendance.validate(mesh_datum.turn_id, format_current_hour, 3)
 
          if exit_status == 0:
-            Alert.store(mesh_datum.rut, 2)
+            Alert.store(mesh_datum.rut, 4)
             Whatsapp.send(mesh_datum.rut, str(1), '', 26)
             Whatsapp.send(mesh_datum.rut, str(1), '', 28)
-            ControlClockNoMark.store(mesh_datum.rut, 1)
+            ControlClockNoMark.store(mesh_datum.rut, 3)
 
       check_attendance_id = ClockAttendance.checked_attedance(mesh_datum.rut, format_current_date, 1)
       check_alert_id = Alert.check_alert(mesh_datum.rut, format_current_date, 2)
