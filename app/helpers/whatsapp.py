@@ -40,7 +40,7 @@ class Whatsapp:
                     for employee in employees:
                         user = User.get_by_int_rut(employee['rut'])
 
-                        url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+                        url = "https://graph.facebook.com/v17.0/101066132689690/messages"
 
                         payload = json.dumps({
                                 "messaging_product": "whatsapp",
@@ -112,7 +112,7 @@ class Whatsapp:
 
                 branch_office = BranchOffice.get(send_employee_labor_data.branch_office_id)
 
-                url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+                url = "https://graph.facebook.com/v17.0/101066132689690/messages"
 
                 payload = json.dumps({
                                 "messaging_product": "whatsapp",
@@ -173,7 +173,7 @@ class Whatsapp:
 
                 image = 'http://jisparking.com/public/backend/img/settlement_image.jpeg';
 
-                url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+                url = "https://graph.facebook.com/v17.0/101066132689690/messages"
 
                 payload = json.dumps({
                             "messaging_product": "whatsapp",
@@ -242,7 +242,7 @@ class Whatsapp:
 
                 supervisors = Supervisor.get(employee_labor_datum.branch_office_id)
 
-                url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+                url = "https://graph.facebook.com/v17.0/101066132689690/messages"
 
                 for supervisor in supervisors:
                     supervisor_data = Employee.get(supervisor.rut)
@@ -291,7 +291,7 @@ class Whatsapp:
                 
                 employee = Employee.get(document_employee.rut)
 
-                url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+                url = "https://graph.facebook.com/v17.0/101066132689690/messages"
 
                 payload = json.dumps({
                                 "messaging_product": "whatsapp",
@@ -337,7 +337,7 @@ class Whatsapp:
                 
                 employee = Employee.get(document_employee.rut)
 
-                url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+                url = "https://graph.facebook.com/v17.0/101066132689690/messages"
 
                 payload = json.dumps({
                                 "messaging_product": "whatsapp",
@@ -380,7 +380,7 @@ class Whatsapp:
                 
                 employee = Employee.get(document_employee.rut)
 
-                url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+                url = "https://graph.facebook.com/v17.0/101066132689690/messages"
 
                 payload = json.dumps({
                                 "messaging_product": "whatsapp",
@@ -422,7 +422,7 @@ class Whatsapp:
 
                 employee = Employee.get(id)
 
-                url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+                url = "https://graph.facebook.com/v17.0/101066132689690/messages"
 
                 payload = json.dumps({
                                 "messaging_product": "whatsapp",
@@ -464,7 +464,7 @@ class Whatsapp:
                 for user in users:
                     hr_employee = Employee.get(user.rut)
 
-                    url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+                    url = "https://graph.facebook.com/v17.0/101066132689690/messages"
 
                     payload = json.dumps({
                                     "messaging_product": "whatsapp",
@@ -514,7 +514,7 @@ class Whatsapp:
                 date = Helper.split(current_date, '-')
                 current_date = date[2] + '-' + date[1] + '-' + date[0]
 
-                url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+                url = "https://graph.facebook.com/v17.0/101066132689690/messages"
 
                 payload = json.dumps({
                                     "messaging_product": "whatsapp",
@@ -564,7 +564,7 @@ class Whatsapp:
                 date = Helper.split(current_date, '-')
                 current_date = date[2] + '-' + date[1] + '-' + date[0]
 
-                url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+                url = "https://graph.facebook.com/v17.0/101066132689690/messages"
 
                 payload = json.dumps({
                                     "messaging_product": "whatsapp",
@@ -610,7 +610,7 @@ class Whatsapp:
                 date = Helper.split(date[0], '-')
                 mark_date = date[2] + '-' + date[1] + '-' + date[0]
 
-                url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+                url = "https://graph.facebook.com/v17.0/101066132689690/messages"
 
                 payload = json.dumps({
                                     "messaging_product": "whatsapp",
@@ -660,7 +660,7 @@ class Whatsapp:
                 date = Helper.split(current_date, '-')
                 current_date = date[2] + '-' + date[1] + '-' + date[0]
 
-                url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+                url = "https://graph.facebook.com/v17.0/101066132689690/messages"
 
                 payload = json.dumps({
                                     "messaging_product": "whatsapp",
@@ -708,7 +708,7 @@ class Whatsapp:
                 date = Helper.split(current_date, '-')
                 current_date = date[2] + '-' + date[1] + '-' + date[0]
 
-                url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+                url = "https://graph.facebook.com/v17.0/101066132689690/messages"
 
                 payload = json.dumps({
                             "messaging_product": "whatsapp",
@@ -765,7 +765,7 @@ class Whatsapp:
                 date = Helper.split(current_date, '-')
                 current_date = date[2] + '-' + date[1] + '-' + date[0]
 
-                url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+                url = "https://graph.facebook.com/v17.0/101066132689690/messages"
 
                 payload = json.dumps({
                             "messaging_product": "whatsapp",
@@ -820,7 +820,7 @@ class Whatsapp:
                 date = Helper.split(current_date, '-')
                 current_date = date[2] + '-' + date[1] + '-' + date[0]
 
-                url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+                url = "https://graph.facebook.com/v17.0/101066132689690/messages"
 
                 payload = json.dumps({
                                     "messaging_product": "whatsapp",
@@ -870,7 +870,7 @@ class Whatsapp:
                 date = Helper.split(current_date, '-')
                 current_date = date[2] + '-' + date[1] + '-' + date[0]
 
-                url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+                url = "https://graph.facebook.com/v17.0/101066132689690/messages"
 
                 payload = json.dumps({
                                     "messaging_product": "whatsapp",
@@ -922,7 +922,7 @@ class Whatsapp:
                 date = Helper.split(current_date, '-')
                 current_date = date[2] + '-' + date[1] + '-' + date[0]
 
-                url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+                url = "https://graph.facebook.com/v17.0/101066132689690/messages"
 
                 payload = json.dumps({
                             "messaging_product": "whatsapp",
@@ -979,7 +979,7 @@ class Whatsapp:
                 date = Helper.split(current_date, '-')
                 current_date = date[2] + '-' + date[1] + '-' + date[0]
 
-                url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+                url = "https://graph.facebook.com/v17.0/101066132689690/messages"
 
                 payload = json.dumps({
                             "messaging_product": "whatsapp",
