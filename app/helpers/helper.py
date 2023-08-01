@@ -168,12 +168,32 @@ class Helper:
 
     @staticmethod
     def fix_thousands(number):
-        if "," in str(number):
-            result = "{:,}".format(number).replace(",", ".")
-        else:
-            result = str(number)
+        # Convertimos el número a una cadena para poder trabajar con sus dígitos
+        number_str = str(number)
 
-        return result
+        # Si el número tiene menos de 4 dígitos (es menor a mil), simplemente lo devolvemos tal cual
+        if len(number_str) < 4:
+            return number_str
+
+        # Calculamos la posición donde queremos insertar puntos (desde la derecha hacia la izquierda)
+        insert_position = len(number_str) % 3
+
+        # Creamos una lista para almacenar los caracteres del número con los puntos
+        number_with_dots = []
+
+        # Recorremos cada dígito del número
+        for i, digit in enumerate(number_str):
+            # Insertamos un punto antes de cada grupo de tres dígitos (excepto al principio)
+            if i != 0 and i % 3 == insert_position:
+                number_with_dots.append('.')
+
+            # Agregamos el dígito actual a la lista
+            number_with_dots.append(digit)
+
+        # Unimos la lista de caracteres con los puntos para formar el número con el formato deseado
+        formatted_number = ''.join(number_with_dots)
+
+        return formatted_number
 
     @staticmethod
     def file_name(rut, description):
