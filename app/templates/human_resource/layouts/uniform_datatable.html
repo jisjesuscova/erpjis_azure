@@ -1,0 +1,62 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            Uniforme
+                            {% if is_active == 1 %}
+                                <a href="{{ url_for('uniforms.create', rut=rut) }}" class="btn btn-success">Agregar</a>
+                            {% endif %}
+                        </h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    {% if category == 'error' %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                    {% if category == 'success' %}
+                                        <div class="alert alert-success" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Tipo</th>
+                                    <th>Fecha de Despacho</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            {% for uniform in uniforms %}
+                                <tbody>
+                                    <tr>
+                                        <td>{{ uniform['uniform_type'] }}</td>
+                                        <td>{{ uniform['delivered_date']|datetime("dd-MM-yyyy") }}</td>
+                                        <td>
+                                            {% if is_active == 1 %}
+                                                <a href="{{ url_for('uniforms.delete', rut=rut, id=uniform['id']) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar el registro?')">
+                                                    <i class="fa fa-times"></i>
+                                                </a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

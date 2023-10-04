@@ -1,0 +1,67 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                
+                <div class="alert alert-warning" role="alert">
+                    Si necesita editar algún campo del documento puede hacerlo en el mismo formulario sin rechazarlo
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Revisión del Documento Solicitado</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- form start -->
+                        <form role="form" action="{{ url_for('document_requests.review') }}" method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="exampleInputEmail1">Empleado</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="rut">
+                                            <option value="{{ employee.rut }}<">{{ employee.nickname }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <br>
+                                {% if document_type_id == 6 %}
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Desde</label>
+                                                <input type="date" value="{{ vacation['since'] }}" class="form-control" id="exampleInputEmail1" placeholder="Desde" name="since">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Hasta</label>
+                                                <input type="date" value="{{ vacation['until'] }}" class="form-control" id="exampleInputEmail1" placeholder="Hasta" name="until">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Días No Válidos</label>
+                                                <input type="text" value="0" class="form-control" id="exampleInputEmail1"  name="no_valid_days">
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <input type="hidden" value="{{ document_employee.id }}" class="form-control" id="exampleInputEmail1" name="id">
+
+                            <div class="card-footer">
+                                <input type="hidden" name="answer" value="1">
+                                <input type="hidden" name="document_type_id" value="{{ document_type_id }}">
+                                <button type="submit" class="btn btn-success">Aceptar</button>
+
+                                <a href="{{ url_for('document_requests.reject', id = document_employee.id, type_id = document_employee.document_type_id) }}" class="btn btn-danger">Rechazar</a>
+                            </div>
+                        </form>
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,41 @@
+{% from 'management/macro/_news_pagination.html' import m_pagination %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Datos</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Fecha</th>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        {% for new in news.items %}
+                            <tbody>
+                                <tr>
+                                    <td>{{ new['title'] }}</td>
+                                    <td>{{ new['added_date']|datetime("dd-MM-yyyy")  }}</td>
+                                    <td>
+                                        <a href="{{ url_for('news.delete', id = new['id']) }}" class="btn btn-danger">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        {% endfor %}
+                    </table>
+                    <hr>
+                    {{ m_pagination(news) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,48 @@
+{% from 'macro/_pagination.html' import m_pagination %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Datos</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>principal_id</th>
+                                <th>principal</th>
+                                <td>Opciones</td>
+                            </tr>
+                        </thead>
+                        {% for principal in principal.items %}
+                            <tbody>
+                                <tr>
+                                    <td>{{ principal['principal_id'] }}</td>
+                                    <td>{{ principal['principal'] }}</td>
+                                    <td>
+                                        <a href="{{ url_for('principal.edit') }}/{{ principal['principal_id'] }}" class="btn btn-warning">
+                                            <i class="fa fa-id-card"></i>
+                                        </a>
+                                        <a href="{{ url_for('principal.delete') }}/{{ principal['principal_id'] }}" class="btn btn-danger">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                  
+                                        
+                                    </td>
+                                </tr>
+                            </tbody>
+                        {% endfor %}
+
+                        
+                    </table>
+                    <hr>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,72 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Liquidaciones de Sueldo</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- form start -->
+                        <form role="form" action="{{ url_for('settlement_data.store') }}" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Mes</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="month">
+                                                <option value="">- Seleccionar -</option>
+                                                <option value="1">Enero</option>
+                                                <option value="2">Febrero</option>
+                                                <option value="3">Marzo</option>
+                                                <option value="4">Abril</option>
+                                                <option value="5">Mayo</option>
+                                                <option value="6">Junio</option>
+                                                <option value="7">Julio</option>
+                                                <option value="8">Agosto</option>
+                                                <option value="9">Septiembre</option>
+                                                <option value="10">Octubre</option>
+                                                <option value="11">Noviembre</option>
+                                                <option value="12">Diciembre</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Año</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="year">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for i in range(2023, 2031) %}
+                                                    <option value="{{ i }}">{{ i }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Liquidación</label>
+                                            <input type="file" value="" class="form-control" id="exampleInputEmail1" multiple placeholder="Imagen" name="file">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <!-- /.card-body -->
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Subir</button>
+
+                                <a href="{{ url_for('settlement_data.index') }}" class="btn btn-secondary">Cancelar</a>
+                            </div>
+                        </form>
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

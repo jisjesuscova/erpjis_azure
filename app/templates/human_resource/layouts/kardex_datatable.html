@@ -1,0 +1,68 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            Kardex
+                            {% if is_active == 1 %}
+                                <a href="{{ url_for('kardex_data.create', rut=rut) }}" class="btn btn-success">Agregar</a>
+                            {% endif %}
+                        </h3>
+
+                        <div class="text-right">
+                            <a href="{{ url_for('uniforms.index', rut=rut) }}" class="btn btn-primary">Ir a Uniforme</a> 
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    {% if category == 'error' %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                    {% if category == 'success' %}
+                                        <div class="alert alert-success" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Documento</th>
+                                    <th>Fecha</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            {% for kardex_datum in kardex_data %}
+                                <tbody>
+                                    <tr>
+                                        <td>{{ kardex_datum['document_type'] }}</td>
+                                        <td>{{ kardex_datum['added_date']|datetime("dd-MM-yyyy") }}</td>
+                                        <td>
+                                            <a href="{{ url_for('kardex_data.download', id=kardex_datum['id'], rut=rut) }}" class="btn btn-success">
+                                                <i class="fa fa-arrow-down"></i>
+                                            </a>
+                                            {% if is_active == 1 %}
+                                                <a href="{{ url_for('kardex_data.delete', rut=rut, id=kardex_datum['id']) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar el registro?')">
+                                                    <i class="fa fa-times"></i>
+                                                </a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,46 @@
+{% from 'human_resource/macro/_settlement_data_pagination_search.html' import m_pagination %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Liquidaciones de Sueldo</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>RUT</th>
+                                <th>Empleado</th>
+                                <th>Periodo</th>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        {% for documents_employee in documents_employees %}
+                            <tbody>
+                                <tr>
+                                    <td>{{ documents_employee['visual_rut'] }}</td>
+                                    <td>{{ documents_employee['nickname'] }}</td>
+                                    <td>{{ documents_employee['added_date']|datetime("MM-yyyy")}}</td>
+                                    <td>
+                                        <a href="{{ url_for('settlement_data.uploaded_download', id=documents_employee['id']) }}" class="btn btn-primary">
+                                            <i class="fa fa-arrow-down"></i>
+                                        </a>
+                                        <a href="{{ url_for('settlement_data.delete', rut=documents_employee['rut'], id=documents_employee['id']) }}" class="btn btn-danger">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        {% endfor %}
+                    </table>
+                    <hr>
+                    {{ m_pagination(documents_employees, values) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,42 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            Kardex
+                            <a href="{{ url_for('kardex_data.show') }}/{{ rut }}" class="btn btn-success">Agregar</a>
+                        </h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Documento</th>
+                                <th>Fecha</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        {% for document_employee in documents_employees %}
+                            <tbody>
+                                <tr>
+                                    <td>{{ document_employee['document_type'] }}</td>
+                                    <td>{{ document_employee['added_date'] }}</td>
+                                    <td>
+                                        <a href="{{ url_for('kardex_data.delete') }}/{{ rut }}/{{ document_employee['id']}}" class="btn btn-danger">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        {% endfor %}
+
+                        
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

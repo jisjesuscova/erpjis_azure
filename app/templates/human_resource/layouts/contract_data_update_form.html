@@ -1,0 +1,390 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Datos de Contrato</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    {% if category == 'error' %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                    {% if category == 'success' %}
+                                        <div class="alert alert-success" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                        <div class="alert alert-danger alert-danger-form" style="display:none;" role="alert">
+                            Todos los campos del formulario son <strong>obligatorios</strong>.
+                        </div>
+                        <!-- form start -->
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Tipo de Contrato</label>
+                                        <select class="form-control select2 select2-danger" id="contract_type_id" data-dropdown-css-class="select2-danger" style="width: 100%;" name="contract_type_id">
+                                            <option value="">- Seleccionar -</option>
+                                            {% for contract_type in contract_types %}
+                                                <option {% if contract_type.id == contract_datum.contract_type_id %} selected {% endif %} value="{{ contract_type.id }}">{{ contract_type.contract_type }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Sucursal</label>
+                                        <select class="form-control select2 select2-danger" id="branch_office_id" data-dropdown-css-class="select2-danger" style="width: 100%;" name="branch_office_id">
+                                            <option value="">- Seleccionar -</option>
+                                            {% for branch_office in branch_offices %}
+                                                <option {% if branch_office.id == contract_datum.branch_office_id %} selected {% endif %} value="{{ branch_office.id }}">{{ branch_office.branch_office }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Region</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="region_id" name="region_id">
+                                            <option value="">- Seleccionar -</option>
+                                            {% for region in regions %}
+                                                <option {% if region.id == contract_datum.region_id %} selected {% endif %} value="{{ region.id }}">{{ region.region }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Comuna</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="commune_id" name="commune_id">
+                                            <option value="">- Seleccionar -</option>
+                                            {% for commune in communes %}
+                                                <option {% if commune.id == contract_datum.commune_id %} selected {% endif %} value="{{ commune.id }}">{{ commune.commune }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Dirección</label>
+                                        <input type="text" value="{{ contract_datum.address }}" class="form-control" id="address" placeholder="Dirección" name="address">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Estado Civil</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="civil_state_id" style="width: 100%;" name="civil_state_id">
+                                            <option value="">- Seleccionar -</option>
+                                            {% for civil_state in civil_states %}
+                                                <option {% if civil_state.id == contract_datum.civil_state_id %} selected {% endif %} value="{{ civil_state.id }}">{{ civil_state.civil_state }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Tipo de Jornada</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="employee_type_id" name="employee_type_id">
+                                             <option value="">- Seleccionar -</option>
+                                            {% for employee_type in employee_types %}
+                                                <option {% if employee_type.id == contract_datum.employee_type_id %} selected {% endif %} value="{{ employee_type.id }}">{{ employee_type.employee_type }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Cargo</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="job_position_id" style="width: 100%;" name="job_position_id">
+                                            <option value="">- Seleccionar -</option>
+                                            <option {% if contract_datum.job_position_id == 1 %} selected {% endif %} class="full_time" value="1">Asistente Administrativo</option>
+                                            <option {% if contract_datum.job_position_id == 2 %} selected {% endif %} class="full_time" value="2">Supervisor</option>
+                                            <option {% if contract_datum.job_position_id == 3 %} selected {% endif %} class="full_time" value="3">Gerente General</option>
+                                            <option {% if contract_datum.job_position_id == 4 %} selected {% endif %} class="full_time" value="4">Gerente de Operaciones</option>
+                                            <option {% if contract_datum.job_position_id == 5 %} selected {% endif %} class="full_time" value="5">Personal de Aseo</option>
+                                            <option {% if contract_datum.job_position_id == 6 %} selected {% endif %} class="part_time" value="6">Trabajador Multifuncional Parcial 10 hrs</option>
+                                            <option {% if contract_datum.job_position_id == 7 %} selected {% endif %} class="part_time" value="7">Trabajador Multifuncional Parcial 20 hrs</option>
+                                            <option {% if contract_datum.job_position_id == 8 %} selected {% endif %} class="part_time" value="8">Trabajador Multifuncional Parcial 25 hrs</option>
+                                            <option {% if contract_datum.job_position_id == 9 %} selected {% endif %} class="part_time" value="9">Trabajador Multifuncional Parcial 30 hrs</option>
+                                            <option {% if contract_datum.job_position_id == 10 %} selected {% endif %} class="full_time" value="10">Trabajador Multifuncional</option>
+                                            <option {% if contract_datum.job_position_id == 11 %} selected {% endif %} class="full_time" value="11">Analista Contable</option>
+                                            <option {% if contract_datum.job_position_id == 12 %} selected {% endif %} class="full_time" value="12">Encargado de Sucursal</option>
+                                            <option {% if contract_datum.job_position_id == 13 %} selected {% endif %} class="full_time" value="13">Gerente de Planificación y Control de Gestión</option>
+                                            <option {% if contract_datum.job_position_id == 14 %} selected {% endif %} class="full_time" value="14">Analista Senior de Planificación y Control de Gestión</option>
+                                            <option {% if contract_datum.job_position_id == 15 %} selected {% endif %} class="full_time" value="15">Gerente de Recursos Humanos</option>
+                                            <option {% if contract_datum.job_position_id == 16 %} selected {% endif %} class="full_time" value="16">Técnico en Mantención</option>
+                                            <option {% if contract_datum.job_position_id == 17 %} selected {% endif %} class="full_time" value="17">Prevencionista de Riesgos</option>
+                                            <option {% if contract_datum.job_position_id == 18 %} selected {% endif %} class="full_time" value="18">Analista Junior</option>
+                                            <option {% if contract_datum.job_position_id == 19 %} selected {% endif %} class="full_time" value="19">Encargada de Personal y Remuneraciones</option>
+                                            <option {% if contract_datum.job_position_id == 20 %} selected {% endif %} class="full_time" value="20">Contador General</option>
+                                            <option {% if contract_datum.job_position_id == 21 %} selected {% endif %} class="full_time" value="21">Gerente de Mantencion</option>
+                                            <option {% if contract_datum.job_position_id == 22 %} selected {% endif %} class="full_time" value="22">Jefe de Operaciones</option>
+                                            <option {% if contract_datum.job_position_id == 23 %} selected {% endif %} class="full_time" value="23">Asistente de Recursos Humanos</option>
+                                            <option {% if contract_datum.job_position_id == 24 %} selected {% endif %} class="full_time" value="24">Ingeniero de Proyectos Web</option>
+                                            <option {% if contract_datum.job_position_id == 25 %} selected {% endif %} class="full_time" value="25">Coordinadora de Comunicaciones</option>
+                                            <option {% if contract_datum.job_position_id == 26 %} selected {% endif %} class="full_time" value="26">Diseñador Gráfico</option>
+                                            <option {% if contract_datum.job_position_id == 27 %} selected {% endif %} class="full_time" value="27">Encargada de Área</option>
+                                            <option {% if contract_datum.job_position_id == 28 %} selected {% endif %} class="full_time" value="28">Encargado de Mantención</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">
+                                            Fecha de Contrato
+                                            &nbsp;
+                                            <button type="button" class="btn btn-warning help-button" data-toggle="tooltip" data-placement="top" title="Fecha de inicio del contrato de trabajo">
+                                                <i class="fa-solid fa-question"></i>
+                                            </button>
+                                        </label>
+                                        <input type="date" value="{{ contract_datum.entrance_company }}" class="form-control" id="entrance_company" placeholder="Fecha de Entrada" name="entrance_company">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Sueldo Base</label>
+                                        <input type="text" value="{{ contract_datum.salary }}" class="form-control money_value" id="salary" placeholder="Salario" name="salary">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Colación</label>
+                                        <input type="text" value="{{ contract_datum.collation }}" class="form-control money_value" id="collation" placeholder="Colación" name="collation">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Movilización</label>
+                                        <input type="text" value="{{ contract_datum.locomotion }}" class="form-control money_value" id="locomotion" placeholder="Movilización" name="locomotion">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Regimen Previsional</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="regime_id" name="regime_id">
+                                            <option value="">- Seleccionar -</option>
+                                            <option {% if 1 == contract_datum.regime_id %} selected {% endif %} value="1">AFP</option>
+                                            <option {% if 2 == contract_datum.regime_id %} selected {% endif %} value="2">IPS (Ex-INP)</option>
+                                            <option {% if 3 == contract_datum.regime_id %} selected {% endif %} value="3">Sin Institución Previsional (SIP)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Isapre o Fonasa</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="health_id" name="health_id">
+                                            <option value="">- Seleccionar -</option>
+                                            {% for health in healths %}
+                                                <option {% if health.id == contract_datum.health_id %} selected {% endif %} value="{{ health.id }}">{{ health.health }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Fecha de Entrada a la Salud</label>
+                                        <input type="date" value="{{ contract_datum.entrance_health }}" class="form-control" id="entrance_health" placeholder="Entrada a la Salud" name="entrance_health">
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="row" id="regime_afp">
+                                <div class="col-md-12">
+                                    <hr>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">AFP</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="pention_id" name="pention_id">
+                                            <option value="">- Seleccionar -</option>
+                                            {% for pention in pentions %}
+                                                <option {% if pention.id == contract_datum.pention_id %} selected {% endif %} value="{{ pention.id }}">{{ pention.pention }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Fecha de Entrada a la AFP</label>
+                                        <input type="date" value="{{ contract_datum.entrance_pention }}" value="00-00-0000" class="form-control" id="entrance_pention" placeholder="Fecha Entrada AFP" name="entrance_pention">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Tipo de Pago APV</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="apv_payment_type_id" name="apv_payment_type_id">
+                                            <option {% if 3 == contract_datum.apv_payment_type_id %} selected {% endif %} value="3">Ninguno</option>
+                                            <option {% if 1 == contract_datum.apv_payment_type_id %} selected {% endif %} value="1">$</option>
+                                            <option {% if 2 == contract_datum.apv_payment_type_id %} selected {% endif %} value="2">UF</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Monto de la APV</label>
+                                        <input type="text" value="{{ contract_datum.apv_amount }}" class="form-control" id="apv_amount" placeholder="Monto de la APV" name="apv_amount">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="health_company">
+                                <div class="col-md-12">
+                                    <hr>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Tipo de Pago de Salud</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="health_payment_id" name="health_payment_id">
+                                            <option value="0">- Seleccionar -</option>
+                                            <option {% if 1 == contract_datum.health_payment_id %} selected {% endif %} value="1">$</option>
+                                            <option {% if 2 == contract_datum.health_payment_id %} selected {% endif %} value="2">UF</option>
+                                            <option {% if 3 == contract_datum.health_payment_id %} selected {% endif %} value="3">Ninguno</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Monto Extra Salud</label>
+                                        <input type="text" value="{{ contract_datum.extra_health_amount }}" class="form-control" id="extra_health_amount" placeholder="Monto Extra Salud" name="extra_health_amount">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="hidden" value="{{ contract_datum.rut }}" class="form-control" id="rut" name="rut">
+                            
+                        <!-- /.card-body -->
+                        {% if is_active == 1 %}
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <span class="loading-icon" id="loading-icon" style="display:none;">Cargando...</span>
+                                        <button type="submit" class="btn btn-success update-contract-btn">Actualizar</button>
+
+                                        <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
+                                    </div>
+                                    <div class="col-md-6 text-right">
+                                        <a href="{{ url_for('employee_extra_data.show', rut=rut) }}" class="btn btn-primary">Ir a Datos de Extras</a> 
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            Contrato
+                            {% if is_active == 1 %}
+                                {% if contract_datum.job_position_id == 10 or contract_datum.job_position_id == 9 or contract_datum.job_position_id == 8 or contract_datum.job_position_id == 7 or contract_datum.job_position_id == 6 %}
+                                    <a id="create-contract" href="{{ url_for('contract_data.review', rut=rut) }}" class="btn btn-success">Crear</a>
+                                {% endif %}
+                            {% endif %}
+                        </h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            {% for contract_datum in contract_data %}
+                                <tbody>
+                                    <tr>
+                                        <td>{{ contract_datum['added_date']|datetime("dd-MM-yyyy") }}</td>
+                                        <td>
+                                            {% if contract_datum['support'] is not none %}
+                                                <a href="{{ url_for('contract_data.download', id=contract_datum['id']) }}" class="btn btn-success">
+                                                    <i class="fa fa-arrow-down"></i>
+                                                </a>
+                                            {% else %}
+                                                <a href="{{ url_for('contract_data.upload') }}/{{ contract_datum['id'] }}/{{ rut }}" class="btn btn-success">
+                                                    <i class="fa fa-arrow-up"></i>
+                                                </a>
+                                            {% endif %}
+                                            <a href="{{ url_for('contract_data.document', rut=rut, id=contract_datum['id']) }}" class="btn btn-primary">
+                                                <i class="fa fa-file"></i>
+                                            </a>
+                                            <a href="{{ url_for('contract_data.delete', rut=rut, id=contract_datum['id']) }}" class="btn btn-danger">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            Finiquito
+                            {% if is_active == 1 %}
+                                <a href="{{ url_for('end_documents.create', rut=rut) }}" class="btn btn-success">Crear</a>
+                            {% endif %}
+                        </h3>
+                    </div>
+                    {% if is_active == 0 %}
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th></th>
+                                    </tr>
+                                    {% for end_document in end_documents %}
+                                        <tr>
+                                            <td>{{ end_document['added_date']|datetime("dd-MM-yyyy") }}</td>
+                                            <td>
+                                                {% if end_document['status_id'] == 3  %}
+                                                    <a href="{{ url_for('end_documents.upload', id=end_document['document_employee_id'], rut=rut) }}" class="btn btn-success">
+                                                        <i class="fa fa-arrow-up"></i>
+                                                    </a>
+                                                {% else  %}
+                                                    <a href="{{ url_for('end_documents.download', id=end_document['document_employee_id'], rut=rut) }}" class="btn btn-primary">
+                                                        <i class="fa fa-arrow-down"></i>
+                                                    </a>
+                                                {% endif %}
+
+                                                <a href="{{ url_for('end_documents.document', id=end_document['id'], rut=rut) }}" class="btn btn-warning">
+                                                    <i class="fa fa-file"></i>
+                                                </a>
+
+                                                <a href="{{ url_for('end_documents.delete', end_document_id=end_document['id'], document_employee_id=end_document['document_employee_id'], rut=rut) }}" class="btn btn-danger">
+                                                    <i class="fa fa-times"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </thead>
+                            </table>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

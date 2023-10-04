@@ -1,0 +1,52 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Buscar</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- form start -->
+                        <form role="form" action="{{ url_for('calculation_values.store') }}" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Mes</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="month">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for month in months %}
+                                                    <option {% if month.id == period_month %} selected {% endif %} value="{{ month.id }}">{{ month.month }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Año</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="year">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for year in years %}
+                                                    <option {% if year.year == period_year %} selected {% endif %} value="{{ year.year }}">{{ year.year }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                            
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Calcular</button>
+                            </div>
+                        </form>
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

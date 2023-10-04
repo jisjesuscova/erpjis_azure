@@ -1,0 +1,68 @@
+{% from 'macro/_pagination.html' import m_pagination %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Datos</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Tipo de Documento</th>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        {% if current_user.rol_id == 1 %}
+                            <tbody>
+                                <tr>
+                                    <td>Certificado de Antigüedad</td>
+                                    <td>
+                                        <a href="{{ url_for('document_requests.show') }}/2" class="btn btn-warning">
+                                            <i class="fa fa-arrow-right"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr>
+                                    <td>Papeleta de Vacaciones</td>
+                                    <td>
+                                        <a href="{{ url_for('document_requests.show') }}/4" class="btn btn-warning">
+                                            <i class="fa fa-arrow-right"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr>
+                                    <td>Horario Laboral</td>
+                                    <td>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        {% else %}
+                            {% for document_type in document_types %}
+                                <tbody>
+                                    <tr>
+                                        <td>{{ document_type['document_type'] }}</td>
+                                        <td>
+                                            <a href="{{ url_for('document_requests.show') }}/{{ document_type['id'] }}" class="btn btn-warning">
+                                                <i class="fa fa-arrow-right"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                        {% endif %}
+                    </table>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

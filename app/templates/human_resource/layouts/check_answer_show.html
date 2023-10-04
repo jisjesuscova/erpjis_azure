@@ -1,0 +1,24 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <span><font class="new_title">{{ check_question['question'] }}</font></span>
+                <hr>
+                <img src="{{ url_for("static", filename="dist/files/check_data/"+check_answer.support) }}" class="slider">
+                <hr>
+                <h3>¿Cumple o no?</h3>
+                <p class="new_description">
+                    {% if check_answer['answer_id'] == 1 %}
+                        Si
+                    {% else %}
+                        No
+                    {% endif %}
+                </p>
+                <hr>
+                <h3>Descripción</h3>
+                <p class="new_description">{{ check_answer['description'] }}</p>
+            </div>
+        </div>
+        
+    </div>
+</section>

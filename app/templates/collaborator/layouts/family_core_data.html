@@ -1,0 +1,47 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            Nucleo Familiar
+                        </h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>RUT</th>
+                                <th>Nombre</th>
+                                <th>Fecha de Nacimiento</th>
+                                <th>Parentesco</th>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        {% for family_core_datum in family_core_data %}
+                            <tbody>
+                                <tr>
+                                    <td>{{ family_core_datum['rut'] }}</td>
+                                    <td>{{ family_core_datum['names'] }} {{ family_core_datum['father_lastname'] }} {{ family_core_datum['mother_lastname'] }}</td>
+                                    <td>{{ family_core_datum['born_date']|datetime("dd-MM-yyyy") }}</td>
+                                    <td>{{ family_core_datum['family_type'] }}</td>
+                                    <td>
+                                        {% if family_core_datum['support']|length != 0  %}
+                                            <a href="{{ url_for('family_core_data.download', id=family_core_datum['id']) }}" class="btn btn-warning">
+                                                <i class="fa fa-arrow-down"></i>
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        {% endfor %}
+
+                        
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

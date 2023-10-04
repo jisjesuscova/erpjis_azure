@@ -1,0 +1,51 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Agregar Documento</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- form start -->
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Tipo de Documento</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="document_type_id" style="width: 100%;" name="document_type_id">
+                                            <option value="">- Seleccionar -</option>
+                                            {% for document_type in document_types %}
+                                                <option value="{{ document_type.id }}">{{ document_type.document_type }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Archivo</label>
+                                        <input type="file" value="" class="form-control" id="file" placeholder="Imagen" name="file">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+
+                        <input type="hidden" value="{{ rut }}" class="form-control" id="rut" name="rut">
+                            
+                        <div class="card-footer">
+                            <span class="loading-icon" id="loading-icon" style="display:none;">Cargando...</span>
+
+                            <button type="button" class="btn btn-primary create-kardex-data-btn">Guardar</button>
+
+                            <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,93 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        {% if status_id == 1 %}
+            <div class="row">
+                <div class="col-md-4">
+                
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3>{{ legal }}</h3>
+                            <p>Feriado Legal</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-plane"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            <h3>{{ taken_days }}</h3>
+                            <p>Días Tomados</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-hand"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>{{ balance }}</h3>
+                            <p>Saldo</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-piggy-bank"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            Vacaciones
+                        </h3>
+                    </div>
+                    
+                        
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Desde</th>
+                                    <th>Hasta</th>
+                                    <th>Días</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            {% for vacation in vacations %}
+                                <tbody>
+                                    <tr>
+                                        <td>{{ vacation['since']|datetime("dd-MM-yyyy") }}</td>
+                                        <td>{{ vacation['until']|datetime("dd-MM-yyyy") }}</td>
+                                        <td>{{ vacation['days']-vacation['no_valid_days'] }}</td>
+                                        <td>
+                                            {% if vacation['status_id'] == 4  %}
+                                                <a href="{{ url_for('document_requests.download', id=vacation['document_employee_id']) }}" class="btn btn-warning">
+                                                    <i class="fa fa-arrow-down"></i>
+                                                </a>
+                                            {% endif %}
+                                            {% if status_id == 1 %}
+                                                {% if vacation['status_id'] == 3  %}
+                                                    <a href="{{ url_for('documental_management_data.signed', rut=vacation['rut'], id=vacation['document_employee_id']) }}" class="btn btn-success">
+                                                        <i class="fa fa-arrow-up"></i>
+                                                    </a>
+                                                {% endif %}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</section>

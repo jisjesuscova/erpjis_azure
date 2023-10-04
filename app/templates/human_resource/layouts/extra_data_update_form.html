@@ -1,0 +1,194 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Datos Extras</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    {% if category == 'error' %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                    {% if category == 'success' %}
+                                        <div class="alert alert-success" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                        <div class="alert alert-danger alert-danger-form" style="display:none;" role="alert">
+                            Todos los campos del formulario son <strong>obligatorios</strong>.
+                        </div>
+                        <div class="alert alert-danger alert-danger-404-form" style="display:none;" role="alert">
+                            Error al procesar el formulario. Por favor haga click en Actualizar nuevamente.
+                        </div>
+                        <!-- form start -->
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">
+                                            Zona Extrema
+                                            &nbsp;
+                                            <button type="button" class="btn btn-warning help-button" data-toggle="tooltip" data-placement="top" title="Si el empleado pertenece a una zona extrema reconocida, seleccionar Si">
+                                                <i class="fa-solid fa-question"></i>
+                                            </button>
+                                        </label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="extreme_zone_id" name="extreme_zone_id">
+                                            <option value="">- Seleccionar -</option>
+                                            <option {% if 1 == employee_extra_datum.extreme_zone_id %} selected {% endif %} value="1">Si</option>
+                                            <option {% if 2 == employee_extra_datum.extreme_zone_id or employee_extra_datum.extreme_zone_id == None %} selected {% endif %} value="2">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Tipo de Empleado</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="employee_type_id" name="employee_type_id">
+                                            <option value="">- Seleccionar -</option>
+                                            <option {% if 1 == employee_extra_datum.employee_type_id %} selected {% endif %} value="1">Activo</option>
+                                            <option {% if 2 == employee_extra_datum.employee_type_id %} selected {% endif %} value="2">Pensionado y Cotiza</option>
+                                            <option {% if 3 == employee_extra_datum.employee_type_id %} selected {% endif %} value="3">Pensionado y No Cotiza</option>
+                                            <option {% if 4 == employee_extra_datum.employee_type_id %} selected {% endif %} value="4">Activo > 65 Años (Nunca Pensionado)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Subsidio Empleo Jovén</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="young_job_status_id" name="young_job_status_id">
+                                            <option {% if 2 == employee_extra_datum.young_job_status_id or employee_extra_datum.young_job_status_id == None %} selected {% endif %} value="2">No</option>
+                                            <option {% if 1 == employee_extra_datum.young_job_status_id %} selected {% endif %} value="1">Si</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Goce de Sueldo</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="be_paid_id" name="be_paid_id">
+                                            <option {% if 1 == employee_extra_datum.be_paid_id or employee_extra_datum.be_paid_id == None %} selected {% endif %} value="1">Si</option>
+                                            <option {% if 2 == employee_extra_datum.be_paid_id %} selected {% endif %} value="2">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Invalidez</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="disability_id" name="disability_id">
+                                            <option value="">- Seleccionar -</option>
+                                            <option {% if 0 == employee_extra_datum.disability_id %} selected {% endif %} value="0">No</option>
+                                            <option {% if 1 == employee_extra_datum.disability_id %} selected {% endif %} value="1">Discapacidad Certificada por la Compin</option>
+                                            <option {% if 2 == employee_extra_datum.disability_id %} selected {% endif %} value="2">Asignatario Pensión por Invalidez Total</option>
+                                            <option {% if 3 == employee_extra_datum.disability_id %} selected {% endif %} value="3">Pensionado con Invalidez Parcial</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">
+                                            Aporte SIS
+                                            &nbsp;
+                                            <button type="button" class="btn btn-warning help-button" data-toggle="tooltip" data-placement="top" title="Todo excepto los mayores de 65 años y pensionados totales">
+                                                <i class="fa-solid fa-question"></i>
+                                            </button>
+                                        </label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="pensioner_id" name="pensioner_id">
+                                            <option value="">- Seleccionar -</option>
+                                            <option {% if 1 == employee_extra_datum.pensioner_id %} selected {% endif %} value="1">Si</option>
+                                            <option {% if 2 == employee_extra_datum.pensioner_id %} selected {% endif %} value="2">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">¿Tiene seguro complementario? <font class="example_input_form">Ejemplo: Metlife.</font></label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="suplemental_health_insurance_id" name="suplemental_health_insurance_id">
+                                            <option value="">- Seleccionar -</option>
+                                            <option {% if 1 == employee_extra_datum.suplemental_health_insurance_id %} selected {% endif %} value="1">Si</option>
+                                            <option {% if 2 == employee_extra_datum.suplemental_health_insurance_id or employee_extra_datum.suplemental_health_insurance_id == None %} selected {% endif %} value="2">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">
+                                            Vacaciones Progresivas
+                                            &nbsp;
+                                            <button type="button" class="btn btn-warning help-button" data-toggle="tooltip" data-placement="top" title="Ingrese SI siempre y cuando exista certificado de vacaciones progresivas">
+                                                <i class="fa-solid fa-question"></i>
+                                            </button>
+                                        </label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="progressive_vacation_status_id" id="progressive_vacation_status_id">
+                                            <option value="">- Seleccionar -</option>
+                                            <option {% if 1 == employee_extra_datum.progressive_vacation_status_id %} selected {% endif %} value="1">Si</option>
+                                            <option {% if 2 == employee_extra_datum.progressive_vacation_status_id %} selected {% endif %} value="2">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 progressive_vacation_date">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">
+                                            Fecha de Vacaciones Progresivas
+                                            &nbsp;
+                                            <button type="button" class="btn btn-warning help-button" data-toggle="tooltip" data-placement="top" title="Recuerde que si el empleado le entrega el documento antes de que haya cumplido 3 años en la empresa debe colocar como fecha el momento que cumpliria 3 años. Es decir que si el empleado entra en el 01-01-2015 y le hace entrega del documento, debe colocar 01-01-2018">
+                                                <i class="fa-solid fa-question"></i>
+                                            </button>
+                                        </label>
+                                        <input type="date" value="{{ employee_extra_datum.progressive_vacation_date }}" class="form-control" id="progressive_vacation_date_value" placeholder="Fecha de Vacaciones Progresivas" name="progressive_vacation_date">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row progressive_vacation_date">
+                                
+                                <div class="col-md-4" id="progressive_vacation_date">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">
+                                            Años que se Reconocen
+                                            &nbsp;
+                                            <button type="button" class="btn btn-warning help-button" data-toggle="tooltip" data-placement="top" title="En este campo ingrese los años del certificado de vacaciones progresivas">
+                                                <i class="fa-solid fa-question"></i>
+                                            </button>
+                                        </label>
+                                        <input type="number" value="{{ employee_extra_datum.recognized_years }}" min="1" max="10" class="form-control" id="recognized_years" placeholder="Años que se Reconocen" name="recognized_years">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% if is_active == 1 %}
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input type="hidden" value="{{ rut }}" class="form-control" id="rut" name="id">
+                                        <span class="loading-icon" id="loading-icon" style="display:none;">Cargando...</span>
+                                        <button type="submit" class="btn btn-success update-extra-data-btn">Actualizar</button>
+
+                                        <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
+                                    </div>
+                                    <div class="col-md-6 text-right">
+                                        <a href="{{ url_for('family_core_data.index', rut=rut) }}" class="btn btn-primary">Ir a Datos de Nucleo Familiar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

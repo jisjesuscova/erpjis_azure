@@ -1,0 +1,227 @@
+from flask import Blueprint, request, render_template, redirect, url_for, flash, session, jsonify
+from flask_login import login_required, current_user
+from app import regular_employee_rol_need
+from app.clock_attendances.clock_attendance import ClockAttendance
+from app.mesh_data.mesh_datum import MeshDatum
+import pytz
+import datetime
+from app.alerts.alert import Alert
+from app.helpers.whatsapp import Whatsapp
+from app.control_clock_no_marks.control_clock_no_mark import ControlClockNoMark
+from app.helpers.helper import Helper
+from app.clock_attendances.clock_attendance import ClockAttendance
+from app.employees.employee import Employee
+
+clock_attendance = Blueprint("clock_attendances", __name__)
+
+@clock_attendance.before_request
+def constructor():
+   if request.endpoint == 'clock_attendances.special_store' or request.endpoint == 'clock_attendances.mark':
+      if not current_user.is_authenticated:
+            return redirect(url_for('login'))
+
+@clock_attendance.route("/clock_attendance/store", methods=['GET'])
+def store():
+   data = ClockAttendance.store(request.form)
+
+   return str(data)
+
+@clock_attendance.route("/clock_attendance/special_store", methods=['POST'])
+def special_store():
+   
+   date = Helper.split(request.form['added_date'], '-')
+   date = date [2] +"-"+ date [1] +"-"+ date [0]
+   mark_date = date + ' ' + request.form['mark_hour']
+   ClockAttendance.special_store(request.form, mark_date)
+   ControlClockNoMark.update(request.form['id'], mark_date)
+
+   flash('Usted ha marcado correctamente')
+
+   return redirect(url_for('clock_attendances.mark'))
+
+@clock_attendance.route("/clock_attendance/check", methods=['POST'])
+def check():
+   if request.form['status_id'] == '2':
+      ControlClockNoMark.update_status(request.form['id'], 2)
+
+      flash('Usted ha aceptado la marca', 'success')
+   else:
+      Whatsapp.send(request.form['rut'], str(1), '', 21)
+
+      ControlClockNoMark.delete(request.form['id'])
+
+      clock_attendance = ClockAttendance.get_by_mark_date(request.form['rut'], request.form['mark_date'])
+
+      ClockAttendance.delete(clock_attendance.id)
+
+      flash('Usted ha rechazado la marca', 'success')
+
+   return redirect(url_for('clock_attendances.mark'))
+
+
+@clock_attendance.route("/clock_attendance/mark", methods=['GET'])
+def mark(): 
+   if current_user.rol_id == 1:
+      title = "Marcas faltantes"
+
+      module_name = "Gestión tiempo"
+
+      mark_data = ControlClockNoMark.get(current_user.rut)
+
+      return render_template('collaborator/clocks/mark_data.html', mark_data = mark_data, title = title, module_name = module_name)
+   else:
+      title = "Marcas faltantes de Trabajador"
+
+      module_name = "Gestión tiempo"
+
+      mark_data = ControlClockNoMark.get()
+
+      return render_template('supervisor/clocks/mark_data.html', mark_data = mark_data, title = title, module_name = module_name)
+
+@clock_attendance.route("/clock_attendance/create_mark", methods=['GET'])
+def create_mark():
+   employees = Employee.get_all()
+
+   title = "Crear Marca"
+   module_name = "Gestión Tiempo"
+   
+   return render_template('human_resource/clocks/create_mark.html', module_name = module_name, title = title, employees = employees)
+
+@clock_attendance.route("/clock_attendance/validate", methods=['GET'])
+def validate():
+   santiago_timezone = pytz.timezone('Chile/Continental')
+   current_date = datetime.datetime.now(santiago_timezone).date()
+   format_current_date = current_date.strftime("%Y-%m-%d")
+
+   current_hour = datetime.datetime.now(santiago_timezone).time()
+   format_current_hour = current_hour.strftime("%H:%M:%S")
+
+   mesh_data = MeshDatum.get_by_date(format_current_date)
+
+   for mesh_datum in mesh_data:
+      check_attendance_id = ClockAttendance.checked_attedance(mesh_datum.rut, format_current_date, 0)
+      check_alert_id = Alert.check_alert(mesh_datum.rut, format_current_date, 1)
+      if check_attendance_id == 1 and check_alert_id == 0:
+
+         entrance_status = ClockAttendance.validate(mesh_datum.turn_id, format_current_hour, 0)
+         print(entrance_status)
+         if entrance_status == 0:
+            Alert.store(mesh_datum.rut, 1)
+            Whatsapp.send(mesh_datum.rut, str(1), '', 19)
+            Whatsapp.send(mesh_datum.rut, str(1), '', 23)
+            ControlClockNoMark.store(mesh_datum.rut, 0)
+
+      check_attendance_id = ClockAttendance.checked_attedance(mesh_datum.rut, format_current_date, 2)
+      check_alert_id = Alert.check_alert(mesh_datum.rut, format_current_date, 3)
+
+      if check_attendance_id == 1 and check_alert_id == 0:
+
+         exit_status = ClockAttendance.validate(mesh_datum.turn_id, format_current_hour, 2)
+
+         if exit_status == 0:
+            Alert.store(mesh_datum.rut, 3)
+            Whatsapp.send(mesh_datum.rut, str(1), '', 25)
+            Whatsapp.send(mesh_datum.rut, str(1), '', 27)
+            ControlClockNoMark.store(mesh_datum.rut, 2)
+
+      check_attendance_id = ClockAttendance.checked_attedance(mesh_datum.rut, format_current_date, 3)
+      check_alert_id = Alert.check_alert(mesh_datum.rut, format_current_date, 4)
+
+      if check_attendance_id == 1 and check_alert_id == 0:
+
+         exit_status = ClockAttendance.validate(mesh_datum.turn_id, format_current_hour, 3)
+
+         if exit_status == 0:
+            Alert.store(mesh_datum.rut, 4)
+            Whatsapp.send(mesh_datum.rut, str(1), '', 26)
+            Whatsapp.send(mesh_datum.rut, str(1), '', 28)
+            ControlClockNoMark.store(mesh_datum.rut, 3)
+
+      check_attendance_id = ClockAttendance.checked_attedance(mesh_datum.rut, format_current_date, 1)
+      check_alert_id = Alert.check_alert(mesh_datum.rut, format_current_date, 2)
+
+      if check_attendance_id == 1 and check_alert_id == 0:
+
+         exit_status = ClockAttendance.validate(mesh_datum.turn_id, format_current_hour, 1)
+
+         if exit_status == 0:
+            Alert.store(mesh_datum.rut, 2)
+            Whatsapp.send(mesh_datum.rut, str(1), '', 20)
+            Whatsapp.send(mesh_datum.rut, str(1), '', 24)
+            ControlClockNoMark.store(mesh_datum.rut, 1)
+
+   return str(format_current_date)
+
+@clock_attendance.route("/clock_attendance/alert/<int:rut>/<date>", methods=['GET'])
+def alert(rut, date):
+   ClockAttendance.alert_employee_about_left_hours(rut, date)
+
+   return redirect(url_for('mesh_data.report_per_days'))
+
+@clock_attendance.route("/clock_attendance/register/<int:rut>/<date>", methods=['GET'])
+def register(rut, date):
+   clock_attendances = ClockAttendance.user_registered_all_punch_hours(rut, date)
+
+   return render_template('human_resource/mesh_data/report_mesh_data_per_days/edit_mesh_data_per_days.html', clock_attendances = clock_attendances.to_dict(orient='records'))
+
+@clock_attendance.route("/clock_attendance/store_as_human_resource", methods=['POST'])
+def store_as_human_resource():
+   ClockAttendance.store_as_human_resource(request.form)
+
+   flash('Usted le ha marcado correctamente las horas al trabajador', 'success')
+
+   return redirect(url_for('mesh_data.report_per_days'))
+
+@clock_attendance.route("/clock_attendance/store_mark", methods=['POST'])
+def store_mark():
+   ClockAttendance.store_mark(request.form)
+
+   return redirect(url_for('mesh_data.report_per_days'))
+
+@clock_attendance.route("/clock_attendance/mark_per_day", methods=['GET'])
+@clock_attendance.route("/clock_attendance/mark_per_day/<int:page>", methods=['GET'])
+def mark_per_day(page=1):
+   title = 'Reporte de Marcas por Día'
+
+   module_name = "Gestión tiempo"
+
+   clock_attendances = ClockAttendance.get_all(page)
+
+   return render_template('human_resource/clocks/mark_data_per_day.html', title = title, module_name = module_name, clock_attendances = clock_attendances)
+
+@clock_attendance.route("/clock_attendance/delete_mark/<int:id>", methods=['GET'])
+def delete_mark(id):
+   ClockAttendance.delete(id)
+
+   flash('Se ha borrado con éxito la marca del empleado.', 'success')
+
+   return redirect(url_for('clock_attendances.mark_per_day'))
+
+@clock_attendance.route("/clock_attendance/edit_mark/<int:id>", methods=['GET'])
+def edit_mark(id):
+   title = 'Editar de Marca'
+
+   module_name = "Gestión tiempo"
+
+   employees = Employee.get_all()
+
+   return render_template('human_resource/clocks/edit_mark.html', title = title, module_name = module_name, clock_attendance = ClockAttendance.get_first(id), employees = employees)
+
+@clock_attendance.route("/clock_attendance/update_mark/<int:id>", methods=['POST'])
+def update_mark(id):
+   ClockAttendance.update_mark(request.form, id)
+
+   flash('Usted ha actualizado con éxito la marca del empleado.', 'success')
+
+   return redirect(url_for('clock_attendances.mark_per_day'))
+
+@clock_attendance.route("/clock_attendance/search", methods=['GET', 'POST'])
+@clock_attendance.route("/clock_attendance/search/<int:page>", methods=['GET', 'POST'])
+def search(page=1):
+   title = 'Reporte de Marcas por Día'
+
+   module_name = "Gestión tiempo"
+
+   clock_attendances = ClockAttendance.get_all_by_search(request.form, page)
+
+   return render_template('human_resource/clocks/mark_data_per_day.html', title = title, module_name = module_name, clock_attendances = clock_attendances)

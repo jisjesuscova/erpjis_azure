@@ -1,0 +1,59 @@
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Responder Pregunta 1</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- form start -->
+                        <form role="form" action="{{ url_for('check_answers.store') }}" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">¿Cumple o no?</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="answer_id" required>
+                                                <option value="">- Seleccionar -</option>
+                                                <option value="1">Si</option>
+                                                <option value="2">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Descripción</label>
+                                            <input type="text" value="" class="form-control" id="exampleInputEmail1" placeholder="Descripción" name="description" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Foto</label>
+                                            <input type="file" value="" class="form-control" id="exampleInputEmail1" placeholder="Imagen" name="file" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <input type="hidden" value="{{ check_id }}" name="check_id">
+                                <input type="hidden" value="{{ check_question_id }}" name="check_question_id">
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+
+                                <a href="{{ url_for('checks.index') }}" class="btn btn-secondary">Cancelar</a>
+                            </div>
+                        </form>
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

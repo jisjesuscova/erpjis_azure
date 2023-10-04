@@ -1,0 +1,12 @@
+Registro
+<form action="{{ url_for('auth.register') }}" method="post">
+    {{ form.csrf_token() }}
+    
+    {{ form.rut.label }}
+    {{ form.rut }}
+
+    {{ form.password.label }}
+    {{ form.password }}
+
+    <button type="submit">Enviar</button>
+</form>

@@ -1,0 +1,57 @@
+ <!-- Main content -->
+ <section class="content">
+    <div class="container-fluid">
+        <!-- Info boxes -->
+        <div class="row">
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Buscar</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form role="form" action="{{ url_for('settlement_data.search') }}" method="get">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">RUT</label>
+                                        <input type="text" name="rut" value="{{ values[0] }}" class="form-control rut" id="exampleInputEmail1" placeholder="RUT">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Nombre</label>
+                                        <input type="name" name="names" value="{{ values[1] }}" class="form-control" id="exampleInputEmail1" placeholder="Nombre">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Apellido Paterno</label>
+                                        <input type="text" name="father_lastname" value="{{ values[2] }}" class="form-control" id="exampleInputEmail1" placeholder="Apellido Paterno">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Apellido Materno</label>
+                                        <input type="name" name="mother_lastname" value="{{ values[3] }}" class="form-control" id="exampleInputEmail1" placeholder="Apellido Materno">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <!-- /.card-body -->
+
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Buscar</button>
+                        </div>
+                    </form>
+                    <!-- form end -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

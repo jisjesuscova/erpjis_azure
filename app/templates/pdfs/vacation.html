@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <style type="text/css">
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+            }
+            .page-break {
+                page-break-after: always;
+            }
+        </style>
+    </head>
+    <body>
+        <table class="table table-bordered" style="width:100%;">
+            <thead>
+                <tr>
+                    {%  include 'layouts/logo.html' %}
+                </tr>
+            </thead>
+        </table>
+        <table class="table table-bordered" style="width:100%;">
+            <thead>
+                <tr>
+                    <td><h3><center>PAPELETA DE VACACIONES</center></h3></td>   
+                </tr>
+            </thead>
+        </table>
+        <hr>
+        <table class="table" style="width:100%;">
+            <tbody>
+                <tr>
+                    <td style="text-align: justify;">
+                        <font style="font-size: 12px;">
+                            <strong>Nombre Completo:</strong> {{ data[0] }}. <strong>RUT:</strong> {{ data[1] }}.<br><br>
+                            <strong>Fecha de Ingreso:</strong> {{ data[2] }}. <strong>Total Feriados Legal:</strong> {{ data[4] }}. <strong>Dias Tomados:</strong> {{ data[5] }}. <strong>Saldo Feriado Legal:</strong> {{ data[6] }}.
+                            
+                            <br><br><br><br>
+                        </font>
+                        <table style="width:100%;">
+                            <tr>
+                                <th><center>Desde</center></th>
+                                <th><center>Hasta</center></th>
+                                <th><center>Días</center></th>
+                            </tr>
+                            {% for multiple_datum in multiple_data %}
+                                <tr>
+                                    <td><center>{{ multiple_datum['since']|datetime("dd-MM-yyyy") }}</center></td>
+                                    <td><center>{{ multiple_datum['until']|datetime("dd-MM-yyyy") }}</center></td>
+                                    <td><center>{{ multiple_datum['days']-multiple_datum['no_valid_days'] }}</center></td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                        <br><br><br><br><br><br><br><br><br>
+                        <table style="width:100%;">
+                            <tr>
+                                <th style="font-size: 10px;">Nota: Solo se están mostrando los últimos diez (10) registros de vacaciones. Para verlo en su totalidad debe ingresar a la intranet.*</th>
+                            </tr>
+                        </table>
+                        <br><br><br><br><br><br>
+
+                        {%  include 'layouts/no_signature.html' %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+     </body>
+</html>

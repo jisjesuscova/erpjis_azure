@@ -1,0 +1,161 @@
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            {% if category == 'error' %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endif %}
+                            {% if category == 'success' %}
+                                <div class="alert alert-success" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Kardex</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Documento</th>
+                                    <th>Fecha</th>
+                                </tr>
+                            </thead>
+                            {% for document_employee in documents_employees %}
+                                <tbody>
+                                    <tr>
+                                        <td>{{ document_employee['document_type'] }}</td>
+                                        <td>{{ document_employee['added_date'] }}</td>
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                            
+                        </table>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            Certificados
+                        </h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Documento</th>
+                                    <th>Fecha</th>
+                                    <th>Estatus</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            {% for antiquity_certificate_document_employee in antiquity_certificate_documents_employees %}
+                                <tbody>
+                                    <tr>
+                                        <td>Certificado de Antigüedad</td>
+                                        <td>{{ antiquity_certificate_document_employee['added_date'] }}</td>
+                                        <td>
+                                            {% if antiquity_certificate_document_employee['status_id'] == 1 %}
+                                                <span class="badge badge-warning">En revisión</span>
+                                            {% endif %}
+                                            {% if antiquity_certificate_document_employee['status_id'] == 2 %}
+                                                <span class="badge badge-primary">Aceptado</span>
+                                            {% endif %}
+                                            {% if antiquity_certificate_document_employee['status_id'] == 3 %}
+                                                <span class="badge badge-danger">Firmado</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if antiquity_certificate_document_employee['status_id'] == 2 %}
+                                                <a href="{{ url_for('document_requests.download', id=antiquity_certificate_document_employee['id']) }}" class="btn btn-danger">
+                                                    <i class="fa fa-arrow-down"></i>
+                                                </a>
+                                            {% endif %}
+                                            {% if antiquity_certificate_document_employee['status_id'] == 3 %}
+                                                <a href="{{ url_for('kardex_data.delete') }}/{{ antiquity_certificate_document_employee['rut']}}/{{ antiquity_certificate_document_employee['id']}}" class="btn btn-danger">
+                                                    <i class="fa fa-times"></i>
+                                                </a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Liquidación de Sueldo</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Documento</th>
+                                    <th>Fecha</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            
+    
+                            
+                        </table>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Vacaciones</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Documento</th>
+                                    <th>Fecha</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            
+    
+                            
+                        </table>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Horario Laboral</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Documento</th>
+                                    <th>Fecha</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            
+    
+                            
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <style type="text/css">
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+            }
+            .page-break {
+                page-break-after: always;
+            }
+        </style>
+    </head>
+    <body>
+        <table class="table table-bordered" style="width:100%;">
+            <thead>
+                <tr>
+                    {%  include 'layouts/logo.html' %}
+                </tr>
+            </thead>
+        </table>
+        <table class="table table-bordered" style="width:100%;">
+            <thead>
+                <tr>
+                    <td><h3><center> CERTIFICADO DE ANTIGÜEDAD</center></h3></td>   
+                </tr>
+            </thead>
+        </table>
+        <br>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td style="text-aling: right;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Santiago, {{ data[4] }}</td>   
+                </tr>
+            </thead>
+        </table>
+        <hr>
+        <table class="table" style="width:99%;">
+            <tbody>
+                <tr>
+                    <td style="text-align: justify;">
+                        JIS PARKING S.P.A Rut. 76.063.822-6, representada por Don Marcelo Alejandro Inzunza González con RUN: 10.033.741-K, domiciliado en Matucana # 40, Estación Central, ciudad de Santiago de Chile, 
+                        &nbsp;certifica al <strong> Sr(a). {{ data[0] }}</strong>, cédula de identidad <strong>N° {{ data[1] }}</strong>, ingresó a Jis Parking SPA con fecha {{ data[7] }} con el cargo de {{ data[5] }}.
+                        
+                        <br><br>
+                        Se extiende el certificado a petición del interesado para los fines que estime conveniente.
+                        <br><br>
+                        Saluda atentamente.
+                        <br><br><br><br><br><br><br><br><br><br><br>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        {%  include 'layouts/simple_signature.html' %}
+     </body>
+</html>

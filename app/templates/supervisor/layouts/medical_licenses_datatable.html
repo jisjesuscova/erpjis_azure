@@ -1,0 +1,50 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            Licencias Médicas
+                            <a href="{{ url_for('medical_licenses.create') }}/{{ rut }}" class="btn btn-success">Agregar</a>
+                        </h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>RUT</th>
+                                <th>Folio</th>
+                                <th>Desde</th>
+                                <th>Hasta</th>
+                                <th>Tipo</th>
+                                <th>Fecha</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        {% for medical_license in medical_licenses %}
+                            <tbody>
+                                <tr>
+                                    <td>{{ medical_license['rut'] }}</td>
+                                    <td>{{ medical_license['folio'] }}</td>
+                                    <td>{{ medical_license['since'] }}</td>
+                                    <td>{{ medical_license['until'] }}</td>
+                                    <td>{{ medical_license['medical_license_type'] }}</td>
+                                    <td>{{ medical_license['added_date'] }}</td>
+                                    <td>
+                                        <a href="{{ url_for('medical_licenses.delete') }}/{{ medical_license['rut']}}/{{ medical_license['id']}}" class="btn btn-danger">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        {% endfor %}
+
+                        
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

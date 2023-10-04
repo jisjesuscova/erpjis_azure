@@ -1,0 +1,136 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Datos Personales</h3>
+                    </div>
+                    <!-- /.card-header -->
+
+                    <div class="card-body">
+                        <div class="card-body">
+                            <div class="alert alert-danger alert-danger-form" style="display:none;" role="alert">
+                                Todos los campos del formulario son <strong>obligatorios</strong>.
+                            </div>
+                            <div class="alert alert-danger alert-rut-form" style="display:none;" role="alert">
+                                El RUT no es <strong>correcto</strong>.
+                            </div>
+                            <div class="alert alert-danger alert-danger-cellphone-form" style="display:none;" role="alert">
+                                El número de celular debe tener <strong>(9) nueve dígitos</strong>.
+                            </div>
+                            <div class="alert alert-danger alert-danger-rut-exist-form" style="display:none;" role="alert">
+                                El RUT <strong>está activo </strong> en el sistema. No puede ingresar un RUT repetido.
+                            </div>
+                            <div class="alert alert-danger alert-danger-cellphone-exist-form" style="display:none;" role="alert">
+                                El celular <strong>está registrado </strong> en el sistema. No puede ingresar un celular repetido.
+                            </div>
+                            <div class="alert alert-danger alert-danger-404-form" style="display:none;" role="alert">
+                                Error al procesar el formulario. Por favor haca click en Guardar nuevamente.
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">RUT</label>
+                                        <input type="text" value="" id="rut" class="form-control rut" placeholder="RUT" name="rut" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Nombres</label>
+                                        <input type="text" value="" id="names" class="form-control" placeholder="Nombres" name="names" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Apellido Paterno</label>
+                                        <input type="text" value="" id="father_lastname" class="form-control" placeholder="Apellido Paterno" name="father_lastname" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Apellido Materno</label>
+                                        <input type="text" value="" id="mother_lastname" class="form-control" placeholder="Apellido Materno" name="mother_lastname" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Genero</label>
+                                        <select class="form-control select2 select2-danger" id="gender_id" data-dropdown-css-class="select2-danger" style="width: 100%;" name="gender_id" required>
+                                            <option value="">- Seleccionar -</option>
+                                            {% for gender in genders %}
+                                                <option value="{{ gender.id }}">{{ gender.gender }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Nacionalidad</label>
+                                        <select class="form-control select2 select2-danger" id="nationality_id" data-dropdown-css-class="select2-danger" style="width: 100%;" name="nationality_id" required>
+                                            <option value="1">- Seleccionar -</option>
+                                            {% for nationality in nationalities %}
+                                                <option value="{{ nationality.id }}">{{ nationality.nationality }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Correo Personal</label>
+                                        <input type="email" value="" class="form-control" id="personal_email" placeholder="Correo Personal" name="personal_email" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Celular. <font class="example_input_form">Ejemplo: 935887242.</font></label>
+                                        <input type="text" value="" maxlength="9" class="form-control" placeholder="Celular" id="cellphone" name="cellphone" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Fecha de Nacimiento</label>
+                                        <input type="date" value="" class="form-control" id="born_date" placeholder="Fecha de Nacimiento" name="born_date" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">
+                                            Rol en el Reloj
+                                            &nbsp;
+                                            <button type="button" class="btn btn-warning help-button" data-toggle="tooltip" data-placement="top" title="Si el empleado es de Oficina o Supervisor debe seleccionar Administrador sino Colaborador">
+                                                <i class="fa-solid fa-question"></i>
+                                            </button>
+                                        </label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="privilege" style="width: 100%;" name="privilege" required>
+                                            <option value="">- Seleccionar -</option>
+                                            <option value="1">Colaborador</option>
+                                            <option value="14">Administrador</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+
+                        <div class="card-footer">
+                            <span class="loading-icon" id="loading-icon" style="display:none;">Cargando...</span>
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <button type="submit" class="btn btn-primary create-user-btn">Guardar</button>
+                            <input type="hidden" id="uid" class="form-control" id="exampleInputEmail1" name="uid" value="{{ uid }}">
+                            <input type="hidden" id="entrance_company" class="form-control" id="exampleInputEmail1" name="entrance_company" value="{{ current_date }}">
+
+                            <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

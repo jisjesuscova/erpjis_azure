@@ -1,0 +1,145 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Buscar</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- form start -->
+                        <form role="form" action="{{ url_for('hr_employee_inputs.search') }}" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Mes</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="month">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for month in months %}
+                                                    <option {% if month.id == period_month %} selected {% endif %} value="{{ month.id }}">{{ month.month }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Año</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="year">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for year in years %}
+                                                    <option {% if year.year == period_year %} selected {% endif %} value="{{ year.year }}">{{ year.year }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Item</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="hr_input_description_id">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for hr_input_description in hr_input_descriptions %}
+                                                    <option {% if hr_input_description.id == hr_input_description_id %} selected {% endif %} value="{{ hr_input_description.id }}">{{ hr_input_description.hr_input_description }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                            
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Buscar</button>
+                            </div>
+                        </form>
+                        <!-- form end -->
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Valor General para Todos</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- form start -->
+                        <form role="form" action="{{ url_for('hr_employee_inputs.add') }}/{{ period }}" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Valor</label>
+                                            <input type="text" value="" class="form-control" id="exampleInputEmail1" placeholder="Valor" name="general_value">
+                                            <input type="hidden" value="{{ period_month }}" class="form-control" id="exampleInputEmail1" placeholder="month" name="month">
+                                            <input type="hidden" value="{{ period_year }}" class="form-control" id="exampleInputEmail1" placeholder="year" name="year">
+                                            <input type="hidden" value="{{ hr_input_description_id }}" class="form-control" id="exampleInputEmail1" placeholder="hr_input_description_id" name="hr_input_description_id">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                            
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Agregar</button>
+                            </div>
+                        </form>
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Ingresos Manuales</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- form start -->
+                        <form role="form" action="{{ url_for('hr_employee_inputs.store') }}/{{ period }}" method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>RUT</th>
+                                        <th>Trabajador</th>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                {% for hr_employee_input in hr_employee_inputs %}
+
+                                    <tbody>
+                                        <tr>
+                                            <td>{{ hr_employee_input['rut'] }}</td>
+                                            <td>
+                                                {{ hr_employee_input['names'] }} {{ hr_employee_input['father_lastname'] }}
+                                                <input type="hidden" value="{{  hr_employee_input['branch_office_id'] }}" class="form-control" id="exampleInputEmail1" placeholder="" name="branch_office_id">
+                                                <input type="hidden" value="{{  hr_employee_input['rut'] }}" class="form-control" id="exampleInputEmail1" placeholder="Valor" name="rut">
+                                            </td>
+                                            <td>
+                                                <input type="text" value="{{ general_value }}" class="form-control" id="exampleInputEmail1" placeholder="Valor" name="value">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                {% endfor %}
+                                <input type="hidden" value="{{ period_month }}" class="form-control" id="exampleInputEmail1" placeholder="month" name="month">
+                                <input type="hidden" value="{{ period_year }}" class="form-control" id="exampleInputEmail1" placeholder="year" name="year">
+                                <input type="hidden" value="{{ hr_input_description_id }}" class="form-control" id="exampleInputEmail1" placeholder="" name="hr_input_description_id">
+                            </table>
+                            <!-- /.card-body -->
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+
+                                <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
+                            </div>
+                        </form>
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

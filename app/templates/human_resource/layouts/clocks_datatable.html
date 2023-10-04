@@ -1,0 +1,47 @@
+{% from 'human_resource/macro/_pagination.html' import m_pagination %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Datos</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Sucursal</th>
+                                <th>Ip</th>
+                                <th>Sn</th>
+                                <th>Última actualización</th>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        {% for clock_datum in clock_data.items %}
+                            <tbody>
+                                <tr>
+                                    <td>{{ clock_datum['id'] }}</td>
+                                    <td>{{ clock_datum['branch_office'] }}</td>
+                                    <td>{{ clock_datum['ip'] }}</td>
+                                    <td>{{ clock_datum['sn'] }}</td>
+                                    <td>{{ clock_datum['updated_date']|datetime("dd-MM-yyyy") }}</td>
+                                    <td>
+                                        <a title="Borrar Reloj" href="{{ url_for('clocks.delete', id=clock_datum['id']) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar el registro?')">
+                                            <i class="fa fa-remove"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        {% endfor %}
+                    </table>
+                    <hr>
+                    {{ m_pagination(clock_data) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

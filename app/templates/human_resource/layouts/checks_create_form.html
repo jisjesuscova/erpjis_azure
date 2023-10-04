@@ -1,0 +1,85 @@
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Crear Revisión</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- form start -->
+                        <form role="form" action="{{ url_for('checks.store') }}" method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Título</label>
+                                            <input type="text" value="" class="form-control" id="exampleInputEmail1" placeholder="Título" name="check_title" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Sucursal</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="branch_office_id" required>
+                                                <option value="">- Seleccionar -</option>
+                                                {% for branch_office in branch_offices %}
+                                                    <option value="{{ branch_office.id }}">{{ branch_office.branch_office }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Mes</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="month">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for month in months %}
+                                                    <option {% if month.id == period_month %} selected {% endif %} value="{{ month.id }}">{{ month.month }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Año</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="year">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for year in years %}
+                                                    <option {% if year.year == period_year %} selected {% endif %} value="{{ year.year }}">{{ year.year }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Grupo de Preguntas</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="check_group_question_id">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for check_group_question in check_group_questions %}
+                                                    <option value="{{ check_group_question.id }}">{{ check_group_question.check_group_question }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+
+                                <a href="{{ url_for('checks.index') }}" class="btn btn-secondary">Cancelar</a>
+                            </div>
+                        </form>
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,199 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Datos de Contrato</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- form start -->
+                        <form role="form" action="{{ url_for('contract_data.update') }}/{{ rut }}" method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Tipo de Contrato</label>
+                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="contract_type_id">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for contract_type in contract_types %}
+                                                    <option {% if contract_type.id == contract_datum.contract_type_id %} selected {% endif %} value="{{ contract_type.id }}">{{ contract_type.contract_type }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Sucursal</label>
+                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="branch_office_id">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for branch_office in branch_offices %}
+                                                    <option {% if branch_office.id == contract_datum.branch_office_id %} selected {% endif %} value="{{ branch_office.id }}">{{ branch_office.branch_office }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Region</label>
+                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="region_id">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for region in regions %}
+                                                    <option {% if region.id == contract_datum.region_id %} selected {% endif %} value="{{ region.id }}">{{ region.region }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Comuna</label>
+                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="contract_type_id">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for commune in communes %}
+                                                    <option {% if commune.id == contract_datum.commune_id %} selected {% endif %} value="{{ commune.id }}">{{ commune.commune }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Dirección</label>
+                                            <input disabled type="text" value="{{ contract_datum.address }}" class="form-control" id="exampleInputEmail1" placeholder="Dirección" name="address">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Estado Civil</label>
+                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="civil_state_id">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for civil_state in civil_states %}
+                                                    <option {% if civil_state.id == contract_datum.civil_state_id %} selected {% endif %} value="{{ civil_state.id }}">{{ civil_state.civil_state }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Isapre o Fonasa</label>
+                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="health_id">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for health in healths %}
+                                                    <option {% if health.id == contract_datum.health_id %} selected {% endif %} value="{{ health.id }}">{{ health.health }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Fecha de Entrada a la Salud</label>
+                                            <input type="date" value="{{ contract_datum.entrance_health }}" class="form-control" id="exampleInputEmail1" placeholder="Entrada a la Salud" name="entrance_health" disabled required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Puesto Laboral</label>
+                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="job_position_id">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for job_position in job_positions %}
+                                                    <option {% if job_position.id == contract_datum.job_position_id %} selected {% endif %} value="{{ job_position.id }}">{{ job_position.job_position }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Fecha de Entrada</label>
+                                            <input disabled type="date" value="{{ contract_datum.entrance_company }}" class="form-control" id="exampleInputEmail1" placeholder="Fecha de Entrada" name="entrance_company">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Fecha de Salida</label>
+                                            <input disabled type="date" value="{{ contract_datum.exit_company }}" class="form-control" id="exampleInputEmail1" placeholder="Fecha de Salida" name="exit_company">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Sueldo Base</label>
+                                            <input disabled type="text" value="{{ contract_datum.salary }}" class="form-control" id="exampleInputEmail1" placeholder="Salario" name="salary">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Colación</label>
+                                            <input disabled type="text" value="{{ contract_datum.collation }}" class="form-control" id="exampleInputEmail1" placeholder="Colación" name="collation">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Movilización</label>
+                                            <input disabled type="text" value="{{ contract_datum.locomotion }}" class="form-control" id="exampleInputEmail1" placeholder="Movilización" name="locomotion">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Tipo de Empleado</label>
+                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="employee_type_id">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for employee_type in employee_types %}
+                                                    <option {% if employee_type.id == contract_datum.employee_type_id %} selected {% endif %} value="{{ employee_type.id }}">{{ employee_type.employee_type }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Regimen Previsional</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="regime_id" name="regime_id" required disabled>
+                                                <option value="">- Seleccionar -</option>
+                                                <option {% if 1 == contract_datum.regime_id %} selected {% endif %} value="1">AFP</option>
+                                                <option {% if 2 == contract_datum.regime_id %} selected {% endif %} value="2">IPS (Ex-INP)</option>
+                                                <option {% if 3 == contract_datum.regime_id %} selected {% endif %} value="3">Sin Institución Previsional (SIP)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    {% if contract_datum.regime_id == 1 %}
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">AFP</label>
+                                                <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="pention_id" disabled>
+                                                    <option value="">- Seleccionar -</option>
+                                                    {% for pention in pentions %}
+                                                        <option {% if pention.id == contract_datum.pention_id %} selected {% endif %} value="{{ pention.id }}">{{ pention.pention }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Fecha de Entrada a la AFP</label>
+                                                <input type="date" value="{{ contract_datum.entrance_pention }}" value="00-00-0000" class="form-control" id="exampleInputEmail1" placeholder="Fecha Entrada AFP" name="entrance_pention" disabled>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <input type="hidden" value="{{ contract_datum.rut }}" class="form-control" id="exampleInputEmail1" name="rut">
+                            
+
+                        </form>
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

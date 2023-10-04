@@ -1,0 +1,65 @@
+{% extends 'layouts/login_base.html' %}
+{% block content %}
+    <div class="login-box">
+        <div class="login-logo">
+            <img src="{{ url_for("static", filename="dist/img/logo.png") }}">
+        </div>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">Recuperar Contraseña</p>
+                <form action="{{ url_for('auth.recover') }}" method="post">
+                    {{ form.csrf_token() }}
+
+                    <div class="input-group">
+                        {{ form.rut.label }}
+                    </div>
+                    <div class="input-group mb-3">
+                        {{ form.rut(class='form-control rut', placeholder="RUT") }}
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        {{ form.email.label }}
+                    </div>
+                    <div class="input-group mb-3">
+                        {{ form.email(class='form-control', placeholder="Correo Electrónico") }}
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{ form.next() }}
+
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-block btn-jis">Recuperar</button>
+                        </div>
+                    </div>
+                </form>
+
+                <script>
+                    var params = new URLSearchParams(window.location.search)
+                    if(params.has('next'))
+                        document.getElementById('next').value = params.get('next')
+                        console.log(params.get('next'))
+                </script>
+            <!-- /.login-card-body -->
+            </div>
+        </div>
+    </div>
+{% endblock %}

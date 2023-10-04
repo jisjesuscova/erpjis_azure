@@ -1,0 +1,64 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            Malla Horarias
+                        </h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    {% if category == 'error' %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                    {% if category == 'success' %}
+                                        <div class="alert alert-success" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Rut</th>
+                                    <th>Trabajador</th>
+                                    <th>Period</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            {% for record in mesh_data %}
+                                <tbody>
+                                    <tr>
+                                        <td>{{ record['visual_rut'] }}</td>
+                                        <td>{{ record['nickname'] }}</td>
+                                        <td>{{ record['period'] }}</td>
+                                        <td>
+                                            <a href="{{ url_for('control_mesh_employees.show', rut=record['rut'], period=record['period']) }}" class="btn btn-success" onclick="return confirm('¿Estás seguro de que quieres eliminar la malla horaria?')">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                            <a href="{{ url_for('mesh_data.delete', document_employee_id=record['document_employee_id'], rut=record['rut'], period=record['period']) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar la malla horaria?')">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                            <a href="{{ url_for('documental_management_data.sign', rut=record['rut'], period=record['period'], document_employee_id=record['document_employee_id'], document_type_id=23) }}" class="btn btn-primary">
+                                                <i class="fa fa-arrow-down"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

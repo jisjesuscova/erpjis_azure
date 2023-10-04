@@ -1,0 +1,48 @@
+{% extends 'layouts/login_base.html' %}
+{% block content %}
+    <div class="login-box">
+        <div class="login-logo">
+            <img src="{{ url_for("static", filename="dist/img/logo.png") }}">
+        </div>
+        <div class="alert alert-success" role="alert">
+            Por favor ingrese la nueva contraseña con la que ingresará al sistema.
+        </div>
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">Nueva Contraseña</p>
+                <form action="{{ url_for('auth.password') }}" method="post">
+                    {{ form.csrf_token() }}
+
+                    {{ form.rut(value=rut) }}
+
+                    <div class="input-group">
+                        {{ form.password.label }}
+                    </div>
+                    <div class="input-group mb-3">
+                        {{ form.password(class='form-control', placeholder="Contraseña", type="password") }}
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-block btn-jis">Actualizar</button>
+                        </div>
+                    </div>
+                </form>
+
+                <script>
+                    var params = new URLSearchParams(window.location.search)
+                    if(params.has('next'))
+                        document.getElementById('next').value = params.get('next')
+                        console.log(params.get('next'))
+                </script>
+            <!-- /.login-card-body -->
+            </div>
+        </div>
+    </div>
+{% endblock %}

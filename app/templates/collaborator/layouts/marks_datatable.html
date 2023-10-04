@@ -1,0 +1,62 @@
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Datos</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        {% if mark_data %}
+                            <div class="alert alert-danger" role="alert">
+                                Usted tiene marcas faltantes. Por favor haga click en el botón de (+) para marcar su reloj.
+                            </div>
+                        {% else %}
+                            <div class="alert alert-success" role="alert">
+                                Usted tiene todas las marcas al día en el reloj control.
+                            </div>
+                        {% endif %}
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Tipo de Marca Faltante</th>
+                                    <th>Fecha</th>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            {% for mark_datum in mark_data %}
+                                <tbody>
+                                    <tr>
+                                        <td>{{ mark_datum['id'] }}</td>
+                                        <td>
+                                            {% if mark_datum.punch == 0 %}
+                                                <span class="badge badge-primary">Entrada</span>
+                                            {% endif %}
+                                            {% if mark_datum.punch == 1 %}
+                                                <span class="badge badge-success">Salida</span>
+                                            {% endif %}
+                                            {% if mark_datum.punch == 4 %}
+                                                <span class="badge badge-warning">Entrada Colación</span>
+                                            {% endif %}
+                                            {% if mark_datum.punch == 5 %}
+                                                <span class="badge badge-danger">Salida Colación</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ mark_datum['added_date']|datetime("dd-MM-yyyy")  }}</td>
+                                        <td>
+                                            <a title="Marcar Reloj" href="{{ url_for('clocks.create', id=mark_datum['id']) }}" class="btn btn-success">
+                                                <i class="fa fa-add"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,41 @@
+{% from 'macro/_pagination.html' import m_pagination %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Datos</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>RUT</th>
+                                <th>Empleado</th>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        {% for employee in employees.items %}
+                            <tbody>
+                                <tr>
+                                    <td>{{ employee['rut'] }}</td>
+                                    <td>{{ employee['names'] }} {{ employee['father_lastname'] }} {{ employee['mother_lastname'] }}</td>
+                                    <td>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        {% endfor %}
+
+                        
+                    </table>
+                    <hr>
+                    {{ m_pagination(employees) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

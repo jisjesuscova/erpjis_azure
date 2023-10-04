@@ -1,0 +1,76 @@
+{% from 'supervisor/macro/_honoraries_pagination.html' import m_pagination %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Datos</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    {% if category == 'error' %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                    {% if category == 'success' %}
+                                        <div class="alert alert-success" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>RUT</th>
+                                    <th>Asignado</th>
+                                    <th>Solicitado</th>
+                                    <th>Razón</th>
+                                    <th>Fecha</th>
+                                    <th>Estatus</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            {% for honorary in honoraries.items %}
+                                <tbody>
+                                    <tr>
+                                        <td>{{ honorary['rut'] }}</td>
+                                        <td>{{ honorary['full_name'] }}</td>
+                                        <td>{{ honorary['nickname'] }}</td>
+                                        <td>{{ honorary['reason'] }}</td>
+                                        <td>{{ honorary['added_date']|datetime("dd-MM-yyyy") }}</td>
+                                        <td>
+                                            {% if honorary['status_id'] == 1 %}
+                                                <span class="badge badge-primary">En espera</span>
+                                            {% else %}
+                                                <span class="badge badge-success">Aceptado</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if honorary['status_id'] == 1 %}
+                                                <a href="{{ url_for('honoraries.delete', id = honorary['id']) }}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar el registro?')">
+                                                    <i class="fa fa-times"></i>
+                                                </a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            {% endfor %}
+
+                            
+                        </table>
+                        <hr>
+                        {{ m_pagination(honoraries) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

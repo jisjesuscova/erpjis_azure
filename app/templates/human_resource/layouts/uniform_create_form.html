@@ -1,0 +1,50 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Agregar Uniforme</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- form start -->
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Tipo de Uniforme</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="uniform_type_id" style="width: 100%;" name="uniform_type_id">
+                                            <option value="">- Seleccionar -</option>
+                                            {% for uniform_type in uniform_types %}
+                                                <option value="{{ uniform_type.id }}">{{ uniform_type.uniform_type }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Fecha de Despacho</label>
+                                        <input class="form-control" type="date" id="delivered_date" name="delivered_date">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+
+                        <input type="hidden" value="{{ rut }}" class="form-control" id="rut" name="rut">
+                            
+                        <div class="card-footer">
+                            <span class="loading-icon" id="loading-icon" style="display:none;">Cargando...</span>
+                            <button type="button" class="btn btn-primary create-uniform-data-btn">Guardar</button>
+
+                            <a href="{{ url_for('uniforms.index', rut=rut) }}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

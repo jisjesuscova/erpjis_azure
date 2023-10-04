@@ -1,0 +1,119 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Datos Personales</h3>
+                    </div>
+                    
+                    <div class="card-body">
+                        <!-- form start -->
+                        <form role="form" action="{{ url_for('personal_data.update') }}/{{ employee.rut }}" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        {% if employee.picture != '' %}
+                                            <div class="card-body">
+                                                <center>
+                                                    <div class="image-area">
+                                                        <a href="{{ url_for('personal_data.delete_picture') }}/{{ employee.rut }}" class="remove-image" style="display: inline;">&#215;</a>
+                                                        <img src="{{ download_url }}" alt="Picture">
+                                                    </div>
+                                                </center>
+                                            </div>
+                                        {% else %}
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Foto</label>
+                                                    <input type="file" value="" class="form-control" id="exampleInputEmail1" placeholder="Imagen" name="file">
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">RUT</label>
+                                            <input disabled type="text" value="{{ employee.visual_rut }}" class="form-control" id="exampleInputEmail1" placeholder="RUT" name="no_disable_rut">
+                                            <input type="hidden" value="{{ employee.visual_rut }}" class="form-control" id="exampleInputEmail1" placeholder="RUT" name="rut">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Apellido Materno</label>
+                                            <input disabled type="text" value="{{ employee.mother_lastname }}" class="form-control" id="exampleInputEmail1" placeholder="Apellido Materno" name="no_disable_mother_lastname">
+                                            <input type="hidden" value="{{ employee.mother_lastname }}" class="form-control" id="exampleInputEmail1" placeholder="Apellido Materno" name="mother_lastname">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Fecha de Nacimiento</label>
+                                            <input disabled type="date" value="{{ employee.born_date }}" class="form-control" id="exampleInputEmail1" placeholder="Fecha de Nacimiento" name="no_disable_born_date">
+                                            <input type="hidden" value="{{ employee.born_date }}" class="form-control" id="exampleInputEmail1" placeholder="Fecha de Nacimiento" name="born_date">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Nombres</label>
+                                            <input disabled type="text" value="{{ employee.names }}" class="form-control" id="exampleInputEmail1" placeholder="Nombres" name="no_disable_names">
+                                            <input type="hidden" value="{{ employee.names }}" class="form-control" id="exampleInputEmail1" placeholder="Nombres" name="names">
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Genero</label>
+                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="no_disable_gender_id">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for gender in genders %}
+                                                    <option {% if gender.id == employee.gender_id %} selected {% endif %} value="{{ gender.id }}">{{ gender.gender }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <input type="hidden" value="{{ employee.gender_id }}" class="form-control" id="exampleInputEmail1" placeholder="Genero" name="gender_id">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Celular</label>
+                                            <input type="text" value="{{ employee.cellphone }}" class="form-control" id="exampleInputEmail1" placeholder="Celular" name="cellphone">
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Apellido Paterno</label>
+                                            <input disabled type="text" value="{{ employee.father_lastname }}" class="form-control" id="exampleInputEmail1" placeholder="Apellido Paterno" name="no_disable_father_lastname">
+                                            <input type="hidden" value="{{ employee.father_lastname }}" class="form-control" id="exampleInputEmail1" placeholder="Apellido Paterno" name="father_lastname">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Nacionalidad</label>
+                                            <select disabled class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="no_disable_nationality_id">
+                                                <option value="1">- Seleccionar -</option>
+                                                {% for nationality in nationalities %}
+                                                    <option {% if nationality.id == employee.nationality_id %} selected {% endif %} value="{{ nationality.id }}">{{ nationality.nationality }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <input type="hidden" value="{{ employee.nationality_id }}" class="form-control" id="exampleInputEmail1" placeholder="Nacionalidad" name="nationality_id">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Correo Personal</label>
+                                            <input type="text" value="{{ employee.personal_email }}" class="form-control" id="exampleInputEmail1" placeholder="Correo Personal" name="personal_email">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input type="hidden" value="{{ employee.rut }}" class="form-control" id="exampleInputEmail1" name="id">
+                            <!-- /.card-body -->
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Actualizar</button>
+
+                                <a href="{{ url_for('home.index') }}" class="btn btn-secondary">Cancelar</a>
+                            </div>
+                        </form>
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <style type="text/css">
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+            }
+            .page-break {
+                page-break-after: always;
+            }
+        </style>
+    </head>
+    <body style="width:99%; font-size: 14px;">
+        <table class="table table-bordered" style="width:100%;">
+            <thead>
+                <tr>
+                    {%  include 'layouts/logo.html' %}
+                </tr>
+            </thead>
+        </table>
+        <table class="table table-bordered" style="width:100%;">
+            <thead>
+                <tr>
+                    <td><h3><center>FINIQUITO</center></h3></td>   
+                </tr>
+            </thead>
+        </table>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td style="text-aling: right;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Santiago, {{ data[0] }}</td>   
+                </tr>
+            </thead>
+        </table>
+        <hr>
+        <table class="table" style="width:100%;">
+            <tbody>
+                <tr>
+                    <td style="text-align: justify;">
+                        En Santiago, <strong>{{ data[0] }}</strong>, entre <strong>JIS PARKING SPA RUT: 76063822-6</strong> con domicilio en MATUCANA 40 Estacion
+                        Central en adelante tambien "LA EMPRESA" por una parte, y la otra don (a) <strong>{{ data[1] }}</strong> <strong>RUT:</strong> 
+                        <strong>{{ data[2] }}</strong> en adelante, también, "EL TRABAJADOR(a)" se deja testimonio y se ha acordado el finiquito que consta de las
+                        siguientes cláusulas:<br><br>
+                        <strong>PRIMERO:</strong>
+                        Sr(a) <strong>{{ data[1] }}</strong>, Declara haberle prestado servicio en calidad de <strong>{{ data[3] }}</strong>, a <strong>JIS PARKING SPA</strong> desde el <strong>{{ data[4] }}</strong> hasta el <strong>{{ data[0] }}</strong>, Fecha de terminación de sus
+                        servicios por la siguiente causal, {{ data[5] }}, del código del Trabajo.<br><br>
+                        <strong>SEGUNDO:</strong>
+                        Sr(a) <strong>{{ data[1] }}</strong>, Declara recibir en este acto, a su entera satisfacción, de parte de <strong>JIS PARKING SPA</strong>,
+                        las sumas que a continuación se indica, por los siguientes conceptos:<br><br>
+                        <strong>Resumen Monto</strong><br><br>
+                        <table style="text-aling: right; margin-right: 30px;">
+                            <tr>
+                                <td>
+                                    Indemnización Años de Servicios 
+                                </td>
+                                <td style="text-align: right;">
+                                    $ <strong>{{ data[6] }}.-</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Indemnización Sustitutivo Aviso Previo 
+                                </td>
+                                <td style="text-align: right;">
+                                    $ <strong>{{ data[7] }}.-</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Indemnización Voluntaria
+                                </td>
+                                <td style="text-align: right;">
+                                    $ <strong>{{ data[8] }}.-</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Feriado Proporcional (<strong>{{ data[9] }}</strong> dias)
+                                </td>
+                                <td style="text-align: right;">
+                                    $ <strong>{{ data[10] }}.-</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Total
+                                </td>
+                                <td style="text-align: right;">
+                                    $ <strong>{{ data[11] }}.-</strong>
+                                </td>
+                            </tr>
+                        </table><br><br>
+                        <strong>TERCERO:</strong>
+                        Sr(a) <strong>{{ data[1] }}</strong>, deja constancia que durante todo el tiempo que prestó servicios a la firma <strong>JIS
+                        PARKING SPA</strong>, recibió oportunamente el total de las remuneraciones, beneficios y demás prestaciones convenidas de acuerdo
+                        a su contrato de trabajo, clase de trabajo ejecutado y disposiciones legales pertinentes, y que en tal virtud el empleador nada le
+                        adeuda por tales conceptos, ni por horas extraordinarias, asignación familiar, feriado, indemnización por años de servicios,
+                        imposiciones previsionales, así como por ningún otro concepto, ya sea legal o contractual, derivado de la prestación de sus
+                        servicios, de su contrato de trabajo o de la terminación del mismo. En consecuencia "EL TRABAJADOR" declara que no tiene
+                        reclamo alguno que formular en contra de <strong>JIS PARKING SPA</strong>, renunciando a todas las acciones que pudieran emanar del
+                        contrato que los vinculó, y deja expresa constacia que <strong>JIS PARKING SPA</strong> nada le adeuda. en relación con los servicios
+                        prestados, con el contrato de trabajo o con motivo de la terminación del mismo, por lo que libre y espontáneamente, y con el
+                        pleno y cabal conocimiento de sus derechos, otorga a su empleador, el mas amplio, completo, total y definitivo finiquito por los
+                        servicios prestados o la terminación de ellos, ya diga relación con remuneraciones, cotizaciones previsionales, de seguridad
+                        social o de salud, subsidios, beneficios contractuales adicionales a las remuneraciones, indemnizaciones, compensaciones, o
+                        con cualquiera causa o concepto.
+                        <br><br>
+                        <strong>CUARTO:</strong>
+                        En  conformidad  a lo  establecido  en  la  Ley 21.389, sobre  abandono de  familia  y  pago de pensiones alimenticias, el  empleador declara que a la fecha de este finiquito no ha sido notificado por los tribunales de familia, respecto  a  alguna  resolución  que  establezca  que  el trabajador compareciente mantenga deuda por pensión de alimentos y en consecuencia se  ordene  a  su  empleador  practicar retención por concepto de deuda por  pensión  alimenticia,  decretadas  en  conformidad  a  lo prescrito  en  los  artículos 8,11 de  la Ley 14.908 ya referida, motivo  por  el  cuál   no  se  aplican  descuentos y  retenciones en el presente acto a los conceptos que se pagan por este finiquito al trabajador.
+                        <br><br><br><br>
+
+                        {%  include 'layouts/no_signature.html' %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+     </body>
+</html>

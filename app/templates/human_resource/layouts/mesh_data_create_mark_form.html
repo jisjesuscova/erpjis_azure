@@ -1,0 +1,60 @@
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Institución de Pensión</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- form start -->
+                        <form role="form" action="{{ url_for('clock_attendances.store_mark') }}" method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Empleado</label>
+                                            <select class="form-control select2 select2-danger" name="rut" data-dropdown-css-class="select2-danger" style="width: 100%;">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for employee in employees %}
+                                                    <option value="{{ employee.rut }}">{{ employee.visual_rut }} - {{ employee.names }} {{ employee.father_lastname }} {{ employee.mother_lastname }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Tipo de Marca</label>
+                                            <select class="form-control select2 select2-danger" name="punch" data-dropdown-css-class="select2-danger" style="width: 100%;">
+                                                <option value="">- Seleccionar -</option>
+                                                <option value="0">Entrada</option>
+                                                <option value="1">Salida</option>
+                                                <option value="2">Entrada Descanso</option>
+                                                <option value="3">Salida Descanso</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Hora y Fecha de la Marca</label>
+                                            <input type="datetime-local" name="mark_date" class="form-control" id="exampleInputEmail1" placeholder="Fecha de la Marca">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+
+                                <a href="{{ url_for('clock_attendances.mark_per_day') }}" class="btn btn-secondary">Cancelar</a>
+                            </div>
+                        </form>
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

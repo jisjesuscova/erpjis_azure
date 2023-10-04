@@ -1,0 +1,64 @@
+{% from 'collaborator/macro/_settlement_data_pagination.html' import m_pagination %}
+
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Liquidaciones de Sueldo</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Periodo</th>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        {% for document_employee in documents_employees.items %}
+                            <tbody>
+                                <tr>
+                                    <td>{{ document_employee['visual_rut'] }}</td>
+                                    <td>{{ document_employee['added_date']|datetime("MM-yyyy")}}</td>
+                                    <td>
+                                        {% if document_employee['status_id'] != 2 %}
+                                            <a href="{{ url_for('settlement_data.sign', id=document_employee['id']) }}" class="btn btn-primary" >
+                                                <i class="fa fa-arrow-down"></i>
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <!-- Modal -->
+                            <div class="modal fade" id="settlementModal{{ document_employee['id'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Liquidación de sueldo</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <iframe src="{{ url_for("static", filename="dist/files/settlement_data/"+document_employee['support']) }}#toolbar=0&navpanes=0&scrollbar=0" width="100%" height="800"></iframe>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="{{ url_for('settlement_data.sign', id=document_employee['id']) }}" id="sign-button" class="btn btn-primary">Firmar</a>
+                                        <a href="#" class="btn btn-danger" data-dismiss="modal">Cerrar</a>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </table>
+                    <hr>
+                    {{ m_pagination(documents_employees, rut) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

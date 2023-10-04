@@ -1,0 +1,69 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Solicitar Documento</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- form start -->
+                        <form role="form" action="{{ url_for('document_requests.store') }}" method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="exampleInputEmail1">Empleado</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="rut">
+                                            <option value="{{ current_user.rut }}">{{ current_user.nickname }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <br>
+                                {% if id == 4 %}
+                                    <input type="hidden" value="3" class="form-control" id="exampleInputEmail1" name="status_id">
+                                {% endif %}
+                                {% if id == 6 %}
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Desde</label>
+                                                <input type="date" value="" class="form-control" id="exampleInputEmail1" placeholder="Desde" name="since">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Hasta</label>
+                                                <input type="date" value="" class="form-control" id="exampleInputEmail1" placeholder="Desde" name="until">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Hasta</label>
+                                                <input type="number" value="0" class="form-control" id="exampleInputEmail1" placeholder="Días No Validos" name="no_valid_days">
+                                            </div>
+                                        </div>
+                                        <input type="hidden" value="0" class="form-control" id="exampleInputEmail1" placeholder="Días No Válidos" name="no_valid_days">
+                                    </div>
+
+                                    <input type="hidden" value="2" class="form-control" id="exampleInputEmail1" name="status_id">
+                                {% endif %}
+                            </div>
+                            <input type="hidden" value="{{ id }}" class="form-control" id="exampleInputEmail1" name="document_type_id">
+                            
+
+                            <div class="card-footer">
+                                <input type="hidden" name="answer" value="1">
+                                <button type="submit" class="btn btn-primary">Solicitar</button>
+
+                                <a href="{{ url_for('documental_management_data.index') }}/{{ current_user.rut }}" class="btn btn-secondary">Cancelar</a>
+                            </div>
+                        </form>
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

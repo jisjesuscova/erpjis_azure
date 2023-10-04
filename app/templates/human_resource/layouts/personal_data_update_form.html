@@ -1,0 +1,474 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Datos Personales</h3>
+                    </div>
+                    <div class="card-body">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    {% if category == 'error' %}
+                                        <div class="alert alert-danger" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                    {% if category == 'success' %}
+                                        <div class="alert alert-success" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                        <div class="alert alert-danger alert-danger-form" style="display:none;" role="alert">
+                            Todos los campos del formulario son <strong>obligatorios</strong>.
+                        </div>
+                        <div class="alert alert-danger alert-rut-form" style="display:none;" role="alert">
+                            El RUT no es <strong>correcto</strong>.
+                        </div>
+                        <div class="alert alert-danger alert-danger-cellphone-form" style="display:none;" role="alert">
+                            El número de celular debe tener <strong>(9) nueve dígitos</strong>.
+                        </div>
+                        <div class="alert alert-danger alert-danger-rut-exist-form" style="display:none;" role="alert">
+                            El RUT <strong>está activo </strong> en el sistema. No puede ingresar un RUT repetido.
+                        </div>
+                        <div class="alert alert-danger alert-danger-cellphone-exist-form" style="display:none;" role="alert">
+                            El celular <strong>está registrado </strong> en el sistema. No puede ingresar un celular repetido.
+                        </div>
+                        <div class="alert alert-danger alert-danger-404-form" style="display:none;" role="alert">
+                            Error al procesar el formulario. Por favor haga click en Actualizar nuevamente.
+                        </div>
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    {% if employee.rut == current_user.rut %}
+                                        {% if employee.picture == none or employee.picture == '' %}
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Foto</label>
+                                                    <input type="file" value="" class="form-control" id="exampleInputEmail1" placeholder="Imagen" name="file" accept="image/jpeg, image/png">
+                                                </div>
+                                            </div>
+                                        {% else %}
+                                            <div class="card-body">
+                                                <center>
+                                                    <div class="image-area">
+                                                        <a href="{{ url_for('personal_data.delete_picture') }}/{{ employee.rut }}" class="remove-image" style="display: inline;">&#215;</a>
+                                                        <img src="{{ download_url }}" alt="Picture">
+                                                    </div>
+                                                </center>
+                                            </div>
+                                        {% endif %}
+                                    {% else %}
+                                        <div class="card-body">
+                                            <center>
+                                                <div class="image-area">
+                                                    <img src="{{ download_url }}" alt="Picture">
+                                                </div>
+                                            </center>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">RUT</label>
+                                        <input type="text" disabled value="{{ employee.visual_rut }}" id="rut" class="form-control rut" placeholder="RUT" name="rut">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Apellido Materno</label>
+                                        <input type="text" value="{{ employee.mother_lastname }}" class="form-control" id="mother_lastname" placeholder="Apellido Materno" name="mother_lastname">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Fecha de Nacimiento</label>
+                                        <input type="date" value="{{ employee.born_date }}" class="form-control" id="born_date" placeholder="Fecha de Nacimiento" name="born_date">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Nombres</label>
+                                        <input type="text" value="{{ employee.names }}" class="form-control" id="names" placeholder="Nombres" name="names">
+                                    </div>
+                                        
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Genero</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="gender_id" style="width: 100%;" name="gender_id">
+                                            <option value="">- Seleccionar -</option>
+                                            {% for gender in genders %}
+                                                <option {% if gender.id == employee.gender_id %} selected {% endif %} value="{{ gender.id }}">{{ gender.gender }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Celular</label>
+                                        <input type="text" maxlength="9" value="{{ employee.cellphone }}" class="form-control" id="cellphone" placeholder="Celular" name="cellphone">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Apellido Paterno</label>
+                                        <input type="text" value="{{ employee.father_lastname }}" class="form-control" id="father_lastname" placeholder="Apellido Paterno" name="father_lastname">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Nacionalidad</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="nationality_id" name="nationality_id">
+                                            <option value="1">- Seleccionar -</option>
+                                            {% for nationality in nationalities %}
+                                                <option {% if nationality.id == employee.nationality_id %} selected {% endif %} value="{{ nationality.id }}">{{ nationality.nationality }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Correo Personal</label>
+                                        <input type="text" value="{{ employee.personal_email }}" class="form-control" id="personal_email" placeholder="Correo Personal" name="personal_email">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="hidden" value="{{ employee.rut }}" class="form-control" id="numeric_rut" name="id">
+                        <!-- /.card-body -->
+                            
+                        {% if is_active == 1 %}
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <span class="loading-icon" id="loading-icon" style="display:none;">Cargando...</span>
+                                        <button type="submit" class="btn btn-success update-user-btn">Actualizar</button>
+
+                                        <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
+                                    </div>
+                                    <div class="col-md-6 text-right">
+                                        <a href="{{ url_for('contract_data.show', rut=rut) }}" class="btn btn-primary">Ir a Datos de Contrato</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <!-- form end -->
+                    </div>
+                </div>
+                {% if status_change_address_id == 1 %}
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Datos Dirección Nuevos</h3>
+                        </div>
+                    
+                    
+                        <div class="card-body">
+                        
+                            <div class="alert alert-warning" role="alert">
+                                El empleado está solicitando cambio en su dirección.
+                            </div>
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Region</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="new_region_id" name="region_id">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for region in regions %}
+                                                    <option {% if region.id == pre_employee_address_data.region_id %} selected {% endif %} value="{{ region.id }}">{{ region.region }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Comuna</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="new_commune_id" name="commune_id">
+                                                <option value="">- Seleccionar -</option>
+                                                {% for commune in communes %}
+                                                    <option {% if commune.id == pre_employee_address_data.commune_id %} selected {% endif %} value="{{ commune.id }}">{{ commune.commune }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Dirección</label>
+                                            <input type="text" value="{{ pre_employee_address_data.address }}" class="form-control" id="new_address" placeholder="Dirección" name="address">
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Datos Dirección Actuales</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Region</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="region_id" name="region_id">
+                                            <option value="">- Seleccionar -</option>
+                                            {% for region in regions %}
+                                                <option {% if region.id == employee_labor_datum.region_id %} selected {% endif %} value="{{ region.id }}">{{ region.region }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Comuna</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="commune_id" name="commune_id">
+                                            <option value="">- Seleccionar -</option>
+                                            {% for commune in communes %}
+                                                <option {% if commune.id == employee_labor_datum.commune_id %} selected {% endif %} value="{{ commune.id }}">{{ commune.commune }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Dirección</label>
+                                            <input type="text" value="{{ employee_labor_datum.address }}" class="form-control" id="address" placeholder="Dirección" name="address">
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                        </div>
+
+                        <input type="hidden" value="{{ employee.rut }}" class="form-control" id="numeric_rut" name="id">
+                            <!-- /.card-body -->
+                    
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <span class="loading-icon" id="loading-icon" style="display:none;">Cargando...</span>
+                                    <button  class="btn btn-success accept-address-btn">Aceptar</button>
+                                    <button  class="btn btn-danger reject-address-btn">Rechazar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Datos Bancarios</h3>
+                    </div>
+                    {% if status_change_bank_account_id == 0 %}
+                        <div class="card-body">
+                            
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Banco</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="bank_id" style="width: 100%;" name="bank_id">
+                                                <option value="1">- Seleccionar -</option>
+                                                {% for bank in banks %}
+                                                    <option {% if bank.id == employee_bank_account.bank_id %} selected {% endif %} value="{{ bank.id }}">{{ bank.bank }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Tipo de Cuenta</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="account_type_id" style="width: 100%;" name="account_type_id">
+                                                <option value="">- Seleccionar -</option>
+                                                <option {% if 1 == employee_bank_account.account_type_id %} selected {% endif %} value="1">Corriente</option>
+                                                <option {% if 2 == employee_bank_account.account_type_id %} selected {% endif %} value="2">Vista</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">N° de Cuenta</label>
+                                            <input type="text" value="{{ employee_bank_account.account_number }}" class="form-control" id="account_number" placeholder="N° de Cuenta" name="account_number">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" value="{{ employee.rut }}" class="form-control" id="numeric_rut" name="id">
+                            <!-- /.card-body -->
+                                
+                            {% if is_active == 1 %}
+                                <div class="card-footer">
+                                    <input type="hidden" id="requested_employee_bank_account_id" name="requested_employee_bank_account_id" value="{{ requested_employee_bank_account.id }}" />
+                                    <span class="loading-icon" id="loading-icon" style="display:none;">Cargando...</span>
+                                    <button type="button" class="btn btn-success create-bank-account-btn">Actualizar</button>
+
+                                    <a href="{{ url_for('home.index') }}" class="btn btn-secondary">Cancelar</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div class="card-body">
+                            <div class="alert alert-warning" role="alert">
+                                El empleado está solicitando cambio en su cuenta bancaria.
+                            </div>
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="card-body">
+                                <div class="alert alert-success" role="alert">
+                                    Registro Actual.
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Banco</label>
+                                            <select class="form-control select2 select2-danger" disabled data-dropdown-css-class="select2-danger" id="bank_id" style="width: 100%;" name="bank_id">
+                                                <option value="1">- Seleccionar -</option>
+                                                {% for bank in banks %}
+                                                    <option {% if bank.id == employee_bank_account.bank_id %} selected {% endif %} value="{{ bank.id }}">{{ bank.bank }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Tipo de Cuenta</label>
+                                            <select class="form-control select2 select2-danger" disabled data-dropdown-css-class="select2-danger" id="account_type_id" style="width: 100%;" name="account_type_id">
+                                                <option value="">- Seleccionar -</option>
+                                                <option {% if 1 == employee_bank_account.account_type_id %} selected {% endif %} value="1">Corriente</option>
+                                                <option {% if 2 == employee_bank_account.account_type_id %} selected {% endif %} value="2">Vista</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">N° de Cuenta</label>
+                                            <input type="text" value="{{ employee_bank_account.account_number }}" disabled class="form-control" id="account_number" placeholder="N° de Cuenta" name="account_number">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="alert alert-danger" role="alert">
+                                    Registro Nuevo.
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Banco</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="bank_id" style="width: 100%;" name="bank_id">
+                                                <option value="1">- Seleccionar -</option>
+                                                {% for bank in banks %}
+                                                    <option {% if bank.id == requested_employee_bank_account.bank_id %} selected {% endif %} value="{{ bank.id }}">{{ bank.bank }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Tipo de Cuenta</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" id="account_type_id" style="width: 100%;" name="account_type_id">
+                                                <option value="">- Seleccionar -</option>
+                                                <option {% if 1 == requested_employee_bank_account.account_type_id %} selected {% endif %} value="1">Corriente</option>
+                                                <option {% if 2 == requested_employee_bank_account.account_type_id %} selected {% endif %} value="2">Vista</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">N° de Cuenta</label>
+                                            <input type="text" value="{{ requested_employee_bank_account.account_number }}" class="form-control" id="account_number" placeholder="N° de Cuenta" name="account_number">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input type="hidden" value="{{ employee.rut }}" class="form-control" id="numeric_rut" name="id">
+                            <!-- /.card-body -->
+                                
+                            {% if is_active == 1 %}
+                                <div class="card-footer">
+                                    <input type="hidden" id="requested_employee_bank_account_id" name="requested_employee_bank_account_id" value="{{ requested_employee_bank_account.id }}" />
+                                    <span class="loading-icon" id="loading-icon" style="display:none;">Cargando...</span>
+                                    <button type="button" class="btn btn-success accept-bank-account-btn">Aceptar</button>
+
+                                    <button type="button" class="btn btn-danger reject-bank-account-btn">Rechazar</button>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                {% if signature_exist != 0 or employee.rut == current_user.rut %}
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Firma</h3>
+                        </div>
+                        
+                        <div class="card-body">
+                            {% if signature_exist == 0 %}
+                                <!-- form start -->
+                                
+                                <form action="" method="POST" class="sigPad">
+                                    <input type="hidden" id="csrf_token" name="csrf_token" value="{{ csrf_token() }}" />
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <center>
+                                                    <div class="alert alert-warning" role="alert">
+                                                        Recuerde que esta firma será la que se utilizará en cada uno de los documentos a descargar de <strong>Jisparking.com</strong>. Ejemplo: Liquidaciones.
+                                                    </div>
+                                                </center>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <center>
+                                                    
+                                                    <div class="sig sigWrapper">
+                                                        <div class="typed"></div>
+                                                        <canvas class="pad" width="198" height="55"></canvas>
+                                                        <input type="hidden" name="output" class="output">
+                                                    </div>
+                                                        <a class="clearButton" href="#clear">Limpiar</a>
+                                                </center>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% if is_active == 1 %}
+                                        <div class="card-footer">
+                                            <input type="hidden" id="rut" value="{{ rut }}">
+                                            <span class="loading-icon" id="loading-icon-signature" style="display:none;">Cargando...</span>
+                                            <button type="button" id="save-button" class="btn btn-success">Guardar</button>
+    
+                                            <a href="{{ url_for('home.index') }}" class="btn btn-secondary">Cancelar</a>
+                                        </div>
+                                    {% endif %}
+                                </form>
+                                <!-- form end -->
+                            {% else %}
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <center>
+                                            <div class="alert alert-warning" role="alert">
+                                                Recuerde que esta firma será la que se utilizará en cada uno de los documentos a descargar de <strong>Jisparking.com</strong>. Ejemplo: Liquidaciones.
+                                            </div>
+                                        </center>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <center>
+                                            <div class="image-area-signature">
+                                                {% if employee.rut == current_user.rut %}
+                                                    <a href="{{ url_for('signatures.delete') }}" class="remove-image" style="display: inline;">&#215;</a>
+                                                {% endif %}
+                                                <img src="{{ signature }}" >
+                                            </div>
+                                        </center>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>

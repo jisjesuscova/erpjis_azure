@@ -1,0 +1,193 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Solicitar Documento de {{ document_type.document_type }}</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        
+                        {% if current_user.rol_id == 1 %}
+                            <!-- form start -->
+                            <form role="form" action="{{ url_for('document_requests.store') }}" method="POST">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label for="exampleInputEmail1">Empleado</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="rut">
+                                                <option value="{{ current_user.rut }}">{{ current_user.nickname }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" value="{{ document_type.id }}" class="form-control" id="exampleInputEmail1" name="document_type_id">
+                                <input type="hidden" value="1" class="form-control" id="exampleInputEmail1" name="status_id">
+
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Solicitar</button>
+
+                                    <a href="{{ url_for('documental_management_data.index') }}/{{ current_user.rut }}" class="btn btn-secondary">Cancelar</a>
+                                </div>
+                            </form>
+                            <!-- form end -->
+                        {% else %}
+                            <!-- form start -->
+                            <form role="form" action="{{ url_for('document_requests.store') }}" method="POST">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label for="exampleInputEmail1">Empleado</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="rut">
+                                                <option value="1">- Seleccionar -</option>
+                                                {% for employee in employees %}
+                                                    <option value="{{ employee.rut }}">{{ employee.names }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    {% if document_type.id == 1 %}
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Descripción</label>
+                                                    <input type="text" value="" class="form-control" id="exampleInputEmail1" placeholder="Descripción de la amonestación" name="description">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" value="2" class="form-control" id="exampleInputEmail1" name="status_id">
+
+                                    {% endif %}
+                                    {% if document_type.id == 2 %}
+                                        <input type="hidden" value="2" class="form-control" id="exampleInputEmail1" name="status_id">
+                                    {% endif %}
+                                    {% if document_type.id == 5 %}
+                                        <input type="hidden" value="2" class="form-control" id="exampleInputEmail1" name="status_id">
+                                    {% endif %}
+                                    {% if document_type.id == 6 %}
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Fecha de Abandono</label>
+                                                    <input type="date" value="" class="form-control" id="exampleInputEmail1" placeholder="Fecha de Abandono" name="abandon_date">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" value="1" class="form-control" id="exampleInputEmail1" name="status_id">
+
+                                    {% endif %}
+                                    {% if document_type.id == 9 %}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Sucursal</label>
+                                                    <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="branch_office_id">
+                                                        <option value="1">- Seleccionar -</option>
+                                                        {% for branch_office in branch_offices %}
+                                                            <option value="{{ branch_office.id }}">{{ branch_office.branch_office }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Fecha de Inicio de la otra sucursal</label>
+                                                    <input type="date" value="" class="form-control" id="exampleInputEmail1" placeholder="Fecha de Inicio en la Otra Sucursal" name="another_branch_office_start_date">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" value="1" class="form-control" id="exampleInputEmail1" name="status_id">
+
+                                    {% endif %}
+                                    {% if document_type.id == 10 %}
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Salario Mensual Bruto</label>
+                                                    <input type="text" value="" class="form-control" id="exampleInputEmail1" placeholder="Salario Mensual Bruto" name="gross_monthly_salary">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Cargo</label>
+                                                    <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="job_position_id">
+                                                        <option value="1">- Seleccionar -</option>
+                                                        {% for job_position in job_positions %}
+                                                            <option value="{{ job_position.id }}">{{ job_position.job_position }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Sucursal</label>
+                                                    <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="branch_office_id">
+                                                        <option value="1">- Seleccionar -</option>
+                                                        {% for branch_office in branch_offices %}
+                                                            <option value="{{ branch_office.id }}">{{ branch_office.branch_office }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Fecha de Inicio del Anexo</label>
+                                                    <input type="date" value="" class="form-control" id="exampleInputEmail1" placeholder="Salario Mensual Bruto" name="annexed_start_date">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" value="1" class="form-control" id="exampleInputEmail1" name="status_id">
+
+                                    {% endif %}
+                                    {% if document_type.id == 11 %}
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Asignación</label>
+                                                    <input type="text" value="" class="form-control" id="exampleInputEmail1" placeholder="Asignación" name="asignation">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" value="1" class="form-control" id="exampleInputEmail1" name="status_id">
+
+                                    {% endif %}
+                                    
+                                    
+                                    {% if document_type.id == 13 %}
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Descripción</label>
+                                                    <input type="text" value="" class="form-control" id="exampleInputEmail1" placeholder="Descripción de la felicitación" name="description">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" value="1" class="form-control" id="exampleInputEmail1" name="status_id">
+
+                                    {% endif %}
+                                </div>
+                                <!-- /.card-body -->
+
+                                <input type="hidden" value="{{ document_type.id }}" class="form-control" id="exampleInputEmail1" name="document_type_id">
+                                
+                                <div class="card-footer">
+                                    
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+
+                                    <a href="{{ url_for('employees.index') }}" class="btn btn-secondary">Cancelar</a>
+                                </div>
+                            </form>
+                            <!-- form end -->
+                        {% endif %}
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

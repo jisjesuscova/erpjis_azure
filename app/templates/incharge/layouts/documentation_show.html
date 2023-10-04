@@ -1,0 +1,25 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-9">
+                {{ description }}
+            </div>
+            <div class="col-md-3">
+                <ul class="index">
+                    {% for title in documentation_titles %}
+                        <li>
+                            <a href="#welcomestackedit">{{ title.title }}</a>
+                            <ul>
+                                {% for sub_title in title.sub_titles %}
+                                    <li>
+                                        <a href="#{{ sub_title.tag }}">{{ sub_title.title }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>

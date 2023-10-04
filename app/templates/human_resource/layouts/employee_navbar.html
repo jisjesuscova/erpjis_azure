@@ -1,0 +1,85 @@
+<nav class="navbar navbar-expand navbar-primary navbar-dark">
+    <ul class="navbar-nav">
+        {% if personal_datum_button_status_id == 1 %}
+            <li class="nav-item d-none d-sm-inline-block active">
+                <a href="{{ url_for('personal_data.show') }}/{{ rut }}" class="nav-link">Datos Personales</a>
+            </li>
+        {% else %}
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="{{ url_for('personal_data.show') }}/{{ rut }}" class="nav-link">Datos Personales</a>
+            </li>
+        {% endif %}
+        {% if employee_contract_datum_button_status_id == 1 %}
+            <li class="nav-item d-none d-sm-inline-block active">
+                <a href="{{ url_for('contract_data.show') }}/{{ rut }}" class="nav-link">Datos de Contrato</a>
+            </li>
+        {% else %}
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="{{ url_for('contract_data.show') }}/{{ rut }}" class="nav-link">Datos de Contrato</a>
+            </li>
+        {% endif %}
+        {% if employee_extra_datum_button_status_id == 1 %}
+            <li class="nav-item d-none d-sm-inline-block active">
+                <a href="{{ url_for('employee_extra_data.show') }}/{{ rut }}" class="nav-link">Datos Extras</a>
+            </li>
+        {% else %}
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="{{ url_for('employee_extra_data.show') }}/{{ rut }}" class="nav-link">Datos Extras</a>
+            </li>
+        {% endif %}
+        {% if family_core_button_status_id == 1 %}
+            <li class="nav-item d-none d-sm-inline-block active">
+                <a href="{{ url_for('family_core_data.index') }}/{{ rut }}" class="nav-link">Datos de Nucleo Familiar</a>
+            </li>
+        {% else %}
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="{{ url_for('family_core_data.index') }}/{{ rut }}" class="nav-link">Datos de Nucleo Familiar</a>
+            </li>
+        {% endif %}
+        {% if kardex_button_status_id == 1 %}
+            <li class="nav-item d-none d-sm-inline-block active">
+                <a href="{{ url_for('kardex_data.index', rut=rut) }}"  class="nav-link">Kardex</a>
+            </li>
+        {% else %}
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="{{ url_for('kardex_data.index', rut=rut) }}"  class="nav-link">Kardex</a>
+            </li>
+        {% endif %}
+        {% if uniform_button_status_id == 1 %}
+            <li class="nav-item d-none d-sm-inline-block active">
+                <a href="{{ url_for('uniforms.index', rut=rut) }}"  class="nav-link">Uniforme</a>
+            </li>
+        {% else %}
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="{{ url_for('uniforms.index', rut=rut) }}"  class="nav-link">Uniforme</a>
+            </li>
+        {% endif %}
+        {% if settlement_button_status_id == 1 %}
+            <li class="nav-item d-none d-sm-inline-block active">
+                <a href="{{ url_for('settlement_data.index', rut=rut) }}" class="nav-link">Liquidaciones</a>
+            </li>
+        {% else %}
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="{{ url_for('settlement_data.index', rut=rut) }}" class="nav-link">Liquidaciones</a>
+            </li>
+        {% endif %}
+        {% if vacation_button_status_id == 1 %}
+            <li class="nav-item d-none d-sm-inline-block active">
+                <a href="{{ url_for('vacations.index') }}/{{ rut }}" class="nav-link">Vacaciones</a>
+            </li>
+        {% else %}
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="{{ url_for('vacations.index') }}/{{ rut }}" class="nav-link">Vacaciones</a>
+            </li>
+        {% endif %}
+        {% if medical_license_button_status_id == 1 %}
+            <li class="nav-item d-none d-sm-inline-block active">
+                <a href="{{ url_for('medical_licenses.index') }}/{{ rut }}"  class="nav-link">Licencias</a>
+            </li>
+        {% else %}
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="{{ url_for('medical_licenses.index') }}/{{ rut }}"  class="nav-link">Licencias</a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>

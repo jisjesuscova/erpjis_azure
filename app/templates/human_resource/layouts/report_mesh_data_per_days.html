@@ -1,0 +1,70 @@
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <!-- Info boxes -->
+        <div class="row">
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Buscar</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form role="form" action="{{ url_for('mesh_data.search_report_per_days') }}" method="get">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Fecha</label>
+                                        <input type="date" name="date" class="form-control" id="date" value="{{ date }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+ 
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Buscar</button>
+                        </div>
+                    </form>
+                    <!-- form end -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            Reporte
+                        </h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>RUT</th>
+                                    <th>Trabajador</th>
+                                    <th>Día</th>
+                                    <th>Tipo de Marca</th>
+                                    <th>Hora</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            
+                        </table>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

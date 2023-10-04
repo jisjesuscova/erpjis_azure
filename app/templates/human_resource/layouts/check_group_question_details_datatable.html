@@ -1,0 +1,108 @@
+{% from 'human_resource/macro/_checks_pagination.html' import m_pagination %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Revisión</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="alert alert-warning" role="alert">
+                            Seleccione <strong>Sucursal</strong> y <strong>Fecha</strong> para empezar una encuesta.
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Sucursal</label>
+                                    <select class="form-control select2 select2-danger" id="branch_office_id" data-dropdown-css-class="select2-danger" style="width: 100%;" name="branch_office_id">
+                                        <option value="">- Seleccionar -</option>
+                                        {% for branch_office in branch_offices %}
+                                            <option value="{{ branch_office.id }}">{{ branch_office.branch_office }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Fecha</label>
+                                    <input type="date" class="form-control" id="added_date" placeholder="Fecha de la Revisión" name="added_date">
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" class="form-control" id="check_group_question_id" value="{{ id }}" name="check_group_question_id">
+                        
+                    </div>
+                    <hr>
+                    <div class="card-body">
+                        Usted tiene contestada <strong><font id="total_answered_questions">0</font></strong> preguntas, de un total de <strong><font id="total_questions">{{ check_group_question_quantity }}</font></strong> preguntas           
+                    </div>
+                    <hr>
+                    <div class="card-body" id="questions_to_answer">
+                        <div class="table-responsive">
+                            
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 35%;">Pregunta</th>
+                                        <th style="width: 35%;">Cumplimiento</th>
+                                        <th style="width: 15%;">Foto</th>
+                                        <th style="width: 15%;">Observación</th>
+                                        <th style="width: 10%;"></th>
+                                    </tr>
+                                </thead>
+                                {% for check_group_question_detail in check_group_question_details %}
+                                    <tbody>
+                                        <tr id="no_answered_row_{{ check_group_question_detail['id'] }}">
+                                            <td>{{ check_group_question_detail['question'] }}</td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="answer_id_{{ check_group_question_detail['id'] }}" id="answer_id_{{ check_group_question_detail['id'] }}_1" value="1" required>
+                                                        <label class="form-check-label" for="answer_id_{{ check_group_question_detail['id'] }}_1">Cumple</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="answer_id_{{ check_group_question_detail['id'] }}" id="answer_id_{{ check_group_question_detail['id'] }}_2" value="2" required>
+                                                        <label class="form-check-label" for="answer_id_{{ check_group_question_detail['id'] }}_2">No Cumple</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="answer_id_{{ check_group_question_detail['id'] }}" id="answer_id_{{ check_group_question_detail['id'] }}_3" value="3" required>
+                                                        <label class="form-check-label" for="answer_id_{{ check_group_question_detail['id'] }}_3">No Aplica</label>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="file" value="" class="form-control" id="exampleInputEmail1" placeholder="Imagen" name="file_{{ check_group_question_detail['id'] }}" accept="image/png, image/jpeg">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" value="" class="form-control" id="description_{{ check_group_question_detail['id'] }}" placeholder="Observación" name="description_{{ check_group_question_detail['id'] }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input type="hidden" name="csrf_token_{{ check_group_question_detail['id'] }}" value="{{ csrf_token() }}" />
+                                                <button type="submit" class="btn btn-primary guardar-btn" data-row-id="{{ check_group_question_detail['id'] }}">Guardar</button>
+                                                <span class="loading-icon" id="loading-icon_{{ check_group_question_detail['id'] }}" style="display:none;">Cargando...</span>
+                                                <input type="hidden" class="form-control" id="check_group_question_detail_id_{{ check_group_question_detail['id'] }}" value="{{ check_group_question_detail['id'] }}" name="check_group_question_detail_id">
+                                            </td>
+                                        </tr>
+                                        <tr id="answered_row_{{ check_group_question_detail['id'] }}" class="answered_row">
+                                            <td>{{ check_group_question_detail['question'] }}</td>
+                                            <td colspan="4">
+                                                Respondida la pregunta
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

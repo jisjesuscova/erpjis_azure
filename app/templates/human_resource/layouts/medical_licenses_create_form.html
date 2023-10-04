@@ -1,0 +1,89 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Agregar Licencia Médica</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- form start -->
+                        <div class="alert alert-danger alert-danger-form" style="display:none;" role="alert">
+                            Todos los campos del formulario son <strong>obligatorios</strong>.
+                        </div>
+                        <div class="alert alert-danger alert-danger-404-form" style="display:none;" role="alert">
+                            Error al procesar el formulario. Por favor haca click en Guardar nuevamente.
+                        </div>
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Folio</label>
+                                        <input type="text" value="" class="form-control" id="folio" placeholder="Folio" name="folio">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Tipo de Licencia Médica</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="medical_license_type_id" name="medical_license_type_id">
+                                            <option value="">- Seleccionar -</option>
+                                            {% for medical_license_type in medical_license_types %}
+                                                <option value="{{ medical_license_type.id }}">{{ medical_license_type.medical_license_type }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Tipo de Documento</label>
+                                        <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" id="patology_type_id" name="patology_type_id">
+                                            <option value="">- Seleccionar -</option>
+                                            {% for patology_type in patology_types %}
+                                                <option value="{{ patology_type.id }}">{{ patology_type.patology_type }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Desde</label>
+                                        <input type="date" value="" class="form-control" id="since" placeholder="Desde" name="since">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Hasta</label>
+                                        <input type="date" value="" class="form-control" id="until" placeholder="Hasta" name="until">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Soporte</label>
+                                        <input type="file" value="" class="form-control" id="file" placeholder="Soporte" name="file">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+
+                        <input type="hidden" value="{{ rut }}" class="form-control" id="rut" name="rut">
+                        <input type="hidden" value="3" class="form-control" id="status_id" name="status_id">
+                        <input type="hidden" value="35" class="form-control" id="document_type_id" name="document_type_id">
+                            
+                        <div class="card-footer">
+                            <span class="loading-icon" id="loading-icon" style="display:none;">Cargando...</span>
+                            <button type="button" class="btn btn-primary create-license-btn">Guardar</button>
+
+                            <a href="{{ url_for('medical_licenses.index') }}/{{ rut }}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

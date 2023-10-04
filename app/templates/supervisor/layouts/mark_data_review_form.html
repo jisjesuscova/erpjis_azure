@@ -1,0 +1,66 @@
+<section class="content pt-4">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Revisar Marca</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- form start -->
+                        <form role="form" action="{{ url_for('clock_attendances.check') }}" method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">RUT</label>
+                                            <input type="text" value="{{ clock_no_mark.rut }}" class="form-control" id="exampleInputEmail1" placeholder="RUT" name="rut_disabled" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Fecha</label>
+                                            <input type="text" value="{{ clock_no_mark.added_date }}" class="form-control" id="exampleInputEmail1" placeholder="Fecha" name="added_date_disabled" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Hora de Marca</label>
+                                            <input type="time" value="{{ time }}" step="1" value="" class="form-control" id="exampleInputEmail1" placeholder="Hora de Marca" name="mark_hour" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">¿Acepta o Rechaza la marca?</label>
+                                            <select class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;" name="status_id">
+                                                <option value="2">Aceptar</option>
+                                                <option value="3">Rechazar</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                            <input type="hidden" value="{{ clock_no_mark.rut }}" class="form-control" id="exampleInputEmail1" name="rut">
+                            <input type="hidden" value="{{ clock_no_mark.added_date }}" class="form-control" id="exampleInputEmail1" name="added_date">
+                            <input type="hidden" value="{{ clock_no_mark.punch }}" class="form-control" id="exampleInputEmail1" name="punch">
+                            <input type="hidden" value="{{ clock_no_mark.id }}" class="form-control" id="exampleInputEmail1" name="id">
+                            <input type="hidden" value="{{ clock_no_mark.mark_date }}" class="form-control" id="exampleInputEmail1" name="mark_date">
+
+                            <div class="card-footer">
+                                <input value="Enviar" type="submit" class="btn btn-primary">
+
+                                <a href="{{ url_for('clock_attendances.mark', rut=clock_no_mark.rut) }}" class="btn btn-secondary">Regresar</a>
+                            </div>
+                        </form>
+                        <!-- form end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

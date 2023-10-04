@@ -1,0 +1,107 @@
+{%  include 'human_resource/layouts/header.html' %}
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        {%  include 'human_resource/layouts/navbar.html' %}
+        {%  include 'human_resource/layouts/aside.html' %}
+        
+        {% block content %}
+            
+        {% endblock %}
+    </div>
+</body>
+{%  include 'human_resource/layouts/footer.html' %}
+<script src="{{ url_for("static", filename="plugins/jquery/jquery.min.js") }}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{{ url_for("static", filename="plugins/jquery-ui/jquery-ui.min.js") }}"></script>
+<script src="{{ url_for("static", filename="plugins/jquery-mask/dist/jquery.mask.js") }}"></script>
+<script src="{{ url_for("static", filename="plugins/signature-pad-main/jquery.signaturepad.js") }}"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+<script src="{{ url_for("static", filename="plugins/bootstrap/js/bootstrap.bundle.min.js") }}"></script>
+
+<script src="{{ url_for("static", filename="dist/js/custom.js") }}"></script>
+<script src="{{ url_for("static", filename="dist/js/jquery-rut.js") }}"></script>
+<script src="{{ url_for("static", filename="plugins/signature-pad-main/assets/json2.min.js") }}"></script>
+<!-- overlayScrollbars -->
+<script src="{{ url_for("static", filename="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js") }}"></script>
+<!-- AdminLTE App -->
+<script src="{{ url_for("static", filename="dist/js/adminlte.js") }}"></script>
+<!-- Incluir la librería marked desde el CDN de cdnjs -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/3.0.7/marked.min.js"></script>
+
+<script src="https://kit.fontawesome.com/6839a22f45.js" crossorigin="anonymous"></script>
+<script src="
+https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js
+"></script>
+<script src="
+https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@6.1.8/index.global.min.js
+"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('report_per_branch_office');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      locale: 'es',
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'timeGridWeek'
+      },
+      initialView: 'timeGridWeek',
+      slotMinTime: '07:00:00',
+      slotMaxTime: '23:30:00',
+      events: function(info, successCallback, failureCallback) {
+        var branchOfficeId = document.getElementById('branch_office_id').value;
+        var period = document.getElementById('period').value;
+
+        fetch('/mesh_data/get_data_per_branch_office/' + branchOfficeId + '/' + period)
+          .then(function(response) {
+            return response.json();
+          })
+          .then(function(data) {
+            var events = data.map(function(item) {
+              return {
+                title: item.title,
+                start: item.start,
+                end: item.end,
+                backgroundColor: item.color,
+                extendedProps: {
+                  employee: item.employee
+                }
+              };
+            });
+
+            successCallback(events);
+          })
+          .catch(function(error) {
+            console.error(error);
+            failureCallback(error);
+          });
+      },
+      eventDidMount: function(info) {
+        var event = info.event;
+        var legend = document.getElementById('legend');
+        var color = event.backgroundColor;
+        var employee = event.extendedProps.employee;
+
+        var legendItem = legend.querySelector('.legend-item[data-color="' + color + '"]');
+        if (!legendItem) {
+          legendItem = document.createElement('div');
+          legendItem.classList.add('legend-item');
+          legendItem.setAttribute('data-color', color);
+
+          var legendText = document.createElement('div');
+          legendText.classList.add('legend-text');
+          legendText.style.color = color;
+          legendText.textContent = employee;
+
+          legendItem.appendChild(legendText);
+          legend.appendChild(legendItem);
+        }
+      }
+    });
+
+    calendar.render();
+  });
+</script>

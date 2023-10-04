@@ -1,0 +1,79 @@
+ <!-- Main content -->
+ <section class="content">
+    <div class="container-fluid">
+        <!-- Info boxes -->
+        <div class="row">
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Buscar</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form role="form" action="{{ url_for('documental_management_data.search', page = 1) }}" method="post">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">RUT</label>
+                                        <input type="text" name="rut" class="form-control rut" id="exampleInputEmail1" placeholder="RUT">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Nombre</label>
+                                        <input type="name" name="names" class="form-control" id="exampleInputEmail1" placeholder="Nombre">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Apellido Paterno</label>
+                                        <input type="text" name="father_lastname" class="form-control" id="exampleInputEmail1" placeholder="Apellido Paterno">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Apellido Materno</label>
+                                        <input type="name" name="mother_lastname" class="form-control" id="exampleInputEmail1" placeholder="Apellido Materno">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Estatus</label>
+                                        <select name="status_id" class="form-control select2 select2-danger" data-dropdown-css-class="select2-danger" style="width: 100%;">
+                                            <option value="">- Seleccionar -</option>
+                                            <option value="1">Solicitado</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Sucursal</label>
+                                        <select class="form-control select2 select2-danger" name="branch_office_id" data-dropdown-css-class="select2-danger" style="width: 100%;">
+                                            <option value="">- Seleccionar -</option>
+                                            {% for branch_office in branch_offices %}
+                                                <option value="{{ branch_office.id }}">{{ branch_office.branch_office }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Buscar</button>
+                        </div>
+                    </form>
+                    <!-- form end -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

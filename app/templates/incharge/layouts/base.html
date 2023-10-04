@@ -1,0 +1,30 @@
+{%  include 'incharge/layouts/header.html' %}
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        {%  include 'incharge/layouts/navbar.html' %}
+        {%  include 'incharge/layouts/aside.html' %}
+        
+        {% block content %}
+
+        {% endblock %}
+    </div>
+</body>
+{%  include 'incharge/layouts/footer.html' %}
+<script src="{{ url_for("static", filename="plugins/jquery/jquery.min.js") }}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{{ url_for("static", filename="plugins/jquery-ui/jquery-ui.min.js") }}"></script>
+<script src="{{ url_for("static", filename="plugins/jquery-mask/dist/jquery.mask.js") }}"></script>
+<script src="{{ url_for("static", filename="plugins/signature-pad-main/jquery.signaturepad.js") }}"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+<script src="{{ url_for("static", filename="plugins/bootstrap/js/bootstrap.bundle.min.js") }}"></script>
+
+<script src="{{ url_for("static", filename="dist/js/custom.js") }}"></script>
+<script src="{{ url_for("static", filename="plugins/signature-pad-main/assets/json2.min.js") }}"></script>
+<!-- overlayScrollbars -->
+<script src="{{ url_for("static", filename="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js") }}"></script>
+<!-- AdminLTE App -->
+<script src="{{ url_for("static", filename="dist/js/adminlte.js") }}"></script>
+
+<script src="https://kit.fontawesome.com/6839a22f45.js" crossorigin="anonymous"></script>
