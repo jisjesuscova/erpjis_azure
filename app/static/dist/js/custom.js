@@ -1655,7 +1655,9 @@ $(document).ready(function () {
         }
 
         var hasRutField = false;
+
         if (validateRut($("#family_rut").val())){
+
             hasRutField = false;
         } else {
             hasRutField = true;
@@ -1677,6 +1679,7 @@ $(document).ready(function () {
         formData.append('rut', $('#user_rut').val());
         formData.append('id', $('#id').val());
         formData.append('family_rut', $('#family_rut').val());
+
         formData.append('names', $('#names').val());
         formData.append('father_lastname', $('#father_lastname').val());
         formData.append('mother_lastname', $('#mother_lastname').val()); 
@@ -1687,6 +1690,7 @@ $(document).ready(function () {
 
         $.ajax({
             url: "/human_resources/family_core_data/update/" + $('#family_rut').val() + "/" + $('#id').val(),
+
             method: 'POST',
             headers: {
                 "X-CSRFToken": $('input[name="csrf_token"]').val()

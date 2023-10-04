@@ -32,6 +32,7 @@ def index(page=1):
    if current_user.rol_id == 3:
       
       return render_template('supervisor/human_resources/honoraries/honoraries.html', documentation_titles_menu = documentation_titles_menu, honoraries = honoraries, title = title, module_name = module_name, rut = current_user.rol_id)
+
    elif current_user.rol_id == 4:
       return render_template('human_resource/human_resources/honoraries/honoraries.html', documentation_titles_menu = documentation_titles_menu, honoraries = honoraries, title = title, module_name = module_name)
 

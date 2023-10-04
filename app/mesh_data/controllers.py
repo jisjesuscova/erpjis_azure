@@ -27,7 +27,6 @@ def index():
    
    return render_template('human_resource/mesh_data/mesh_data_create_mark.html', module_name = module_name, title = title, mesh_data = mesh_data)
 
-
 @mesh_datum.route("/mesh_data/create", methods=['GET'])
 def create():
    branch_offices = BranchOffice.get()
@@ -64,6 +63,7 @@ def report_per_days():
    title = 'Reporte de Marcas por Día'
 
    return render_template('human_resource/mesh_data/report_mesh_data_per_days/report_mesh_data_per_days.html', date = date, title = title)
+
 
 @mesh_datum.route("/mesh_data/report_per_days/search", methods=['GET', 'POST'])
 def search_report_per_days():

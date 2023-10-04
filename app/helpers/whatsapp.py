@@ -382,6 +382,7 @@ class Whatsapp:
 
                 url = "https://graph.facebook.com/v16.0/101066132689690/messages"
 
+
                 payload = json.dumps({
                                 "messaging_product": "whatsapp",
                                 "to": "56" + str(employee.cellphone),
@@ -424,6 +425,7 @@ class Whatsapp:
 
                 url = "https://graph.facebook.com/v16.0/101066132689690/messages"
 
+
                 payload = json.dumps({
                                 "messaging_product": "whatsapp",
                                 "to": "56" + str(employee.cellphone),
@@ -465,6 +467,7 @@ class Whatsapp:
                     hr_employee = Employee.get(user.rut)
 
                     url = "https://graph.facebook.com/v16.0/101066132689690/messages"
+
 
                     payload = json.dumps({
                                     "messaging_product": "whatsapp",
@@ -609,7 +612,6 @@ class Whatsapp:
                 date = Helper.split(control_clock_no_mark.mark_date, ' ')
                 date = Helper.split(date[0], '-')
                 mark_date = date[2] + '-' + date[1] + '-' + date[0]
-
                 url = "https://graph.facebook.com/v16.0/101066132689690/messages"
 
                 payload = json.dumps({
@@ -659,7 +661,6 @@ class Whatsapp:
 
                 date = Helper.split(current_date, '-')
                 current_date = date[2] + '-' + date[1] + '-' + date[0]
-
                 url = "https://graph.facebook.com/v16.0/101066132689690/messages"
 
                 payload = json.dumps({

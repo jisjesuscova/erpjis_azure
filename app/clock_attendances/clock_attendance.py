@@ -141,7 +141,7 @@ class ClockAttendance():
             return 0
         else:
             return 1
-    
+        
     @staticmethod
     def update_mark(data, id):
         mark_date_str = data['mark_date']
