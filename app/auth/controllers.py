@@ -8,6 +8,7 @@ from flask_mail import Message
 from app.rols.rol import Rol
 from app.helpers.whatsapp import Whatsapp
 from werkzeug.security import generate_password_hash
+from app.employees.employee import Employee
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -69,21 +70,30 @@ def recover():
 
         qty = User.check_user_exists(form.rut.data)
 
-        if qty > 0:
-            user = User.get_by_rut(form.rut.data)
-            msg = Message('Recuperar Contraseña', recipients = [form.email.data])
-            logo = 'https://jiserp.com/static/dist/img/logo.png'
-            url = 'https://jiserp.com/password/' + str(user.id) + '/' + str(user.api_token)
-            msg.html = render_template('emails/recover.html', logo=logo, full_name=user.nickname, url=url)
-            mail.send(msg)
+        validate_email = Employee.validate_email(form.email.data)
 
-            flash('Dirigete a tu casilla de correo para hacer el cambio de tu contraseña.', 'success')
+        if validate_email == 1:
+            if qty > 0:
+                user = User.get_by_rut(form.rut.data)
+                msg = Message('Recuperar Contraseña', recipients = [form.email.data])
+                logo = 'https://jiserp.com/static/dist/img/logo.png'
+                url = 'https://jiserp.com/password/' + str(user.id) + '/' + str(user.api_token)
+                msg.html = render_template('emails/recover.html', logo=logo, full_name=user.nickname, url=url)
+                mail.send(msg)
 
-            return redirect(url_for("auth.login"))
+                flash('Dirigete a tu casilla de correo para hacer el cambio de tu contraseña.', 'success')
+
+                return redirect(url_for("auth.login"))
+            else:
+                flash('No se ha encontrado el usuario.', 'error')
+
+                return redirect(url_for("auth.recover"))
         else:
-            flash('No se ha encontrado el usuario.', 'error')
+            flash('El correo electrónico no es válido.', 'error')
 
             return redirect(url_for("auth.recover"))
+
+        
 
     return render_template('recover.html', form=form)
 

@@ -32,7 +32,16 @@ class Employee():
         employees = EmployeeModel.query.order_by('nickname').all()
 
         return employees
-            
+
+    @staticmethod
+    def validate_email(email):
+        employee_status = EmployeeModel.query.filter_by(personal_email=email).count()
+
+        if employee_status == 1:
+            return 1
+        else:
+            return 0
+
     @staticmethod
     def empty_fields(rut):
         employee = EmployeeModel.query.filter_by(rut=rut).first()
