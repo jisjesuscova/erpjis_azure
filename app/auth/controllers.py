@@ -103,7 +103,9 @@ def login(api_token = ''):
     form = LoginForm(meta={ 'crsf':True })
     
     if form.validate_on_submit():
-        user = UserModel.query.filter_by(visual_rut=form.rut.data).first() 
+        rut_value = form.rut.data.split('-')
+
+        user = UserModel.query.filter_by(rut=rut_value[0]).first() 
 
         if user and user.check_password(form.password.data):
             if user.status_id == 0:
