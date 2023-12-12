@@ -408,7 +408,6 @@ class EmployeeLaborDatumModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     rut = db.Column(db.Integer)
-    visual_rut = db.Column(db.String(20))
     contract_type_id = db.Column(db.Integer)
     branch_office_id = db.Column(db.Integer)
     address = db.Column(db.String(255))
