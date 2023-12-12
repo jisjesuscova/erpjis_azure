@@ -35,7 +35,7 @@ def index(rut):
    else:
       employee  = OldEmployee.get(rut)
 
-   title = employee.visual_rut + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
+   title = employee.rut + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
    module_name = 'Recursos Humanos'
    
    if current_user.rol_id == 1:

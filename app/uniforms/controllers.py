@@ -38,7 +38,7 @@ def index(rut):
 
    uniform_button_status_id = 1
 
-   title = employee.visual_rut + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
+   title = employee.rut + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
    module_name = 'Recursos Humanos'
 
    return render_template('human_resource/human_resources/uniforms/uniforms.html', documentation_titles_menu = documentation_titles_menu, title = title, module_name = module_name, uniform_button_status_id = uniform_button_status_id, uniforms = uniforms, rut = rut, is_active = is_active)

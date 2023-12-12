@@ -58,7 +58,7 @@ class SettlementDatum():
 
             settlement_datum  = SettlementDatumModel()
             settlement_datum.rut = hr_employee.rut
-            settlement_datum.visual_rut = employee.visual_rut
+            settlement_datum.visual_rut = employee.rut
             settlement_datum.period = period
             settlement_datum.support = ''
             settlement_datum.added_date = datetime.now()

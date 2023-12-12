@@ -148,7 +148,6 @@ class ContractDatum():
 
         employee_labor_data = EmployeeLaborDatumModel()
         employee_labor_data.rut = numeric_rut
-        employee_labor_data.visual_rut = data['rut']
         employee_labor_data.entrance_company = data['entrance_company']
         employee_labor_data.added_date = datetime.now()
         

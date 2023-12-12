@@ -214,7 +214,7 @@ class HrEmployeeInput():
                 'Matucana 40', 
                 employee.names, 
                 hr_employee_labor_datum.entrance_company,
-                employee.visual_rut,
+                employee.rut,
                 '',
                 hr_employee_labor_datum.job_position_id,
                 hr_employee_labor_datum.contract_type_id,

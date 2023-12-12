@@ -42,7 +42,7 @@ class ClockAttendance():
     def get_all(page = 1):
         clock_attendances = ClockAttendanceModel.query\
             .outerjoin(EmployeeModel, ClockAttendanceModel.rut == EmployeeModel.rut)\
-            .add_columns(EmployeeModel.visual_rut, EmployeeModel.rut, EmployeeModel.names, EmployeeModel.father_lastname, EmployeeModel.mother_lastname, ClockAttendanceModel.id, ClockAttendanceModel.mark_date, ClockAttendanceModel.punch, ClockAttendanceModel.status)\
+            .add_columns(EmployeeModel.rut, EmployeeModel.names, EmployeeModel.father_lastname, EmployeeModel.mother_lastname, ClockAttendanceModel.id, ClockAttendanceModel.mark_date, ClockAttendanceModel.punch, ClockAttendanceModel.status)\
             .order_by(desc('mark_date'))\
             .paginate(page=page, per_page=20, error_out=False)
 
@@ -53,7 +53,7 @@ class ClockAttendance():
         query = ClockAttendanceModel.query \
             .join(EmployeeModel, ClockAttendanceModel.rut == EmployeeModel.rut) \
             .add_columns(
-                EmployeeModel.visual_rut, EmployeeModel.rut, EmployeeModel.names,
+                EmployeeModel.rut, EmployeeModel.names,
                 EmployeeModel.father_lastname, EmployeeModel.mother_lastname,
                 ClockAttendanceModel.id, ClockAttendanceModel.mark_date,
                 ClockAttendanceModel.punch, ClockAttendanceModel.status
@@ -589,11 +589,11 @@ class ClockAttendance():
                             .add_columns(EmployeeModel.rut, UserModel.visual_rut, EmployeeModel.names, EmployeeModel.father_lastname, EmployeeModel.mother_lastname).all()
         
         for employee in employees:
-            status_rut = Helper.search_in_array(data, employee.visual_rut)
+            status_rut = Helper.search_in_array(data, employee.rut)
 
             if status_rut == 0:
                 data.append({
-                    'rut': employee.visual_rut,
+                    'rut': employee.rut,
                     'int_rut': employee.rut,
                     'full_name': str(employee.names) +" "+ str(employee.father_lastname) +" "+ str(employee.mother_lastname),
                     'mark_date': str(date) + ' 00:00:00',

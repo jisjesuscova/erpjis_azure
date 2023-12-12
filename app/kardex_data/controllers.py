@@ -41,7 +41,7 @@ def index(rut, page = 1):
 
    kardex_button_status_id = 1
 
-   title = employee.visual_rut + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
+   title = employee.rut + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
    module_name = 'Recursos Humanos'
 
    return render_template('human_resource/human_resources/kardex_data/kardex_data.html', documentation_titles_menu = documentation_titles_menu, title = title, module_name = module_name, kardex_button_status_id = kardex_button_status_id, kardex_data = kardex_data, rut = rut, is_active = is_active)

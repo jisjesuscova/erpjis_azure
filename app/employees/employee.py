@@ -302,7 +302,7 @@ class Employee():
         for old_employee in old_employees:
             data = [
                 old_employee.rut,
-                old_employee.visual_rut,
+                old_employee.rut,
                 old_employee.names,
                 old_employee.father_lastname,
                 old_employee.mother_lastname,

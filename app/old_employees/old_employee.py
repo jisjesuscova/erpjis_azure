@@ -12,7 +12,7 @@ class OldEmployee():
         for employee in employees:
             data = [
                 employee.rut,
-                employee.visual_rut,
+                employee.rut,
                 employee.names,
                 employee.father_lastname,
                 employee.mother_lastname,
@@ -37,7 +37,7 @@ class OldEmployee():
     def store(data):
         old_employee = OldEmployeeModel()
         old_employee.rut = data[0]
-        old_employee.visual_rut = data[1]
+        old_employee.rut = data[1]
         old_employee.names = data[2]
         old_employee.father_lastname = data[3]
         old_employee.mother_lastname = data[4]

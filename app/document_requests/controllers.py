@@ -166,7 +166,7 @@ def download(id):
       information_letter = InformationLetter.get(document_employee.id)
 
       full_name = employee.names + " " + employee.father_lastname + " " + employee.mother_lastname
-      rut = employee.visual_rut
+      rut = employee.rut
       description = information_letter.description
 
       signature_exist = Dropbox.exist('/signature/', employee.signature)
@@ -189,7 +189,7 @@ def download(id):
       employee_type = EmployeeType.get(employee_labor_datum.employee_type_id)
 
       full_name = employee.names + " " + employee.father_lastname + " " + employee.mother_lastname
-      rut = employee.visual_rut
+      rut = employee.rut
       entrance_company = str(employee_labor_datum.entrance_company)
       entrance_company = entrance_company.split('-')
       entrance_company = entrance_company[2] + "-" + entrance_company[1] + "-" + entrance_company[0]
@@ -225,7 +225,7 @@ def download(id):
       employee_labor_datum = EmployeeLaborDatum.get(document_employee.rut)
 
       full_name = employee.names + " " + employee.father_lastname + " " + employee.mother_lastname
-      rut = employee.visual_rut
+      rut = employee.rut
       entrance_company = str(employee_labor_datum.entrance_company)
       entrance_company = entrance_company.split('-')
       entrance_company = entrance_company[2] + "-" + entrance_company[1] + "-" + entrance_company[0]
@@ -260,7 +260,7 @@ def download(id):
       employee_labor_datum = EmployeeLaborDatum.get(document_employee.rut)
 
       full_name = employee.names + " " + employee.father_lastname + " " + employee.mother_lastname
-      rut = employee.visual_rut
+      rut = employee.rut
       entrance_company = str(employee_labor_datum.entrance_company)
       entrance_company = entrance_company.split('-')
       entrance_company = entrance_company[2] + "-" + entrance_company[1] + "-" + entrance_company[0]

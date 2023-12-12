@@ -51,7 +51,7 @@ def show(rut):
 
    employee_extra_datum_button_status_id = 1
 
-   title = employee.visual_rut + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
+   title = employee.rut + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
    module_name = 'Recursos Humanos'
 
    if current_user.rol_id == 1:

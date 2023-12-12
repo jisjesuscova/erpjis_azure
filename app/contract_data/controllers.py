@@ -78,7 +78,7 @@ def show(rut):
 
    employee_contract_datum_button_status_id = 1
 
-   title = employee.visual_rut + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
+   title = employee.rut + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
    module_name = 'Recursos Humanos'
    
    if current_user.rol_id == 1:
@@ -238,7 +238,7 @@ def document(rut, id):
    else:
       pention = 'Sin AFP'
    
-   data = [entrance_company_date, full_name, employee.visual_rut, employee_labor_datum.address, commune.commune, civil_state.civil_state, job_position.job_position, branch_office.branch_office, branch_office.address, job_position.functions, employee_labor_datum.employee_type_id, salary, first_extention_contract_last_day, second_extention_contract_last_day, pention, health.health, employee.personal_email]
+   data = [entrance_company_date, full_name, employee.rut, employee_labor_datum.address, commune.commune, civil_state.civil_state, job_position.job_position, branch_office.branch_office, branch_office.address, job_position.functions, employee_labor_datum.employee_type_id, salary, first_extention_contract_last_day, second_extention_contract_last_day, pention, health.health, employee.personal_email]
    
    if employee_labor_datum.job_position_id == 10 or employee_labor_datum.job_position_id == 9 or employee_labor_datum.job_position_id == 8 or employee_labor_datum.job_position_id == 7 or employee_labor_datum.job_position_id == 6:
       if employee_labor_datum.employee_type_id == 1:
