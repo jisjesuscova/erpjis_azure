@@ -169,11 +169,11 @@ class Employee():
         else:
             query = EmployeeModel.query\
                         .join(EmployeeLaborDatumModel, EmployeeLaborDatumModel.rut == EmployeeModel.rut)\
-                        .add_columns(EmployeeModel.id, EmployeeModel.rut, EmployeeModel.visual_rut, EmployeeModel.nickname, EmployeeModel.names, EmployeeModel.father_lastname, EmployeeModel.mother_lastname).order_by('rut')
+                        .add_columns(EmployeeModel.id, EmployeeModel.rut, EmployeeModel.nickname, EmployeeModel.names, EmployeeModel.father_lastname, EmployeeModel.mother_lastname).order_by('rut')
 
             if len(data) > 0:
                 if search_rut:
-                    query = query.filter(EmployeeModel.visual_rut.like(f"%{search_rut}%"))
+                    query = query.filter(EmployeeModel.rut.like(f"%{search_rut}%"))
                 if search_names:
                     query = query.filter(EmployeeModel.nickname.like(f"%{search_names}%"))
                 if search_father_lastname:
@@ -208,7 +208,6 @@ class Employee():
 
         employee = EmployeeModel()
         employee.rut = numeric_rut
-        employee.visual_rut = data['rut']
         employee.names = data['names']
         employee.father_lastname = data['father_lastname']
         employee.mother_lastname = data['mother_lastname']
@@ -327,7 +326,6 @@ class Employee():
     def restore_store(data):
         employee = EmployeeModel()
         employee.rut = data[0]
-        employee.visual_rut = data[1]
         employee.names = data[2]
         employee.father_lastname = data[3]
         employee.mother_lastname = data[4]
