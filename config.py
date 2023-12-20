@@ -7,7 +7,7 @@ class DevConfig(BaseConfig):
     DEBUG = True
     TESTING = False
     SQLALCHEMY_DATABASE_URI = "mysql+pymysql://erpjis@erpjis:Macana11@erpjis.mysql.database.azure.com:3306/erp_jis"
-    SECRET_KEY = '123456'
+    SECRET_KEY = 'NoResponder2024'
     MAIL_SERVER = 'mail.jisparking.com'
     MAIL_PORT = 2525
     MAIL_USERNAME = 'no-responder@jisparking.com'
