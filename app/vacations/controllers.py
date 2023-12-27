@@ -49,7 +49,7 @@ def index(rut):
 
    vacation_button_status_id = 1
 
-   title = employee.rut + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
+   title = str(employee.rut) + ' - ' + employee.names + ' ' + employee.father_lastname + ' ' + employee.mother_lastname
    module_name = 'Recursos Humanos'
 
    if current_user.rol_id == 1:
