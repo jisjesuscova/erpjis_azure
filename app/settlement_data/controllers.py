@@ -22,7 +22,6 @@ from app.settings.setting import Setting
 settlement_datum = Blueprint("settlement_data", __name__)
 
 @settlement_datum.before_request
-@login_required
 @regular_employee_rol_need
 def constructor():
    pass

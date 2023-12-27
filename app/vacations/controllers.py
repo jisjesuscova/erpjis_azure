@@ -14,7 +14,6 @@ from app.old_employees.old_employee import OldEmployee
 vacation = Blueprint("vacations", __name__)
 
 @vacation.before_request
-@login_required
 @regular_employee_rol_need
 def constructor():
    pass
