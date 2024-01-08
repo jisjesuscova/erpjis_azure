@@ -35,7 +35,6 @@ class Honorary():
                     .join(BranchOfficeModel, BranchOfficeModel.id == HonoraryModel.branch_office_id)\
                     .join(RegionModel, RegionModel.id == HonoraryModel.region_id)\
                     .join(CommunesModel, CommunesModel.id == HonoraryModel.commune_id)\
-                    .join(EmployeeModel, EmployeeModel.rut == HonoraryModel.requested_by)\
                     .join(HonoraryReasonModel, HonoraryReasonModel.id == HonoraryModel.reason_id)\
                     .join(SupervisorModel, SupervisorModel.branch_office_id == BranchOfficeModel.id)\
                     .filter(SupervisorModel.rut == current_user.rut)\

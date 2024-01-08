@@ -93,8 +93,6 @@ def recover():
 
             return redirect(url_for("auth.recover"))
 
-        
-
     return render_template('recover.html', form=form)
 
 @auth.route('/login', methods=['GET', 'POST'])
