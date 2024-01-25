@@ -31,10 +31,7 @@ class Honorary():
                     .add_columns(HonoraryModel.status_id, HonoraryModel.id, HonoraryModel.rut, HonoraryModel.full_name, EmployeeModel.nickname, HonoraryReasonModel.reason, HonoraryModel.added_date).order_by(HonoraryModel.added_date.desc()).paginate(page=page, per_page=10, error_out=False)
             else:
                 honoraries = HonoraryModel.query\
-                    .join(BankModel, BankModel.id == HonoraryModel.bank_id)\
                     .join(BranchOfficeModel, BranchOfficeModel.id == HonoraryModel.branch_office_id)\
-                    .join(RegionModel, RegionModel.id == HonoraryModel.region_id)\
-                    .join(CommunesModel, CommunesModel.id == HonoraryModel.commune_id)\
                     .join(HonoraryReasonModel, HonoraryReasonModel.id == HonoraryModel.reason_id)\
                     .join(SupervisorModel, SupervisorModel.branch_office_id == BranchOfficeModel.id)\
                     .filter(SupervisorModel.rut == current_user.rut)\
