@@ -1,4 +1,4 @@
-from app.models.models import SupervisorModel, HonoraryModel, BankModel, BranchOfficeModel, RegionModel, CommunesModel, EmployeeModel, HonoraryReasonModel
+from app.models.models import SupervisorModel, UserModel, HonoraryModel, BankModel, BranchOfficeModel, RegionModel, CommunesModel, EmployeeModel, HonoraryReasonModel
 from app.helpers.helper import Helper
 from flask_login import current_user
 from app import db
@@ -30,13 +30,17 @@ class Honorary():
                     .join(HonoraryReasonModel, HonoraryReasonModel.id == HonoraryModel.reason_id)\
                     .add_columns(HonoraryModel.status_id, HonoraryModel.id, HonoraryModel.rut, HonoraryModel.full_name, EmployeeModel.nickname, HonoraryReasonModel.reason, HonoraryModel.added_date).order_by(HonoraryModel.added_date.desc()).paginate(page=page, per_page=10, error_out=False)
             else:
+                print(current_user.rut)
                 honoraries = HonoraryModel.query\
-                    .join(BranchOfficeModel, BranchOfficeModel.id == HonoraryModel.branch_office_id)\
-                    .join(HonoraryReasonModel, HonoraryReasonModel.id == HonoraryModel.reason_id)\
-                    .join(SupervisorModel, SupervisorModel.branch_office_id == BranchOfficeModel.id)\
-                    .filter(SupervisorModel.rut == current_user.rut)\
-                    .add_columns(HonoraryModel.status_id, HonoraryModel.id, HonoraryModel.rut, HonoraryModel.full_name, EmployeeModel.nickname, HonoraryReasonModel.reason, HonoraryModel.added_date).order_by(HonoraryModel.added_date.desc()).paginate(page=page, per_page=50, error_out=False)
-            
+                .join(BranchOfficeModel, BranchOfficeModel.id == HonoraryModel.branch_office_id)\
+                .join(HonoraryReasonModel, HonoraryReasonModel.id == HonoraryModel.reason_id)\
+                .join(SupervisorModel, SupervisorModel.branch_office_id == BranchOfficeModel.id)\
+                .join(EmployeeModel, EmployeeModel.rut == HonoraryModel.requested_by)\
+                .filter(SupervisorModel.rut == current_user.rut)\
+                .add_columns(HonoraryModel.status_id, HonoraryModel.id, HonoraryModel.rut, HonoraryModel.full_name, EmployeeModel.nickname, HonoraryReasonModel.reason, HonoraryModel.added_date)\
+                .order_by(HonoraryModel.added_date.desc())\
+                .paginate(page=page, per_page=50, error_out=False)
+
             return honoraries
         
     @staticmethod
