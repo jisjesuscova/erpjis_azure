@@ -116,15 +116,9 @@
                                         <td>Liquidación de Sueldo</td>
                                         <td>{{ settlement_datum['added_date']|datetime("MM-yyyy") }}</td>
                                         <td>
-                                            {% if settlement_datum['status_id'] == 2 %}
-                                                <a href="#" class="btn btn-primary"  data-toggle="modal" data-target="#settlementModal{{ settlement_datum['id'] }}">
-                                                    <i class="fa fa-eye"></i>
-                                                </a>
-                                            {% else %}
-                                                <a href="{{ url_for('settlement_data.sign', id=settlement_datum['id']) }}" class="btn btn-primary" >
-                                                    <i class="fa fa-arrow-down"></i>
-                                                </a>
-                                            {% endif %}
+                                            <a href="{{ url_for('settlement_data.uploaded_download', id=settlement_datum['id']) }}" class="btn btn-primary">
+                                                <i class="fa fa-arrow-down"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 </tbody>
